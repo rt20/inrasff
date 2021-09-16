@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BackAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('backadmin')->name('backadmin.')->group(function() {
+    // Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
+    // Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
+    // Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
+    // Route::middleware('auth')->group(function () {
+        Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
+    // });
 });
