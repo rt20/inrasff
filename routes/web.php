@@ -25,4 +25,9 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
     // Route::middleware('auth')->group(function () {
         Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
     // });
+
+
+    Route::resources([
+        'issue_notifications' => BackAdmin\IssueNotificationController::class,
+    ]);
 });
