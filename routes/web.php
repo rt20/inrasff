@@ -29,5 +29,6 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
     Route::resources([
         'issue_notifications' => BackAdmin\IssueNotificationController::class,
+        'news' => BackAdmin\NewsController::class,
     ]);
 });
