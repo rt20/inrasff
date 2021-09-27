@@ -27,7 +27,7 @@
                     @if ($news->id)
                         @method('PUT')
                     @endif
-                    <section class="pr-form-main">
+                    <section class="bi-form-main">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h4>Informasi Umum</h4>
                         </div>
@@ -98,7 +98,7 @@
                             
                             
                         </div><!-- .row -->
-                    </section><!-- .pr-form-main -->
+                    </section><!-- .bi-form-main -->
                 </form>
             </div>
         </div>

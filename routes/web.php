@@ -33,9 +33,16 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
     Route::middleware('auth')->group(function () {
         Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
 
+
+        // Slider
+        Route::post('sliders/slider-image/store', [BackAdmin\SliderController::class, 'uploadImage'])->name('sliders.slider_image.store');
+        Route::delete('sliders/{slider}/slider-image/destroy', [BackAdmin\SliderController::class, 'deleteImage'])->name('sliders.slider_image.destroy');
+        
+
         Route::resources([
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
             'news' => BackAdmin\NewsController::class,
+            'sliders' => BackAdmin\SliderController::class,
         ]);
     });
 });

@@ -21,5 +21,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin' . '@bpom.com',
             'type' => 'superadmin',
         ]);
+
+        $this->call([
+            SliderSeeder::class,
+        ]);
     }
 }
