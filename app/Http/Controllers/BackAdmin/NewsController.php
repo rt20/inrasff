@@ -56,13 +56,13 @@ class NewsController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'slug' => ['required', 'max:255', 'unique:news.'],
+            'slug' => ['required', 'max:255', 'unique:news'],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
             // 'category_id' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-        $n = News::make($request->only(['title', 'slug', 'content', /* 'category_id',*/]));
+            $n = News::make($request->only(['title', 'slug', 'content', /* 'category_id',*/]));
 
             $n->save();
             if($request->has('image')){
@@ -132,7 +132,7 @@ class NewsController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'slug' => ['required', 'max:255', 'unique:news.,id,'.$id],
+            'slug' => ['required', 'max:255', 'unique:news,id,'.$id],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
             // 'category_id' => ['required'],
         ]);

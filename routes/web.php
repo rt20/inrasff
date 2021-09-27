@@ -23,12 +23,19 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
     // Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
     // Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
     // Route::middleware('auth')->group(function () {
-        Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
     // });
 
+    Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
+    Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
+    Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
 
-    Route::resources([
-        'issue_notifications' => BackAdmin\IssueNotificationController::class,
-        'news' => BackAdmin\NewsController::class,
-    ]);
+    Route::middleware('auth')->group(function () {
+        Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
+
+        Route::resources([
+            'issue_notifications' => BackAdmin\IssueNotificationController::class,
+            'news' => BackAdmin\NewsController::class,
+        ]);
+    });
 });

@@ -58,7 +58,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
 
-                            <div class="col-12 col-md-6 form-group">
+                            {{-- <div class="col-12 col-md-6 form-group">
                                 <label for="category_id" class="form-label required">Kategori Berita</label>
                                 <select name="category_id" 
                                     v-model="news.category_id" 
@@ -68,7 +68,7 @@
                                 @error('category_id')
                                     <small class="text-danger">{{ $errors->first('category_id') }}</small>
                                 @enderror
-                            </div><!-- .col-md-6.form-group -->
+                            </div><!-- .col-md-6.form-group --> --}}
 
                             <div class="col-12 col-md-12 form-group">
                                 <label for="image" class="form-label">Gambar</label>
