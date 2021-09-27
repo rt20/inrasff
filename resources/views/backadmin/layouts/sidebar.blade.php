@@ -55,7 +55,10 @@
 
             <li class=" navigation-header"><span data-i18n="Master Data &amp; Data">Master Data</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.news') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.news.index') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Berita</span></a>
+                <a class="d-flex align-items-center" href="{{ route('backadmin.news.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="News">Berita</span></a>
+            </li>
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.sliders') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.sliders.index') }}"><i data-feather="play"></i><span class="menu-title text-truncate" data-i18n="Slider">Slider</span></a>
             </li>
         </ul>
     </div>
