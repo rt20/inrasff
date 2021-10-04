@@ -41,6 +41,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
         Route::resources([
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
+            'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'news' => BackAdmin\NewsController::class,
             'sliders' => BackAdmin\SliderController::class,
         ]);

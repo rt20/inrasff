@@ -4,7 +4,7 @@
             <div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
                 <div class="card collapse-icon">
                     <div class="card-header">
-                        <h4 class="card-title">Tindak Lanjut Isu</h4>
+                        <h4 class="card-title">Tindak Lanjut Isu Pangan A</h4>
                     </div>
                     <div class="card-body">
                         <p class="card-text">Dibawah ini merupakan daftar tindak lanjut yang telah dikerjakan dari lembaga pemangku tanggung jawab.</p>

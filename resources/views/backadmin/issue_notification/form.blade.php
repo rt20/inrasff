@@ -27,19 +27,19 @@
     <div class="card-body"> --}}
         <ul class="nav nav-tabs" id="myTab2" role="tablist">
             <li class="nav-item">
-                <a class="nav-link " id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
+                <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" id="profile-tab-justified" data-toggle="tab" href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="true">Tindak Lanjut</a>
+                <a class="nav-link " id="profile-tab-justified" data-toggle="tab" href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="true">Tindak Lanjut</a>
             </li>
         </ul>
         <!-- Vertical Wizard -->
         <div class="tab-content pt-1">
-            <div class="tab-pane " id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+            <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
                 @include('backadmin.issue_notification.main')
             </div>
 
-            <div class="tab-pane active" id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
+            <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
                 @include('backadmin.issue_notification.follow_up')
             </div>
 

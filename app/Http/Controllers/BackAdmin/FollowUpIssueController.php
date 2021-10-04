@@ -4,13 +4,13 @@ namespace App\Http\Controllers\BackAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\IssueNotification;
+use App\Models\FollowUpIssue;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class IssueNotificationController extends Controller
+class FollowUpIssueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +19,8 @@ class IssueNotificationController extends Controller
      */
     public function index(Request $request)
     {
-        // if($request->ajax()){
-        //     $in = IssueNotification::all();
-        //     return DataTables::of($in)->make();
-        // }
-
-        return view('backadmin.issue_notification.index')->with([
-            'title' => 'Isu Notifikasi'
+        return view('backadmin.follow_up_issue.index')->with([
+            'title' => 'Tindak Lanjut'
         ]);
     }
 
@@ -36,9 +31,9 @@ class IssueNotificationController extends Controller
      */
     public function create()
     {
-        return view('backadmin.issue_notification.form', [
-            'title' => 'Isu Pangan A',
-            'issue_notification' => new IssueNotification,
+        return view('backadmin.follow_up_issue.form', [
+            'title' => 'Tindak Lanjut Isu A',
+            'follow_up_issue' => new FollowUpIssue,
         ]);
     }
 
