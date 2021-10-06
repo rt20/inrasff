@@ -20,6 +20,7 @@
                 <thead>
                     <tr>
                         <th>Judul</th>
+                        <th>Status</th>
                         <th>Tanggal Terbit</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
@@ -55,6 +56,13 @@
             processing: true,
             columns: [
                 { data: 'title' },
+                { 
+                    data: 'status' ,
+                    className: 'text-center',
+                    render: function(data,type,row,meta){
+                        return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                    }
+                },
                 {   
                     data: 'created_at' ,
                     render: function(data, type, row, meta){
@@ -71,7 +79,7 @@
                     } 
                 }
             ],
-            order: [[0, 'desc']],
+            order: [[2, 'desc']],
             language: dtLangId
         });
 

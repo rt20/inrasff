@@ -23,7 +23,7 @@ class Notification extends Model
     private $states = [
         'unread' => [ 'label' => 'Belum Dibaca', 'class' => 'info' ],
         'read' => [ 'label' => 'Dibaca', 'class' => 'warning' ],
-        'processed' => [ 'label' => 'Diproses', 'class' => 'warning' ],
+        'processed' => [ 'label' => 'Diproses', 'class' => 'success' ],
     ];
 
     /**
@@ -33,7 +33,7 @@ class Notification extends Model
      */
     public function downstream(): HasOne
     {
-        return $this->hasOne(DownStreamNotification::class, 'ds_id', 'id');
+        return $this->hasOne(DownStreamNotification::class, 'notif_id', 'id');
     }
 
 

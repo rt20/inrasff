@@ -59,6 +59,7 @@ class NotificationController extends Controller
             $notification = Notification::make($request->only([
                 'title', 'description']));
             $notification->author_id = auth()->user()->id;
+            $notification->setStatus('unread', 'Dibuat ');
             $notification->save();
             DB::commit();
             
@@ -93,6 +94,10 @@ class NotificationController extends Controller
     public function edit(Notification $notification)
     {
         // $notification = Notification::find($id);
+        if($notification->isStatus('unread')){
+            $notification->setStatus('read', 'Dibaca ');
+            $notification->update();
+        }
         return view('backadmin.notification.form', [
             'title' => $notification->title,
             'notification' => $notification,
