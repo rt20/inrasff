@@ -37,6 +37,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         });
 
         Route::resources([
+            'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,

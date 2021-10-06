@@ -30,6 +30,7 @@
                     <section class="bi-form-main">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h4>Informasi Umum</h4>
+                            <span class="badge badge-pill badge-light-{{ $notification->status_class }} px-2 py-50">{{ $notification->status_label }}</span>
                         </div>
     
                         <div class="row">

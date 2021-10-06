@@ -94,7 +94,7 @@ class NotificationController extends Controller
     public function edit(Notification $notification)
     {
         // $notification = Notification::find($id);
-        if($notification->isStatus('unread')){
+        if($notification->isStatus('unread', false)){
             $notification->setStatus('read', 'Dibaca ');
             $notification->update();
         }
