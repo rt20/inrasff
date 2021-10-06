@@ -17,7 +17,7 @@
 @section('actions')
     <button type="submit" form="form-main" formaction="{{ $issue_notification->id ? route('backadmin.issue_notifications.update', $issue_notification->id) : route('backadmin.issue_notifications.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
     {{-- @if ($issue_notification->id) --}}
-        <a href="#" class="btn btn-secondary" ><i class="mr-75" data-feather="settings"></i>Pengaturan</a>
+        <a href="{{ route('backadmin.issue_notifications.setting', 0) }}" class="btn btn-secondary" ><i class="mr-75" data-feather="settings"></i>Pengaturan</a>
         <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
     {{-- @endif --}}
 @endsection

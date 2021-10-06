@@ -97,4 +97,11 @@ class IssueNotificationController extends Controller
     {
         //
     }
+
+    public function setting(){
+        return view('backadmin.issue_notification.setting', [
+            'title' => 'Pengaturan',
+            'issue_notification' => new IssueNotification,
+        ]);
+    }
 }

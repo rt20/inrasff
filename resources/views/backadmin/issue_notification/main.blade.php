@@ -77,35 +77,57 @@
         </div>
         <div class="bs-stepper-content">
             <div id="general-information" class="content">
-                <div class="content-header">
-                    <h5 class="mb-0">Account Details</h5>
-                    <small class="text-muted">Enter Your Account Details.</small>
-                </div>
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label class="form-label" for="vertical-username">Username</label>
-                        <input type="text" id="vertical-username" class="form-control" placeholder="johndoe" />
+                        <label class="form-label" for="reference-number">Nomor Referensi</label>
+                        <input type="text" id="reference-number" class="form-control" />
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="form-label" for="vertical-email">Email</label>
-                        <input type="email" id="vertical-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                        <label class="form-label" for="vertical-email">Status Notifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Tipe Notifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Judul Notifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Negara yang Menotifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Dasar Notifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Sumber Notifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Tanggal yang Menotifikasi</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Instansi yang perlu menindaklanjuti</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-label" for="vertical-email">Instansi lain yang terkait</label>
+                        <input type="text" id="vertical-email" class="form-control"   />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group form-password-toggle col-md-6">
-                        <label class="form-label" for="vertical-password">Password</label>
-                        <input type="password" id="vertical-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                    </div>
-                    <div class="form-group form-password-toggle col-md-6">
-                        <label class="form-label" for="vertical-confirm-password">Confirm Password</label>
-                        <input type="password" id="vertical-confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button class="btn btn-outline-secondary btn-prev" disabled>
-                        <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                    </button>
+                <div class="d-flex flex-row-reverse">
                     <button class="btn btn-primary btn-next">
                         <span class="align-middle d-sm-inline-block d-none">Next</span>
                         <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
@@ -234,10 +256,6 @@
                 </div>
             </div>
             <div id="traceability-of-the-lots" class="content">
-                <div class="content-header">
-                    <h5 class="mb-0">Account Details</h5>
-                    <small class="text-muted">Enter Your Account Details.</small>
-                </div>
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label class="form-label" for="vertical-username">Username</label>
@@ -245,7 +263,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="form-label" for="vertical-email">Email</label>
-                        <input type="email" id="vertical-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                        <input type="email" id="vertical-email" class="form-control"   />
                     </div>
                 </div>
                 <div class="row">
@@ -281,7 +299,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="form-label" for="vertical-email">Email</label>
-                        <input type="email" id="vertical-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                        <input type="email" id="vertical-email" class="form-control"   />
                     </div>
                 </div>
                 <div class="row">
@@ -317,7 +335,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="form-label" for="vertical-email">Email</label>
-                        <input type="email" id="vertical-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                        <input type="email" id="vertical-email" class="form-control"   />
                     </div>
                 </div>
                 <div class="row">
@@ -353,7 +371,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="form-label" for="vertical-email">Email</label>
-                        <input type="email" id="vertical-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                        <input type="email" id="vertical-email" class="form-control"   />
                     </div>
                 </div>
                 <div class="row">
