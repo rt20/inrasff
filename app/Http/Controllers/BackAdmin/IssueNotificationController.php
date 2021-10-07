@@ -8,7 +8,7 @@ use App\Models\IssueNotification;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
-// use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class IssueNotificationController extends Controller
 {
@@ -37,7 +37,7 @@ class IssueNotificationController extends Controller
     public function create()
     {
         return view('backadmin.issue_notification.form', [
-            'title' => 'Isu Notifikasi A',
+            'title' => 'Isu Pangan A',
             'issue_notification' => new IssueNotification,
         ]);
     }
@@ -96,5 +96,12 @@ class IssueNotificationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function setting(){
+        return view('backadmin.issue_notification.setting', [
+            'title' => 'Pengaturan',
+            'issue_notification' => new IssueNotification,
+        ]);
     }
 }

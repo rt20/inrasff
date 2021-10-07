@@ -175,6 +175,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /** Helper Added */
+        App\Providers\UploadFileServiceProvider::class,
+
+
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -229,6 +235,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Helper' => App\Helpers\Helper::class,
+        'UploadFile' => App\Helpers\UploadFile::class,
+
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

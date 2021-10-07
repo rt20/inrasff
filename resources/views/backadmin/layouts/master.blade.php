@@ -71,8 +71,8 @@
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-                        {{-- <a class="dropdown-item" href="{{ route('backadmin.users.edit_password') }}"><i class="mr-50" data-feather="key"></i> Ubah Password</a>
-                        <a class="dropdown-item" href="{{ route('backadmin.auth.logout') }}"><i class="mr-50" data-feather="power"></i> Logout</a> --}}
+                        {{-- <a class="dropdown-item" href="{{ route('backadmin.users.edit_password') }}"><i class="mr-50" data-feather="key"></i> Ubah Password</a> --}}
+                        <a class="dropdown-item" href="{{ route('backadmin.auth.logout') }}"><i class="mr-50" data-feather="power"></i> Logout</a>
                     </div>
                 </li>
             </ul>
@@ -96,7 +96,9 @@
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     @yield('breadcrumb')
+                                    @if(isset($show_additional_breadcrumb))
                                     <li class="breadcrumb-item active {{ isset($subtitle) ? 'control-breadcumb' : ''}}">{{ $subtitle??$title }}</li>
+                                    @endif
                                 </ol>
                             </div>
                         </div>

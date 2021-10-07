@@ -19,15 +19,30 @@ Route::get('/', function () {
 });
 
 Route::prefix('backadmin')->name('backadmin.')->group(function() {
-    // Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
-    // Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
-    // Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
-    // Route::middleware('auth')->group(function () {
+
+    Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
+    Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
+    Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
+
+    Route::middleware('auth')->group(function () {
         Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
-    // });
 
 
-    Route::resources([
-        'issue_notifications' => BackAdmin\IssueNotificationController::class,
-    ]);
+        // Slider
+        Route::post('sliders/slider-image/store', [BackAdmin\SliderController::class, 'uploadImage'])->name('sliders.slider_image.store');
+        Route::delete('sliders/{slider}/slider-image/destroy', [BackAdmin\SliderController::class, 'deleteImage'])->name('sliders.slider_image.destroy');
+        
+        Route::prefix('issue_notifications')->name('issue_notifications.')->group(function() {
+            Route::get('{id}/setting', [BackAdmin\IssueNotificationController::class, 'setting'])->name('setting');
+        });
+
+        Route::resources([
+            'downstreams' => BackAdmin\DownStreamNotificationController::class,
+            'notifications' => BackAdmin\NotificationController::class,
+            'issue_notifications' => BackAdmin\IssueNotificationController::class,
+            'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
+            'news' => BackAdmin\NewsController::class,
+            'sliders' => BackAdmin\SliderController::class,
+        ]);
+    });
 });

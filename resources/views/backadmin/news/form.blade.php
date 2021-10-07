@@ -1,0 +1,234 @@
+@extends('backadmin.layouts.master')
+
+@section('vendor-css')
+<link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
+<link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
+<link rel="stylesheet" href="{{ asset('backadmin/vendors/summernote/summernote.css') }}">
+@endsection
+
+@section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{ route('backadmin.news.index') }}">Berita</a></li>
+@endsection
+
+@section('actions')
+    <button type="submit" form="form-main" formaction="{{ $news->id ? route('backadmin.news.update', $news->id) : route('backadmin.news.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @if ($news->id)
+        <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+    @endif
+@endsection
+
+@section('content')
+<div class="card">
+    <div class="card-body">
+        <div class="card-text">
+            <div id="app">
+                <form id="form-main" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @if ($news->id)
+                        @method('PUT')
+                    @endif
+                    <section class="bi-form-main">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h4>Informasi Umum</h4>
+                        </div>
+    
+                        <div class="row">
+                            
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="title" class="form-label required">Judul</label>
+                                <input type="text" 
+                                    name="title"
+                                    v-model="news.title" 
+                                    class="form-control @error('title') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan nama" autocomplete="off">
+                                @error('title')
+                                    <small class="text-danger">{{ $errors->first('title') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="slug" class="form-label required">Slug</label>
+                                <input type="text" 
+                                    name="slug"
+                                    v-model="news.slug" 
+                                    class="form-control @error('slug') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan slug" autocomplete="off">
+                                @error('slug')
+                                    <small class="text-danger">{{ $errors->first('slug') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            {{-- <div class="col-12 col-md-6 form-group">
+                                <label for="category_id" class="form-label required">Kategori Berita</label>
+                                <select name="category_id" 
+                                    v-model="news.category_id" 
+                                    id="f_category_id" 
+                                    class="form-control @error('category_id') {{ 'is-invalid' }} @enderror">
+                                </select>
+                                @error('category_id')
+                                    <small class="text-danger">{{ $errors->first('category_id') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group --> --}}
+
+                            <div class="col-12 col-md-12 form-group">
+                                <label for="image" class="form-label">Gambar</label>
+                                <input 
+                                    data-default-file="{{$news->getImage()}}"
+                                    type="file" 
+                                    name="image"
+                                    class="form-control @error('image') {{ 'is-invalid' }} @enderror dropify" 
+                                    placeholder="Masukkan nama" autocomplete="off">
+                                @error('image')
+                                    <small class="text-danger">{{ $errors->first('image') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-12 form-group">
+                                <label for="content" class="form-label required">Dekripsi</label>
+                                <textarea
+                                    id="summernote"
+                                    type="text" 
+                                    name="content"
+                                    class="form-control @error('content') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Deskripsi" autocomplete="off">{{old()? old('content') : ($news->content??'')}}</textarea>
+                                @error('content')
+                                    <small class="text-danger">{{ $errors->first('content') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+                            
+                            
+                        </div><!-- .row -->
+                    </section><!-- .bi-form-main -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('modal')
+    @if ($news->id)
+    <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modalDelete" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.news.destroy', $news->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalDelete">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan menghapus Berita ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Hapus</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
+@endpush
+
+@section('vendor-js')
+    <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
+    <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
+    <script src="{{ asset('backadmin/vendors/summernote/summernote.min.js') }}"></script>
+    <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
+@endsection
+
+@push('page-js')
+<script>
+
+
+    let form = Vue.createApp({
+        data() {
+            return {
+                news: {
+                },
+                availableTabs: [],
+                activeTab: null
+            }
+        },
+        created() {
+            old = {!! json_encode(old()) !!};
+            news = {!! json_encode($news) !!};
+            console.log(news)
+            this.news = {
+                title: old.title ?? news.title ?? '',
+                slug: old.slug ?? news.slug ?? '',
+                category_id: old.category_id ?? news.category_id ?? '',
+                // content: old.content ?? news.content ?? '',
+                
+            }
+
+            console.log(this.news)
+        },
+        mounted() {
+            $('.dropify').dropify();
+            $('input[name="title"]').keyup(function(event) {
+                // $('input[name="slug"]').val(form.slugify($(this).val()));
+                form.news.slug = form.slugify($(this).val())
+            });  
+            
+
+            var lfm = function (options, cb) {
+                var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
+                window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
+                window.SetUrl = cb;
+            };
+            // Define LFM summernote button
+            var LFMButton = function (context) {
+                var ui = $.summernote.ui;
+                var button = ui.button({
+                    contents: '<i class="note-icon-picture"></i> ',
+                    tooltip: 'Insert image with filemanager',
+                    click: function () {
+
+                        lfm({
+                            type: 'image',
+                            prefix: '{{route("unisharp.lfm.show")}}'
+                        }, function (lfmItems, path) {
+                            lfmItems.forEach(function (lfmItem) {
+                                context.invoke('insertImage', lfmItem.url);
+                            });
+                        });
+
+                    }
+                });
+                return button.render();
+            };
+            let summernote_config = {
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['popovers', ['lfm']],
+                    
+                ],
+                buttons: {
+                    lfm: LFMButton,
+                },
+                height: 300
+            };
+            $('#summernote').summernote(summernote_config);
+        },
+        computed: {
+
+        },
+        methods: {
+            slugify(text){
+                return slugify(text)
+            }
+        }
+    }).mount('#app');
+</script>
+@endpush
