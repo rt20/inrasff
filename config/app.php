@@ -174,12 +174,15 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\ViewComposerProvider::class,
+        
         /** Helper Added */
         App\Providers\UploadFileServiceProvider::class,
 
 
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Monarobase\CountryList\CountryListServiceProvider::class,
+
 
     ],
 
@@ -239,6 +242,7 @@ return [
         'UploadFile' => App\Helpers\UploadFile::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
+        'Countries' => Monarobase\CountryList\CountryListFacade::class,
     ],
 
 ];

@@ -14,7 +14,21 @@ class DownStreamNotification extends Model
 
     protected $fillable = [
         'number',
-        'notif_id'
+        'notif_id',
+        'title',
+        'number_ref',
+        'status_notif',
+        'type_notif',
+        'country_id',
+        'based_notif',
+        'origin_source_notif',
+        'source_notif',
+        'date_notif',
+        'product_name',
+        'category_product_name',
+        'brand_name',
+        'registration_number',
+        'package_product'
     ];
 
     protected $appends = [ 'status_label', 'status_class',];

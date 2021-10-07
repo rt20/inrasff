@@ -55,13 +55,34 @@ class DownStreamNotificationController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $request->validate([
-            // 'title' => ['required', 'max:255'],
+            'title' => ['required', 'max:255'],
+            'number_ref' => ['required', 'max:255'],
+            'status_notif' => ['required', 'max:255'],
+            'origin_source_notif' => ['required', 'max:255'],
+            'source_notif' => ['required', 'max:255'],
+            'product_name' => ['required', 'max:255'],
+            'brand_name' => ['required', 'max:255'],
         ]);
         try {
             DB::beginTransaction();
             $downstream = DownStreamNotification::make($request->only([
-                'notif_id'
+                'notif_id',
+                'title',
+                'number_ref',
+                'status_notif',
+                'type_notif',
+                'country_id',
+                'based_notif',
+                'origin_source_notif',
+                'source_notif',
+                'date_notif',
+                'product_name',
+                'category_product_name',
+                'brand_name',
+                'registration_number',
+                'package_product'
             ]));
             $downstream->number = 'IN.DS'.Carbon::now()->format('Hisv');
             $downstream->author_id = auth()->user()->id;
@@ -100,7 +121,7 @@ class DownStreamNotificationController extends Controller
     public function edit(DownStreamNotification $downstream)
     {
         return view('backadmin.downstream.form', [
-            'title' => $downstream->title,
+            'title' => $downstream->number,
             'downstream' => $downstream,
         ]);
     }
@@ -114,7 +135,48 @@ class DownStreamNotificationController extends Controller
      */
     public function update(Request $request, DownStreamNotification $downstream)
     {
-        //
+        // return $request->all();
+        $request->validate([
+            'title' => ['required', 'max:255'],
+            'number_ref' => ['required', 'max:255'],
+            'status_notif' => ['required', 'max:255'],
+            'origin_source_notif' => ['required', 'max:255'],
+            'source_notif' => ['required', 'max:255'],
+            'product_name' => ['required', 'max:255'],
+            'brand_name' => ['required', 'max:255'],
+        ]);
+        try {
+            DB::beginTransaction();
+            $downstream->fill($request->only([
+                'notif_id',
+                'title',
+                'number_ref',
+                'status_notif',
+                'type_notif',
+                'country_id',
+                'based_notif',
+                'origin_source_notif',
+                'source_notif',
+                'date_notif',
+                'product_name',
+                'category_product_name',
+                'brand_name',
+                'registration_number',
+                'package_product'
+            ]));
+            // return $downstream;
+            $downstream->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.downstreams.edit', $downstream->id)
+            ->withSuccess('Downstream berhasil dibuat');
     }
 
     /**

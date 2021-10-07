@@ -3,11 +3,17 @@
 @section('vendor-css')
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/wizard/bs-stepper.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
+<link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 @endsection
 
 @section('page-css')
     <link rel="stylesheet" href="{{ asset('backadmin/theme/css/plugins/forms/form-validation.css') }}">    
     <link rel="stylesheet" href="{{ asset('backadmin/theme/css/plugins/forms/form-wizard.css') }}">    
+    <style>
+        .read-only-white{
+            background-color: #fff !important
+        }
+    </style>
 @endsection
 
 @section('breadcrumb')
@@ -34,17 +40,23 @@
             </li>
         </ul>
         <!-- Vertical Wizard -->
-        <div class="tab-content pt-1">
-            <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
-                {{-- @include('backadmin.downstream.main') --}}
-                @include('backadmin.downstream.general')
-            </div>
+        <form method="post" id="form-main">
+            @csrf
+            @if ($downstream->id)
+                @method('PUT')
+            @endif
+            <div class="tab-content pt-1">
+                <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+                    {{-- @include('backadmin.downstream.main') --}}
+                    @include('backadmin.downstream.general')
+                </div>
 
-            <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
-                @include('backadmin.downstream.follow_up')
-            </div>
+                <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
+                    @include('backadmin.downstream.follow_up')
+                </div>
 
-        </div>
+            </div>
+        </form>
         <!-- /Vertical Wizard -->
     {{-- </div>
 </div> --}}
@@ -79,42 +91,15 @@
 @endpush
 
 @section('vendor-js')
-    {{-- <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script> --}}
     <script src="{{ asset('backadmin/theme/vendors/js/forms/wizard/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
+    <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+    <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
 @endsection
 
 @push('page-js')
-    <script src="{{ asset('backadmin/theme/js/scripts/forms/form-wizard.js') }}"></script>
-    
-<script>
-
-
-    let form = Vue.createApp({
-        data() {
-            return {
-                downstream: {
-                },
-                availableTabs: [],
-                activeTab: null
-            }
-        },
-        created() {
-            old = {!! json_encode(old()) !!};
-            downstream = {!! json_encode($downstream) !!};
-            console.log(downstream)
-            
-        },
-        mounted() {
-            
-        },
-        computed: {
-
-        },
-        methods: {
-            
-        }
-    }).mount('#app');
-</script>
+    {{-- <script src="{{ asset('backadmin/theme/js/scripts/forms/form-wizard.js') }}"></script> --}}
+@include('backadmin.downstream.script')
 @endpush

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BackAdmin;
+use App\Http\Controllers as Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,22 @@ use App\Http\Controllers\BackAdmin;
 
 Route::get('/', function () {
     return view('front.home');
+});
+
+Route::get('/country', function()
+{
+	$countries =  Countries::getList('id', 'php');
+
+    return $countries;
+});
+Route::get('/country-one', function()
+{
+    try {
+        return Countries::getOne('XTC', 'id');    
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+	
 });
 
 Route::prefix('backadmin')->name('backadmin.')->group(function() {
@@ -44,5 +61,15 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'news' => BackAdmin\NewsController::class,
             'sliders' => BackAdmin\SliderController::class,
         ]);
+
+         // Get select2 options
+         Route::prefix('s2opt')->name('s2Opt.')->group(function () {
+            Route::get('countries', [Controller\CountryController::class, 'getS2Options'])->name('countries');
+        });
+
+        // Get select2 initial value
+        Route::prefix('s2init')->name('s2Init.')->group(function () {
+            Route::get('countries', [Controller\CountryController::class, 'getS2Init'])->name('countries');
+        });
     });
 });
