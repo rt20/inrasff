@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             SliderSeeder::class,
             NotificationSeeder::class,
             CountrySeeder::class,
+            InstitutionSeeder::class,
         ]);
     }
 }

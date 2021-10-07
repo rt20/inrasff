@@ -155,15 +155,16 @@
                                 <small class="text-danger">{{ $errors->first('date_notif') }}</small>
                             @enderror
                         </div><!-- .col-md-6.form-group -->
-
+                        
                         <div class="col-12 col-md-12 form-group">
+                            <hr>
                             <label for="title" class="form-label">Instansi yang perlu menindaklanjuti</label>
                             <div v-if="downstream.id === ''" class="demo-spacing-0">
                                 <div class="alert alert-warning" role="alert">
                                     <div class="alert-body"><strong>Silahkan simpan terlebih dahulu downstream ini untuk menambahkan instansi</strong></div>
                                 </div>
                             </div>
-                            <table v-if="downstream.id !== ''" id="table" class="table table-striped table-bordered">
+                            <table v-if="downstream.id !== ''" id="table-permission-rw" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Instansi</th>
@@ -174,15 +175,16 @@
                                 </tbody>
                             </table>
                         </div>
-
+                        
                         <div class="col-12 col-md-12 form-group">
+                            <hr>
                             <label for="title" class="form-label"> Instansi lain yang terkait</label>
                             <div v-if="downstream.id === ''" class="demo-spacing-0">
                                 <div class="alert alert-warning" role="alert">
                                     <div class="alert-body"><strong>Silahkan simpan terlebih dahulu downstream ini untuk menambahkan instansi</strong></div>
                                 </div>
                             </div>
-                            <table v-if="downstream.id !== ''" id="table" class="table table-striped table-bordered">
+                            <table v-if="downstream.id !== ''" id="table-permission-r" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Instansi</th>

@@ -5,7 +5,9 @@
             return {
                 downstream: {},
                 availableTabs: [],
-                activeTab: null
+                activeTab: null,
+                table_r : null,
+                table_rw: null
             }
         },
         created() {
@@ -46,10 +48,11 @@
             $('.date').flatpickr();
             $('.select2').select2();
             $('select[name="origin_source_notif"]').on('change', function(e){
-                console.log("origin source notif change")
+                // console.log("origin source notif change")
                 form.downstream.origin_source_notif = e.target.value
                 form.downstream.source_notif = ''
             })
+
             $('#country_id').select2({
                ajax: {
                     url: "{{ route('backadmin.s2Opt.countries') }}",
@@ -73,8 +76,15 @@
                 }
 
             }).on('select2:select', function(e){
-                // form.current_account.customer.id = e.target.value
+                form.downstream.country_id = e.target.value
             })
+
+            this.table_r = $('#table-permission-r').DataTable()
+
+            this.table_rw = $('#table-permission-rw').DataTable()
+
+
+
         },
         computed: {
 
