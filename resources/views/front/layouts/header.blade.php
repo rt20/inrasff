@@ -97,8 +97,11 @@
                 <a href="#" class="block py-3 transition duration-300 uppercase font-bold">Tentang Kami</a>
                 <a href="#" class="block py-3 transition duration-300 uppercase font-bold">Hubungi Kami</a>
             </div>
-            <div class="bg-blue-800 py-3 text-center fixed inset-x-0 bottom-0 w-full">
-                <span class="text-xs text-white">© {{ date('Y') }} INRASFF. All Rights Reserved</span>
+            <div class="bg-blue-900 py-3 text-center fixed inset-x-0 bottom-0 w-full">
+                <div class="container text-center lg:flex mx-auto px-6 px-0 lg:justify-between lg:items-center">
+                    <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Copyrights © {{ date('Y') }} All Rights Reserved INRASFF</span>
+                    <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Badan Pengawasan Obat dan Makanan Republik Indonesia</span>
+                </div>
             </div>
         </div>
     </div>
