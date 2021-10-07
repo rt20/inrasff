@@ -15,7 +15,7 @@ use App\Http\Controllers\BackAdmin;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.home');
 });
 
 Route::prefix('backadmin')->name('backadmin.')->group(function() {
