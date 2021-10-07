@@ -16,7 +16,7 @@ use App\Http\Controllers as Controller;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.home');
 });
 
 Route::get('/country', function()
