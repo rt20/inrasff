@@ -24,7 +24,7 @@
                 <div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
                     <div class="md:grid md:grid-cols-2 md:gap-8">
                         <div>
-                            <h3 class="text-sm font-semibold text-white tracking-wider uppercase">
+                            <h3 class="text-xl font-bold text-white tracking-wider uppercase">
                                 Solutions
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
@@ -51,7 +51,7 @@
                             </ul>
                         </div>
                         <div class="mt-12 md:mt-0">
-                            <h3 class="text-sm font-semibold text-white tracking-wider uppercase">
+                            <h3 class="text-xl font-bold text-white tracking-wider uppercase">
                                 Support
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
@@ -80,7 +80,7 @@
                     </div>
                     <div class="md:grid md:grid-cols-2 md:gap-8">
                         <div>
-                            <h3 class="text-sm font-semibold text-white tracking-wider uppercase">
+                            <h3 class="text-xl font-bold text-white tracking-wider uppercase">
                                 Company
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
@@ -112,7 +112,7 @@
                             </ul>
                         </div>
                         <div class="mt-12 md:mt-0">
-                            <h3 class="text-sm font-semibold text-white tracking-wider uppercase">
+                            <h3 class="text-xl font-bold text-white tracking-wider uppercase">
                                 Legal
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">

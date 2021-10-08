@@ -53,11 +53,11 @@
         <div class="bg-blue-800 text-white">
             <div class="container mx-auto top-menu flex justify-between items-center py-1">
                 <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false }">
-                    <a href="#" class="inline-block py-2 hover:text-black transition duration-300 uppercase text-sm mr-10">Home</a>
-                    <a href="#" class="inline-block py-2 hover:text-black transition duration-300 uppercase text-sm mr-10">Berita</a>
-                    <a href="#" class="inline-block py-2 hover:text-black transition duration-300 uppercase text-sm mr-10">Kementrian</a>
-                    <a href="#" class="inline-block py-2 hover:text-black transition duration-300 uppercase text-sm mr-10">Tentang Kami</a>
-                    <a href="#" class="inline-block py-2 hover:text-black transition duration-300 uppercase text-sm">Hubungi Kami</a>
+                    <a href="#" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Home</a>
+                    <a href="#" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>
+                    <a href="#" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementrian</a>
+                    <a href="#" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Tentang Kami</a>
+                    <a href="#" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm">Hubungi Kami</a>
                 </menu>
                 <form method="GET">
                     <div class="relative text-gray-600 focus-within:text-gray-400">
