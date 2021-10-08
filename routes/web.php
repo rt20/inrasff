@@ -19,22 +19,6 @@ Route::get('/', function () {
     return view('front.home');
 });
 
-Route::get('/country', function()
-{
-	$countries =  Countries::getList('id', 'php');
-
-    return $countries;
-});
-Route::get('/country-one', function()
-{
-    try {
-        return Countries::getOne('XTC', 'id');    
-    } catch (\Exception $e) {
-        return $e->getMessage();
-    }
-	
-});
-
 Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
     Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
@@ -53,6 +37,12 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('{id}/setting', [BackAdmin\IssueNotificationController::class, 'setting'])->name('setting');
         });
 
+        Route::prefix('down_stream_institutions')->name('down_stream_institutions.')->group(function(){
+            Route::get('/', [BackAdmin\DownStreamInstitutionController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\DownStreamInstitutionController::class, 'add'])->name('add');
+            Route::delete('{dsi}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
+        });
+
         Route::resources([
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
@@ -65,11 +55,13 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
          // Get select2 options
          Route::prefix('s2opt')->name('s2Opt.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Options'])->name('countries');
+            Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Options'])->name('institutions');
         });
 
         // Get select2 initial value
         Route::prefix('s2init')->name('s2Init.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Init'])->name('countries');
+            Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Init'])->name('institutions');
         });
     });
 });

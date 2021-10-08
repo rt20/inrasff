@@ -96,12 +96,14 @@
 
 @section('vendor-js')
     @include('backadmin.layouts.script_datatables')
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/wizard/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
+    <script src="{{ asset('backadmin/app/js/network.js') }}"></script>
 @endsection
 
 @push('page-js')

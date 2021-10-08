@@ -143,75 +143,75 @@ class NotificationService{
                 'label' => 'Bahan Tambahan Pangan'
             ],
             [
-                'value' => '',
+                'value' => 2,
                 'label' => 'Buah dan sayur (termasuk jamur, umbi, kacang termasuk kacang kedelai, dan lidah buaya), rumput laut, biji-bijian'
             ],
             [
-                'value' => '',
+                'value' => 3,
                 'label' => 'Daging dan produk daging, termasuk daging unggas dan daging hewan buruan'
             ],
             [
-                'value' => '',
+                'value' => 4,
                 'label' => 'Es untuk dimakan (edible ice, termasuk sherbet dan sorbet)'
             ],
             [
-                'value' => '',
+                'value' => 5,
                 'label' => 'Food contact material'
             ],
             [
-                'value' => '',
+                'value' => 6,
                 'label' => 'Garam, rempah, sup, saus, salad, produk protein'
             ],
             [
-                'value' => '',
+                'value' => 7,
                 'label' => 'Ikan dan produk perikanan termasuk moluska, krustase, ekinodermata, serta amfibi dan reptil'
             ],
             [
-                'value' => '',
+                'value' => 8,
                 'label' => 'Kembang gula/permen dan cokelat'
             ],
             [
-                'value' => '',
+                'value' => 9,
                 'label' => 'Lemak, minyak, dan emulsi minyak'
             ],
             [
-                'value' => '',
+                'value' => 10,
                 'label' => 'Makanan ringan siap santap'
             ],
             [
-                'value' => '',
+                'value' => 11,
                 'label' => 'Minuman, tidak termasuk produk susu'
             ],
             [
-                'value' => '',
+                'value' => 12,
                 'label' => 'Pakan'
             ],
             [
-                'value' => '',
+                'value' => 13,
                 'label' => 'Pangan campuran (komposit), tidak termasuk pangan dari kategori 01.0 sampai 15.0'
             ],
             [
-                'value' => '',
+                'value' => 14,
                 'label' => 'Pemanis termasuk madu'
             ],
             [
-                'value' => '',
+                'value' => 15,
                 'label' => 'Produk bakeri'
             ],
             [
-                'value' => '',
+                'value' => 16,
                 'label' => 'Produk pangan untuk keperluan gizi khusus'
             ],
             [
-                'value' => '',
+                'value' => 17,
                 'label' => 'Produk-produk susu dan analognya, kecuali yang termasuk kategori 02.0'
             ],
             [
-                'value' => '',
+                'value' => 18,
                 'label' => 'Serealia dan produk serelia yang merupakan produk turunan dari biji serealia, akar dan umbi, kacang dan empulur'
             ],
             [
-                'value' => '',
+                'value' => 19,
                 'label' => 'Telur dan produk-produk telur'
             ],
         ];
