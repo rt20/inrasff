@@ -5,7 +5,26 @@
             return {
                 downstream: {},
                 availableTabs: [],
-                activeTab: null
+                activeTab: null,
+                table_r : null,
+                table_rw: null,
+                institutionModal: {
+                    state: 'add',
+                    index: null,
+                    item:{
+                        id:null,
+                    },
+                    error: ''
+                },
+                validatorItem : [
+                    {
+                        title: 'institution_id',
+                        name : 'institution_id',
+                        input: 'select',
+                        required: true,
+                        parse: null
+                    },
+                ],
             }
         },
         created() {
@@ -45,11 +64,20 @@
         mounted() {
             $('.date').flatpickr();
             $('.select2').select2();
+
             $('select[name="origin_source_notif"]').on('change', function(e){
-                console.log("origin source notif change")
                 form.downstream.origin_source_notif = e.target.value
-                form.downstream.source_notif = ''
+                console.log(form.downstream)
             })
+
+            $('select[name="status_notif"]').on('change', function(e){
+                form.downstream.status_notif = e.target.value
+            })
+
+            $('select[name="type_notif"]').on('change', function(e){
+                form.downstream.type_notif = e.target.value
+            })
+
             $('#country_id').select2({
                ajax: {
                     url: "{{ route('backadmin.s2Opt.countries') }}",
@@ -73,14 +101,163 @@
                 }
 
             }).on('select2:select', function(e){
-                // form.current_account.customer.id = e.target.value
+                form.downstream.country_id = e.target.value
             })
+
+            let icon = feather.icons['trash'].toSvg();
+            this.table_r = $('#table-permission-r').DataTable({
+                ajax:{
+                    url:"{{route('backadmin.down_stream_institutions.index')}}",
+                    data: function(data) {
+                        data.read = 1
+                        data.ds_id = '{{$downstream->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { data: 'institution.name' },
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return '<a href="#" class="btn btn-primary btn-sm btn-icon rounded-circle">' + icon + '</a>'
+                        } 
+                    }
+                ],
+                order: [[0, 'desc']],
+                language: dtLangId
+            })
+
+            this.table_rw = $('#table-permission-rw').DataTable({
+                ajax:{
+                    url:"{{route('backadmin.down_stream_institutions.index')}}",
+                    data: function(data) {
+                        data.read = 1
+                        data.write = 1
+                        data.ds_id = '{{$downstream->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { data: 'institution.name' },
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return '<a href="#" class="btn btn-primary btn-sm btn-icon rounded-circle">' + icon + '</a>'
+                        } 
+                    }
+                ],
+                order: [[0, 'desc']],
+                language: dtLangId
+            })
+
+            $('#f_institution').select2({
+               ajax: {
+                    url: "{{ route('backadmin.s2Opt.institutions') }}",
+                    data: function(params){
+                        let req = {
+                            q:params.term,
+                        };
+                        return req;
+                    },
+                    processResults: function(data){
+                        return {results: data};
+                    },
+               },
+               minimumInputLength:1,
+               placeholder: 'Masukkan Institusi Terkait',
+               templateResult:function(data){
+                   return data.loading ? 'Mencari...' : data.name; 
+               },
+               templateSelection: function(data) {
+                    return data.text || data.name;
+                }
+
+            })
+
         },
         computed: {
 
         },
         methods: {
-            
+            openInstitutionModal(state, id=null, item = {id:null}){
+                $('.text-warn').remove();
+                this.institutionModal.state = state;
+                switch (this.institutionModal.state) {
+                    case 'add':
+                        this.institutionModal.item = item;                        
+                        break;
+                    case 'delete':
+                        // this.institutionModal.item = Object.assign({}, this.slider.slider_image[index]);
+                        this.institutionModal.item = {id:id};   
+                        break;
+                    
+                    default:
+                        break;
+                }
+                $('#institution-modal').modal({ backdrop: 'static', keyboard: false })
+            },
+            async submitItem(e){
+                e.preventDefault()
+                $('.text-warn').remove();
+                let invalid;
+
+                switch (this.institutionModal.state) {
+                    case 'add':
+                        this.validatorItem.forEach(el => {
+                            if(el.required==true)
+                            {
+                                if(!$(el.input+'[name="'+el.title+'"]').val() ){
+                                    $(el.input+'[name="'+el.title+'"]').parent().append(`
+                                        <small class="text-danger text-warn">Field ini harus diisi</small>
+                                    `);
+                                    invalid = true;
+                                }
+                            }
+                        });
+
+                        if(invalid)
+                            return;
+
+                        var url = `{{ route('backadmin.down_stream_institutions.add') }}`
+                        var formData = new FormData()
+                        this.validatorItem.forEach(el => {
+                            var value = $(el.input+'[name="'+el.title+'"]').val()
+                            console.log(value)
+                            switch (el.parse) {
+                                case 'numeric':
+                                    value = value.replace(/\./g, '')
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                            formData.append(el.name, value)
+                        });
+                        formData.append('ds_id', {{$downstream->id}})
+                        var resp = await post(url,formData)
+                        console.log(resp)
+                            if(resp?.data?.status?.localeCompare('ok')==0){
+                                $('#institution-modal').modal('hide')
+                                // this.tableItem.ajax.reload()
+                            }else{
+                                alert(resp?.data?.message)
+                            }    
+                        
+                        break;
+                
+                    default:
+                        break;
+                }
+                
+            }
         }
     }).mount('#app');
 </script>

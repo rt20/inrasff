@@ -1,6 +1,7 @@
 @extends('backadmin.layouts.master')
 
 @section('vendor-css')
+@include('backadmin.layouts.style_datatables')
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/wizard/bs-stepper.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
 <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
@@ -31,14 +32,17 @@
 @section('content')
 {{-- <div class="card">
     <div class="card-body"> --}}
-        <ul class="nav nav-tabs" id="myTab2" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " id="profile-tab-justified" data-toggle="tab" href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="true">Tindak Lanjut</a>
-            </li>
-        </ul>
+        <div class="d-flex justify-content-between align-items-center">
+            <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="profile-tab-justified" data-toggle="tab" href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="true">Tindak Lanjut</a>
+                </li>
+            </ul>
+            <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
+        </div>
         <!-- Vertical Wizard -->
         <form method="post" id="form-main">
             @csrf
@@ -91,12 +95,15 @@
 @endpush
 
 @section('vendor-js')
+    @include('backadmin.layouts.script_datatables')
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/wizard/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
+    <script src="{{ asset('backadmin/app/js/network.js') }}"></script>
 @endsection
 
 @push('page-js')
