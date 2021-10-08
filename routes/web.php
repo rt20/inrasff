@@ -40,7 +40,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         Route::prefix('down_stream_institutions')->name('down_stream_institutions.')->group(function(){
             Route::get('/', [BackAdmin\DownStreamInstitutionController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\DownStreamInstitutionController::class, 'add'])->name('add');
-            Route::delete('{dsi}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
+            Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
         Route::resources([

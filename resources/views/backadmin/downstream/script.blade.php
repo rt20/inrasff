@@ -1,4 +1,7 @@
 <script>
+    function openInstitutionModal(state, id=null, item = {id:null}, institutionW=false){
+        form.openInstitutionModal(state, id, item, institutionW)
+    }
 
     let form = Vue.createApp({
         data() {
@@ -8,6 +11,7 @@
                 activeTab: null,
                 table_r : null,
                 table_rw: null,
+                institutionW: false,
                 institutionModal: {
                     state: 'add',
                     index: null,
@@ -110,6 +114,7 @@
                     url:"{{route('backadmin.down_stream_institutions.index')}}",
                     data: function(data) {
                         data.read = 1
+                        data.write = 0
                         data.ds_id = '{{$downstream->id}}'
                     }
                 },
@@ -123,7 +128,7 @@
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return '<a href="#" class="btn btn-primary btn-sm btn-icon rounded-circle">' + icon + '</a>'
+                            return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
                 ],
@@ -150,7 +155,7 @@
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return '<a href="#" class="btn btn-primary btn-sm btn-icon rounded-circle">' + icon + '</a>'
+                            return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
                 ],
@@ -187,9 +192,11 @@
 
         },
         methods: {
-            openInstitutionModal(state, id=null, item = {id:null}){
+            openInstitutionModal(state, id=null, item = {id:null}, institutionW=false){
+                $('#f_institution').val(null).trigger('change')
                 $('.text-warn').remove();
                 this.institutionModal.state = state;
+                this.institutionW = institutionW
                 switch (this.institutionModal.state) {
                     case 'add':
                         this.institutionModal.item = item;                        
@@ -242,17 +249,39 @@
                             formData.append(el.name, value)
                         });
                         formData.append('ds_id', {{$downstream->id}})
+                        if(this.institutionW)
+                            formData.append('write', this.institutionW)
                         var resp = await post(url,formData)
                         console.log(resp)
                             if(resp?.data?.status?.localeCompare('ok')==0){
                                 $('#institution-modal').modal('hide')
-                                // this.tableItem.ajax.reload()
+                                if(this.institutionW)
+                                    this.table_rw.ajax.reload()
+                                else
+                                    this.table_r.ajax.reload()
+                                this.institutionW = false
+
                             }else{
                                 alert(resp?.data?.message)
                             }    
                         
                         break;
                 
+                    case 'delete': 
+                        var url = `{{ route('backadmin.down_stream_institutions.delete', '__id') }}`
+                        url = url.replace("__id", this.institutionModal?.item?.id)
+                        var resp = await destroy(url)
+                        console.log(resp)
+                        if(resp?.data?.status?.localeCompare('ok')==0){
+                            $('#institution-modal').modal('hide')
+                                this.table_rw.ajax.reload()
+                                this.table_r.ajax.reload()
+
+                        }else{
+                            alert(resp?.data?.message)
+                        }   
+                        break;
+                    
                     default:
                         break;
                 }

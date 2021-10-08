@@ -30,7 +30,7 @@ class DownStreamInstitutionController extends Controller
                 $d = $d->where('ds_id', $request->ds_id);
             }
 
-            return DataTables::of($d)->make();
+            return DataTables::of($d->get())->make();
         // }
 
         return ;
@@ -45,13 +45,14 @@ class DownStreamInstitutionController extends Controller
             DB::beginTransaction();
             if($validator->fails())
                 throw new Exception("Input validasi bermasalah, cek kembali inputan!", 1);
-            
+            if(DownStreamInstitution::where('ds_id', $request->ds_id)->where('institution_id', $request->institution_id)->first() != null)
+                throw new Exception("Instansi tersebut telah di berikan akses untuk downstream ini", 1);
+                
             $dsi = DownStreamInstitution::make($request->only([
                 'ds_id',
                 'institution_id',
-                'read',
-                'write'
             ]));
+            $dsi->write = $request->write==="true" ? true : false;
             $dsi->save();
             DB::commit();
             return response()->json([
@@ -68,9 +69,10 @@ class DownStreamInstitutionController extends Controller
         }  
     }
 
-    public function delete(DownStreamInstitution $dsi){
+    public function delete($id){
         try {
             DB::beginTransaction();
+            $dsi = DownStreamInstitution::find($id);
             $dsi->delete();
             DB::commit();
             return response()->json([

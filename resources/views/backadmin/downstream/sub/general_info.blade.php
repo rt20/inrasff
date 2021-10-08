@@ -152,7 +152,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <label for="title" class="form-label">Instansi yang perlu menindaklanjuti</label>
             @if($downstream->id !== null)
-                <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
         </div>
         
