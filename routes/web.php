@@ -18,6 +18,21 @@ use App\Http\Controllers as Controller;
 Route::get('/', function () {
     return view('front.home');
 });
+Route::get('/news', function () {
+    return view('front.news');
+});
+Route::get('/news/{slug}', function () {
+    return view('front.news-detail');
+});
+Route::get('/kementrian', function () {
+    return view('front.kementrian');
+});
+Route::get('/aboutus', function () {
+    return view('front.aboutus');
+});
+Route::get('/contactus', function () {
+    return view('front.contactus');
+});
 
 Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
