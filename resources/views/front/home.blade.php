@@ -32,8 +32,8 @@
 
 <section class="container px-3 lg:mx-auto w-full py-6">
 	<div class="text-xl font-bold uppercase py-6">Berita Terbaru</div>
-	<div class="lg:grid lg:grid-cols-6 lg:gap-6 w-full">
-		<div class="col-span-4">
+	<div class="grid grid-cols-1 lg:grid-cols-6 gap-6 w-full">
+		<div class="lg:col-span-4">
 			<img src="{{ asset('seeder/image_4.jpg') }}" class="w-full">
 			<button class="text-white bg-red-500 rounded px-6 py-2 my-6 font-semibold text-xs">World</button>
 			<div class="font-semibold text-2xl leading-normal">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
@@ -42,7 +42,7 @@
 				Bayangkan jika saat Anda di mini market, membawa banyak barang dan saat tiba di kasir, sang kasir malah menaruh kembali barang barang Anda di rak seperti semula, tanpa memberitahu alasannya...
 			</div>
 
-			<div class="lg:grid lg:grid-cols-3 lg:gap-6 w-full">
+			<div class="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 w-full">
 				@for($i=1;$i<=2;$i++)
 				<div>
 					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full">
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 
-		<div class="col-span-2">
+		<div class="lg:col-span-2">
 
 			<div class="text-base font-semibold mb-5">Supported By</div>
 			<div class="grid grid-cols-3 gap-4 mb-8">

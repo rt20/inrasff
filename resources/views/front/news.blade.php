@@ -13,7 +13,7 @@
 	</div>
 </section>
 <section class="container px-3 lg:mx-auto py-8">
-	<div class="grid grid-cols-1 lg:grid-cols-4 gap-5 lg:gap-6 w-full pb-8">
+	<div class="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 w-full pb-8">
 		@for($i=1;$i<=4;$i++)
 		<div>
 			<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full pb-4">
