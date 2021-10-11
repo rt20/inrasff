@@ -18,21 +18,23 @@
 	</div>
 </section>
 
-<section class="container">
-	
+<section class="container mx-auto mb-8">
+	{{-- <div class="aspect-h-10 aspect-w-16">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" alt="..." class="w-full h-full object-cover" />
+	</div> --}}
 </section>
 
-<section class="w-full bg-gray-600">
+<section class="w-full" style="background: #282828;">
 	<div class="container px-3 lg:mx-auto py-10">
-		<div class="bg-gray-500 h-60 w-full"></div>
+		<img src="{{ asset('images/klik_banner.png') }}" class="w-full">
 	</div>
 </section>
 
 <section class="container px-3 lg:mx-auto w-full py-6">
-	<div class="text-xl font-bold uppercase py-6">berita terbaru</div>
+	<div class="text-xl font-bold uppercase py-6">Berita Terbaru</div>
 	<div class="lg:grid lg:grid-cols-6 lg:gap-6 w-full">
 		<div class="col-span-4">
-			<div class="bg-gray-300 h-96 w-full"></div>
+			<img src="{{ asset('seeder/image_4.jpg') }}" class="w-full">
 			<button class="text-white bg-red-500 rounded px-6 py-2 my-6 font-semibold text-xs">World</button>
 			<div class="font-semibold text-2xl leading-normal">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
 			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
@@ -41,9 +43,19 @@
 			</div>
 
 			<div class="lg:grid lg:grid-cols-3 lg:gap-6 w-full">
-				@for($i=1;$i<=6;$i++)
+				@for($i=1;$i<=2;$i++)
 				<div>
-					<div class="bg-gray-300 h-44 w-full mb-3"></div>
+					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full">
+					<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
+				</div>
+				<div>
+					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full">
+					<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
+				</div>
+				<div>
+					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full">
 					<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
@@ -55,13 +67,45 @@
 
 			<div class="text-base font-semibold mb-5">Supported By</div>
 			<div class="grid grid-cols-3 gap-4 mb-8">
-				<div class="bg-gray-300 h-28 w-full"></div>
-				<div class="bg-gray-300 h-28 w-full"></div>
-				<div class="bg-gray-300 h-28 w-full"></div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
+					</a>
+				</div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full">
+					</a>
+				</div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full">
+					</a>
+				</div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full">
+					</a>
+				</div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full">
+					</a>
+				</div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_kkp.png') }}" class="w-full">
+					</a>
+				</div>
+				<div class="bg-gray-300 p-3 rounded">
+					<a href="#">
+						<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
+					</a>
+				</div>
 			</div>
 
 			<div class="text-base font-semibold mb-5">Maklumat Pelayanan</div>
-			<div class="bg-gray-300 h-60 w-full mb-8"></div>
+			<img src="{{ asset('images/maklumat_pelayanan.jpg') }}" class="w-full mb-8">
 
 			<div class="text-base font-semibold mb-5">Categories</div>
 			<ul class="list-disc list-inside space-y-3 mb-8" style="column-count: 2;">
@@ -71,9 +115,17 @@
 			</ul>
 
 			<div class="text-base font-semibold mb-5">Pictures</div>
-			<div class="grid grid-cols-5 gap-2">
-				@for($i=1;$i<=15;$i++)
-				<div class="bg-gray-300 h-16 w-full"></div>
+			<div class="grid grid-cols-5 gap-1">
+				@for($i=1;$i<=5;$i++)
+				<a href="#">
+					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
+				</a>
+				<a href="#">
+					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full rounded">
+				</a>
+				<a href="#">
+					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
+				</a>
 				@endfor
 			</div>
 		</div>
@@ -83,7 +135,7 @@
 <section class="bg-gray-200 py-8">
 	<div class="container px-3 lg:mx-auto">
 		<div class="text-xl font-bold uppercase pb-6">statistik</div>
-		<div class="bg-gray-300 h-96 w-full"></div>
+		<img src="{{ asset('images/statistik.png') }}" class="w-full rounded">
 	</div>
 </section>
 @endsection
