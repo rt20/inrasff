@@ -120,6 +120,9 @@ class DownStreamNotificationController extends Controller
      */
     public function edit(DownStreamNotification $downstream)
     {
+        // return $downstream->dangerousRisk()->create();
+        $downstream->dangerousRisk;
+        
         return view('backadmin.downstream.form', [
             'title' => $downstream->number,
             'downstream' => $downstream,
@@ -135,37 +138,82 @@ class DownStreamNotificationController extends Controller
      */
     public function update(Request $request, DownStreamNotification $downstream)
     {
-        // return $request->all();
-        $request->validate([
-            'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
-            'status_notif' => ['required', 'max:255'],
-            'origin_source_notif' => ['required', 'max:255'],
-            'source_notif' => ['required', 'max:255'],
-            'product_name' => ['required', 'max:255'],
-            'brand_name' => ['required', 'max:255'],
-        ]);
+        
+        /**
+         * Section Form
+         * - general (default)
+         * - dangerous-risk
+         */
+
+        switch ($request->section_form) {
+            case 'dangerous-risk':
+                $request->validate([
+                    'name_dangerous' => ['required', 'max:255'],
+                    'category_dangerous' => ['required', 'max:255'],
+                ]);
+                break;
+            
+            default:
+                $request->validate([
+                    'title' => ['required', 'max:255'],
+                    'number_ref' => ['required', 'max:255'],
+                    'status_notif' => ['required', 'max:255'],
+                    'origin_source_notif' => ['required', 'max:255'],
+                    'source_notif' => ['required', 'max:255'],
+                    'product_name' => ['required', 'max:255'],
+                    'brand_name' => ['required', 'max:255'],
+                ]);
+                break;
+        }
+
+        
         try {
+            if($request->section_form==null)
+                throw new Exception("Section Form Undefined", 1);
+                
             DB::beginTransaction();
-            $downstream->fill($request->only([
-                'notif_id',
-                'title',
-                'number_ref',
-                'status_notif',
-                'type_notif',
-                'country_id',
-                'based_notif',
-                'origin_source_notif',
-                'source_notif',
-                'date_notif',
-                'product_name',
-                'category_product_name',
-                'brand_name',
-                'registration_number',
-                'package_product'
-            ]));
-            // return $downstream;
-            $downstream->update();
+            switch ($request->section_form) {
+                case 'dangerous-risk':
+                    $downstream->dangerousRisk->fill($request->only(
+                        'name_dangerous',
+                        'category_dangerous',
+                        'name_result',
+                        'uom_result',
+                        'laboratorium',
+                        'matrix',
+                        'scope',
+                        'max_tollerance',
+                        'distribution_status',
+                        'serious_risk',
+                        'victim',
+                        'symptom'
+                    ));
+                    $downstream->dangerousRisk->update();
+                    break;
+                
+                default:
+                    $downstream->fill($request->only([
+                        'notif_id',
+                        'title',
+                        'number_ref',
+                        'status_notif',
+                        'type_notif',
+                        'country_id',
+                        'based_notif',
+                        'origin_source_notif',
+                        'source_notif',
+                        'date_notif',
+                        'product_name',
+                        'category_product_name',
+                        'brand_name',
+                        'registration_number',
+                        'package_product'
+                    ]));
+                    // return $downstream;
+                    $downstream->update();
+                    break;
+            }
+           
             DB::commit();
             
         } catch (Exception $e) {

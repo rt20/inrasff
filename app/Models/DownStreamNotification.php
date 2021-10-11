@@ -44,8 +44,24 @@ class DownStreamNotification extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function notification(): BelongsTo
+    public function notification()
     {
         return $this->belongsTo(Notification::class, 'notif_id');
+    }
+
+    public function dangerousRisk(){
+        return $this->morphOne(DangerousRiskInfo::class, 'dri');
+    }
+
+    /**
+     * @override save function for DownStreamNotification
+     */
+
+    public function save(array $options = []){
+        
+        parent::save();
+        if($this->dangerousRisk == null){
+            $this->dangerousRisk()->create();
+        }
     }
 }

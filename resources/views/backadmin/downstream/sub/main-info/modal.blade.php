@@ -3,25 +3,30 @@
         <div class="modal-content">
             <form id="institution-modal-form" action="#" method="GET">                    
                 <div class="modal-header">
-                    <h4 class="modal-title" id="modalAddInstitution">Tambahkan Instansi</h4>
+                    <h4 v-show="institutionModal.state !== 'delete'" class="modal-title" id="modalAddInstitution">Tambah Instansi</h4>
+                    <h4 v-show="institutionModal.state === 'delete'" class="modal-title" id="modalAddInstitution">Hapus Instansi</h4>
+                    {{-- <h4 class="modal-title" id="modalAddInstitution">Tambahkan Instansi</h4> --}}
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" v-show="institutionModal.state !== 'delete'">
                         <input hidden readonly name="ds_id" value="{{$downstream->id}}">
-                        <input hidden readonly name="write" value="true">
-                        <div class="col-12 col-md-12 form-group">
+                        <div class="col-12 col-md-12 form-group" >
                             <label class="form-label required">Nama Instansi</label>
                             <select id="f_institution" name="institution_id" class="form-control" autocomplete="off"></select>
                         </div>
+                    </div>
 
+                    <div v-show="institutionModal.state === 'delete'">
+                        <p class="mb-0">Apakah Anda yakin akan menghapus Instansi ini?</p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
-                    <button type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
+                    <button v-if="institutionModal.state !== 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
+                    <button v-if="institutionModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Ya, Hapus</button>
                 </div>
             </form>
         </div>

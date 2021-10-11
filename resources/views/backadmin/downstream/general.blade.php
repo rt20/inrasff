@@ -3,11 +3,11 @@
         <div class="card-text">
             <div id="app">
                 <section class="bi-form-main">
-                    @include('backadmin.downstream.sub.general_info')
+                    @include('backadmin.downstream.sub.main-info.general_info')
                     <hr>
-                    @include('backadmin.downstream.sub.product')
+                    @include('backadmin.downstream.sub.main-info.product')
                 </section>
-                @include('backadmin.downstream.modal')
+                @include('backadmin.downstream.sub.main-info.modal')
             </div>
         </div>
     </div>

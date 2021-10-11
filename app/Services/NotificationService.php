@@ -216,4 +216,108 @@ class NotificationService{
             ],
         ];
     }
+
+    public static function categoryDangerous(){
+        return [
+            [
+                'value' => 1,
+                'label' => "Bahaya Kimia"
+            ],
+            [
+                'value' => 2,
+                'label' => "Bahaya Mikrobiologi"
+            ],
+            [
+                'value' => 3,
+                'label' => "Bahaya Fisik"
+            ],
+            [
+                'value' => 4,
+                'label' => "Mutu"
+            ],
+            [
+                'value' => 5,
+                'label' => "Dokumen"
+            ],
+
+        ];
+    }
+
+    public static function uomResult(){
+        return [
+            [
+                'value' => 1,
+                'label' => 'ppm',
+            ],
+            [
+                'value' => 2,
+                'label' => 'kol/g',
+            ],
+            [
+                'value' => 3,
+                'label' => 'g',
+            ],
+            [
+                'value' => 4,
+                'label' => 'buah',
+            ],
+            [
+                'value' => 5,
+                'label' => 'batang',
+            ],
+            [
+                'value' => 6,
+                'label' => 'ppb',
+            ],
+            [
+                'value' => 7,
+                'label' => '/25g',
+            ],
+            [
+                'value' => 8,
+                'label' => 'ng/g',
+            ],
+        ];
+    }
+
+    public static function distributionStatus(){
+        return [
+            [
+                'value' => 1,
+                'label' => 'Distribution on the Market (possible)',
+            ],
+            [
+                'value' => 2,
+                'label' => 'Distribution Restricted to Notifying Country',
+            ],
+            [
+                'value' => 3,
+                'label' => 'Distribution to Destination Under Customs Seals',
+            ],
+            [
+                'value' => 4,
+                'label' => 'Information on Distribution not (yet) Available',
+            ],
+            [
+                'value' => 5,
+                'label' => 'No Distribution',
+            ],
+            [
+                'value' => 6,
+                'label' => 'No Stock Left',
+            ],
+            [
+                'value' => 7,
+                'label' => 'Product Already Consumed',
+            ],
+            [
+                'value' => 8,
+                'label' => 'Product Expired (past best before date)',
+            ],
+            [
+                'value' => 9,
+                'label' => 'Product Expired (past use by date)',
+            ],
+        ];
+    }
 }
