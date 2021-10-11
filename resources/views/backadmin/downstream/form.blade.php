@@ -35,29 +35,37 @@
         <div class="d-flex justify-content-between align-items-center">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
+                    <a onclick="setSectionForm()" class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
                 </li>
+                @if($downstream->id != null)
                 <li class="nav-item">
-                    <a class="nav-link " id="profile-tab-justified" data-toggle="tab" href="#profile-just" role="tab" aria-controls="profile-just" aria-selected="true">Tindak Lanjut</a>
+                    <a onclick="setSectionForm('dangerous-risk')" class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
                 </li>
+                @endif
             </ul>
             <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
         </div>
         <!-- Vertical Wizard -->
         <form method="post" id="form-main">
+            <input hidden readonly name="section_form" id="section-form" value="general">
             @csrf
             @if ($downstream->id)
                 @method('PUT')
             @endif
             <div class="tab-content pt-1">
                 <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
-                    {{-- @include('backadmin.downstream.main') --}}
                     @include('backadmin.downstream.general')
                 </div>
 
-                <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
-                    @include('backadmin.downstream.follow_up')
+                @if($downstream->id != null)
+                <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.downstream.dangerous_risk')
                 </div>
+                @endif
+
+                {{-- <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
+                    @include('backadmin.downstream.follow_up')
+                </div> --}}
 
             </div>
         </form>
@@ -109,4 +117,23 @@
 @push('page-js')
     {{-- <script src="{{ asset('backadmin/theme/js/scripts/forms/form-wizard.js') }}"></script> --}}
 @include('backadmin.downstream.script')
+@include('backadmin.downstream.script_dangerous_risk')
+
+<script>
+    $(document).ready(function(){
+        console.log('ready log section form')
+        let section_form = '{{old('section_form')}}'
+        console.log(section_form)
+
+        switch (section_form) {
+            case 'dangerous-risk':
+                $('#dangerous-risk-tab-justified').click()
+                break;
+        
+            default:
+                break;
+        }
+    })
+</script>
+
 @endpush

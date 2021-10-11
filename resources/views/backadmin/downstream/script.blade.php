@@ -1,4 +1,8 @@
 <script>
+    function setSectionForm(section = "general"){
+        $('#section-form').val(section)
+    }
+
     function openInstitutionModal(state, id=null, item = {id:null}, institutionW=false){
         form.openInstitutionModal(state, id, item, institutionW)
     }
@@ -32,9 +36,10 @@
             }
         },
         created() {
+            // console.log("general")
             old = {!! json_encode(old()) !!};
             downstream = {!! json_encode($downstream) !!};
-            console.log(downstream)
+            // console.log(downstream)
             this.downstream = {
                 id: downstream.id ?? '',
                 title: old.title ?? downstream.title ?? '',
@@ -80,6 +85,10 @@
 
             $('select[name="type_notif"]').on('change', function(e){
                 form.downstream.type_notif = e.target.value
+            })
+
+            $('select[name="source_notif"]').on('change', function(e){
+                form.downstream.source_notif = e.target.value
             })
 
             $('#country_id').select2({
