@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username');
             $table->string('type'); // superadmin, admin, director (ncp), ccp, lccp
             $table->boolean('is_active')->default(true);
-            $table->string('email')->unique();
+            $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
