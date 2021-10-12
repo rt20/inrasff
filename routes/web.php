@@ -17,22 +17,22 @@ use App\Http\Controllers as Controller;
 
 Route::get('/', function () {
     return view('front.home');
-});
+})->name('home');
 Route::get('/news', function () {
     return view('front.news');
-});
+})->name('news');
 Route::get('/news/{slug}', function () {
     return view('front.news-detail');
-});
+})->name('news_detail');
 Route::get('/kementrian', function () {
     return view('front.kementrian');
-});
+})->name('kementrian');
 Route::get('/aboutus', function () {
     return view('front.aboutus');
-});
+})->name('aboutus');
 Route::get('/contactus', function () {
     return view('front.contactus');
-});
+})->name('contactus');
 
 Route::prefix('backadmin')->name('backadmin.')->group(function() {
 

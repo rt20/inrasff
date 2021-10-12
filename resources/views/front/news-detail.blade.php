@@ -38,22 +38,22 @@
 		@for($i=1;$i<=1;$i++)
 		<div>
 			<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full pb-4">
-			<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+			<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 		</div>
 		<div>
 			<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full pb-4">
-			<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+			<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 		</div>
 		<div>
 			<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full pb-4">
-			<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+			<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 		</div>
 		<div>
 			<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full pb-4">
-			<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+			<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 		</div>
 		@endfor
