@@ -17,7 +17,7 @@ class CreateSlidersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('location', 100)->unique();
-            $table->json('settings');
+            $table->text('settings');
             $table->timestamps();
         });
     }

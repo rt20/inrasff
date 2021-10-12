@@ -22,7 +22,7 @@ class CreateFollowUpNotificationsTable extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             
-            $table->json('history')->nullable();
+            $table->text('history')->nullable();
             $table->timestamps();
             $table->dateTime('accepted_at');
 
