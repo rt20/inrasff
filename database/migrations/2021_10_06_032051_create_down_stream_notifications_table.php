@@ -41,7 +41,7 @@ class CreateDownStreamNotificationsTable extends Migration
             // $table->string('mass');
             
 
-            $table->json('history')->nullable();
+            $table->text('history')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->dateTime('finished_at')->nullable();
