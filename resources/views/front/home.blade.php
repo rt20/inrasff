@@ -46,17 +46,17 @@
 				@for($i=1;$i<=2;$i++)
 				<div>
 					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full">
-					<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
 				<div>
 					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full">
-					<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
 				<div>
 					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full">
-					<a href="#" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
 				@endfor
@@ -68,37 +68,37 @@
 			<div class="text-base font-semibold mb-5">Supported By</div>
 			<div class="grid grid-cols-3 gap-4 mb-8">
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="http://www.pom.go.id/">
 						<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
 					</a>
 				</div>
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="https://www.kemenkeu.go.id/">
 						<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full">
 					</a>
 				</div>
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="http://www.kemendag.go.id/">
 						<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full">
 					</a>
 				</div>
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="http://www.pertanian.go.id/">
 						<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full">
 					</a>
 				</div>
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="http://www.kemenperin.go.id/">
 						<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full">
 					</a>
 				</div>
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="http://www.kkp.go.id/">
 						<img src="{{ asset('images/logo_kkp.png') }}" class="w-full">
 					</a>
 				</div>
 				<div class="bg-gray-300 p-3 rounded">
-					<a href="#">
+					<a href="http://www.depkes.go.id/">
 						<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
 					</a>
 				</div>
@@ -110,20 +110,20 @@
 			<div class="text-base font-semibold mb-5">Categories</div>
 			<ul class="list-disc list-inside space-y-3 mb-8" style="column-count: 2;">
 				@for($i=1;$i<=14;$i++)
-				<li><a href="#">Category {{ $i }}</a></li>
+				<li><a href="{{ route('news_detail',1) }}">Category {{ $i }}</a></li>
 				@endfor
 			</ul>
 
 			<div class="text-base font-semibold mb-5">Pictures</div>
 			<div class="grid grid-cols-5 gap-1">
 				@for($i=1;$i<=5;$i++)
-				<a href="#">
+				<a href="{{ route('home') }}">
 					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
 				</a>
-				<a href="#">
+				<a href="{{ route('home') }}">
 					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full rounded">
 				</a>
-				<a href="#">
+				<a href="{{ route('home') }}">
 					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
 				</a>
 				@endfor
