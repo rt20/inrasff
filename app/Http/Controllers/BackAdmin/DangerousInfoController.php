@@ -136,17 +136,17 @@ class DangerousInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit(DangerousInfo $dangerous)
-    public function edit($id)
+    public function edit(DangerousInfo $dangerousInfo)
+    // public function edit($id)
     {
-        $dangerous = DangerousInfo::find($id);
+        // $dangerous = DangerousInfo::find($id);
         // dd($dangerous);
         // return $dangerous->notification;
         // return $dangerous->di_type;
         // return str_replace('App\\Models\\', '', $dangerous->di_type);
         return view('backadmin.dangerous_info.form', [
             'title' => $dangerous->name,
-            'dangerous' => $dangerous,
+            'dangerous' => $dangerousInfo,
         ]);
     }
 
@@ -157,8 +157,8 @@ class DangerousInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, DangerousInfo $dangerous)
-    public function update(Request $request, $id)
+    public function update(Request $request, DangerousInfo $dangerousInfo)
+    // public function update(Request $request, $id)
     {
         $request->validate([
             'name' => ['required', 'max:255'],
@@ -167,8 +167,8 @@ class DangerousInfoController extends Controller
 
         try {
             DB::beginTransaction();
-            $dangerous = DangerousInfo::find($id);
-            $dangerous->fill($request->only(
+            // $dangerous = DangerousInfo::find($id);
+            $dangerousInfo->fill($request->only(
                 'name',
                 'category',
                 'name_result',
@@ -178,7 +178,7 @@ class DangerousInfoController extends Controller
                 'scope',
                 'max_tollerance',
             ));
-            $dangerous->update();
+            $dangerousInfo->update();
            
             DB::commit();
             
@@ -189,7 +189,7 @@ class DangerousInfoController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.dangerous_infos.edit', $dangerous->id)
+            ->route('backadmin.dangerous_infos.edit', $dangerousInfo->id)
             ->withSuccess('Info Bahaya berhasil diubah');
     }
 
@@ -199,14 +199,14 @@ class DangerousInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy(DangerousInfo $dangerous)
-    public function destroy($id)
+    public function destroy(DangerousInfo $dangerousInfo)
+    // public function destroy($id)
     {
         try {
             DB::beginTransaction();
-            $dangerous = DangerousInfo::find($id);
+            // $dangerous = DangerousInfo::find($id);
             // dd($dangerous);
-            $dangerous->delete();
+            $dangerousInfo->delete();
             DB::commit();
 
             return redirect()

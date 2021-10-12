@@ -125,16 +125,17 @@ class RiskInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit(RiskInfo $risk)
-    public function edit($id)
+    public function edit(RiskInfo $riskInfo)
+    // public function edit($id)
     {
 
+        // dd($riskInfo);
+        // $risk = RiskInfo::find($id);
         // dd($risk);
-        $risk = RiskInfo::find($id);
         // return $risk;
         return view('backadmin.risk_info.form', [
             'title' => "Edit Resiko",
-            'risk' => $risk,
+            'risk' => $riskInfo,
         ]);
     }
 
@@ -145,8 +146,8 @@ class RiskInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, RiskInfo $risk)
-    public function update(Request $request, $id)
+    public function update(Request $request, RiskInfo $riskInfo)
+    // public function update(Request $request, $id)
     {
         $request->validate([
             'distribution_status' => ['required', 'max:255'],
@@ -154,14 +155,14 @@ class RiskInfoController extends Controller
 
         try {
             DB::beginTransaction();
-            $risk = RiskInfo::find($id);
-            $risk->fill($request->only(
+            // $risk = RiskInfo::find($id);
+            $riskInfo->fill($request->only(
                 'distribution_status',
                 'serious_risk',
                 'victim',
                 'symptom'
             ));
-            $risk->update();
+            $riskInfo->update();
            
             DB::commit();
             
@@ -172,7 +173,7 @@ class RiskInfoController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.risk_infos.edit', $risk->id)
+            ->route('backadmin.risk_infos.edit', $riskInfo->id)
             ->withSuccess('Info Resiko berhasil diubah');
     }
 
@@ -182,13 +183,13 @@ class RiskInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy(RiskInfo $risk)
-    public function destroy($id)
+    public function destroy(RiskInfo $riskInfo)
+    // public function destroy($id)
     {
         try {
             DB::beginTransaction();
-            $risk = RiskInfo::find($id);
-            $risk->delete();
+            // $risk = RiskInfo::find($id);
+            $riskInfo->delete();
             DB::commit();
 
             return redirect()
