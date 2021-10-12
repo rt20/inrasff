@@ -53,6 +53,14 @@ class DownStreamNotification extends Model
         return $this->morphOne(DangerousRiskInfo::class, 'dri');
     }
 
+    public function dangerous(){
+        return $this->morphMany(DangerousInfo::class, 'di');
+    }
+
+    public function risks(){
+        return $this->morphMany(RiskInfo::class, 'ri');
+    }
+
     /**
      * @override save function for DownStreamNotification
      */
@@ -60,8 +68,8 @@ class DownStreamNotification extends Model
     public function save(array $options = []){
         
         parent::save();
-        if($this->dangerousRisk == null){
-            $this->dangerousRisk()->create();
-        }
+        // if($this->dangerousRisk == null){
+        //     $this->dangerousRisk()->create();
+        // }
     }
 }

@@ -35,11 +35,11 @@
         <div class="d-flex justify-content-between align-items-center">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a onclick="setSectionForm()" class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
+                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
                 </li>
                 @if($downstream->id != null)
                 <li class="nav-item">
-                    <a onclick="setSectionForm('dangerous-risk')" class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
+                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
                 </li>
                 @endif
             </ul>
@@ -47,7 +47,7 @@
         </div>
         <!-- Vertical Wizard -->
         <form method="post" id="form-main">
-            <input hidden readonly name="section_form" id="section-form" value="general">
+            {{-- <input hidden readonly name="section_form" id="section-form" value="general"> --}}
             @csrf
             @if ($downstream->id)
                 @method('PUT')
@@ -59,7 +59,8 @@
 
                 @if($downstream->id != null)
                 <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.dangerous_risk')
+                    {{-- @include('backadmin.downstream.dangerous_risk') --}}
+                    @include('backadmin.downstream.dangerous_risks')
                 </div>
                 @endif
 
@@ -117,7 +118,7 @@
 @push('page-js')
     {{-- <script src="{{ asset('backadmin/theme/js/scripts/forms/form-wizard.js') }}"></script> --}}
 @include('backadmin.downstream.script')
-@include('backadmin.downstream.script_dangerous_risk')
+{{-- @include('backadmin.downstream.script_dangerous_risk') --}}
 
 <script>
     $(document).ready(function(){

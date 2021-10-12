@@ -145,15 +145,15 @@ class DownStreamNotificationController extends Controller
          * - dangerous-risk
          */
 
-        switch ($request->section_form) {
-            case 'dangerous-risk':
-                $request->validate([
-                    'name_dangerous' => ['required', 'max:255'],
-                    'category_dangerous' => ['required', 'max:255'],
-                ]);
-                break;
+        // switch ($request->section_form) {
+        //     case 'dangerous-risk':
+        //         $request->validate([
+        //             'name_dangerous' => ['required', 'max:255'],
+        //             'category_dangerous' => ['required', 'max:255'],
+        //         ]);
+        //         break;
             
-            default:
+        //     default:
                 $request->validate([
                     'title' => ['required', 'max:255'],
                     'number_ref' => ['required', 'max:255'],
@@ -163,35 +163,35 @@ class DownStreamNotificationController extends Controller
                     'product_name' => ['required', 'max:255'],
                     'brand_name' => ['required', 'max:255'],
                 ]);
-                break;
-        }
+        //         break;
+        // }
 
         
         try {
-            if($request->section_form==null)
-                throw new Exception("Section Form Undefined", 1);
+            // if($request->section_form==null)
+            //     throw new Exception("Section Form Undefined", 1);
                 
             DB::beginTransaction();
-            switch ($request->section_form) {
-                case 'dangerous-risk':
-                    $downstream->dangerousRisk->fill($request->only(
-                        'name_dangerous',
-                        'category_dangerous',
-                        'name_result',
-                        'uom_result',
-                        'laboratorium',
-                        'matrix',
-                        'scope',
-                        'max_tollerance',
-                        'distribution_status',
-                        'serious_risk',
-                        'victim',
-                        'symptom'
-                    ));
-                    $downstream->dangerousRisk->update();
-                    break;
+            // switch ($request->section_form) {
+            //     case 'dangerous-risk':
+            //         $downstream->dangerousRisk->fill($request->only(
+            //             'name_dangerous',
+            //             'category_dangerous',
+            //             'name_result',
+            //             'uom_result',
+            //             'laboratorium',
+            //             'matrix',
+            //             'scope',
+            //             'max_tollerance',
+            //             'distribution_status',
+            //             'serious_risk',
+            //             'victim',
+            //             'symptom'
+            //         ));
+            //         $downstream->dangerousRisk->update();
+            //         break;
                 
-                default:
+            //     default:
                     $downstream->fill($request->only([
                         'notif_id',
                         'title',
@@ -211,8 +211,8 @@ class DownStreamNotificationController extends Controller
                     ]));
                     // return $downstream;
                     $downstream->update();
-                    break;
-            }
+            //         break;
+            // }
            
             DB::commit();
             

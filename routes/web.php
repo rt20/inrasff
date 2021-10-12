@@ -44,11 +44,13 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         });
 
         Route::resources([
+            'dangerous_infos' => BackAdmin\DangerousInfoController::class,
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'news' => BackAdmin\NewsController::class,
+            'risk_infos' => BackAdmin\RiskInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
         ]);
 
