@@ -99,7 +99,7 @@ class NotificationController extends Controller
             $notification->update();
         }
         return view('backadmin.notification.form', [
-            'title' => $notification->title,
+            'title' => $notification->number,
             'notification' => $notification,
         ]);
     }
@@ -150,6 +150,37 @@ class NotificationController extends Controller
             return redirect()
                 ->route('backadmin.notifications.index')
                 ->withSuccess('Notifikasi berhasil dihapus');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            report($e);
+
+            return redirect()->back()->withError($e->getMessage());
+        }
+    }
+
+    public function processDownstream(Request  $request, Notification $notification){
+        // return $notification;
+
+        try {
+            DB::beginTransaction();
+            
+            $downstream = $notification->downstream()->make([
+                'number_ref' => $notification->number,
+                'title' => 'Proses Downstream Dokumen '.$notification->number,
+                'number' => 'IN.DS'.Carbon::now()->format('Hisv')
+            ]);
+            $downstream->author_id =  auth()->user()->id;
+            // dd($downstream);
+            $downstream->save();
+            $notification->setStatus('processed', 'Diproses untuk Downstream '.$downstream->number);
+
+
+            DB::commit();
+
+            return redirect()
+                ->route('backadmin.downstreams.edit', $downstream->id)
+                ->withSuccess('Notifikasi berhasil diproses menjadi Downstream');
 
         } catch (Exception $e) {
             DB::rollBack();

@@ -13,7 +13,18 @@
 @section('actions')
     <button type="submit" form="form-main" formaction="{{ $notification->id ? route('backadmin.notifications.update', $notification->id) : route('backadmin.notifications.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
     @if ($notification->id)
-        <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+        {{-- <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="btn btn-secondary"><i class="mr-75" data-feather="check"></i></a> --}}
+        {{-- <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a> --}}
+        <div class="btn-group">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
+            </button>            
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">   
+                <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Downstream</a>
+                <a href="#" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Upstream</a>
+                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+            </div>
+        </div>
     @endif
 @endsection
 
@@ -35,7 +46,7 @@
     
                         <div class="row">
                             
-                            <div class="col-12 col-md-12 form-group">
+                            <div class="col-12 col-md-6 form-group">
                                 <label for="title" class="form-label required">Judul</label>
                                 <input type="text" 
                                     name="title"
@@ -44,6 +55,18 @@
                                     placeholder="Masukkan Judul" autocomplete="off">
                                 @error('title')
                                     <small class="text-danger">{{ $errors->first('title') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="number" class="form-label required">Nomor</label>
+                                <input type="text" 
+                                    name="number"
+                                    v-model="notification.number" 
+                                    class="form-control @error('number') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Judul" autocomplete="off">
+                                @error('number')
+                                    <small class="text-danger">{{ $errors->first('number') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
 
@@ -95,6 +118,30 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-process-downstream" tabindex="-1" role="dialog" aria-labelledby="modalProcessDownstream" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.notifications.process-downstream', $notification->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcess">Konfirmasi Proses Menjadi Downstream</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan membuat Notifikasi ini menjadi Notifikasi Downstream?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Proses Downstream</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @endif
 @endpush
 
@@ -124,7 +171,8 @@
             notification = {!! json_encode($notification) !!};
             console.log(notification)
             this.notification = {
-                title: old.title ?? notification.title ?? '',                
+                title: old.title ?? notification.title ?? '',     
+                number: old.number ?? notification.number ?? '',                
             }
 
             console.log(this.notification)

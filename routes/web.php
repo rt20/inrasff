@@ -58,6 +58,10 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
+        Route::prefix('notifications')->name('notifications.')->group(function() {
+            Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
+        });
+
         Route::resources([
             'border_control_infos' => BackAdmin\BorderControlInfoController::class,
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,
