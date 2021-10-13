@@ -174,7 +174,7 @@ class NotificationController extends Controller
             // dd($downstream);
             $downstream->save();
             $notification->setStatus('processed', 'Diproses untuk Downstream '.$downstream->number);
-
+            $notification->update();
 
             DB::commit();
 

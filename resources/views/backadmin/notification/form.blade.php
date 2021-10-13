@@ -11,7 +11,9 @@
 @endsection
 
 @section('actions')
+    @if (!in_array($notification->status, ['processed']))
     <button type="submit" form="form-main" formaction="{{ $notification->id ? route('backadmin.notifications.update', $notification->id) : route('backadmin.notifications.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endif
     @if ($notification->id)
         {{-- <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="btn btn-secondary"><i class="mr-75" data-feather="check"></i></a> --}}
         {{-- <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a> --}}
@@ -20,9 +22,12 @@
                 Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
             </button>            
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">   
+                @if (!in_array($notification->status, ['processed']))
                 <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Downstream</a>
                 <a href="#" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Upstream</a>
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif
+                <a href="{{route('backadmin.notifications.index')}}" class="dropdown-item"><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             </div>
         </div>
     @endif
@@ -190,6 +195,11 @@
                 height: 300
             };
             $('#summernote').summernote(summernote_config);
+
+            @if (in_array($notification->status, ['processed']))
+                $('.bi-form-main input, .bi-form-main select').prop('disabled', true);
+                $('#summernote').summernote('disable');
+            @endif
         },
         computed: {
 
