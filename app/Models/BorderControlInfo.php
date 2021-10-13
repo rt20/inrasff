@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class BorderControlInfo extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'start_point',
+        'entry_point',
+        'supervision_point',
+        'destination_country_id', //destination country
+        'consignee_name',
+        'consignee_address',
+        'container_number',
+        'transport_name',
+        'transport_description',
+    ];
+
+    public function notification()
+    {
+        return $this->morphTo(__FUNCTION__, 'bci_type', 'bci_id');
+    }
 }

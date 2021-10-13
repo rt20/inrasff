@@ -20,6 +20,7 @@
                 <thead>
                     <tr>
                         <th>Judul</th>
+                        <th>Nomor</th>
                         <th>Status</th>
                         <th>Tanggal Terbit</th>
                         <th class="bi-table-col-action-1">Aksi</th>
@@ -56,6 +57,7 @@
             processing: true,
             columns: [
                 { data: 'title' },
+                { data: 'number' },
                 { 
                     data: 'status' ,
                     className: 'text-center',

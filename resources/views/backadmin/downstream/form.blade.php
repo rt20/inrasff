@@ -41,6 +41,13 @@
                 <li class="nav-item">
                     <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">Keterlusuran</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">Kontrol Perbatasan</a>
+                </li>
                 @endif
             </ul>
             <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
@@ -61,6 +68,12 @@
                 <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
                     {{-- @include('backadmin.downstream.dangerous_risk') --}}
                     @include('backadmin.downstream.dangerous_risks')
+                </div>
+                <div class="tab-pane " id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.downstream.traceability_lots')
+                </div>
+                <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.downstream.border_controls')
                 </div>
                 @endif
 

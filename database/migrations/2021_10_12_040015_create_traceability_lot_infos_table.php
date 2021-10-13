@@ -21,7 +21,7 @@ class CreateTraceabilityLotInfosTable extends Migration
             $table->string('tli_type')->nullable();
             $table->unsignedBigInteger('tli_id')->nullable();
 
-            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('source_country_id')->nullable();
             $table->string('number')->nullable();
             /**
              * Date Information
@@ -53,7 +53,7 @@ class CreateTraceabilityLotInfosTable extends Migration
 
 
             $table->timestamps();
-            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('source_country_id')->references('id')->on('countries')->onDelete('cascade');
         });
     }
 

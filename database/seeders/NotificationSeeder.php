@@ -24,6 +24,7 @@ class NotificationSeeder extends Seeder
             array_push($notifications,
                 [
                     'title' => $faker->catchPhrase,
+                    'number' => $faker->creditCardNumber,
                     'description' => $faker->text,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),

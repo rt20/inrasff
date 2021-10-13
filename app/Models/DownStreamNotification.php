@@ -61,6 +61,15 @@ class DownStreamNotification extends Model
         return $this->morphMany(RiskInfo::class, 'ri');
     }
 
+    public function traceabilityLot(){
+        return $this->morphMany(TraceabilityLotInfo::class, 'tli');
+    }
+
+    public function borderControl(){
+        return $this->morphMany(BorderControlInfo::class, 'bci');
+    }
+    
+
     /**
      * @override save function for DownStreamNotification
      */

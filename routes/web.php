@@ -59,6 +59,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         });
 
         Route::resources([
+            'border_control_infos' => BackAdmin\BorderControlInfoController::class,
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
@@ -66,6 +67,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'news' => BackAdmin\NewsController::class,
             'risk_infos' => BackAdmin\RiskInfoController::class,
+            'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
         ]);
 
