@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>6. Kontrol Perbatasan</h4>
             {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
-            <a href="{{ route('backadmin.risk_infos.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+            <a href="{{ route('backadmin.border_control_infos.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
         </div>
         <table id="table-border-control" class="table table-striped table-bordered">
             <thead>
@@ -24,8 +24,8 @@
 
 @push('page-js')
 <script>
-    let url4 = "{{ route('backadmin.border_control_infos.edit', '__id') }}";
-    let icon4 = feather.icons['eye'].toSvg();
+    let url5 = "{{ route('backadmin.border_control_infos.edit', '__id') }}";
+    let icon5 = feather.icons['eye'].toSvg();
      $('#table-border-control').DataTable({
             ajax:{
                 url:"{{route('backadmin.border_control_infos.index')}}",
@@ -47,7 +47,7 @@
                     orderable: false,
                     searchable: false, 
                     render: function(data, type, row, meta) {
-                        return `<a href="`+url4.replace("__id", data)+`" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon4 + `</a>`
+                        return `<a href="`+url5.replace("__id", data)+`" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon5 + `</a>`
                     } 
                 }
             ],
