@@ -3,8 +3,9 @@
         
         <div class="d-flex justify-content-between align-items-center">
             <h4>4. Daftar Resiko</h4>
-            {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
+            @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
             <a href="{{ route('backadmin.risk_infos.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+            @endif
         </div>
         <table id="table-risk" class="table table-striped table-bordered">
             <thead>

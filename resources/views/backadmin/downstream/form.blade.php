@@ -22,11 +22,31 @@
 @endsection
 
 @section('actions')
+    @if (!in_array($downstream->status, ['ccp process', 'ext process', 'done']))
     <button type="submit" form="form-main" formaction="{{ $downstream->id ? route('backadmin.downstreams.update', $downstream->id) : route('backadmin.downstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
-    {{-- @if ($downstream->id) --}}
-        {{-- <a href="{{ route('backadmin.downstreams.setting', 0) }}" class="btn btn-secondary" ><i class="mr-75" data-feather="settings"></i>Pengaturan</a> --}}
-        <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
-    {{-- @endif --}}
+    @endif
+    @if ($downstream->id)
+        @if (in_array($downstream->status, ['open']))
+        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ccp"><i class="mr-75" data-feather="settings"></i>Proses CCP</a>
+        @endif
+        @if (in_array($downstream->status, ['ccp process']))
+        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ext"><i class="mr-75" data-feather="settings"></i>Proses Eksternal</a>
+        @endif
+        @if (in_array($downstream->status, ['ext process']))
+        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
+        @endif
+        <div class="btn-group">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
+            </button>    
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+                <a href="{{route('backadmin.downstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+                @if (!in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('content')
@@ -113,6 +133,78 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-process-ccp" tabindex="-1" role="dialog" aria-labelledby="modalProcessCcp" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.downstreams.process-ccp', $downstream->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcessCcp">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan memproses Downstream ini untuk CCP?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-process-ext" tabindex="-1" role="dialog" aria-labelledby="modalProcessCcp" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.downstreams.process-ext', $downstream->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcessCcp">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan memproses Downstream ini untuk Eksternal?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-done" tabindex="-1" role="dialog" aria-labelledby="modalProcessCcp" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.downstreams.done', $downstream->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcessCcp">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan menyelesaikan Downstream ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @endif
 @endpush
 
@@ -136,17 +228,10 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
-        let section_form = '{{old('section_form')}}'
-        console.log(section_form)
-
-        switch (section_form) {
-            case 'dangerous-risk':
-                $('#dangerous-risk-tab-justified').click()
-                break;
-        
-            default:
-                break;
-        }
+        @if (in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+            $('.bi-form-main input, .bi-form-main select').prop('disabled', true);
+            $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
     })
 </script>
 

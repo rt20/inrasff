@@ -62,6 +62,12 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
         });
 
+        Route::prefix('downstreams')->name('downstreams.')->group(function() {
+            Route::put('/{downstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
+            Route::put('/{downstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
+            Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
+        });
+
         Route::resources([
             'border_control_infos' => BackAdmin\BorderControlInfoController::class,
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,
