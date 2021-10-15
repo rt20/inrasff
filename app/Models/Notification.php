@@ -31,7 +31,7 @@ class Notification extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function downstream(): HasOne
+    public function downstream()
     {
         return $this->hasOne(DownStreamNotification::class, 'notif_id', 'id');
     }

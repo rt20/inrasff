@@ -49,5 +49,23 @@ class ViewComposerProvider extends ServiceProvider
                 'a_distribution_status' => $a_distribution_status
             ]);
         });
+
+        View::composer('backadmin.dangerous_info.form', function ($view) {
+            $a_dangerous_category = NotificationService::categoryDangerous();
+            $a_uom_result = NotificationService::uomResult();
+
+            $view->with([
+                'a_dangerous_category' => $a_dangerous_category,
+                'a_uom_result' => $a_uom_result,
+            ]);
+        });
+
+        View::composer('backadmin.risk_info.form', function ($view) {
+            $a_distribution_status = NotificationService::distributionStatus();
+
+            $view->with([
+                'a_distribution_status' => $a_distribution_status
+            ]);
+        });
     }
 }

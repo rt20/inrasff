@@ -139,80 +139,39 @@ class DownStreamNotificationController extends Controller
     public function update(Request $request, DownStreamNotification $downstream)
     {
         
-        /**
-         * Section Form
-         * - general (default)
-         * - dangerous-risk
-         */
-
-        switch ($request->section_form) {
-            case 'dangerous-risk':
-                $request->validate([
-                    'name_dangerous' => ['required', 'max:255'],
-                    'category_dangerous' => ['required', 'max:255'],
-                ]);
-                break;
-            
-            default:
-                $request->validate([
-                    'title' => ['required', 'max:255'],
-                    'number_ref' => ['required', 'max:255'],
-                    'status_notif' => ['required', 'max:255'],
-                    'origin_source_notif' => ['required', 'max:255'],
-                    'source_notif' => ['required', 'max:255'],
-                    'product_name' => ['required', 'max:255'],
-                    'brand_name' => ['required', 'max:255'],
-                ]);
-                break;
-        }
-
+        $request->validate([
+            'title' => ['required', 'max:255'],
+            'number_ref' => ['required', 'max:255'],
+            'status_notif' => ['required', 'max:255'],
+            'origin_source_notif' => ['required', 'max:255'],
+            'source_notif' => ['required', 'max:255'],
+            'product_name' => ['required', 'max:255'],
+            'brand_name' => ['required', 'max:255'],
+        ]);
         
         try {
-            if($request->section_form==null)
-                throw new Exception("Section Form Undefined", 1);
-                
             DB::beginTransaction();
-            switch ($request->section_form) {
-                case 'dangerous-risk':
-                    $downstream->dangerousRisk->fill($request->only(
-                        'name_dangerous',
-                        'category_dangerous',
-                        'name_result',
-                        'uom_result',
-                        'laboratorium',
-                        'matrix',
-                        'scope',
-                        'max_tollerance',
-                        'distribution_status',
-                        'serious_risk',
-                        'victim',
-                        'symptom'
-                    ));
-                    $downstream->dangerousRisk->update();
-                    break;
-                
-                default:
-                    $downstream->fill($request->only([
-                        'notif_id',
-                        'title',
-                        'number_ref',
-                        'status_notif',
-                        'type_notif',
-                        'country_id',
-                        'based_notif',
-                        'origin_source_notif',
-                        'source_notif',
-                        'date_notif',
-                        'product_name',
-                        'category_product_name',
-                        'brand_name',
-                        'registration_number',
-                        'package_product'
-                    ]));
-                    // return $downstream;
-                    $downstream->update();
-                    break;
-            }
+                $downstream->fill($request->only([
+                    'notif_id',
+                    'title',
+                    'number_ref',
+                    'status_notif',
+                    'type_notif',
+                    'country_id',
+                    'based_notif',
+                    'origin_source_notif',
+                    'source_notif',
+                    'date_notif',
+                    'product_name',
+                    'category_product_name',
+                    'brand_name',
+                    'registration_number',
+                    'package_product'
+                ]));
+                if ($downstream->isStatus('draft', false)) {
+                    $downstream->setStatus('open', 'Diupdate dari draft');
+                }
+                $downstream->update();
            
             DB::commit();
             
@@ -225,6 +184,70 @@ class DownStreamNotificationController extends Controller
         return redirect()
             ->route('backadmin.downstreams.edit', $downstream->id)
             ->withSuccess('Downstream berhasil dibuat');
+    }
+
+    public function processCcp(Request $request, DownStreamNotification $downstream)
+    {
+        
+        try {
+            DB::beginTransaction();
+                // dd($downstream);
+                $downstream->isStatus('open');
+                $downstream->setStatus('ccp process', 'Diproses untuk CCP ');
+                $downstream->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.downstreams.edit', $downstream->id)
+            ->withSuccess('Downstream berhasil diproses untuk CCP');
+    }
+
+    public function processExt(Request $request, DownStreamNotification $downstream)
+    {
+        try {
+            DB::beginTransaction();
+                // dd($downstream);
+                $downstream->isStatus('ccp process');
+                $downstream->setStatus('ext process', 'Diproses untuk Eksternal ');
+                $downstream->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.downstreams.edit', $downstream->id)
+            ->withSuccess('Downstream berhasil diproses untuk Eksternal');
+    }
+
+    public function done(Request $request, DownStreamNotification $downstream)
+    {
+        try {
+            DB::beginTransaction();
+                // dd($downstream);
+                $downstream->isStatus('ext process');
+                $downstream->setStatus('done', 'Diselesaikan ', 'finished_at');
+                $downstream->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.downstreams.edit', $downstream->id)
+            ->withSuccess('Downstream berhasil diselesaikan');
     }
 
     /**

@@ -39,6 +39,8 @@ class CreateDownStreamNotificationsTable extends Migration
             $table->string('package_product')->nullable();
             $table->string('registration_number')->nullable();
             // $table->string('mass');
+
+            /** Section 7 Additional Information */
             
 
             $table->text('history')->nullable();

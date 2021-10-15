@@ -33,6 +33,7 @@ class DownStreamNotification extends Model
 
     protected $appends = [ 'status_label', 'status_class',];
     private $states = [
+        'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
         'open' => [ 'label' => 'Dibuka', 'class' => 'info' ],
         'ccp process' => [ 'label' => 'Proses CCP', 'class' => 'warning' ],
         'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
@@ -53,6 +54,27 @@ class DownStreamNotification extends Model
         return $this->morphOne(DangerousRiskInfo::class, 'dri');
     }
 
+    public function dangerous(){
+        return $this->morphMany(DangerousInfo::class, 'di');
+    }
+
+    public function risks(){
+        return $this->morphMany(RiskInfo::class, 'ri');
+    }
+
+    public function traceabilityLot(){
+        return $this->morphMany(TraceabilityLotInfo::class, 'tli');
+    }
+
+    public function borderControl(){
+        return $this->morphMany(BorderControlInfo::class, 'bci');
+    }
+
+    public function followUp(){
+        return $this->morphMany(FollowUpNotification::class, 'fun');
+    }
+    
+
     /**
      * @override save function for DownStreamNotification
      */
@@ -60,8 +82,8 @@ class DownStreamNotification extends Model
     public function save(array $options = []){
         
         parent::save();
-        if($this->dangerousRisk == null){
-            $this->dangerousRisk()->create();
-        }
+        // if($this->dangerousRisk == null){
+        //     $this->dangerousRisk()->create();
+        // }
     }
 }

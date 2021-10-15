@@ -9,10 +9,10 @@
 @section('body')
 <section class="container px-3 lg:mx-auto mt-16 lg:mt-44">
 	<div class="flex items-center py-3 text-center leading-5">
-		<div class="text-white bg-red-500 rounded uppercase px-3 py-1 font-semibold mr-3">
+		<div class="text-white bg-tertiary rounded uppercase px-3 py-1 font-semibold mr-3">
 			breaking news
 		</div>
-		<div class="text-red-500 leading-5">
+		<div class="text-tertiary leading-5">
 			Apa itu konteks dan mengapa hal itu penting dalam pembuatan produk digital?
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 	</div> --}}
 </section>
 
-<section class="w-full" style="background: #282828;">
+<section class="w-full bg-secondary">
 	<div class="container px-3 lg:mx-auto py-10">
 		<img src="{{ asset('images/klik_banner.png') }}" class="w-full">
 	</div>
@@ -35,7 +35,7 @@
 	<div class="grid grid-cols-1 lg:grid-cols-6 gap-6 w-full">
 		<div class="lg:col-span-4">
 			<img src="{{ asset('seeder/image_4.jpg') }}" class="w-full">
-			<button class="text-white bg-red-500 rounded px-6 py-2 my-6 font-semibold text-xs">World</button>
+			<button class="text-white bg-tertiary rounded px-6 py-2 my-6 font-semibold text-xs">World</button>
 			<div class="font-semibold text-2xl leading-normal">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
 			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 			<div class="text-gray-400 text-sm pb-6 leading-normal">
@@ -67,37 +67,37 @@
 
 			<div class="text-base font-semibold mb-5">Supported By</div>
 			<div class="grid grid-cols-3 gap-4 mb-8">
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.pom.go.id/">
 						<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
 					</a>
 				</div>
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="https://www.kemenkeu.go.id/">
 						<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full">
 					</a>
 				</div>
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.kemendag.go.id/">
 						<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full">
 					</a>
 				</div>
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.pertanian.go.id/">
 						<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full">
 					</a>
 				</div>
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.kemenperin.go.id/">
 						<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full">
 					</a>
 				</div>
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.kkp.go.id/">
 						<img src="{{ asset('images/logo_kkp.png') }}" class="w-full">
 					</a>
 				</div>
-				<div class="bg-gray-300 p-3 rounded">
+				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.depkes.go.id/">
 						<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
 					</a>
@@ -132,7 +132,7 @@
 	</div>
 </section>
 
-<section class="bg-gray-200 py-8">
+<section class="bg-gray-100 py-8">
 	<div class="container px-3 lg:mx-auto">
 		<div class="text-xl font-bold uppercase pb-6">statistik</div>
 		<img src="{{ asset('images/statistik.png') }}" class="w-full rounded">

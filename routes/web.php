@@ -58,12 +58,32 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
+        Route::prefix('notifications')->name('notifications.')->group(function() {
+            Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
+        });
+
+        Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
+            Route::post('/add-attachment', [BackAdmin\FollowUpNotificationController::class, 'addAttachment'])->name('add-attachment');
+            Route::delete('{id}/delete-attachment', [BackAdmin\FollowUpNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+        });
+
+        Route::prefix('downstreams')->name('downstreams.')->group(function() {
+            Route::put('/{downstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
+            Route::put('/{downstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
+            Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
+        });
+
         Route::resources([
+            'border_control_infos' => BackAdmin\BorderControlInfoController::class,
+            'dangerous_infos' => BackAdmin\DangerousInfoController::class,
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
+            'follow_ups' => BackAdmin\FollowUpNotificationController::class,
             'news' => BackAdmin\NewsController::class,
+            'risk_infos' => BackAdmin\RiskInfoController::class,
+            'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
         ]);
 
@@ -77,6 +97,10 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         Route::prefix('s2init')->name('s2Init.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Init'])->name('countries');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Init'])->name('institutions');
+        });
+
+        Route::prefix('datatables')->name('dt.')->group(function () {
+            Route::get('attachment-fu', [BackAdmin\FollowUpNotificationController::class, 'attachmentDataTable'])->name('attachment_fu');
         });
     });
 });

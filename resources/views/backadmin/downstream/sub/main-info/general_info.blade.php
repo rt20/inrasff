@@ -151,7 +151,7 @@
         <hr>
         <div class="d-flex justify-content-between align-items-center">
             <label for="title" class="form-label">Instansi yang perlu menindaklanjuti</label>
-            @if($downstream->id !== null)
+            @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                 <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
         </div>
@@ -178,7 +178,7 @@
         <hr>
         <div class="d-flex justify-content-between align-items-center">
             <label for="title" class="form-label"> Instansi lain yang terkait</label>
-            @if($downstream->id !== null)
+            @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                 <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
         </div>
