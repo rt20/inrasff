@@ -45,17 +45,17 @@
 			<div class="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 w-full">
 				@for($i=1;$i<=2;$i++)
 				<div>
-					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full">
+					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full mb-2">
 					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
 				<div>
-					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full">
+					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full mb-2">
 					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
 				<div>
-					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full">
+					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full mb-2">
 					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
 					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
 				</div>
@@ -115,7 +115,7 @@
 			</ul>
 
 			<div class="text-base font-semibold mb-5">Pictures</div>
-			<div class="grid grid-cols-5 gap-1">
+			<div class="grid grid-cols-5 gap-1 mb-8">
 				@for($i=1;$i<=5;$i++)
 				<a href="{{ route('home') }}">
 					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
@@ -127,6 +127,19 @@
 					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
 				</a>
 				@endfor
+			</div>
+
+			<div class="text-base font-semibold mb-5">Related Link</div>
+			<div class="break-all leading-normal">
+				<div class="mb-2 font-bold text-primary">
+					<a href="http://www.who.int/foodsafety/fs_management/infosan/en/">http://www.who.int/foodsafety/fs_management/infosan/en/</a>
+				</div>
+				<div class="mb-2 font-bold text-primary">
+					<a href="https://webgate.ec.europa.eu/rasff-window/portal">https://webgate.ec.europa.eu/rasff-window/portal</a>
+				</div>
+				<div class="mb-2 font-bold text-primary">
+					<a href="http://www.arasff.net/">http://www.arasff.net/</a>
+				</div>
 			</div>
 		</div>
 	</div>
