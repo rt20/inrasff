@@ -51,7 +51,7 @@
         </div>
         <hr>
         <div class="bg-primary text-white">
-            <div class="container mx-auto top-menu flex justify-between items-center py-1">
+            <div class="container mx-auto top-menu flex justify-between items-center py-2">
                 <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false }">
                     <a href="{{ route('home') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Home</a>
                     <a href="{{ route('news') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>
