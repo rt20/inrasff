@@ -195,6 +195,7 @@ class FollowUpNotificationController extends Controller
         try {
             DB::beginTransaction();
             // $follow_up = FollowUpNotification::find($id);
+            $followUp->attachment()->delete();
             $followUp->delete();
             DB::commit();
 
