@@ -28,4 +28,14 @@ class FollowUpNotification extends Model
     {
         return $this->morphTo(__FUNCTION__, 'fun_type', 'fun_id');
     }
+
+    /**
+     * Get all of the attachment for the FollowUpNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attachment()
+    {
+        return $this->hasMany(FollowUpNotificationAttachment::class, 'fun_id', 'id');
+    }
 }

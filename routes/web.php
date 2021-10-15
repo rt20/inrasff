@@ -62,6 +62,11 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
         });
 
+        Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
+            Route::post('/add-attachment', [BackAdmin\FollowUpNotificationController::class, 'addAttachment'])->name('add-attachment');
+            Route::delete('{id}/delete-attachment', [BackAdmin\FollowUpNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+        });
+
         Route::prefix('downstreams')->name('downstreams.')->group(function() {
             Route::put('/{downstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
             Route::put('/{downstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
@@ -92,6 +97,10 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         Route::prefix('s2init')->name('s2Init.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Init'])->name('countries');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Init'])->name('institutions');
+        });
+
+        Route::prefix('datatables')->name('dt.')->group(function () {
+            Route::get('attachment-fu', [BackAdmin\FollowUpNotificationController::class, 'attachmentDataTable'])->name('attachment_fu');
         });
     });
 });

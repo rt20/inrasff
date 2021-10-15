@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
 use App\Models\FollowUpNotification;
+use App\Models\FollowUpNotificationAttachment;
 
 use Exception;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+
+use UploadFile;
 
 class FollowUpNotificationController extends Controller
 {
@@ -35,6 +40,17 @@ class FollowUpNotificationController extends Controller
             return DataTables::of($bci->get())->make();
         }
 
+        return ;
+    }
+
+    public function attachmentDataTable(Request $request){
+        // if($request->ajax()){
+            $a = FollowUpNotificationAttachment::query();
+            if($request->has('fun_id')){
+                $a = $a->where('fun_id', $request->fun_id);
+            }
+            return DataTables::of($a)->make();
+        // }
         return ;
     }
 
@@ -191,6 +207,72 @@ class FollowUpNotificationController extends Controller
             report($e);
 
             return redirect()->back()->withError($e->getMessage());
+        }
+    }
+
+    public function addAttachment(Request $request){
+        $validator = Validator::make($request->all(), [
+            'fun_id' => ['required'],
+            'attachment' => ['required', 'max:2048'],
+        ]);
+
+        try {
+            DB::beginTransaction();
+            if($validator->fails())
+                throw new Exception(implode($validator->messages()->all()));
+            $attachment = FollowUpNotificationAttachment::make($request->only([
+                'fun_id'
+            ]));
+            $name = '';
+            $res = UploadFile::uploadFile(
+                $request->file('attachment'),
+                'follow_up/attachment/',
+                'FU-'.Carbon::now()->format('Hisv'),
+                function($new_name) use (&$name){
+                    $name = $new_name;                    
+                }
+            );
+            if($res !== "All Process success"){
+                throw new Exception($res);
+            }
+            $attachment->title = $name;
+            $attachment->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 400);    
+        }
+        return response()->json([
+            'status' => 'ok',
+            'message' => ''
+        ], 200);
+    }
+
+    public function deleteAttachment($id){
+        try {
+            DB::beginTransaction();
+            $a = FollowUpNotificationAttachment::find($id);
+            // if($a->title != null){
+                // File::delete(storage_path('app/public/follow_up/attachment/'.$a->title));
+            // }
+            $a->delete();
+            DB::commit();
+            return response()->json([
+                'status' => 'ok',
+                'message' => '',
+            ], 201);
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                
+            ], 400);
         }
     }
 }
