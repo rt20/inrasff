@@ -1,0 +1,60 @@
+<div class="row" id="risk-section">
+    <div class="col-12 col-md-12 form-group">
+        
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>6. Kontrol Perbatasan</h4>
+            {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
+            @if($downstream->id !== null && in_array($downstream->status, ['ccp process']))
+            <a href="{{ route('backadmin.follow_ups.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+            @endif
+        </div>
+        <table id="table-follow-up" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Penindak Lanjut</th>
+                    <th>Lembaga / CCP</th>
+                    <th>Tanggal Tindak Lanjut</th>
+                    <th>Status</th>
+                    <th class="bi-table-col-action-1">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@push('page-js')
+<script>
+    let url6 = "{{ route('backadmin.follow_ups.edit', '__id') }}";
+    let icon6 = feather.icons['eye'].toSvg();
+     $('#table-follow-up').DataTable({
+            ajax:{
+                url:"{{route('backadmin.follow_ups.index')}}",
+                data: function(data) {
+                    data.for_downstream = 1
+                    data.bci_id = '{{$downstream->id}}'
+                }
+            },
+            serverSide: true,
+            processing: true,
+            columns: [
+                { data: 'title' },
+                { data: 'title' },
+                { data: 'title' },
+                { data: 'status' },                
+                {
+                    data: 'id',
+                    className: 'text-center',
+                    orderable: false,
+                    searchable: false, 
+                    render: function(data, type, row, meta) {
+                        return `<a href="`+url5.replace("__id", data)+`" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon5 + `</a>`
+                    } 
+                }
+            ],
+            order: [[0, 'desc']],
+            language: dtLangId
+        })
+</script>
+@endpush

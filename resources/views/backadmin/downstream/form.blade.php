@@ -68,6 +68,12 @@
                 <li class="nav-item">
                     <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">Kontrol Perbatasan</a>
                 </li>
+                
+                @if(!$downstream->isStatus('open', false))
+                <li class="nav-item">
+                    <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">Tindak Lanjut</a>
+                </li>
+                @endif
                 @endif
             </ul>
             <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
@@ -81,20 +87,25 @@
             @endif
             <div class="tab-content pt-1">
                 <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.general')
+                    @include('backadmin.downstream.tab.general')
                 </div>
 
                 @if($downstream->id != null)
                 <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
                     {{-- @include('backadmin.downstream.dangerous_risk') --}}
-                    @include('backadmin.downstream.dangerous_risks')
+                    @include('backadmin.downstream.tab.dangerous_risks')
                 </div>
                 <div class="tab-pane " id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.traceability_lots')
+                    @include('backadmin.downstream.tab.traceability_lots')
                 </div>
                 <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.border_controls')
+                    @include('backadmin.downstream.tab.border_controls')
                 </div>
+                @if(!$downstream->isStatus('open', false))
+                <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.downstream.tab.follow_ups')
+                </div>
+                @endif
                 @endif
 
                 {{-- <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">

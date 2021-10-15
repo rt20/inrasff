@@ -75,6 +75,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'notifications' => BackAdmin\NotificationController::class,
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
+            'follow_ups' => BackAdmin\FollowUpNotificationController::class,
             'news' => BackAdmin\NewsController::class,
             'risk_infos' => BackAdmin\RiskInfoController::class,
             'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,

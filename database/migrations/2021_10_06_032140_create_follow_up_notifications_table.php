@@ -15,7 +15,12 @@ class CreateFollowUpNotificationsTable extends Migration
     {
         Schema::create('follow_up_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ds_id'); // down streaam id
+            /**
+             * Morph for Downstream and Upstream
+             */
+            $table->string('fun_type')->nullable();
+            $table->unsignedBigInteger('fun_id')->nullable();
+            // $table->unsignedBigInteger('ds_id'); // down streaam id
             $table->unsignedBigInteger('author_id');
             $table->string('status')->default('draft'); // draft, on process, accepted, rejected
             
@@ -26,7 +31,7 @@ class CreateFollowUpNotificationsTable extends Migration
             $table->timestamps();
             $table->dateTime('accepted_at');
 
-            $table->foreign('ds_id')->references('id')->on('down_stream_notifications')->onDelete('cascade');
+            // $table->foreign('ds_id')->references('id')->on('down_stream_notifications')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

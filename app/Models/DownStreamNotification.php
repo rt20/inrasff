@@ -33,6 +33,7 @@ class DownStreamNotification extends Model
 
     protected $appends = [ 'status_label', 'status_class',];
     private $states = [
+        'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
         'open' => [ 'label' => 'Dibuka', 'class' => 'info' ],
         'ccp process' => [ 'label' => 'Proses CCP', 'class' => 'warning' ],
         'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
@@ -67,6 +68,10 @@ class DownStreamNotification extends Model
 
     public function borderControl(){
         return $this->morphMany(BorderControlInfo::class, 'bci');
+    }
+
+    public function followUp(){
+        return $this->morphMany(FollowUpNotification::class, 'fun');
     }
     
 
