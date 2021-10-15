@@ -33,13 +33,13 @@
 		@endfor
 	</div>
 	<div class="text-center flex gap-5 justify-center items-center">
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-blue-800 p-1"><</a>
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white bg-blue-800 text-white p-1">1</a>
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-blue-800 p-1">2</a>
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-blue-800 p-1">3</a>
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-blue-800 p-1">4</a>
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-blue-800 p-1">5</a>
-		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-blue-800 p-1">></a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-primary p-1"><</a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white bg-primary text-white p-1">1</a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-primary p-1">2</a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-primary p-1">3</a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-primary p-1">4</a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-primary p-1">5</a>
+		<a href="#" class="flex items-center h-7 w-7 justify-center rounded-full hover:bg-blue-400 hover:text-white text-primary p-1">></a>
 	</div>
 </section>
 @endsection
