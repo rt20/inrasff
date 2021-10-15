@@ -1,5 +1,5 @@
 <footer class="text-white w-full">
-    <div class="bg-blue-800 py-6">
+    <div class="bg-secondary py-6">
         <div class="container mx-auto py-12 px-4 sm:px-6">
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="xl:col-span-1">
@@ -138,7 +138,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-blue-900 py-3">
+    <div class="bg-secondary_dark py-3">
         <div class="container text-center lg:flex mx-auto px-6 px-0 lg:justify-between lg:items-center">
             <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Copyrights © {{ date('Y') }} All Rights Reserved INRASFF</span>
             <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Badan Pengawasan Obat dan Makanan Republik Indonesia</span>
