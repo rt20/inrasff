@@ -72,8 +72,8 @@
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="text-xl font-bold mb-8">Frequently Asked Questions</div>
 	<div x-data={show:false}>
-		<div class="flex justify-between items-center mb-5 py-4 border-b-2 border-gray-200 leading-normal cursor-pointer" 
-			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b-2': !show }">
+		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
@@ -85,13 +85,13 @@
 			
 			</div>
 		</div> 
-		<div x-show="show" class="border-b-2 text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+		<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
 	<div x-data={show:false}>
-		<div class="flex justify-between items-center mb-5 py-4 border-b-2 border-gray-200 leading-normal cursor-pointer" 
-			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b-2': !show }">
+		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
@@ -103,13 +103,13 @@
 			
 			</div>
 		</div> 
-		<div x-show="show" class="border-b-2 text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+		<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
 	<div x-data={show:false}>
-		<div class="flex justify-between items-center mb-5 py-4 border-b-2 border-gray-200 leading-normal cursor-pointer" 
-			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b-2': !show }">
+		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
@@ -121,13 +121,13 @@
 			
 			</div>
 		</div> 
-		<div x-show="show" class="border-b-2 text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+		<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
 	<div x-data={show:false}>
-		<div class="flex justify-between items-center mb-5 py-4 border-b-2 border-gray-200 leading-normal cursor-pointer" 
-			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b-2': !show }">
+		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
@@ -139,13 +139,13 @@
 			
 			</div>
 		</div> 
-		<div x-show="show" class="border-b-2 text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+		<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
 	<div x-data={show:false}>
-		<div class="flex justify-between items-center mb-5 py-4 border-b-2 border-gray-200 leading-normal cursor-pointer" 
-			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b-2': !show }">
+		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
@@ -157,13 +157,13 @@
 			
 			</div>
 		</div> 
-		<div x-show="show" class="border-b-2 text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+		<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
 	<div x-data={show:false}>
-		<div class="flex justify-between items-center mb-5 py-4 border-b-2 border-gray-200 leading-normal cursor-pointer" 
-			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b-2': !show }">
+		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
@@ -175,7 +175,7 @@
 			
 			</div>
 		</div> 
-		<div x-show="show" class="border-b-2 text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+		<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
