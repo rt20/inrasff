@@ -57,7 +57,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
                 </li>
-                @if($downstream->id != null)
+                @if($downstream->id != null && !$downstream->isStatus('draft', false))
                 <li class="nav-item">
                     <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
                 </li>
@@ -69,11 +69,11 @@
                     <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">Kontrol Perbatasan</a>
                 </li>
                 
-                @if(!$downstream->isStatus('open', false))
-                <li class="nav-item">
-                    <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">Tindak Lanjut</a>
-                </li>
-                @endif
+                    @if(!$downstream->isStatus('open', false))
+                    <li class="nav-item">
+                        <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">Tindak Lanjut</a>
+                    </li>
+                    @endif
                 @endif
             </ul>
             <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
@@ -222,6 +222,8 @@
 @section('vendor-js')
     @include('backadmin.layouts.script_datatables')
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/id.min.js" integrity="sha512-he8U4ic6kf3kustvJfiERUpojM8barHoz0WYpAUDWQVn61efpm3aVAD8RWL8OloaDDzMZ1gZiubF9OSdYBqHfQ==" crossorigin="anonymous"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/wizard/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>

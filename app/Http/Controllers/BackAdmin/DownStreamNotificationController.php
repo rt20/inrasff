@@ -168,6 +168,9 @@ class DownStreamNotificationController extends Controller
                     'registration_number',
                     'package_product'
                 ]));
+                if ($downstream->isStatus('draft', false)) {
+                    $downstream->setStatus('open', 'Diupdate dari draft');
+                }
                 $downstream->update();
            
             DB::commit();

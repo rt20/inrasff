@@ -50,7 +50,7 @@ class FollowUpNotificationController extends Controller
         
         
         $follow_up = new FollowUpNotification;
-        return view('backadmin.follow_up_info.form', [
+        return view('backadmin.follow_up.form', [
             'title' => 'Tambah Tindak Lanjut',
             'follow_up' => $follow_up,
         ]);
@@ -91,6 +91,7 @@ class FollowUpNotificationController extends Controller
                 'title',
                 'description',
             ));
+            $follow_up->author_id = auth()->user()->id;
             $follow_up->save();
            
             DB::commit();
@@ -102,7 +103,7 @@ class FollowUpNotificationController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.follow_up_infos.edit', $follow_up->id)
+            ->route('backadmin.follow_ups.edit', $follow_up->id)
             ->withSuccess('Info Tindak Lanjut berhasil dibuat');
     }
 
@@ -126,7 +127,7 @@ class FollowUpNotificationController extends Controller
     public function edit(FollowUpNotification $followUp)
     // public function edit($id)
     {
-        return view('backadmin.follow_up_info.form', [
+        return view('backadmin.follow_up.form', [
             'title' => "Edit Tindak Lanjut",
             'follow_up' => $followUp,
         ]);
@@ -163,7 +164,7 @@ class FollowUpNotificationController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.follow_up_infos.edit', $followUp->id)
+            ->route('backadmin.follow_ups.edit', $followUp->id)
             ->withSuccess('Info Tindak Lanjut berhasil diubah');
     }
 
@@ -182,7 +183,7 @@ class FollowUpNotificationController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('backadmin.follow_up_infos.index')
+                ->route('backadmin.follow_ups.index')
                 ->withSuccess('Info Tindak Lanjut berhasil dihapus');
 
         } catch (Exception $e) {

@@ -171,6 +171,7 @@ class NotificationController extends Controller
                 'number' => 'IN.DS'.Carbon::now()->format('Hisv')
             ]);
             $downstream->author_id =  auth()->user()->id;
+            $downstream->setStatus('draft', 'Dibuat untuk Proses Downstream Dokumen'.$notification->number);
             // dd($downstream);
             $downstream->save();
             $notification->setStatus('processed', 'Diproses untuk Downstream '.$downstream->number);

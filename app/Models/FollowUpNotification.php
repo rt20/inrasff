@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FollowUpNotification extends Model
 {
-    use HasFactory;
+    use HasFactory, HasHistory, HasStatus;
     
     protected $fillable = [
         'title',

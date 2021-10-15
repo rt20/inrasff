@@ -41,8 +41,19 @@
             columns: [
                 { data: 'title' },
                 { data: 'title' },
-                { data: 'title' },
-                { data: 'status' },                
+                { 
+                    data: 'created_at',
+                    render: function(data, type, row, meta) {
+                        return moment(data).format('D MMMM YYYY HH:mm:ss')
+                    } 
+                },
+                { 
+                    data: 'status' ,
+                    className: 'text-center',
+                    render: function(data,type,row,meta){
+                        return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                    }
+                },             
                 {
                     data: 'id',
                     className: 'text-center',

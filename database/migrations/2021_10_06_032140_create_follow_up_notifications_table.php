@@ -29,7 +29,7 @@ class CreateFollowUpNotificationsTable extends Migration
             
             $table->text('history')->nullable();
             $table->timestamps();
-            $table->dateTime('accepted_at');
+            $table->dateTime('accepted_at')->nullable();
 
             // $table->foreign('ds_id')->references('id')->on('down_stream_notifications')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
