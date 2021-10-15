@@ -9,7 +9,7 @@
 @section('body')
 <section class="container px-3 lg:mx-auto mt-20 lg:mt-44">
 	<div class="grid grid-cols-12 items-center py-3 leading-5 mt-3">
-		<div class="col-span-4 lg:col-span-2 text-xs lg:text-base text-white bg-tertiary rounded uppercase lg:px-3 py-1 font-semibold text-center mx-auto">
+		<div class="col-span-4 lg:col-span-2 text-xs lg:text-base text-white bg-tertiary rounded uppercase px-2 lg:px-3 py-1 font-semibold text-center mx-auto">
 			breaking news
 		</div>
 		<marquee direction="left" class="col-span-8 lg:col-span-10 text-tertiary text-left">
