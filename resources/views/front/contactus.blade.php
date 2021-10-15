@@ -48,21 +48,21 @@
 		<div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
 			<div>
 				<div class="py-4">
-					<div class="text-base font-regular text-gray-400 mb-3">Your Name</div>
-					<input type="text" name="name" class="w-full h-12 border border-gray-200 rounded">
+					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your Name</div>
+					<input type="text" name="name" class="w-full h-12 border border-gray-200 rounded p-4">
 				</div>
 				<div class="py-4">
-					<div class="text-base font-regular text-gray-400 mb-3">Your E-mail</div>
-					<input type="email" name="email" class="w-full h-12 border border-gray-200 rounded">
+					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your E-mail</div>
+					<input type="email" name="email" class="w-full h-12 border border-gray-200 rounded p-4">
 				</div>
 			</div>
 			<div>
 				<div class="py-4">
-					<div class="text-base font-regular text-gray-400 mb-3">Your Message</div>
-					<input type="text" name="name" class="w-full h-36 border border-gray-200 rounded">
+					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your Message</div>
+					<textarea type="text" name="name" class="w-full h-36 border border-gray-200 rounded p-4"></textarea>
 				</div>
 				<div class="py-4 text-center lg:text-left">
-					<button type="submit" class="bg-secondary text-white text-sm tracking-wide uppercase rounded px-8 py-4">Send Message</button>
+					<button type="submit" class="bg-secondary text-white text-xs lg:text-sm tracking-wide uppercase rounded px-8 py-4">Send Message</button>
 				</div>
 			</div>
 		</div>
@@ -77,7 +77,7 @@
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
-			<div class="font-semibold text-base lg:text-lg">
+			<div class="font-semibold text-base lg:text-lg mx-3">
 				
 				<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
 
@@ -95,7 +95,7 @@
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
-			<div class="font-semibold text-base lg:text-lg">
+			<div class="font-semibold text-base lg:text-lg mx-3">
 				
 				<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
 
@@ -113,7 +113,7 @@
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
-			<div class="font-semibold text-base lg:text-lg">
+			<div class="font-semibold text-base lg:text-lg mx-3">
 				
 				<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
 
@@ -131,7 +131,7 @@
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
-			<div class="font-semibold text-base lg:text-lg">
+			<div class="font-semibold text-base lg:text-lg mx-3">
 				
 				<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
 
@@ -149,7 +149,7 @@
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
-			<div class="font-semibold text-base lg:text-lg">
+			<div class="font-semibold text-base lg:text-lg mx-3">
 				
 				<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
 
@@ -167,7 +167,7 @@
 			<div class="font-semibold text-base lg:text-lg">
 				Curabitur eget leo at velit imperdiet viaculis vitaes?
 			</div>
-			<div class="font-semibold text-base lg:text-lg">
+			<div class="font-semibold text-base lg:text-lg mx-3">
 				
 				<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
 
