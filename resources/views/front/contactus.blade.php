@@ -20,24 +20,24 @@
 <section class="container px-3 py-8 lg:mx-auto"> 
 	<div class="grid grid-cols-2 gap-6 lg:gap-0 lg:grid-cols-4 justify-center items-center">
 		<div class="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-facebook h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt-fill h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
 			<div class="text-black text-sm lg:text-xl font-bold mb-3">Contact Info</div>
-			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">123 Wall Street, New York / NY</div>
+			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5 leading-normal">Jalan Percetakan Negara Nomor 23 <br> Jakarta - 10560 - Indonesia</div>
 		</div>
 		<div class="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-facebook h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg>
-			<div class="text-black text-sm lg:text-xl font-bold mb-3">Contact Info</div>
-			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">123 Wall Street, New York / NY</div>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-phone-fill h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/></svg>
+			<div class="text-black text-sm lg:text-xl font-bold mb-3">Phone Number</div>
+			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">+6221 426333</div>
 		</div>
 		<div class="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-facebook h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg>
-			<div class="text-black text-sm lg:text-xl font-bold mb-3">Contact Info</div>
-			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">123 Wall Street, New York / NY</div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-envelope-fill h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/></svg>
+			<div class="text-black text-sm lg:text-xl font-bold mb-3">Email Address</div>
+			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">halobpom@pom.go.gid</div>
 		</div>
 		<div class="text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-facebook h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg>
-			<div class="text-black text-sm lg:text-xl font-bold mb-3">Contact Info</div>
-			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">123 Wall Street, New York / NY</div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-fill h-8 lg:h-12 text-primary mx-auto mb-5" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5h16V4H0V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5z"/></svg>
+			<div class="text-black text-sm lg:text-xl font-bold mb-3">Working Days/Hours</div>
+			<div class="text-gray-400 text-xs lg:text-base font-regular mb-5">Senin-Jumat / 08:00-15:00</div>
 		</div>
 	</div>
 </section>
@@ -187,14 +187,14 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8pTfHmKIvNhLNS1hN0O0fERKxPIqhpnA&libraries=places&callback=initMap" async defer></script>
 <script>
 	function initMap() {
-		let lati = -6.2240509;
-		let logi = 106.8098201;
+		let lati = -6.1885344;
+		let logi = 106.8596343;
         let map = new google.maps.Map(document.querySelector('.map'), {
             center: {
                 lat: lati,
                 lng: logi
             },
-            zoom: 15,
+            zoom: 16,
             mapTypeId: 'roadmap'
         });
 

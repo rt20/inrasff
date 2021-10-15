@@ -7,14 +7,14 @@
 @endsection
 
 @section('body')
-<section class="container px-3 lg:mx-auto mt-16 lg:mt-44">
-	<div class="flex items-center py-3 text-center leading-5">
-		<div class="text-white bg-tertiary rounded uppercase px-3 py-1 font-semibold mr-3">
+<section class="container px-3 lg:mx-auto mt-20 lg:mt-44">
+	<div class="grid grid-cols-12 items-center py-3 leading-5 mt-3">
+		<div class="col-span-4 lg:col-span-2 text-xs lg:text-base text-white bg-tertiary rounded uppercase lg:px-3 py-1 font-semibold text-center mx-auto">
 			breaking news
 		</div>
-		<div class="text-tertiary leading-5">
+		<marquee direction="left" class="col-span-8 lg:col-span-10 text-tertiary text-left">
 			Apa itu konteks dan mengapa hal itu penting dalam pembuatan produk digital?
-		</div>
+		</marquee>
 	</div>
 </section>
 
