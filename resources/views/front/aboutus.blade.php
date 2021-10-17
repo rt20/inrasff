@@ -32,7 +32,7 @@
 	<div class="leading-normal mb-5">
 		<p>Indonesia Rapid Alert System For Food And Feed (INRASFF) Adalah Suatu Sistem Komunikasi Cepat Yang Melibatkan Instansi Terkait Keamanan Pangan Di Indonesia Untuk Melaksanakan Kewaspadaan Dan Penanggulangan Kasus Keamanan Pangan Dan Pakan. INRASFF Melakukan Pengumpulan Dan Analisis Data Permasalahan Keamanan Pangan Melalui Competent Contact Point (CCP) INRASFF Di Dalam Negeri Dan Jejaring Keamanan Pangan Internasional (European Union RASFF, ASEAN RASFF, International Food Safety Authority Network (INFOSAN), Dsb.). Instansi Yang Berperan Sebagai CCP Dalam Jejaring INRASFF Adalah Kementerian Pertanian, Kementerian Kelautan Dan Perikanan, Kementerian Kesehatan, Kementerian Perdagangan, Kementerian Perindustrian, Kementerian Keuangan, Serta Badan POM. Selain Sebagai CCP, Badan POM Juga Berperan Sebagai National Contact Point (NCP) Bagi Indonesia.</p>
 	</div>
-	<div class="mx-auto text-center w-3/4">
+	<div class="mx-auto text-center w-full lg:w-3/4">
 		<img src="http://inrasff.net/images/32/INRASFF.png" class="w-full">
 	</div>
 </section>
@@ -337,7 +337,7 @@
 <section class="bg-white">
 	<div class="container px-3 py-12 lg:mx-auto">
 		<div class="text-xl font-bold mb-5">Bagan Alir Penerapan INRASFF</div>
-		<div class="mx-auto text-center w-3/4">
+		<div class="mx-auto text-center w-full lg:w-3/4">
 			<img src="http://inrasff.net/images/banner/140/gmbr3.gif" class="w-full">
 		</div>
 	</div>
