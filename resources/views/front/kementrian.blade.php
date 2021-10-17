@@ -1,6 +1,30 @@
 @extends('front.layouts.app')
 
 @section('style')
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick-theme.css') }}"/>
+<style type="text/css">
+	.slider .slick-prev {
+	    left: 0;
+	    z-index: 1;
+	}
+	.slider .slick-prev:before {
+	    content: '<';
+	}
+	.slider .slick-next {
+	    right: 2%;
+	}
+	.slider .slick-next:before {
+	    content: '>';
+	}
+	.slider .slick-prev:before, .slider .slick-next:before {
+	    font-size: 20px;
+	    font-weight: bold;
+	    color: #FFF;
+	    background-color: rgba(0,0,0,0.5);
+	    padding: 2rem 1rem;
+	}
+</style>
 @endsection
 
 @section('body')
@@ -16,6 +40,10 @@
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="slider">
 		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
 	</div>
 </section>
 
@@ -261,4 +289,16 @@
 @endsection
 
 @section('script')
+<script type="text/javascript" src="{{ asset('vendors/slick/slick/slick.min.js') }}"></script>
+<script src="{{ asset('vendors/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
+<script type="text/javascript">
+	$('.slider').slick({
+		dots: false,
+		arrows : true,
+		infinite: true,
+		speed: 300,
+		slidesToShow: 1,
+		adaptiveHeight: true
+	});
+</script>
 @endsection
