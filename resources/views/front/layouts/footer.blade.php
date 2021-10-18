@@ -4,7 +4,7 @@
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="xl:col-span-1">
                     <img class="w-1/2 pb-8" src="{{ asset('images/logo_little_white.png') }}" style="filter: drop-shadow(1px 1px .5px black);">
-                    <p class="text-white pb-5">
+                    <p class="text-white pb-5 leading-normal">
                         Jalan Percetakan Negara Nomor 23 <br>
                         Jakarta - 10560 - Indonesia
                     </p>

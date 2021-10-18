@@ -2,7 +2,7 @@
 
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick.css') }}"/>
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick-theme.css') }}"/> --}}
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick-theme.css') }}"/>
 <link rel="stylesheet" href="{{ asset('vendors/magnific-popup/dist/magnific-popup.css') }}">
 <style type="text/css">	
 	.slick-slide {
@@ -37,28 +37,34 @@
 <section class="mb-0 lg:mb-8">
 	<div class="slick">
 		@for($i=1;$i<=2;$i++)
-		<div class="w-1/4 bg-cover relative" style="background-image: url('{{ asset('seeder/slider_1.jpg') }}'); height: 35rem;">
-			<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
-				<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
-				<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-				<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
-				<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+		<div>
+			<div class=" bg-cover relative" style="background-image: url('{{ asset('seeder/slider_1.jpg') }}') !important; height: 35rem !important;">
+				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
+					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
+					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
+					<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
+					<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+				</div>
 			</div>
 		</div>
-		<div class="w-1/4 bg-cover relative" style="background-image: url('{{ asset('seeder/slider_2.jpg') }}'); height: 35rem;">
-			<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
-				<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
-				<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-				<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
-				<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+		<div>
+			<div class=" bg-cover relative" style="background-image: url('{{ asset('seeder/slider_2.jpg') }}') !important; height: 35rem !important;">
+				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
+					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
+					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
+					<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
+					<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+				</div>
 			</div>
 		</div>
-		<div class="w-1/4 bg-cover relative" style="background-image: url('{{ asset('seeder/slider_3.jpg') }}'); height: 35rem;">
-			<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
-				<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
-				<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-				<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
-				<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+		<div>
+			<div class="bg-cover relative" style="background-image: url('{{ asset('seeder/slider_3.jpg') }}') !important; height: 35rem !important;">
+				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
+					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
+					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
+					<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
+					<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+				</div>
 			</div>
 		</div>
 		@endfor
@@ -203,14 +209,16 @@
 	  arrows: false,
 	  infinite: false,
 	  speed: 300,
-	  slidesToShow: 2.5,
+	  slidesToShow: 1,
 	  slidesToScroll: 1,
 	  adaptiveHeight: true,
+	  mobileFirst: true,
 	  responsive: [
 	    {
 	      breakpoint: 480,
 	      settings: {
-	        slidesToShow: 1
+	        slidesToShow: 2.5,
+	  		slidesToScroll: 1,
 	      }
 	    }
 	    // You can unslick at a given breakpoint now by adding:
