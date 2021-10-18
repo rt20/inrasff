@@ -44,16 +44,17 @@
     </div><!-- .col-md-6.form-group -->
 
     <div class="col-12 col-md-6 form-group">
-        <label for="type_notif" class="form-label">Tipe Notifikasi</label>
+        <label for="type_notif_id" class="form-label">Tipe Notifikasi</label>
         <select 
-            v-model="downstream.type_notif" 
-            name="type_notif" class="form-control select2 @error('type_notif') {{ 'is-invalid' }} @enderror">
-            <option value="" disabled selected>- Silahkan pilih tipe notifikasi -</option>
+            id="f_type_notif_id"
+            v-model="downstream.type_notif_id" 
+            name="type_notif_id" class="form-control @error('type_notif_id') {{ 'is-invalid' }} @enderror">
+            {{-- <option value="" disabled selected>- Silahkan pilih tipe notifikasi -</option>
             <option value="food">Food</option>
-            <option value="feed">Feed</option>
+            <option value="feed">Feed</option> --}}
         </select>
-        @error('type_notif')
-            <small class="text-danger">{{ $errors->first('type_notif') }}</small>
+        @error('type_notif_id')
+            <small class="text-danger">{{ $errors->first('type_notif_id') }}</small>
         @enderror
     </div><!-- .col-md-6.form-group -->
 
@@ -72,18 +73,19 @@
     </div><!-- .col-md-6.form-group -->
 
     <div class="col-12 col-md-6 form-group">
-        <label for="based_notif" class="form-label">Dasar Notifikasi</label>
+        <label for="based_notif_id" class="form-label">Dasar Notifikasi</label>
         <select 
-            v-model="downstream.based_notif" 
-            name="based_notif" 
-            class="form-control select2 @error('based_notif') {{ 'is-invalid' }} @enderror">
-            <option value="" disabled selected>- Silahkan pilih dasar notifikasi -</option>
+            id="f_based_notif_id"
+            v-model="downstream.based_notif_id" 
+            name="based_notif_id" 
+            class="form-control  @error('based_notif_id') {{ 'is-invalid' }} @enderror">
+            {{-- <option value="" disabled selected>- Silahkan pilih dasar notifikasi -</option>
             @foreach ($a_notification_base as $base)
             <option value="{{$base['value']}}">{{$base['label']}}</option>    
-            @endforeach
+            @endforeach --}}
         </select>
-        @error('based_notif')
-            <small class="text-danger">{{ $errors->first('based_notif') }}</small>
+        @error('based_notif_id')
+            <small class="text-danger">{{ $errors->first('based_notif_id') }}</small>
         @enderror
     </div><!-- .col-md-6.form-group -->
 

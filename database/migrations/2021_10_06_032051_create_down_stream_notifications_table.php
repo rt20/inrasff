@@ -25,11 +25,13 @@ class CreateDownStreamNotificationsTable extends Migration
             $table->string('number_ref')->nullable();
             // $table->string('status_notif')->nullable();
             $table->unsignedBigInteger('status_notif_id')->nullable();
-            $table->string('type_notif')->nullable();
+            // $table->string('type_notif')->nullable();
+            $table->unsignedBigInteger('type_notif_id')->nullable();
             $table->string('title');
             // $table->string('country_notif')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->string('based_notif')->nullable();
+            // $table->string('based_notif')->nullable();
+            $table->unsignedBigInteger('based_notif_id')->nullable();
             $table->string('origin_source_notif')->nullable();
             $table->string('source_notif')->nullable();
             $table->dateTime('date_notif')->nullable();

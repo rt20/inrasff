@@ -92,13 +92,17 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('countries', [Controller\CountryController::class, 'getS2Options'])->name('countries');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Options'])->name('institutions');
             Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Options'])->name('notification_status');
+            Route::get('notification-type', [BackAdmin\NotificationTypeController::class, 'getS2Options'])->name('notification_type');
+            Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Options'])->name('notification_base');
         });
 
         // Get select2 initial value
         Route::prefix('s2init')->name('s2Init.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Init'])->name('countries');
-            Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Init'])->name('notification_status');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Init'])->name('institutions');
+            Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Init'])->name('notification_status');
+            Route::get('notification-type', [BackAdmin\NotificationTypeController::class, 'getS2Init'])->name('notification_type');
+            Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Init'])->name('notification_base');
         });
 
         Route::prefix('datatables')->name('dt.')->group(function () {

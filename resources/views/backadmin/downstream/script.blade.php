@@ -45,9 +45,9 @@
                 title: old.title ?? downstream.title ?? '',
                 number_ref: old.number_ref ?? downstream.number_ref ?? '',
                 status_notif_id: old.status_notif_id ?? downstream.status_notif_id ?? '',
-                type_notif: old.type_notif ?? downstream.type_notif ?? '',
+                type_notif_id: old.type_notif_id ?? downstream.type_notif_id ?? '',
                 country_id: old.country_id ?? downstream.country_id ?? '',
-                based_notif: old.based_notif ?? downstream.based_notif ?? '',
+                based_notif_id: old.based_notif_id ?? downstream.based_notif_id ?? '',
                 origin_source_notif: old.origin_source_notif ?? downstream.origin_source_notif ?? '',
                 source_notif: old.source_notif ?? downstream.source_notif ?? '',
                 date_notif: old.date_notif ?? downstream.date_notif ?? '',
@@ -77,6 +77,24 @@
                     ['name']
                 )
             }
+
+            if(this.downstream.type_notif_id !== ''){
+                initS2FieldWithAjax(
+                    '#f_type_notif_id',
+                    '{{route("backadmin.s2Init.notification_type")}}',
+                    {id:this.downstream.type_notif_id},
+                    ['name']
+                )
+            }
+
+            if(this.downstream.based_notif_id !== ''){
+                initS2FieldWithAjax(
+                    '#f_based_notif_id',
+                    '{{route("backadmin.s2Init.notification_base")}}',
+                    {id:this.downstream.based_notif_id},
+                    ['name']
+                )
+            }
             
         },
         mounted() {
@@ -88,13 +106,13 @@
                 console.log(form.downstream)
             })
 
-            $('select[name="status_notif_id"]').on('change', function(e){
-                form.downstream.status_notif_id = e.target.value
-            })
+            // $('select[name="status_notif_id"]').on('change', function(e){
+            //     form.downstream.status_notif_id = e.target.value
+            // })
 
-            $('select[name="type_notif"]').on('change', function(e){
-                form.downstream.type_notif = e.target.value
-            })
+            // $('select[name="type_notif"]').on('change', function(e){
+            //     form.downstream.type_notif = e.target.value
+            // })
 
             $('select[name="source_notif"]').on('change', function(e){
                 form.downstream.source_notif = e.target.value
@@ -213,6 +231,28 @@
                 ['name'],
                 function(e){
                     form.downstream.status_notif_id = e.target.value
+                }
+            )
+
+            this.initiateS2(
+                '#f_type_notif_id',
+                "{{ route('backadmin.s2Opt.notification_type') }}",
+                0,
+                "Silahkan pilih tipe notifikasi",
+                ['name'],
+                function(e){
+                    form.downstream.type_notif_id = e.target.value
+                }
+            )
+
+            this.initiateS2(
+                '#f_based_notif_id',
+                "{{ route('backadmin.s2Opt.notification_base') }}",
+                0,
+                "Silahkan pilih dasar notifikasi",
+                ['name'],
+                function(e){
+                    form.downstream.based_notif_id = e.target.value
                 }
             )
         },
