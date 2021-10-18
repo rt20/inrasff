@@ -24,9 +24,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SliderSeeder::class,
+            NotificationStatusSeeder::class,
+            
             NotificationSeeder::class,
             CountrySeeder::class,
             InstitutionSeeder::class,
+
         ]);
     }
 }

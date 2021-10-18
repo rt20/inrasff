@@ -20,12 +20,19 @@ class NotificationSeeder extends Seeder
         $faker = Faker::create('en_US');
         
         $notifications = [];
+        $source = [
+            'Internal',
+            'ARASFF',
+            'KBRI/Atase',
+            'INFOSAN'
+        ];
         for ($i=0; $i < 50; $i++) { 
             array_push($notifications,
                 [
                     'title' => $faker->catchPhrase,
                     'number' => $faker->creditCardNumber,
                     'description' => $faker->text,
+                    'source' => $source[random_int(0,3)],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]

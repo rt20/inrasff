@@ -44,7 +44,7 @@
                 id: downstream.id ?? '',
                 title: old.title ?? downstream.title ?? '',
                 number_ref: old.number_ref ?? downstream.number_ref ?? '',
-                status_notif: old.status_notif ?? downstream.status_notif ?? '',
+                status_notif_id: old.status_notif_id ?? downstream.status_notif_id ?? '',
                 type_notif: old.type_notif ?? downstream.type_notif ?? '',
                 country_id: old.country_id ?? downstream.country_id ?? '',
                 based_notif: old.based_notif ?? downstream.based_notif ?? '',
@@ -68,6 +68,15 @@
                     ['code', 'name']
                 )
             }
+
+            if(this.downstream.status_notif_id !== ''){
+                initS2FieldWithAjax(
+                    '#f_status_notif_id',
+                    '{{route("backadmin.s2Init.notification_status")}}',
+                    {id:this.downstream.status_notif_id},
+                    ['name']
+                )
+            }
             
         },
         mounted() {
@@ -79,8 +88,8 @@
                 console.log(form.downstream)
             })
 
-            $('select[name="status_notif"]').on('change', function(e){
-                form.downstream.status_notif = e.target.value
+            $('select[name="status_notif_id"]').on('change', function(e){
+                form.downstream.status_notif_id = e.target.value
             })
 
             $('select[name="type_notif"]').on('change', function(e){
@@ -195,7 +204,17 @@
                 }
 
             })
-
+            
+            this.initiateS2(
+                '#f_status_notif_id',
+                "{{ route('backadmin.s2Opt.notification_status') }}",
+                0,
+                "Silahkan pilih status notifikasi",
+                ['name'],
+                function(e){
+                    form.downstream.status_notif_id = e.target.value
+                }
+            )
         },
         computed: {
 
@@ -295,6 +314,58 @@
                         break;
                 }
                 
+            },
+            initiateS2(
+                elId,
+                url,
+                minimumInputLength = 3,
+                placeholder = "Masukan Pilihan",
+                attrs,
+                onSelect
+            ){
+                $(elId).select2({
+                ajax: {
+                        url: url,
+                        data: function(params){
+                            let req = {
+                                q:params.term,
+                            };
+                            return req;
+                        },
+                        processResults: function(data){
+                            return {results: data};
+                        },
+                },
+                minimumInputLength: minimumInputLength,
+                placeholder: placeholder,
+                templateResult:function(data){
+                    var text = "";
+                    for (let i = 0; i < attrs.length; i++) {
+                        text += data[attrs[i]]              
+                        
+                        if(i != attrs.length - 1){
+                            text += " - "
+                        }
+                    }
+                    return data.loading ? 'Mencari...' : text 
+                },
+                templateSelection: function(data) {
+                        var text = "";
+                        for (let i = 0; i < attrs.length; i++) {
+                            text += data[attrs[i]]              
+                            
+                            if(i != attrs.length - 1){
+                                text += " - "
+                            }
+                        }
+                        return data.text || text;
+                    }
+
+                }).on('select2:select', function(e){
+                    // form.downstream.country_id = e.target.value
+                    if(onSelect)
+                        onSelect(e)
+                })
             }
         }
     }).mount('#app');

@@ -12,7 +12,7 @@
 	    content: '<';
 	}
 	.slider .slick-next {
-	    right: 2%;
+	    right: 6%;
 	}
 	.slider .slick-next:before {
 	    content: '>';
@@ -24,13 +24,20 @@
 	    background-color: rgba(0,0,0,0.5);
 	    padding: 2rem 1rem;
 	}
+
+	@media only screen and (min-width: 600px) {
+		.slider .slick-next {
+		    right: 2%;
+		}
+	}
+</style
 </style>
 @endsection
 
 @section('body')
 <section class="bg-gray-200 px-3 lg:mx-auto mt-16 lg:mt-44">
-	<div class="container mx-auto flex justify-between items-center py-8">
-		<div class="text-xl font-bold uppercase tracking-wide">Kementrian</div>
+	<div class="container mx-auto text-center lg:text-left lg:flex lg:justify-between items-center py-8">
+		<div class="text-xl font-bold uppercase tracking-wide mb-3 lg:mb-0">Kementrian</div>
 		<div class="text-sm text-gray-500 tracking-wide">
 			<a href="#">Home</a> / <a href="javascript:void(0)" class="font-semibold">Kementrian</a>
 		</div>

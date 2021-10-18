@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('title');
             $table->string('number');
             $table->bigInteger('author_id')->nullable();
+            $table->string('source')->nullable();
             $table->text('description');
             $table->string('status')->default('unread'); // read, unread, processed
             $table->text('info')->nullable();
