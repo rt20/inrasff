@@ -4,7 +4,14 @@ module.exports = {
     './resources/css/**/*.css',
   ],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+          'primary': '#004282',
+          'secondary': '#282828',
+          'secondary_dark': '#202020',
+          'tertiary': '#E85151',
+      }
+    }
   },
   variants: {},
   plugins: [
