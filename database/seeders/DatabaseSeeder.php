@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SliderSeeder::class,
             NotificationStatusSeeder::class,
+            NotificationTypeSeeder::class,
+            NotificationBaseSeeder::class,
             
             NotificationSeeder::class,
             CountrySeeder::class,
