@@ -143,7 +143,7 @@
         <input type="text" 
             name="date_notif"
             v-model="downstream.date_notif" 
-            class="form-control date read-only-white @error('date_notif') {{ 'is-invalid' }} @enderror" 
+            class="form-control date {{ in_array($downstream->status, ['draft', 'open']) ? 'read-only-white' : ''}} @error('date_notif') {{ 'is-invalid' }} @enderror" 
             placeholder="Masukkan Tanggal Notifikasi" autocomplete="off">
         @error('date_notif')
             <small class="text-danger">{{ $errors->first('date_notif') }}</small>

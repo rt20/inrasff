@@ -184,6 +184,69 @@ class FollowUpNotificationController extends Controller
             ->withSuccess('Info Tindak Lanjut berhasil diubah');
     }
 
+    public function process(Request $request, FollowUpNotification $followUp)
+    {
+        
+        try {
+            DB::beginTransaction();
+                $followUp->isStatus('draft');
+                $followUp->setStatus('on process', 'Diajukan ');
+                $followUp->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.follow_ups.edit', $followUp->id)
+            ->withSuccess('Tindak Lanjut berhasil diajukan');
+    }
+
+    public function accept(Request $request, FollowUpNotification $followUp)
+    {
+        
+        try {
+            DB::beginTransaction();
+                $followUp->isStatus('on process');
+                $followUp->setStatus('accepted', 'Disetujui ');
+                $followUp->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.follow_ups.edit', $followUp->id)
+            ->withSuccess('Tindak Lanjut berhasil disetujui');
+    }
+
+    public function reject(Request $request, FollowUpNotification $followUp)
+    {
+        
+        try {
+            DB::beginTransaction();
+                $followUp->isStatus('on process');
+                $followUp->setStatus('rejected', 'Ditolak ');
+                $followUp->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.follow_ups.edit', $followUp->id)
+            ->withSuccess('Tindak Lanjut berhasil ditolak');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

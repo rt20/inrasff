@@ -35,9 +35,47 @@
 @endsection
 
 @section('actions')
+    @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
     <button type="submit" form="form-main" formaction="{{ $follow_up->id ? route('backadmin.follow_ups.update', $follow_up->id) : route('backadmin.follow_ups.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endif
     @if ($follow_up->id)
+        @if (in_array($follow_up->status, ['draft']))
+        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process"><i class="mr-75" data-feather="settings"></i>Proses</a>
+        @endif
+        @if (in_array($follow_up->status, ['on process']))
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal-accept"><i class="mr-75" data-feather="check"></i>Setujui</a>
+        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modal-reject"><i class="mr-75" data-feather="x"></i>Tolak</a>
+        @endif
+        {{-- @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
         <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+        @endif --}}
+        <div class="btn-group">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
+            </button>    
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+                @if($follow_up->id != null)
+                    <a href="{{ 
+                        str_replace('App\\Models\\', '', $follow_up->fun_type) === 'DownStreamNotification' ?
+                        route('backadmin.downstreams.edit', $follow_up->notification->id) :
+                        route('backadmin.upstreams.edit', $follow_up->notification->id)
+                    
+                    }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+                    
+                    @else
+                    <a href="{{ 
+                        request()->input('notification_type') === 'downstream'?
+                        route('backadmin.downstreams.edit', request()->input('notification_id')) :
+                        route('backadmin.upstreams.edit', request()->input('notification_id'))
+                    
+                    }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+                @endif
+                
+                @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif
+            </div>
+        </div>
     @endif
 @endsection
 
@@ -75,6 +113,7 @@
                             <div class="col-12 col-md-12 form-group">
                                 <label for="description" class="form-label ">Pesan / Deskripsi</label>
                                 <textarea 
+                                    rows="10"
                                     v-model="follow_up.description" 
                                     name="description" 
                                     class="form-control"
@@ -84,25 +123,29 @@
                                     <small class="text-danger">{{ $errors->first('description') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-                            
-                           <div class="col-12 col-md-12 form-group">
-                            <hr>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="description" class="form-label ">Lampiran</label>
-                                <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                            @if($follow_up->id != null)
+                            <div class="col-12 col-md-12 form-group">
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="description" class="form-label ">Lampiran</label>
+                                    @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                                    <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                    @endif
+                                </div>
+                                <table id="table-attachment" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Judul</th>
+                                            @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                                            <th class="bi-table-col-action-1">Aksi</th>
+                                            @endif
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table id="table-attachment" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Judul</th>
-                                        <th class="bi-table-col-action-1">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                           </div>
-                            
+                            @endif
                             
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
@@ -182,6 +225,75 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal-process" tabindex="-1" role="dialog" aria-labelledby="modalProcess" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.follow_ups.process', $follow_up->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcess">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda Yakin Akan Mengajukan Tindak Lanjut ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Ajukan</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-accept" tabindex="-1" role="dialog" aria-labelledby="modalAccept" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.follow_ups.accept', $follow_up->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalAccept">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda Yakin Akan Menyetujui Tindak Lanjut ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Setujui</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-reject" tabindex="-1" role="dialog" aria-labelledby="modalReject" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.follow_ups.reject', $follow_up->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalReject">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda Yakin Akan Menolak Tindak Lanjut ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Tolak</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @endif
 @endpush
 
@@ -255,6 +367,7 @@
                                 return `<a href="`+row.origin+`" target="_blank">` + data + `</a>`
                             }
                         },
+                        @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                         {
                             data: 'id',
                             className: 'text-center',
@@ -264,6 +377,7 @@
                                 return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                             } 
                         }
+                        @endif
                     ],
                     order: [[0, 'desc']],
                     language: dtLangId
@@ -363,5 +477,13 @@
             },
         }
     }).mount('#app');
+
+    $(document).ready(function(){
+        console.log('ready log section form')
+        @if (in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+            $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
+            $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
+    })
 </script>
 @endpush

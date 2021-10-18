@@ -73,6 +73,12 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
         });
 
+        Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
+            Route::put('/{followUp}/process', [BackAdmin\FollowUpNotificationController::class, 'process'])->name('process');
+            Route::put('/{followUp}/accept', [BackAdmin\FollowUpNotificationController::class, 'accept'])->name('accept');
+            Route::put('/{followUp}/reject', [BackAdmin\FollowUpNotificationController::class, 'reject'])->name('reject');
+        });
+
         Route::resources([
             'border_control_infos' => BackAdmin\BorderControlInfoController::class,
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,

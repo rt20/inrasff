@@ -21,7 +21,7 @@ class FollowUpNotification extends Model
         'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
         'on process' => [ 'label' => 'Diproses', 'class' => 'warning' ],
         'accepted' => [ 'label' => 'Disetujui', 'class' => 'success' ],
-        'rejected' => [ 'label' => 'Selesai', 'class' => 'danger' ],
+        'rejected' => [ 'label' => 'Ditolak', 'class' => 'danger' ],
     ];
 
     public function notification()
