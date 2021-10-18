@@ -27,18 +27,19 @@
     </div><!-- .col-md-6.form-group -->
 
     <div class="col-12 col-md-6 form-group">
-        <label for="status_notif" class="form-label required">Status Notifikasi</label>
+        <label for="status_notif_id" class="form-label required">Status Notifikasi</label>
         <select 
-            v-model="downstream.status_notif" 
-            name="status_notif" 
-            class="form-control select2 @error('status_notif') {{ 'is-invalid' }} @enderror">
-            <option value="" disabled selected>- Silahkan pilih status notifikasi -</option>
+            id="f_status_notif_id"
+            v-model="downstream.status_notif_id" 
+            name="status_notif_id" 
+            class="form-control  @error('status_notif_id') {{ 'is-invalid' }} @enderror">
+            {{-- <option value="" disabled selected>- Silahkan pilih status notifikasi -</option>
             @foreach ($a_notification_status as $status)
             <option value="{{$status['value']}}">{{$status['label']}}</option>    
-            @endforeach
+            @endforeach --}}
         </select>
-        @error('status_notif')
-            <small class="text-danger">{{ $errors->first('status_notif') }}</small>
+        @error('status_notif_id')
+            <small class="text-danger">{{ $errors->first('status_notif_id') }}</small>
         @enderror
     </div><!-- .col-md-6.form-group -->
 

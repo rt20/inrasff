@@ -19,8 +19,9 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Judul</th>
                         <th>Nomor</th>
+                        <th>Judul</th>
+                        <th>Sumber</th>
                         <th>Status</th>
                         <th>Tanggal Terbit</th>
                         <th class="bi-table-col-action-1">Aksi</th>
@@ -56,8 +57,10 @@
             serverSide: true,
             processing: true,
             columns: [
-                { data: 'title' },
+
                 { data: 'number' },
+                { data: 'title' },
+                { data: 'source' },
                 { 
                     data: 'status' ,
                     className: 'text-center',
