@@ -91,11 +91,13 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
          Route::prefix('s2opt')->name('s2Opt.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Options'])->name('countries');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Options'])->name('institutions');
+            Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Options'])->name('notification_status');
         });
 
         // Get select2 initial value
         Route::prefix('s2init')->name('s2Init.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Init'])->name('countries');
+            Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Init'])->name('notification_status');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Init'])->name('institutions');
         });
 

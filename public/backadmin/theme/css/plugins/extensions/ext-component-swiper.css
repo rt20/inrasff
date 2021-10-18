@@ -156,7 +156,7 @@
 }
 
 .swiper-button-prev:after {
-  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231c2f85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-left\'%3E%3Cpolyline points=\'15 18 9 12 15 6\'%3E%3C/polyline%3E%3C/svg%3E');
+  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231C2F85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-left\'%3E%3Cpolyline points=\'15 18 9 12 15 6\'%3E%3C/polyline%3E%3C/svg%3E');
   background-repeat : no-repeat;
   background-position : center;
   background-size : 44px;
@@ -168,7 +168,7 @@
 }
 
 .swiper-button-next:after {
-  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231c2f85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-right\'%3E%3Cpolyline points=\'9 18 15 12 9 6\'%3E%3C/polyline%3E%3C/svg%3E');
+  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231C2F85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-right\'%3E%3Cpolyline points=\'9 18 15 12 9 6\'%3E%3C/polyline%3E%3C/svg%3E');
   background-repeat : no-repeat;
   background-position : center;
   background-size : 44px;
@@ -180,7 +180,7 @@
 }
 
 .swiper-container-rtl .swiper-button-prev:after {
-  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231c2f85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-right\'%3E%3Cpolyline points=\'9 18 15 12 9 6\'%3E%3C/polyline%3E%3C/svg%3E');
+  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231C2F85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-right\'%3E%3Cpolyline points=\'9 18 15 12 9 6\'%3E%3C/polyline%3E%3C/svg%3E');
   background-repeat : no-repeat;
   background-position : center;
   background-size : 44px;
@@ -191,7 +191,7 @@
 }
 
 .swiper-container-rtl .swiper-button-next:after {
-  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231c2f85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-left\'%3E%3Cpolyline points=\'15 18 9 12 15 6\'%3E%3C/polyline%3E%3C/svg%3E');
+  background-image : url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%231C2F85\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' class=\'feather feather-chevron-left\'%3E%3Cpolyline points=\'15 18 9 12 15 6\'%3E%3C/polyline%3E%3C/svg%3E');
   background-repeat : no-repeat;
   background-position : center;
   background-size : 44px;

@@ -23,7 +23,8 @@ class CreateDownStreamNotificationsTable extends Migration
 
             /** Section 1 General Information */
             $table->string('number_ref')->nullable();
-            $table->string('status_notif')->nullable();
+            // $table->string('status_notif')->nullable();
+            $table->unsignedBigInteger('status_notif_id')->nullable();
             $table->string('type_notif')->nullable();
             $table->string('title');
             // $table->string('country_notif')->nullable();
