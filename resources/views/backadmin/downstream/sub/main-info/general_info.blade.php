@@ -111,6 +111,7 @@
         </div>
         <div v-show="downstream.origin_source_notif === 'local' ">
             <select 
+                v-cloak
                 v-model="downstream.source_notif" 
                 :disabled="downstream.origin_source_notif !== 'local'" 
                 name="source_notif" 
@@ -123,6 +124,7 @@
         </div>
         <div v-show="downstream.origin_source_notif === 'interlocal' ">
             <select 
+                v-cloak
                 v-model="downstream.source_notif" 
                 :disabled="downstream.origin_source_notif !== 'interlocal'"
                 name="source_notif" 
@@ -160,12 +162,12 @@
         </div>
         
         
-        <div v-if="downstream.id === ''" class="demo-spacing-0">
+        <div v-cloak v-if="downstream.id === ''" class="demo-spacing-0">
             <div class="alert alert-warning" role="alert">
                 <div class="alert-body"><strong>Silahkan simpan terlebih dahulu downstream ini untuk menambahkan instansi</strong></div>
             </div>
         </div>
-        <table v-if="downstream.id !== ''" id="table-permission-rw" class="table table-striped table-bordered">
+        <table v-cloak v-if="downstream.id !== ''" id="table-permission-rw" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Instansi</th>
@@ -186,12 +188,12 @@
             @endif
         </div>
         
-        <div v-if="downstream.id === ''" class="demo-spacing-0">
+        <div v-cloak v-if="downstream.id === ''" class="demo-spacing-0">
             <div class="alert alert-warning" role="alert">
                 <div class="alert-body"><strong>Silahkan simpan terlebih dahulu downstream ini untuk menambahkan instansi</strong></div>
             </div>
         </div>
-        <table v-if="downstream.id !== ''" id="table-permission-r" class="table table-striped table-bordered">
+        <table v-cloak v-if="downstream.id !== ''" id="table-permission-r" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Instansi</th>
