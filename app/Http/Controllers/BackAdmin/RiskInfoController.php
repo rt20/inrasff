@@ -24,6 +24,7 @@ class RiskInfoController extends Controller
         if($request->ajax()){
             $ri = RiskInfo::query();
             if($request->has('for_downstream')){
+                $ri = $ri->with(['distributionStatus']);
                 if($request->for_downstream==1){
                     $ri = $ri->where('ri_type', 'App\Models\DownStreamNotification');
                 }
@@ -67,7 +68,7 @@ class RiskInfoController extends Controller
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
-            'distribution_status' => ['required', 'max:255'],
+            'distribution_status_id' => ['required', 'max:255'],
         ]);
 
         try {
@@ -88,7 +89,7 @@ class RiskInfoController extends Controller
 
 
             $risk = $notification->risks()->make($request->only(
-                'distribution_status',
+                'distribution_status_id',
                 'serious_risk',
                 'victim',
                 'symptom'
@@ -150,14 +151,14 @@ class RiskInfoController extends Controller
     // public function update(Request $request, $id)
     {
         $request->validate([
-            'distribution_status' => ['required', 'max:255'],
+            'distribution_status_id' => ['required', 'max:255'],
         ]);
 
         try {
             DB::beginTransaction();
             // $risk = RiskInfo::find($id);
             $riskInfo->fill($request->only(
-                'distribution_status',
+                'distribution_status_id',
                 'serious_risk',
                 'victim',
                 'symptom'

@@ -102,6 +102,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Options'])->name('notification_base');
             Route::get('dangerous-category', [BackAdmin\DangerousCategoryController::class, 'getS2Options'])->name('dangerous_category');
             Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Options'])->name('uom_result');
+            Route::get('distribution-status', [BackAdmin\DistributionStatusController::class, 'getS2Options'])->name('distribution_status');
         });
 
         // Get select2 initial value
@@ -113,6 +114,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Init'])->name('notification_base');
             Route::get('dangerous-category', [BackAdmin\DangerousCategoryController::class, 'getS2Init'])->name('dangerous_category');
             Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Init'])->name('uom_result');
+            Route::get('distribution-status', [BackAdmin\DistributionStatusController::class, 'getS2Init'])->name('distribution_status');
         });
 
         Route::prefix('datatables')->name('dt.')->group(function () {

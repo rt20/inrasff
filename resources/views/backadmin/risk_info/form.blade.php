@@ -61,18 +61,19 @@
                         <div class="row">
                             
                             <div class="col-12 col-md-6 form-group">
-                                <label for="distribution_status" class="form-label required">Status Distribusi</label>
+                                <label for="distribution_status_id" class="form-label required">Status Distribusi</label>
                                 <select 
-                                    v-model="risk.distribution_status" 
-                                    name="distribution_status" 
-                                    class="form-control select2-dr @error('status_notif') {{ 'is-invalid' }} @enderror">
-                                    <option value="" disabled selected>- Silahkan Pilih Status Distribusi -</option>
-                                    @foreach ($a_distribution_status as $status)
+                                    v-model="risk.distribution_status_id" 
+                                    name="distribution_status_id" 
+                                    id="distribution_status_id" 
+                                    class="form-control @error('status_notif') {{ 'is-invalid' }} @enderror">
+                                    {{-- <option value="" disabled selected>- Silahkan Pilih Status Distribusi -</option>
+                                    @foreach ($a_distribution_status_id as $status)
                                     <option value="{{$status['value']}}">{{$status['label']}}</option>    
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
-                                @error('distribution_status')
-                                    <small class="text-danger">{{ $errors->first('distribution_status') }}</small>
+                                @error('distribution_status_id')
+                                    <small class="text-danger">{{ $errors->first('distribution_status_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
@@ -175,7 +176,7 @@
             risk = {!! json_encode($risk) !!};
             console.log(risk)
             this.risk = {
-                distribution_status: old.distribution_status ?? risk.distribution_status ?? '',
+                distribution_status_id: old.distribution_status_id ?? risk.distribution_status_id ?? '',
                 serious_risk: old.serious_risk ?? risk.serious_risk ?? '',
                 victim: old.victim ?? risk.victim ?? '',
                 symptom: old.symptom ?? risk.symptom ?? ''               
@@ -183,16 +184,48 @@
             }
 
             console.log(this.risk)
+            if(this.risk.distribution_status_id !== ''){
+                initS2FieldWithAjax(
+                    '#distribution_status_id',
+                    '{{route("backadmin.s2Init.distribution_status")}}',
+                    {id:this.risk.distribution_status_id},
+                    ['name']
+                )
+            }
         },
         mounted() {
-            $('.select2-dr').select2();
+            
+            this.initiateS2(
+                "#distribution_status_id",
+                "{{route('backadmin.s2Opt.distribution_status')}}",
+                0,
+                "Silahkan Pilih Status Distribusi",
+                ['name'],
+                function(e){
+                    form.risk.category_id = e.target.value
+                }
+            )
         },
         computed: {
 
         },
         methods: {
-            slugify(text){
-                return slugify(text)
+            initiateS2(
+                elId,
+                url,
+                minimumInputLength = 3,
+                placeholder = "Masukan Pilihan",
+                attrs,
+                onSelect
+            ){
+                return initiateS2(
+                    elId,
+                    url,
+                    minimumInputLength,
+                    placeholder,
+                    attrs,
+                    onSelect
+                ) 
             }
         }
     }).mount('#app');

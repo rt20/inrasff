@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             NotificationBaseSeeder::class,
             DangerousCategorySeeder::class,
             UomResultSeeder::class,
+            DistributionStatusSeeder::class,
             
             NotificationSeeder::class,
             CountrySeeder::class,
