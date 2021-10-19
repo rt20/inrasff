@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Services\NotificationService;
+use App\Models\RiskInfo;
 
 class ViewComposerProvider extends ServiceProvider
 {
@@ -50,21 +51,24 @@ class ViewComposerProvider extends ServiceProvider
             ]);
         });
 
-        View::composer('backadmin.dangerous_info.form', function ($view) {
-            $a_dangerous_category = NotificationService::categoryDangerous();
-            $a_uom_result = NotificationService::uomResult();
+        // View::composer('backadmin.dangerous_info.form', function ($view) {
+        //     $a_dangerous_category = NotificationService::categoryDangerous();
+        //     $a_uom_result = NotificationService::uomResult();
 
-            $view->with([
-                // 'a_dangerous_category' => $a_dangerous_category,
-                'a_uom_result' => $a_uom_result,
-            ]);
-        });
+        //     $view->with([
+        //         'a_dangerous_category' => $a_dangerous_category,
+        //         'a_uom_result' => $a_uom_result,
+        //     ]);
+        // });
 
         View::composer('backadmin.risk_info.form', function ($view) {
-            $a_distribution_status = NotificationService::distributionStatus();
+            // $a_distribution_status = NotificationService::distributionStatus();
 
             $view->with([
-                'a_distribution_status' => $a_distribution_status
+                // 'a_distribution_status' => $a_distribution_status
+                'a_measure' => RiskInfo::measureList(),
+                'a_product_to_be' => RiskInfo::productToBeList(),
+                'a_physical_treatment' => RiskInfo::physicalTreatmentList(),
             ]);
         });
     }

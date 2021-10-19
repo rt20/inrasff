@@ -92,7 +92,11 @@ class RiskInfoController extends Controller
                 'distribution_status_id',
                 'serious_risk',
                 'victim',
-                'symptom'
+                'symptom',
+                'voluntary_measures',
+                'add_voluntary_measures',
+                'compulsory_measures',
+                'add_compulsory_measures'
             ));
             $risk->save();
            
@@ -161,7 +165,11 @@ class RiskInfoController extends Controller
                 'distribution_status_id',
                 'serious_risk',
                 'victim',
-                'symptom'
+                'symptom',
+                'voluntary_measures',
+                'add_voluntary_measures',
+                'compulsory_measures',
+                'add_compulsory_measures'
             ));
             $riskInfo->update();
            

@@ -27,6 +27,11 @@ class CreateRiskInfosTable extends Migration
             $table->integer('victim')->nullable();
             $table->string('symptom')->nullable();
             
+            $table->string('voluntary_measures')->nullable();
+            $table->string('add_voluntary_measures')->nullable();
+
+            $table->string('compulsory_measures')->nullable();
+            $table->string('add_compulsory_measures')->nullable();
             $table->timestamps();
         });
     }
