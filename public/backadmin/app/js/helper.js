@@ -149,7 +149,7 @@ function stringFormatNumber(number) {
     // Rb
     else if (number >= Math.pow(10, 3)) {
         return ((number / Math.pow(10, 3)).toFixed(2)).replace(".", ",") + " Rb"
-    
+
     } else {
         return numberFormat(number)
     }
@@ -175,4 +175,61 @@ function slugify(text) {
         .replace(/\-\-+/g, '-')         // Replace multiple - with single -
         .replace(/^-+/, '')             // Trim - from start of text
         .replace(/-+$/, '');            // Trim - from end of text
+}
+
+
+/**
+ * Initiate S2 With option
+ */
+function initiateS2(
+    elId,
+    url,
+    minimumInputLength = 3,
+    placeholder = "Masukan Pilihan",
+    attrs,
+    onSelect
+) {
+    return $(elId).select2({
+        ajax: {
+            url: url,
+            data: function (params) {
+                let req = {
+                    q: params.term,
+                };
+                return req;
+            },
+            processResults: function (data) {
+                return { results: data };
+            },
+        },
+        minimumInputLength: minimumInputLength,
+        placeholder: placeholder,
+        templateResult: function (data) {
+            var text = "";
+            for (let i = 0; i < attrs.length; i++) {
+                text += data[attrs[i]]
+
+                if (i != attrs.length - 1) {
+                    text += " - "
+                }
+            }
+            return data.loading ? 'Mencari...' : text
+        },
+        templateSelection: function (data) {
+            var text = "";
+            for (let i = 0; i < attrs.length; i++) {
+                text += data[attrs[i]]
+
+                if (i != attrs.length - 1) {
+                    text += " - "
+                }
+            }
+            return data.text || text;
+        }
+
+    }).on('select2:select', function (e) {
+        // form.downstream.country_id = e.target.value
+        if (onSelect)
+            onSelect(e)
+    })
 }

@@ -100,6 +100,8 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Options'])->name('notification_status');
             Route::get('notification-type', [BackAdmin\NotificationTypeController::class, 'getS2Options'])->name('notification_type');
             Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Options'])->name('notification_base');
+            Route::get('dangerous-category', [BackAdmin\DangerousCategoryController::class, 'getS2Options'])->name('dangerous_category');
+            Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Options'])->name('uom_result');
         });
 
         // Get select2 initial value
@@ -109,6 +111,8 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Init'])->name('notification_status');
             Route::get('notification-type', [BackAdmin\NotificationTypeController::class, 'getS2Init'])->name('notification_type');
             Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Init'])->name('notification_base');
+            Route::get('dangerous-category', [BackAdmin\DangerousCategoryController::class, 'getS2Init'])->name('dangerous_category');
+            Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Init'])->name('uom_result');
         });
 
         Route::prefix('datatables')->name('dt.')->group(function () {

@@ -29,8 +29,8 @@ class ViewComposerProvider extends ServiceProvider
     {
         View::composer('backadmin.downstream.form', function ($view) {
             
-            $a_notification_status = NotificationService::notificationStatus();
-            $a_notification_base = NotificationService::notificationBase();
+            // $a_notification_status = NotificationService::notificationStatus();
+            // $a_notification_base = NotificationService::notificationBase();
             $a_notification_source_local = NotificationService::notificationSource();
             $a_notification_source_interlocal = NotificationService::notificationSource('interlocal');
             $a_product_category = NotificationService::productCategory();
@@ -39,12 +39,12 @@ class ViewComposerProvider extends ServiceProvider
             $a_distribution_status = NotificationService::distributionStatus();
 
             $view->with([
-                'a_notification_status' => $a_notification_status,
-                'a_notification_base' => $a_notification_base,
+                // 'a_notification_status' => $a_notification_status,
+                // 'a_notification_base' => $a_notification_base,
                 'a_notification_source_local' => $a_notification_source_local,
                 'a_notification_source_interlocal' => $a_notification_source_interlocal,
                 'a_product_category' => $a_product_category,
-                'a_dangerous_category' => $a_dangerous_category,
+                // 'a_dangerous_category' => $a_dangerous_category,
                 'a_uom_result' => $a_uom_result,
                 'a_distribution_status' => $a_distribution_status
             ]);
@@ -55,7 +55,7 @@ class ViewComposerProvider extends ServiceProvider
             $a_uom_result = NotificationService::uomResult();
 
             $view->with([
-                'a_dangerous_category' => $a_dangerous_category,
+                // 'a_dangerous_category' => $a_dangerous_category,
                 'a_uom_result' => $a_uom_result,
             ]);
         });

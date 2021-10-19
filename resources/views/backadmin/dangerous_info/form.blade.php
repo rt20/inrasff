@@ -75,19 +75,20 @@
                             </div><!-- .col-md-6.form-group -->
                         
                             <div class="col-12 col-md-6 form-group">
-                                <label for="category" class="form-label required">Kategori Bahaya</small></label>
+                                <label for="category_id" class="form-label required">Kategori Bahaya</small></label>
                                     <select
-                                        name="category" 
-                                        v-model="dangerous.category" 
-                                        class="form-control select2-dr @error('category') {{ 'is-invalid' }} @enderror">
-                                        <option value="" selected>- Silahkan Pilih Kategori Bahaya -</option>
-                                        @foreach ($a_dangerous_category as $status)
+                                        id="category_id" 
+                                        name="category_id" 
+                                        v-model="dangerous.category_id" 
+                                        class="form-control @error('category_id') {{ 'is-invalid' }} @enderror">
+                                        {{-- <option value="" selected>- Silahkan Pilih Kategori Bahaya -</option>
+                                        @foreach ($a_dangerous_category_id as $status)
                                         <option value="{{$status['value']}}">{{$status['label']}}</option>    
-                                        @endforeach
+                                        @endforeach --}}
                         
                                     </select>
-                                @error('category')
-                                    <small class="text-danger">{{ $errors->first('category') }}</small>
+                                @error('category_id')
+                                    <small class="text-danger">{{ $errors->first('category_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
@@ -105,19 +106,20 @@
                             </div><!-- .col-md-6.form-group -->
                         
                             <div class="col-12 col-md-6 form-group">
-                                <label for="uom_result" class="form-label">Satuan Hasil Uji <small>(Kosongkan apabila negatif)</small></label>
+                                <label for="uom_result_id" class="form-label">Satuan Hasil Uji <small>(Kosongkan apabila negatif)</small></label>
                                     <select
-                                        name="uom_result" 
-                                        v-model="dangerous.uom_result" 
-                                        class="form-control select2-dr @error('uom_result') {{ 'is-invalid' }} @enderror">
-                                        <option value="" selected>- Silahkan Pilih Satuan Hasil Uji -</option>
-                                        @foreach ($a_uom_result as $status)
+                                        id="uom_result_id" 
+                                        name="uom_result_id" 
+                                        v-model="dangerous.uom_result_id" 
+                                        class="form-control @error('uom_result_id') {{ 'is-invalid' }} @enderror">
+                                        {{-- <option value="" selected>- Silahkan Pilih Satuan Hasil Uji -</option>
+                                        @foreach ($a_uom_result_id as $status)
                                         <option value="{{$status['value']}}">{{$status['label']}}</option>    
-                                        @endforeach
+                                        @endforeach --}}
                         
                                     </select>
-                                @error('uom_result')
-                                    <small class="text-danger">{{ $errors->first('uom_result') }}</small>
+                                @error('uom_result_id')
+                                    <small class="text-danger">{{ $errors->first('uom_result_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
@@ -297,9 +299,9 @@
             console.log(dangerous)
             this.dangerous = {
                 name: old.name ?? dangerous.name ?? '',
-                category: old.category ?? dangerous.category ?? '',
+                category_id: old.category_id ?? dangerous.category_id ?? '',
                 name_result: old.name_result ?? dangerous.name_result ?? '',
-                uom_result: old.uom_result ?? dangerous.uom_result ?? '',
+                uom_result_id: old.uom_result_id ?? dangerous.uom_result_id ?? '',
                 laboratorium: old.laboratorium ?? dangerous.laboratorium ?? '',
                 matrix: old.matrix ?? dangerous.matrix ?? '',
                 scope: old.scope ?? dangerous.scope ?? '',
@@ -307,19 +309,75 @@
                 
             }
 
-            console.log(this.dangerous)
+            // console.log(this.dangerous)
+
+            if(this.dangerous.category_id !== ''){
+                initS2FieldWithAjax(
+                    '#category_id',
+                    '{{route("backadmin.s2Init.dangerous_category")}}',
+                    {id:this.dangerous.category_id},
+                    ['name']
+                )
+            }
+
+            if(this.dangerous.uom_result_id !== ''){
+                initS2FieldWithAjax(
+                    '#uom_result_id',
+                    '{{route("backadmin.s2Init.uom_result")}}',
+                    {id:this.dangerous.uom_result_id},
+                    ['name']
+                )
+            }
+
+            
         },
         mounted() {
             $('.select2-dr').select2();
 
             this.table_sampling = $('#table-sampling').DataTable()
+
+            this.initiateS2(
+                "#category_id",
+                "{{route('backadmin.s2Opt.dangerous_category')}}",
+                0,
+                "Silahkan Pilih Kategori Bahaya",
+                ['name'],
+                function(e){
+                    form.dangerous.category_id = e.target.value
+                }
+            )
+
+            this.initiateS2(
+                "#uom_result_id",
+                "{{route('backadmin.s2Opt.uom_result')}}",
+                0,
+                "Silahkan Pilih Satuan Hasil Uji",
+                ['name'],
+                function(e){
+                    form.dangerous.uom_result_id = e.target.value
+                }
+            )
         },
         computed: {
 
         },
         methods: {
-            slugify(text){
-                return slugify(text)
+            initiateS2(
+                elId,
+                url,
+                minimumInputLength = 3,
+                placeholder = "Masukan Pilihan",
+                attrs,
+                onSelect
+            ){
+                return initiateS2(
+                    elId,
+                    url,
+                    minimumInputLength,
+                    placeholder,
+                    attrs,
+                    onSelect
+                ) 
             }
         }
     }).mount('#app');
