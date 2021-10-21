@@ -44,13 +44,13 @@ class FollowUpNotificationController extends Controller
     }
 
     public function attachmentDataTable(Request $request){
-        // if($request->ajax()){
+        if($request->ajax()){
             $a = FollowUpNotificationAttachment::query();
             if($request->has('fun_id')){
                 $a = $a->where('fun_id', $request->fun_id);
             }
             return DataTables::of($a)->make();
-        // }
+        }
         return ;
     }
 

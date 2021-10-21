@@ -79,6 +79,11 @@ class DownStreamNotification extends Model
     public function followUp(){
         return $this->morphMany(FollowUpNotification::class, 'fun');
     }
+
+    public function attachment(){
+        return $this->morphMany(NotificationAttachment::class, 'na');
+    }
+
     
 
     /**

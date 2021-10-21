@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-center mb-1">
-    <h4>1. Informasi Umum</h4>
+    <h4>Informasi Umum</h4>
 </div>
 <div class="row">
     <div class="col-12 col-md-6 form-group">

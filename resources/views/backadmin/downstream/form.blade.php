@@ -55,26 +55,32 @@
         <div class="d-flex justify-content-between align-items-center">
             <ul class="nav nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
+                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="assign-tab-justified" data-toggle="tab" href="#assign" role="tab" aria-controls="assign" aria-selected="true">2. Info Penindak</a>
                 </li>
                 @if($downstream->id != null && !$downstream->isStatus('draft', false))
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
+                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">Keterlusuran</a>
+                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">Kontrol Perbatasan</a>
+                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">Informasi Tambahan</a>
+                    <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true">7. Lampiran</a>
                 </li>
                 
                     @if(!$downstream->isStatus('open', false))
                     <li class="nav-item">
-                        <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">Tindak Lanjut</a>
+                        <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
                     </li>
                     @endif
                 @endif
@@ -106,6 +112,9 @@
                 </div>
                 <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
                     @include('backadmin.downstream.tab.additional')
+                </div>
+                <div class="tab-pane " id="attachment" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.downstream.tab.attachment')
                 </div>
                 @if(!$downstream->isStatus('open', false))
                 <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
