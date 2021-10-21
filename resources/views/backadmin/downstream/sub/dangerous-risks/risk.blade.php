@@ -37,9 +37,15 @@
             serverSide: true,
             processing: true,
             columns: [
-                { data: 'distribution_status' },
-                { data: 'serious_risk' },
-                { data: 'victim' },
+                { data: 'distribution_status.name' },
+                {
+                    defaultContent: '-' , 
+                    data: 'serious_risk' 
+                },
+                { 
+                    defaultContent: '-' ,
+                    data: 'victim' 
+                },
                 {
                     data: 'id',
                     className: 'text-center',

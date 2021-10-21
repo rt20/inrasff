@@ -68,6 +68,9 @@
                 <li class="nav-item">
                     <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">Kontrol Perbatasan</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">Informasi Tambahan</a>
+                </li>
                 
                     @if(!$downstream->isStatus('open', false))
                     <li class="nav-item">
@@ -100,6 +103,9 @@
                 </div>
                 <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
                     @include('backadmin.downstream.tab.border_controls')
+                </div>
+                <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.downstream.tab.additional')
                 </div>
                 @if(!$downstream->isStatus('open', false))
                 <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
@@ -242,7 +248,7 @@
     $(document).ready(function(){
         console.log('ready log section form')
         @if (in_array($downstream->status, ['ccp process', 'ext process', 'done']))
-            $('.bi-form-main input, .bi-form-main select').prop('disabled', true);
+            $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
         @endif
     })

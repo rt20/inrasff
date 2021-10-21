@@ -24,6 +24,7 @@ class DangerousInfoController extends Controller
         if($request->ajax()){
             $di = DangerousInfo::query();
             if($request->has('for_downstream')){
+                $di = $di->with(['category']);
                 if($request->for_downstream==1){
                     $di = $di->where('di_type', 'App\Models\DownStreamNotification');
                 }
@@ -73,7 +74,8 @@ class DangerousInfoController extends Controller
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
             'name' => ['required', 'max:255'],
-            'category' => ['required', 'max:255'],
+            // 'category' => ['required', 'max:255'],
+            'category_id' => ['required', 'max:255'],
         ]);
 
         try {
@@ -96,9 +98,11 @@ class DangerousInfoController extends Controller
 
             $dangerous = $notification->dangerous()->make($request->only(
                 'name',
-                'category',
+                // 'category',
+                'category_id',
                 'name_result',
-                'uom_result',
+                // 'uom_result',
+                'uom_result_id',
                 'laboratorium',
                 'matrix',
                 'scope',
@@ -145,7 +149,7 @@ class DangerousInfoController extends Controller
         // return $dangerous->di_type;
         // return str_replace('App\\Models\\', '', $dangerous->di_type);
         return view('backadmin.dangerous_info.form', [
-            'title' => $dangerous->name,
+            'title' => $dangerousInfo->name,
             'dangerous' => $dangerousInfo,
         ]);
     }
@@ -162,7 +166,8 @@ class DangerousInfoController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:255'],
-            'category' => ['required', 'max:255'],
+            // 'category' => ['required', 'max:255'],
+            'category_id' => ['required', 'max:255'],
         ]);
 
         try {
@@ -170,9 +175,11 @@ class DangerousInfoController extends Controller
             // $dangerous = DangerousInfo::find($id);
             $dangerousInfo->fill($request->only(
                 'name',
-                'category',
+                // 'category',
+                'category_id',
                 'name_result',
-                'uom_result',
+                // 'uom_result',
+                'uom_result_idp',
                 'laboratorium',
                 'matrix',
                 'scope',

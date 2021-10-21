@@ -61,18 +61,19 @@
                         <div class="row">
                             
                             <div class="col-12 col-md-6 form-group">
-                                <label for="distribution_status" class="form-label required">Status Distribusi</label>
+                                <label for="distribution_status_id" class="form-label required">Status Distribusi</label>
                                 <select 
-                                    v-model="risk.distribution_status" 
-                                    name="distribution_status" 
-                                    class="form-control select2-dr @error('status_notif') {{ 'is-invalid' }} @enderror">
-                                    <option value="" disabled selected>- Silahkan Pilih Status Distribusi -</option>
-                                    @foreach ($a_distribution_status as $status)
+                                    v-model="risk.distribution_status_id" 
+                                    name="distribution_status_id" 
+                                    id="distribution_status_id" 
+                                    class="form-control @error('status_notif') {{ 'is-invalid' }} @enderror">
+                                    {{-- <option value="" disabled selected>- Silahkan Pilih Status Distribusi -</option>
+                                    @foreach ($a_distribution_status_id as $status)
                                     <option value="{{$status['value']}}">{{$status['label']}}</option>    
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
-                                @error('distribution_status')
-                                    <small class="text-danger">{{ $errors->first('distribution_status') }}</small>
+                                @error('distribution_status_id')
+                                    <small class="text-danger">{{ $errors->first('distribution_status_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
@@ -112,8 +113,126 @@
                                     <small class="text-danger">{{ $errors->first('symptom') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
+                            {{-- @{{risk.voluntary_measures}}
+                            @{{risk.voluntary_measures_type}}
+                            @{{risk.add_voluntary_measures}} --}}
+                            <div class="divider divider-left col-12">
+                                <div class="divider-text">Voluntary Measures</div>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="voluntary_measures" class="form-label">Voluntary Measures</label>
+                                <select 
+                                    v-model="risk.voluntary_measures" 
+                                    name="voluntary_measures" 
+                                    id="voluntary_measures" 
+                                    class="form-control @error('voluntary_measures') {{ 'is-invalid' }} @enderror select2">
+                                    <option value="" disabled selected>- Silahkan Pilih Voluntary Measures -</option>
+                                    @foreach ($a_measure as $key => $measure)
+                                    <option value="{{$key}}" data-add-form="{{$measure['add_form']}}">{{$measure['label']}}</option>    
+                                    @endforeach
+                                </select>
+                                @error('voluntary_measures')
+                                    <small class="text-danger">{{ $errors->first('voluntary_measures') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
                             
-                            
+                            <div class="col-12 col-md-6 form-group" v-show="risk.voluntary_measures_type !== ''">
+                                <label for="add_voluntary_measures" class="form-label">Info Voluntary Measures</label>
+                                <input 
+                                    v-model="risk.add_voluntary_measures" 
+                                    name="add_voluntary_measures" 
+                                    :disabled="risk.voluntary_measures_type !== 'input'"
+                                    v-show="risk.voluntary_measures_type === 'input'" 
+                                    class="form-control" 
+                                    placeholder="Silahkan Masukan Info Voluntary Measures">
+                                <div v-show="risk.voluntary_measures_type === 'select' && risk.voluntary_measures === 'product to-be' ">
+                                    <select 
+                                        v-model="risk.add_voluntary_measures" 
+                                        name="add_voluntary_measures" 
+                                        :disabled="risk.voluntary_measures_type !== 'select' && risk.voluntary_measures !== 'product to-be' "
+                                        class="form-control @error('add_voluntary_measures') {{ 'is-invalid' }} @enderror select2" >
+                                        <option value="" disabled selected>- Silahkan Pilih Info Voluntary Measures -</option>
+                                        @foreach ($a_product_to_be as $value)
+                                        <option value="{{$value}}">{{ucfirst($value)}}</option>    
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div v-show="risk.voluntary_measures_type === 'select' && risk.voluntary_measures === 'physical treatment' ">
+                                    <select 
+                                        v-model="risk.add_voluntary_measures" 
+                                        name="add_voluntary_measures" 
+                                        :disabled="risk.voluntary_measures_type !== 'select' && risk.voluntary_measures !== 'physical treatment' "
+                                        class="form-control @error('add_voluntary_measures') {{ 'is-invalid' }} @enderror select2">
+                                        <option value="" disabled selected>- Silahkan Pilih Info Voluntary Measures -</option>
+                                        @foreach ($a_physical_treatment as $value)
+                                        <option value="{{$value}}">{{ucfirst($value)}}</option>    
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('add_voluntary_measures')
+                                    <small class="text-danger">{{ $errors->first('add_voluntary_measures') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            {{-- @{{risk.compulsory_measures}}
+                            @{{risk.compulsory_measures_type}}
+                            @{{risk.add_compulsory_measures}} --}}
+                            <div class="divider divider-left col-12">
+                                <div class="divider-text">Compulsory Measures</div>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="compulsory_measures" class="form-label">Compulsory Measures</label>
+                                <select 
+                                    v-model="risk.compulsory_measures" 
+                                    name="compulsory_measures" 
+                                    id="compulsory_measures" 
+                                    class="form-control @error('compulsory_measures') {{ 'is-invalid' }} @enderror select2">
+                                    <option value="" disabled selected>- Silahkan Pilih Compulsory Measures -</option>
+                                    @foreach ($a_measure as $key => $measure)
+                                    <option value="{{$key}}" data-add-form="{{$measure['add_form']}}">{{$measure['label']}}</option>    
+                                    @endforeach
+                                </select>
+                                @error('compulsory_measures')
+                                    <small class="text-danger">{{ $errors->first('compulsory_measures') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+                            <div class="col-12 col-md-6 form-group" v-show="risk.compulsory_measures_type !== ''">
+                                <label for="add_compulsory_measures" class="form-label">Info Compulsory Measures</label>
+                                <input 
+                                    v-model="risk.add_compulsory_measures" 
+                                    name="add_compulsory_measures" 
+                                    :disabled="risk.compulsory_measures_type !== 'input'"
+                                    v-show="risk.compulsory_measures_type === 'input'" 
+                                    class="form-control" 
+                                    placeholder="Silahkan Masukan Info Voluntary Measures">
+                                <div v-show="risk.compulsory_measures_type === 'select' && risk.compulsory_measures === 'product to-be' ">
+                                    <select 
+                                        v-model="risk.add_compulsory_measures" 
+                                        name="add_compulsory_measures" 
+                                        :disabled="risk.compulsory_measures_type !== 'select' && risk.compulsory_measures !== 'product to-be' "
+                                        class="form-control @error('add_compulsory_measures') {{ 'is-invalid' }} @enderror select2" >
+                                        <option value="" disabled selected>- Silahkan Pilih Info Compulsory Measures -</option>
+                                        @foreach ($a_product_to_be as $value)
+                                        <option value="{{$value}}">{{ucfirst($value)}}</option>    
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div v-show="risk.compulsory_measures_type === 'select' && risk.compulsory_measures === 'physical treatment' ">
+                                    <select 
+                                        v-model="risk.add_compulsory_measures" 
+                                        name="add_compulsory_measures" 
+                                        :disabled="risk.compulsory_measures_type !== 'select' && risk.compulsory_measures !== 'physical treatment' "
+                                        class="form-control @error('add_compulsory_measures') {{ 'is-invalid' }} @enderror select2">
+                                        <option value="" disabled selected>- Silahkan Pilih Info Compulsory Measures -</option>
+                                        @foreach ($a_physical_treatment as $value)
+                                        <option value="{{$value}}">{{ucfirst($value)}}</option>    
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('add_compulsory_measures')
+                                    <small class="text-danger">{{ $errors->first('add_compulsory_measures') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
                 </form>
@@ -161,40 +280,5 @@
 @endsection
 
 @push('page-js')
-<script>
-
-
-    let form = Vue.createApp({
-        data() {
-            return {
-                risk: {},
-            }
-        },
-        created() {
-            old = {!! json_encode(old()) !!};
-            risk = {!! json_encode($risk) !!};
-            console.log(risk)
-            this.risk = {
-                distribution_status: old.distribution_status ?? risk.distribution_status ?? '',
-                serious_risk: old.serious_risk ?? risk.serious_risk ?? '',
-                victim: old.victim ?? risk.victim ?? '',
-                symptom: old.symptom ?? risk.symptom ?? ''               
-                
-            }
-
-            console.log(this.risk)
-        },
-        mounted() {
-            $('.select2-dr').select2();
-        },
-        computed: {
-
-        },
-        methods: {
-            slugify(text){
-                return slugify(text)
-            }
-        }
-    }).mount('#app');
-</script>
+@include('backadmin.risk_info.script')
 @endpush
