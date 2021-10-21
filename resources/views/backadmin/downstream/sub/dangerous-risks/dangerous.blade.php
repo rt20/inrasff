@@ -37,7 +37,7 @@
             processing: true,
             columns: [
                 { data: 'name' },
-                { data: 'category' },
+                { data: 'category.name' },
                 {
                     data: 'id',
                     className: 'text-center',

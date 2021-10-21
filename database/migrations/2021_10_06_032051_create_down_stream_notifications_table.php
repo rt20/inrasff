@@ -44,7 +44,9 @@ class CreateDownStreamNotificationsTable extends Migration
             // $table->string('mass');
 
             /** Section 7 Additional Information */
-            
+            $table->string('institution')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->text('others')->nullable();
 
             $table->text('history')->nullable();
             $table->timestamps();

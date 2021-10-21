@@ -11,9 +11,11 @@ class DangerousInfo extends Model
 
     protected $fillable = [
         'name',
-        'category',
+        // 'category',
+        'category_id',
         'name_result',
-        'uom_result',
+        // 'uom_result',
+        'uom_result_id',
         'laboratorium',
         'matrix',
         'scope',
@@ -23,5 +25,15 @@ class DangerousInfo extends Model
     public function notification()
     {
         return $this->morphTo(__FUNCTION__, 'di_type', 'di_id');
+    }
+
+    /**
+     * Get the category a the DangerousInfo
+     *
+     * @return \IlluminaDangerousCategory\Database\Eloquent\Relations\HasOne
+     */
+    public function category()
+    {
+        return $this->hasOne(DangerousCategory::class, 'id', 'category_id');
     }
 }

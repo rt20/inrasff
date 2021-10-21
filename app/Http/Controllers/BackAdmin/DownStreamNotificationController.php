@@ -142,7 +142,7 @@ class DownStreamNotificationController extends Controller
      */
     public function update(Request $request, DownStreamNotification $downstream)
     {
-        
+        // return $request->all();   
         $request->validate([
             'title' => ['required', 'max:255'],
             'number_ref' => ['required', 'max:255'],
@@ -174,7 +174,10 @@ class DownStreamNotificationController extends Controller
                     'category_product_name',
                     'brand_name',
                     'registration_number',
-                    'package_product'
+                    'package_product',
+                    'institution',
+                    'contact_person',
+                    'others'
                 ]));
                 if ($downstream->isStatus('draft', false)) {
                     $downstream->setStatus('open', 'Diupdate dari draft');

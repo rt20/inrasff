@@ -31,7 +31,10 @@ class DownStreamNotification extends Model
         'category_product_name',
         'brand_name',
         'registration_number',
-        'package_product'
+        'package_product',
+        'institution',
+        'contact_person',
+        'others'
     ];
 
     protected $appends = [ 'status_label', 'status_class',];

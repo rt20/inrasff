@@ -58,6 +58,9 @@
                 registration_number: old.registration_number ?? downstream.registration_number ?? '',
                 package_product: old.package_product ?? downstream.package_product ?? '',
 
+                // institution: old.institution ?? downstream.institution ?? '',
+                // contact_person: old.contact_person ?? downstream.contact_person ?? '',
+                // others: old.others ?? downstream.others ?? '',
             }
 
             if(this.downstream.country_id !== ''){
