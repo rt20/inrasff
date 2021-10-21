@@ -46,11 +46,11 @@
 
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="slider">
-		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
+		<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
+		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
 	</div>
 </section>
 
@@ -81,11 +81,11 @@
 
 <section class="container px-3 py-16 lg:mx-auto"> 
 	<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_bpom.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Badan Pengawasan Obat dan Makanan Republik Indonesia
 				</div>
@@ -111,11 +111,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Kementrian Keuangan Republik Indonesia
 				</div>
@@ -141,11 +141,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Kementrian Perdagangan Republik Indonesia
 				</div>
@@ -171,11 +171,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Kementrian Pertanian Republik Indonesia
 				</div>
@@ -201,11 +201,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Kementrian Perindustrian Republik Indonesia
 				</div>
@@ -231,11 +231,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_kkp.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_kkp.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Kementrian Kelautan dan Perikanan Republik Indonesia
 				</div>
@@ -261,11 +261,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="grid grid-cols-1 lg:grid-cols-2">
-			<div class="bg-gray-100 p-8 lg:p-16 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
-				<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
+		<div class="grid grid-cols-1 lg:grid-cols-6">
+			<div class="lg:col-span-2 bg-gray-100 lg:bg-white p-8 lg:p-0 rounded flex justify-center items-center mx-auto w-1/2 lg:w-full">
+				<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full lg:p-8 lg:bg-gray-100">
 			</div>
-			<div class="p-6">
+			<div class="lg:col-span-4 p-6">
 				<div class="text-xl font-semibold mb-5 leading-normal">
 					Kementrian Kesehatan Republik Indonesia
 				</div>
