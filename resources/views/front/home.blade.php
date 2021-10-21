@@ -36,7 +36,7 @@
 
 <section class="mb-0 lg:mb-8">
 	<div class="slick">
-		@for($i=1;$i<=2;$i++)
+		@for($i=1;$i<=3;$i++)
 		<div>
 			<div class="bg-cover relative">
 				<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
@@ -51,17 +51,6 @@
 		<div>
 			<div class="bg-cover relative">
 				<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
-				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
-					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
-					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-					<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
-					<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
-				</div>
-			</div>
-		</div>
-		<div>
-			<div class="bg-cover relative">
-				<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
 				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
 					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
 					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
