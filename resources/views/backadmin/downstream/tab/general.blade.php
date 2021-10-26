@@ -7,7 +7,7 @@
                     <hr>
                     @include('backadmin.downstream.sub.main-info.product')
                 </section>
-                @include('backadmin.downstream.sub.main-info.modal')
+                
             </div>
         </div>
     </div>
