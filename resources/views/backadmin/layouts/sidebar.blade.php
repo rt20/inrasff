@@ -66,8 +66,8 @@
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.downstreams') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.downstreams.index') }}"><i data-feather="download-cloud"></i><span class="menu-title text-truncate" data-i18n="download-cloud">Down Stream</span></a>
             </li>
-            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.upstream') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.follow_up_issues.index') }}"><i data-feather="upload-cloud"></i><span class="menu-title text-truncate" data-i18n="upload-cloud">Up Stream</span></a>
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.upstreams') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.upstreams.index') }}"><i data-feather="upload-cloud"></i><span class="menu-title text-truncate" data-i18n="upload-cloud">Up Stream</span></a>
             </li>
 
 

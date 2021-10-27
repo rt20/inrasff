@@ -4,7 +4,6 @@ namespace App\Http\Controllers\BackAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\DownStreamNotification;
 use App\Models\UpStreamNotification;
 use App\Models\NotificationAttachment;
 
@@ -17,7 +16,7 @@ use Carbon\Carbon;
 
 use UploadFile;
 
-class DownStreamNotificationController extends Controller
+class UpStreamNotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,21 +25,20 @@ class DownStreamNotificationController extends Controller
      */
     public function index(Request $request)
     {
-        // return "Hangetng";
         if($request->ajax()){
-            $d = DownStreamNotification::all();
+            $d = UpStreamNotification::all();
             return DataTables::of($d)->make();
         }
 
-        return view('backadmin.downstream.index')->with([
-            'title' => 'Downstream'
+        return view('backadmin.upstream.index')->with([
+            'title' => 'Upstream'
         ]);
     }
 
     public function attachmentDataTable(Request $request){
         if($request->ajax()){
             $na = NotificationAttachment::query();
-            $na = $na->where('na_type', 'App\Models\DownStreamNotification');
+            $na = $na->where('na_type', 'App\Models\UpStreamNotification');
             if($request->has('na_id')){
                 $na = $na->where('na_id', $request->na_id);
             }
@@ -48,7 +46,6 @@ class DownStreamNotificationController extends Controller
         }
         return ;
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -56,13 +53,13 @@ class DownStreamNotificationController extends Controller
      */
     public function create(Request $request)
     {
-        $downstream = new DownStreamNotification;
+        $upstream = new UpStreamNotification;
         if($request->has('notif_id')){
-            $downstream->notif_id = $request->notif_id;
+            $upstream->notif_id = $request->notif_id;
         }
-        return view('backadmin.downstream.form', [
-            'title' => 'Tambah Downstream',
-            'downstream' => $downstream,
+        return view('backadmin.upstream.form', [
+            'title' => 'Tambah Upstream',
+            'upstream' => $upstream,
         ]);
     }
 
@@ -74,11 +71,9 @@ class DownStreamNotificationController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $request->validate([
             'title' => ['required', 'max:255'],
             'number_ref' => ['required', 'max:255'],
-            // 'status_notif' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -87,16 +82,13 @@ class DownStreamNotificationController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $downstream = DownStreamNotification::make($request->only([
+            $upstream = UpStreamNotification::make($request->only([
                 'notif_id',
                 'title',
                 'number_ref',
-                // 'status_notif',
                 'status_notif_id',
-                // 'type_notif',
                 'type_notif_id',
                 'country_id',
-                // 'based_notif',
                 'based_notif_id',
                 'origin_source_notif',
                 'source_notif',
@@ -107,10 +99,10 @@ class DownStreamNotificationController extends Controller
                 'registration_number',
                 'package_product'
             ]));
-            $downstream->number = 'IN.DS'.Carbon::now()->format('Hisv');
-            $downstream->author_id = auth()->user()->id;
-            $downstream->setStatus('open', 'Dibuat ');
-            $downstream->save();
+            $upstream->number = 'IN.US'.Carbon::now()->format('Hisv');
+            $upstream->author_id = auth()->user()->id;
+            $upstream->setStatus('open', 'Dibuat ');
+            $upstream->save();
             DB::commit();
             
         } catch (Exception $e) {
@@ -120,8 +112,8 @@ class DownStreamNotificationController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.downstreams.edit', $downstream->id)
-            ->withSuccess('Downstream berhasil dibuat');
+            ->route('backadmin.upstreams.edit', $upstream->id)
+            ->withSuccess('Upstream berhasil dibuat');
     }
 
     /**
@@ -141,14 +133,13 @@ class DownStreamNotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(DownStreamNotification $downstream)
+    public function edit(UpStreamNotification $upstream)
     {
-        // return $downstream->dangerousRisk()->create();
-        // $downstream->dangerousRisk;
+        // $upstream->dangerousRisk;
         
-        return view('backadmin.downstream.form', [
-            'title' => $downstream->number,
-            'downstream' => $downstream,
+        return view('backadmin.upstream.form', [
+            'title' => $upstream->number,
+            'upstream' => $upstream,
         ]);
     }
 
@@ -159,13 +150,11 @@ class DownStreamNotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DownStreamNotification $downstream)
+    public function update(Request $request, UpStreamNotification $upstream)
     {
-        // return $request->all();   
         $request->validate([
             'title' => ['required', 'max:255'],
             'number_ref' => ['required', 'max:255'],
-            // 'status_notif' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -175,16 +164,13 @@ class DownStreamNotificationController extends Controller
         
         try {
             DB::beginTransaction();
-                $downstream->fill($request->only([
+                $upstream->fill($request->only([
                     'notif_id',
                     'title',
                     'number_ref',
-                    // 'status_notif',
                     'status_notif_id',
-                    // 'type_notif',
                     'type_notif_id',
                     'country_id',
-                    // 'based_notif',
                     'based_notif_id',
                     'origin_source_notif',
                     'source_notif',
@@ -198,10 +184,10 @@ class DownStreamNotificationController extends Controller
                     'contact_person',
                     'others'
                 ]));
-                if ($downstream->isStatus('draft', false)) {
-                    $downstream->setStatus('open', 'Diupdate dari draft');
+                if ($upstream->isStatus('draft', false)) {
+                    $upstream->setStatus('open', 'Diupdate dari draft');
                 }
-                $downstream->update();
+                $upstream->update();
            
             DB::commit();
             
@@ -212,19 +198,19 @@ class DownStreamNotificationController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.downstreams.edit', $downstream->id)
-            ->withSuccess('Downstream berhasil dibuat');
+            ->route('backadmin.upstreams.edit', $upstream->id)
+            ->withSuccess('Upstream berhasil dibuat');
     }
 
-    public function processCcp(Request $request, DownStreamNotification $downstream)
+    public function processNcp(Request $request, UpStreamNotification $upstream)
     {
         
         try {
             DB::beginTransaction();
-                // dd($downstream);
-                $downstream->isStatus('open');
-                $downstream->setStatus('ccp process', 'Diproses untuk CCP ');
-                $downstream->update();
+                // dd($upstream);
+                $upstream->isStatus('open');
+                $upstream->setStatus('ccp process', 'Diproses untuk CCP ');
+                $upstream->update();
             DB::commit();
             
         } catch (Exception $e) {
@@ -234,18 +220,18 @@ class DownStreamNotificationController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.downstreams.edit', $downstream->id)
-            ->withSuccess('Downstream berhasil diproses untuk CCP');
+            ->route('backadmin.upstreams.edit', $upstream->id)
+            ->withSuccess('Upstream berhasil diproses untuk CCP');
     }
 
-    public function processExt(Request $request, DownStreamNotification $downstream)
+    public function done(Request $request, UpStreamNotification $upstream)
     {
         try {
             DB::beginTransaction();
-                // dd($downstream);
-                $downstream->isStatus('ccp process');
-                $downstream->setStatus('ext process', 'Diproses untuk Eksternal ');
-                $downstream->update();
+                // dd($upstream);
+                $upstream->isStatus('ext process');
+                $upstream->setStatus('done', 'Diselesaikan ', 'finished_at');
+                $upstream->update();
             DB::commit();
             
         } catch (Exception $e) {
@@ -255,29 +241,8 @@ class DownStreamNotificationController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.downstreams.edit', $downstream->id)
-            ->withSuccess('Downstream berhasil diproses untuk Eksternal');
-    }
-
-    public function done(Request $request, DownStreamNotification $downstream)
-    {
-        try {
-            DB::beginTransaction();
-                // dd($downstream);
-                $downstream->isStatus('ext process');
-                $downstream->setStatus('done', 'Diselesaikan ', 'finished_at');
-                $downstream->update();
-            DB::commit();
-            
-        } catch (Exception $e) {
-            DB::rollback();
-            report($e);
-            return redirect()->back()->withInput()->withError($e->getMessage());
-
-        }
-        return redirect()
-            ->route('backadmin.downstreams.edit', $downstream->id)
-            ->withSuccess('Downstream berhasil diselesaikan');
+            ->route('backadmin.upstreams.edit', $upstream->id)
+            ->withSuccess('Upstream berhasil diselesaikan');
     }
 
     /**
@@ -286,16 +251,16 @@ class DownStreamNotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DownStreamNotification $downstream)
+    public function destroy(UpStreamNotification $upstream)
     {
         try {
             DB::beginTransaction();
-            $downstream->delete();
+            $upstream->delete();
             DB::commit();
 
             return redirect()
-                ->route('backadmin.downstreams.index')
-                ->withSuccess('Downstream berhasil dihapus');
+                ->route('backadmin.upstreams.index')
+                ->withSuccess('Upstream berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -307,8 +272,8 @@ class DownStreamNotificationController extends Controller
 
     public function addAttachment(Request $request){
         $validator = Validator::make($request->all(), [
-            'notification_type' => ['required'], //downstream or upstream
-            'notification_id' => ['required'], //id for downstream or upstream
+            'notification_type' => ['required'], //upstream or upstream
+            'notification_id' => ['required'], //id for upstream or upstream
             'attachment' => ['required', 'max:2048'],
         ]);
 
@@ -318,10 +283,6 @@ class DownStreamNotificationController extends Controller
                 throw new Exception(implode($validator->messages()->all()));
             
             switch ($request->notification_type) {
-                case 'downstream':
-                    $notification = DownStreamNotification::find($request->notification_id);
-                    break;
-                
                 case 'upstream':
                     $notification = UpStreamNotification::find($request->notification_id);
                     break;

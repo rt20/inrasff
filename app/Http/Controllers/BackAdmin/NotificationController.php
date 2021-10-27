@@ -190,4 +190,35 @@ class NotificationController extends Controller
             return redirect()->back()->withError($e->getMessage());
         }
     }
+
+    public function processUpstream(Request  $request, Notification $notification){
+        
+
+        try {
+            DB::beginTransaction();
+            
+            $upstream = $notification->upstream()->make([
+                'number_ref' => $notification->number,
+                'title' => 'Proses Upstream Dokumen '.$notification->number,
+                'number' => 'IN.US'.Carbon::now()->format('Hisv')
+            ]);
+            $upstream->author_id =  auth()->user()->id;
+            $upstream->setStatus('draft', 'Dibuat untuk Proses Upstream Dokumen'.$notification->number);
+            // dd($upstream);
+            $upstream->save();
+            $notification->setStatus('processed', 'Diproses untuk Upstream '.$upstream->number);
+            $notification->update();
+
+            DB::commit();
+
+            return redirect()
+                ->route('backadmin.upstreams.edit', $upstream->id)
+                ->withSuccess('Notifikasi berhasil diproses menjadi Upstream');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            report($e);
+            return redirect()->back()->withError($e->getMessage());
+        }
+    }
 }

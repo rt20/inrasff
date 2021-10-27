@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
+use App\Models\UpStreamNotification;
 use App\Models\DangerousInfo;
 
 use Exception;
@@ -27,6 +28,17 @@ class DangerousInfoController extends Controller
                 $di = $di->with(['category']);
                 if($request->for_downstream==1){
                     $di = $di->where('di_type', 'App\Models\DownStreamNotification');
+                }
+
+                if($request->has('di_id')){
+                    $di = $di->where('di_id', $request->di_id);
+                }
+            }
+
+            if($request->has('for_upstream')){
+                $di = $di->with(['category']);
+                if($request->for_upstream==1){
+                    $di = $di->where('di_type', 'App\Models\UpStreamNotification');
                 }
 
                 if($request->has('di_id')){

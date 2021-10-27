@@ -36,5 +36,10 @@ class Notification extends Model
         return $this->hasOne(DownStreamNotification::class, 'notif_id', 'id');
     }
 
+    public function upstream()
+    {
+        return $this->hasOne(UpStreamNotification::class, 'notif_id', 'id');
+    }
+
 
 }

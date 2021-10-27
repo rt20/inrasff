@@ -42,7 +42,7 @@ class RolePermissionSeeder extends Seeder
             'downstream',
             'upstream',
             'follow_up'
-        ], [
+        ],[
             'view all',
             'view',
             'store',
@@ -64,7 +64,72 @@ class RolePermissionSeeder extends Seeder
         $processPermissions['follow_up']['process'] = Permission::create(['name' => 'process follow_up']);
         $processPermissions['follow_up']['accept'] = Permission::create(['name' => 'accept follow_up']);
         $processPermissions['follow_up']['reject'] = Permission::create(['name' => 'reject follow_up']);
-        
+
+        /**NCP Roles */
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $masterDataPermissions,
+            [
+                'notification',
+                'news',
+                'slider',
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $processPermissions,
+            [
+                'downstream',
+                'upstream',
+                'follow_up'
+            ]
+        );
+
+        /**CCP Roles */
+        $this->assignEntityActionPermissions(
+            $roles['ccp'],
+            $masterDataPermissions,
+            [
+                'notification' => ['view'],
+            ]
+        );
+
+        $this->assignEntityActionPermissions(
+            $roles['ccp'],
+            $processPermissions,
+            [
+                'follow_up' => [
+                    'view all',
+                    'view',
+                    'store',
+                    'delete',
+                    'process'
+                ],
+            ]
+        );
+
+        $this->assignEntityActionPermissions(
+            $roles['lccp'],
+            $masterDataPermissions,
+            [
+                'notification' => ['view'],
+            ]
+        );
+
+        $this->assignEntityActionPermissions(
+            $roles['lccp'],
+            $processPermissions,
+            [
+                'follow_up' => [
+                    'view all',
+                    'view',
+                    'store',
+                    'delete',
+                    'process'
+                ],
+            ]
+        );
     }
 
     public function createPermissions(array $entityList, array $actionList = ['view', 'store', 'delete'])
@@ -90,6 +155,10 @@ class RolePermissionSeeder extends Seeder
         return $roles;
     }
 
+    /**
+     * givePermissionTo Array Parameter
+     */
+
     public function assignEntityPermissions(Role $role, array $permissions, array $entities)
     {
         foreach ($entities as $entity) {
@@ -97,6 +166,9 @@ class RolePermissionSeeder extends Seeder
         }
     }
 
+    /**
+     * givePermissionTo Single Parameter
+     */
     public function assignEntityActionPermissions(Role $role, array $permissions, array $entityActions)
     {
         foreach ($entityActions as $entity => $actions) {

@@ -29,7 +29,7 @@
     
     }}"
     
-    >Downstream Asal</a></li>
+    >{{ str_replace('App\\Models\\', '', $risk->ri_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Info Resiko</li>
 @endsection
