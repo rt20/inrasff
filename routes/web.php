@@ -109,6 +109,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
             'upstreams' => BackAdmin\UpStreamNotificationController::class,
+            'users' => BackAdmin\UserController::class,
         ]);
 
          // Get select2 options

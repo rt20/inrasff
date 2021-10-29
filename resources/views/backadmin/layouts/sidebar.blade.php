@@ -78,6 +78,9 @@
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.sliders') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.sliders.index') }}"><i data-feather="play"></i><span class="menu-title text-truncate" data-i18n="Slider">Slider</span></a>
             </li>
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.users') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.users.index') }}"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Slider">Pengguna</span></a>
+            </li>
         </ul>
     </div>
 </div>
