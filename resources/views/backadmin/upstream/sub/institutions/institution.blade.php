@@ -114,11 +114,11 @@
             let icon = feather.icons['trash'].toSvg();
             this.table_r = $('#table-permission-r').DataTable({
                 ajax:{
-                    url:"{{route('backadmin.down_stream_institutions.index')}}",
+                    url:"{{route('backadmin.up_stream_institutions.index')}}",
                     data: function(data) {
                         data.read = 1
                         data.write = 0
-                        data.ds_id = '{{$upstream->id}}'
+                        data.us_id = '{{$upstream->id}}'
                     }
                 },
                 serverSide: true,
@@ -141,11 +141,11 @@
 
             this.table_rw = $('#table-permission-rw').DataTable({
                 ajax:{
-                    url:"{{route('backadmin.down_stream_institutions.index')}}",
+                    url:"{{route('backadmin.up_stream_institutions.index')}}",
                     data: function(data) {
                         data.read = 1
                         data.write = 1
-                        data.ds_id = '{{$upstream->id}}'
+                        data.us_id = '{{$upstream->id}}'
                     }
                 },
                 serverSide: true,
@@ -216,7 +216,7 @@
                         if(invalid)
                             return;
 
-                        var url = `{{ route('backadmin.down_stream_institutions.add') }}`
+                        var url = `{{ route('backadmin.up_stream_institutions.add') }}`
                         var formData = new FormData()
                         this.validatorItem.forEach(el => {
                             var value = $(el.input+'[name="'+el.title+'"]').val()
@@ -231,7 +231,7 @@
                             }
                             formData.append(el.name, value)
                         });
-                        formData.append('ds_id', {{$upstream->id}})
+                        formData.append('us_id', {{$upstream->id}})
                         if(this.institutionW)
                             formData.append('write', this.institutionW)
                         var resp = await post(url,formData)
@@ -251,7 +251,7 @@
                         break;
                 
                     case 'delete': 
-                        var url = `{{ route('backadmin.down_stream_institutions.delete', '__id') }}`
+                        var url = `{{ route('backadmin.up_stream_institutions.delete', '__id') }}`
                         url = url.replace("__id", this.institutionModal?.item?.id)
                         var resp = await destroy(url)
                         console.log(resp)

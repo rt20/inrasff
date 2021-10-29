@@ -29,7 +29,7 @@
                 date_notif: old.date_notif ?? upstream.date_notif ?? '',
 
                 product_name: old.product_name ?? upstream.product_name ?? '',
-                category_product_name: old.category_product_name ?? upstream.category_product_name ?? '',
+                category_product_id: old.category_product_id ?? upstream.category_product_id ?? '',
                 brand_name: old.brand_name ?? upstream.brand_name ?? '',
                 registration_number: old.registration_number ?? upstream.registration_number ?? '',
                 package_product: old.package_product ?? upstream.package_product ?? '',

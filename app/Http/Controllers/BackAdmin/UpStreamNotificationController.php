@@ -94,7 +94,7 @@ class UpStreamNotificationController extends Controller
                 'source_notif',
                 'date_notif',
                 'product_name',
-                'category_product_name',
+                'category_product_id',
                 'brand_name',
                 'registration_number',
                 'package_product'
@@ -176,7 +176,7 @@ class UpStreamNotificationController extends Controller
                     'source_notif',
                     'date_notif',
                     'product_name',
-                    'category_product_name',
+                    'category_product_id',
                     'brand_name',
                     'registration_number',
                     'package_product',

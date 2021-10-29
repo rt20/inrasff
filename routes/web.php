@@ -58,6 +58,12 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
+        Route::prefix('up_stream_institutions')->name('up_stream_institutions.')->group(function(){
+            Route::get('/', [BackAdmin\UpStreamInstitutionController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\UpStreamInstitutionController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\UpStreamInstitutionController::class, 'delete'])->name('delete');
+        });
+
         Route::prefix('notifications')->name('notifications.')->group(function() {
             Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
             Route::put('/{notification}/process-upstream', [BackAdmin\NotificationController::class, 'processUpstream'])->name('process-upstream');

@@ -28,7 +28,7 @@ class DownStreamNotification extends Model
         'source_notif',
         'date_notif',
         'product_name',
-        'category_product_name',
+        'category_product_id',
         'brand_name',
         'registration_number',
         'package_product',
