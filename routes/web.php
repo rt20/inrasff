@@ -76,6 +76,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
         Route::prefix('downstreams')->name('downstreams.')->group(function() {
             Route::put('/{downstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
+            Route::put('/{downstream}/back-ccp', [BackAdmin\DownStreamNotificationController::class, 'backCcp'])->name('back-ccp');
             Route::put('/{downstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
             Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
             Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');

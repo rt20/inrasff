@@ -42,7 +42,7 @@
                 { data: 'start_point' },
                 { data: 'entry_point' },
                 { data: 'supervision_point' },
-                { data: 'destination_country_id' },                
+                { data: 'destination_country.name' },                
                 {
                     data: 'id',
                     className: 'text-center',

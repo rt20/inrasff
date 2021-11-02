@@ -238,6 +238,25 @@ class DownStreamNotificationController extends Controller
             ->withSuccess('Downstream berhasil diproses untuk CCP');
     }
 
+    public function backCcp(Request $request, DownStreamNotification $downstream){
+        try {
+            DB::beginTransaction();
+                $downstream->isStatus('ext process');
+                $downstream->setStatus('ccp process', 'Dikembalikan untuk proses CCP ');
+                $downstream->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.downstreams.edit', $downstream->id)
+            ->withSuccess('Downstream berhasil dikembalikan untuk proses CCP');
+    }
+
     public function processExt(Request $request, DownStreamNotification $downstream)
     {
         try {

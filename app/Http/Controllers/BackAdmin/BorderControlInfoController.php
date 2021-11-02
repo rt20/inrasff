@@ -24,6 +24,7 @@ class BorderControlInfoController extends Controller
     {
         if($request->ajax()){
             $bci = BorderControlInfo::query();
+            $bci = $bci->with('destinationCountry');
             if($request->has('for_downstream')){
                 if($request->for_downstream==1){
                     $bci = $bci->where('bci_type', 'App\Models\DownStreamNotification');

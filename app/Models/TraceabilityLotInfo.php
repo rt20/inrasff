@@ -28,4 +28,14 @@ class TraceabilityLotInfo extends Model
     public function notification(){
         return $this->morphTo(__FUNCTION__, 'tli_type', 'tli_id');
     }
+
+    /**
+     * Get the sourceCountry associated with the TraceabilityLotInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function sourceCountry()
+    {
+        return $this->hasOne(Country::class, 'id', 'source_country_id');
+    }
 }

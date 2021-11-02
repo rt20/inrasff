@@ -38,7 +38,7 @@
             processing: true,
             columns: [
                 { data: 'number' },
-                { data: 'source_country_id' },
+                { data: 'source_country.name' },
                 {
                     data: 'id',
                     className: 'text-center',

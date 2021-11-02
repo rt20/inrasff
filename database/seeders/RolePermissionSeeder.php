@@ -36,6 +36,7 @@ class RolePermissionSeeder extends Seeder
             'notification',
             'news',
             'slider',
+            'user'
         ]);
 
         $processPermissions = $this->createPermissions([
@@ -73,6 +74,7 @@ class RolePermissionSeeder extends Seeder
                 'notification',
                 'news',
                 'slider',
+                'user'
             ]
         );
 
@@ -99,12 +101,19 @@ class RolePermissionSeeder extends Seeder
             $roles['ccp'],
             $processPermissions,
             [
+                'downstream' => [
+                    'view all',
+                    'view',
+                ],
+
+                'upstream' => [
+                    'view all',
+                    'view',
+                ],
+
                 'follow_up' => [
                     'view all',
                     'view',
-                    'store',
-                    'delete',
-                    'process'
                 ],
             ]
         );
@@ -121,12 +130,18 @@ class RolePermissionSeeder extends Seeder
             $roles['lccp'],
             $processPermissions,
             [
+                'downstream' => [
+                    'view all',
+                    'view',
+                ],
+
+                'upstream' => [
+                    'view all',
+                    'view',
+                ],
                 'follow_up' => [
                     'view all',
                     'view',
-                    'store',
-                    'delete',
-                    'process'
                 ],
             ]
         );
