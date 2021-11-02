@@ -24,11 +24,12 @@
 
 @section('body')
 <section class="container px-3 lg:mx-auto mt-20 lg:mt-44">
-	<div class="grid grid-cols-12 items-center py-3 leading-5 mt-3">
-		<div class="col-span-4 lg:col-span-2 text-xs lg:text-base text-white bg-tertiary rounded uppercase px-2 lg:px-3 py-1 font-semibold text-center mx-auto">
-			breaking news
+	<div class="flex items-center py-3 leading-5 mt-3">
+		<div class="flex text-xs lg:text-base text-white bg-tertiary rounded uppercase px-2 lg:px-3 py-1 font-semibold text-center mx-auto">
+			<span class="mr-1">breaking</span> 
+			<span>news</span>
 		</div>
-		<marquee direction="left" class="col-span-8 lg:col-span-10 text-tertiary text-left">
+		<marquee direction="left" class="text-tertiary text-left">
 			Apa itu konteks dan mengapa hal itu penting dalam pembuatan produk digital?
 		</marquee>
 	</div>
@@ -105,7 +106,7 @@
 		<div class="lg:col-span-2">
 
 			<div class="text-base font-semibold mb-5">Supported By</div>
-			<div class="grid grid-cols-3 gap-4 mb-8">
+			<div class="supported">
 				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.pom.go.id/">
 						<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
@@ -146,23 +147,25 @@
 			<div class="text-base font-semibold mb-5">Maklumat Pelayanan</div>
 			<img src="{{ asset('images/maklumat_pelayanan.jpg') }}" class="w-full mb-8">
 
+			<?php $array = ['World', 'Technology', 'Entertaintment', 'Sports', 'Media', 'Politics', 'Business', 'Lifestyle', 'Travel', 'Cricket', 'Football', 'Education', 'Photography', 'Nature']; ?>
+
 			<div class="text-base font-semibold mb-5">Categories</div>
 			<ul class="list-disc list-inside space-y-3 mb-8" style="column-count: 2;">
-				@for($i=1;$i<=14;$i++)
-				<li><a href="{{ route('news_detail',1) }}">Category {{ $i }}</a></li>
-				@endfor
+				@foreach($array as $data)
+				<li><a href="{{ route('news') }}">{{ $data }}</a></li>
+				@endforeach
 			</ul>
 
 			<div class="text-base font-semibold mb-5">Pictures</div>
-			<div class="grid grid-cols-5 gap-1 mb-8">
-				@for($i=1;$i<=5;$i++)
-				<a href="{{ route('home') }}">
+			<div class="grid grid-cols-4 gap-1 mb-8">
+				@for($i=1;$i<=4;$i++)
+				<a href="{{ asset('seeder/image_1.jpg') }}" class="magnific-popup">
 					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
 				</a>
-				<a href="{{ route('home') }}">
+				<a href="{{ asset('seeder/image_2.jpg') }}" class="magnific-popup">
 					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full rounded">
 				</a>
-				<a href="{{ route('home') }}">
+				<a href="{{ asset('seeder/image_3.jpg') }}" class="magnific-popup">
 					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
 				</a>
 				@endfor
@@ -217,6 +220,21 @@
 	    // settings: "unslick"
 	    // instead of a settings object
 	  ]
+	});
+
+	$('.supported').slick({
+	  dots: false,
+	  arrows: false,
+	  infinite: false,
+	  speed: 300,
+	  slidesToShow: 3,
+	  slidesToScroll: 1,
+	  adaptiveHeight: true,
+	});
+
+	$('.magnific-popup').magnificPopup({
+	  type: 'image'
+	  // other options
 	});
 </script>
 @endsection

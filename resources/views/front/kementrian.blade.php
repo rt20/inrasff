@@ -46,11 +46,11 @@
 
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="slider">
-		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
-		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
-		<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
-		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
-		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full lg:p-8 lg:bg-gray-100">
+		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
 	</div>
 </section>
 
