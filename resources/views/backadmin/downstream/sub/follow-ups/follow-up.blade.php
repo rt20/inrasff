@@ -2,7 +2,7 @@
     <div class="col-12 col-md-12 form-group">
         
         <div class="d-flex justify-content-between align-items-center">
-            <h4>I. Tindak Lanjut</h4>
+            <h4>Tindak Lanjut</h4>
             {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
             @if($downstream->id !== null && in_array($downstream->status, ['ccp process']))
             <a href="{{ route('backadmin.follow_ups.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>

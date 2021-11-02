@@ -25,9 +25,20 @@ class TraceabilityLotInfoController extends Controller
         if($request->ajax()){
             $tli = TraceabilityLotInfo::query();
             $tli = $tli->with('sourceCountry');
+            
             if($request->has('for_downstream')){
                 if($request->for_downstream==1){
                     $tli = $tli->where('tli_type', 'App\Models\DownStreamNotification');
+                }
+
+                if($request->has('tli_id')){
+                    $tli = $tli->where('tli_id', $request->tli_id);
+                }
+            }
+
+            if($request->has('for_upstream')){
+                if($request->for_upstream==1){
+                    $tli = $tli->where('tli_type', 'App\Models\UpStreamNotification');
                 }
 
                 if($request->has('tli_id')){

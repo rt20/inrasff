@@ -34,6 +34,15 @@ class BorderControlInfoController extends Controller
                     $bci = $bci->where('bci_id', $request->bci_id);
                 }
             }
+            if($request->has('for_upstream')){
+                if($request->for_upstream==1){
+                    $bci = $bci->where('bci_type', 'App\Models\UpStreamNotification');
+                }
+
+                if($request->has('bci_id')){
+                    $bci = $bci->where('bci_id', $request->bci_id);
+                }
+            }
             return DataTables::of($bci->get())->make();
         }
 

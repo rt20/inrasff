@@ -97,11 +97,11 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         });
 
         Route::prefix('upstreams')->name('upstreams.')->group(function() {
-            Route::put('/{upstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
-            Route::put('/{upstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
-            Route::put('/{upstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
-            Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
-            Route::delete('/{id}/delete-attachment', [BackAdmin\DownStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            Route::put('/{upstream}/process-ext', [BackAdmin\UpStreamNotificationController::class, 'processExt'])->name('process-ext');
+            Route::put('/{upstream}/done', [BackAdmin\UpStreamNotificationController::class, 'done'])->name('done');
+            Route::put('/{upstream}/back-open', [BackAdmin\UpStreamNotificationController::class, 'backOpen'])->name('back-open');
+            Route::post('/add-attachment', [BackAdmin\UpStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
+            Route::delete('/{id}/delete-attachment', [BackAdmin\UpStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
         });
 
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {

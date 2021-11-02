@@ -31,7 +31,7 @@
                 url:"{{route('backadmin.traceability_lot_infos.index')}}",
                 data: function(data) {
                     data.for_upstream = 1
-                    data.ri_id = '{{$upstream->id}}'
+                    data.tli_id = '{{$upstream->id}}'
                 }
             },
             serverSide: true,
