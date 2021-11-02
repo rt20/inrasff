@@ -202,14 +202,34 @@ class UpStreamNotificationController extends Controller
             ->withSuccess('Upstream berhasil dibuat');
     }
 
-    public function processNcp(Request $request, UpStreamNotification $upstream)
+    public function backOpen(Request $request, UpStreamNotification $upstream){
+        try {
+            DB::beginTransaction();
+            
+                $upstream->isStatus('ext process');
+                $upstream->setStatus('open', 'Dikembalikan untuk edit ');
+                $upstream->update();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()
+            ->route('backadmin.upstreams.edit', $upstream->id)
+            ->withSuccess('Upstream berhasil dikembalikan untuk edit');
+    }
+
+    public function processExt(Request $request, UpStreamNotification $upstream)
     {
         
         try {
             DB::beginTransaction();
                 // dd($upstream);
                 $upstream->isStatus('open');
-                $upstream->setStatus('ccp process', 'Diproses untuk CCP ');
+                $upstream->setStatus('ext process', 'Diproses untuk CCP ');
                 $upstream->update();
             DB::commit();
             

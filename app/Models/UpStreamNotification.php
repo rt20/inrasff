@@ -38,7 +38,7 @@ class UpStreamNotification extends Model
     private $states = [
         'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
         'open' => [ 'label' => 'Dibuka', 'class' => 'info' ],
-        'ncp process' => [ 'label' => 'Proses NCP', 'class' => 'warning' ],
+        'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
         'done' => [ 'label' => 'Selesai', 'class' => 'success' ],
     ];
 
