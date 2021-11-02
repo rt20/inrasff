@@ -1,6 +1,6 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                        <h4>2. Produk</h4>
+                        <h4>Produk</h4>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6 form-group">
@@ -16,18 +16,18 @@
                         </div><!-- .col-md-6.form-group -->
 
                         <div class="col-12 col-md-6 form-group">
-                            <label for="category_product_name" class="form-label">Kategori Produk</label>
+                            <label for="category_product_id" class="form-label">Kategori Produk</label>
                             <select 
-                                v-model="downstream.category_product_name" 
-                                name="category_product_name" 
-                                class="form-control select2 @error('category_product_name') {{ 'is-invalid' }} @enderror">
+                                v-model="downstream.category_product_id" 
+                                name="category_product_id" 
+                                class="form-control select2 @error('category_product_id') {{ 'is-invalid' }} @enderror">
                                 <option value="" disabled selected>- Silahkan Kategori Produk -</option>
                                 @foreach ($a_product_category as $category)
                                 <option value="{{$category['value']}}">{{$category['label']}}</option>    
                                 @endforeach
                             </select>
-                            @error('category_product_name')
-                                <small class="text-danger">{{ $errors->first('category_product_name') }}</small>
+                            @error('category_product_id')
+                                <small class="text-danger">{{ $errors->first('category_product_id') }}</small>
                             @enderror
                         </div><!-- .col-md-6.form-group -->
                         <div class="col-12 col-md-6 form-group">

@@ -40,6 +40,9 @@
                 Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
             </button>    
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+                @if (in_array($downstream->status, ['ext process']))
+                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-back-ccp"><i class="mr-75" data-feather="settings"></i>Kembali CCP</a>
+                @endif
                 <a href="{{route('backadmin.downstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
                 @if (!in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
@@ -52,74 +55,93 @@
 @section('content')
 {{-- <div class="card">
     <div class="card-body"> --}}
-        <div class="d-flex justify-content-between align-items-center">
-            <ul class="nav nav-tabs" id="myTab2" role="tablist">
+        <div class="d-flex justify-content-between align-items-end pb-1">
+            <h1></h1>
+            <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
+        </div>
+        <div class="nav-vertical">
+            
+            <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">Informasi Utama</a>
+                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
                 </li>
+                
                 @if($downstream->id != null && !$downstream->isStatus('draft', false))
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">Bahaya & Resiko</a>
+                    <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">2. Info Penindak</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">Keterlusuran</a>
+                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">Kontrol Perbatasan</a>
+                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">Informasi Tambahan</a>
+                    <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true">7. Lampiran</a>
                 </li>
                 
                     @if(!$downstream->isStatus('open', false))
                     <li class="nav-item">
-                        <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">Tindak Lanjut</a>
+                        <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
                     </li>
                     @endif
                 @endif
             </ul>
-            <span class="badge badge-pill badge-light-{{ $downstream->status_class }} px-2 py-50">{{ $downstream->status_label }}</span>
+            
+            <!-- Vertical Wizard -->
+            <form method="post" id="form-main"> 
+                {{-- <input hidden readonly name="section_form" id="section-form" value="general"> --}}
+                @csrf
+                @if ($downstream->id)
+                    @method('PUT')
+                @endif
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.general')
+                    </div>
+
+                    @if($downstream->id != null)
+                    
+                    <div class="tab-pane " id="institution" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.institution')
+                    </div>
+                    <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
+                        {{-- @include('backadmin.downstream.dangerous_risk') --}}
+                        @include('backadmin.downstream.tab.dangerous_risks')
+                    </div>
+                    <div class="tab-pane " id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.traceability_lots')
+                    </div>
+                    <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.border_controls')
+                    </div>
+                    <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.additional')
+                    </div>
+                    <div class="tab-pane " id="attachment" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.attachment')
+                    </div>
+                    @if(!$downstream->isStatus('open', false))
+                    <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
+                        @include('backadmin.downstream.tab.follow_ups')
+                    </div>
+                    @endif
+                    @endif
+
+                    {{-- <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
+                        @include('backadmin.downstream.follow_up')
+                    </div> --}}
+
+                </div>
+            </form>
         </div>
-        <!-- Vertical Wizard -->
-        <form method="post" id="form-main">
-            {{-- <input hidden readonly name="section_form" id="section-form" value="general"> --}}
-            @csrf
-            @if ($downstream->id)
-                @method('PUT')
-            @endif
-            <div class="tab-content pt-1">
-                <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.tab.general')
-                </div>
-
-                @if($downstream->id != null)
-                <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
-                    {{-- @include('backadmin.downstream.dangerous_risk') --}}
-                    @include('backadmin.downstream.tab.dangerous_risks')
-                </div>
-                <div class="tab-pane " id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.tab.traceability_lots')
-                </div>
-                <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.tab.border_controls')
-                </div>
-                <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.tab.additional')
-                </div>
-                @if(!$downstream->isStatus('open', false))
-                <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
-                    @include('backadmin.downstream.tab.follow_ups')
-                </div>
-                @endif
-                @endif
-
-                {{-- <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
-                    @include('backadmin.downstream.follow_up')
-                </div> --}}
-
-            </div>
-        </form>
         <!-- /Vertical Wizard -->
     {{-- </div>
 </div> --}}
@@ -165,6 +187,30 @@
                     </div>
                     <div class="modal-body">
                         <p>Apakah Anda yakin akan memproses Downstream ini untuk CCP?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-back-ccp" tabindex="-1" role="dialog" aria-labelledby="modalProcessCcp" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.downstreams.back-ccp', $downstream->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcessCcp">Konfirmasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan mengembalikan Downstream ini untuk proses CCP?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>

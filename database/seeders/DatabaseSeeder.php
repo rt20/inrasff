@@ -14,14 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-
-        \App\Models\User::factory()->create([
-            'username' => 'superadmin',
-            'fullname' => 'My Name Superadmin',
-            'email' => 'superadmin' . '@bpom.com',
-            'type' => 'superadmin',
-        ]);
-
+        $this->call(RolePermissionSeeder::class);
+        $this->call(UserSeeder::class);
+        
         $this->call([
             SliderSeeder::class,
             NotificationStatusSeeder::class,

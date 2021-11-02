@@ -24,7 +24,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">   
                 @if (!in_array($notification->status, ['processed']))
                 <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Downstream</a>
-                <a href="#" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Upstream</a>
+                <a href="#" data-toggle="modal" data-target="#modal-process-upstream"  class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Upstream</a>
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
                 @endif
                 <a href="{{route('backadmin.notifications.index')}}" class="dropdown-item"><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
@@ -141,6 +141,30 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-outline-primary">Ya, Proses Downstream</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-process-upstream" tabindex="-1" role="dialog" aria-labelledby="modalProcessUpstream" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('backadmin.notifications.process-upstream', $notification->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalProcess">Konfirmasi Proses Menjadi Upstream</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin akan membuat Notifikasi ini menjadi Notifikasi Upstream?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary">Ya, Proses Upstream</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                     </div>
                 </form>

@@ -37,7 +37,7 @@ class CreateDownStreamNotificationsTable extends Migration
             $table->dateTime('date_notif')->nullable();
             /** Section 2 Product Information */
             $table->string('product_name')->nullable();
-            $table->string('category_product_name')->nullable();
+            $table->string('category_product_id')->nullable();
             $table->string('brand_name')->nullable();
             $table->string('package_product')->nullable();
             $table->string('registration_number')->nullable();

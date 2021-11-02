@@ -51,15 +51,23 @@ class ViewComposerProvider extends ServiceProvider
             ]);
         });
 
-        // View::composer('backadmin.dangerous_info.form', function ($view) {
-        //     $a_dangerous_category = NotificationService::categoryDangerous();
-        //     $a_uom_result = NotificationService::uomResult();
+        View::composer('backadmin.upstream.form', function ($view) {
+            
+            
+            $a_notification_source_local = NotificationService::notificationSource();
+            $a_notification_source_interlocal = NotificationService::notificationSource('interlocal');
+            $a_product_category = NotificationService::productCategory();
+            $a_uom_result = NotificationService::uomResult();
+            $a_distribution_status = NotificationService::distributionStatus();
 
-        //     $view->with([
-        //         'a_dangerous_category' => $a_dangerous_category,
-        //         'a_uom_result' => $a_uom_result,
-        //     ]);
-        // });
+            $view->with([
+                'a_notification_source_local' => $a_notification_source_local,
+                'a_notification_source_interlocal' => $a_notification_source_interlocal,
+                'a_product_category' => $a_product_category,
+                'a_uom_result' => $a_uom_result,
+                'a_distribution_status' => $a_distribution_status
+            ]);
+        });
 
         View::composer('backadmin.risk_info.form', function ($view) {
             // $a_distribution_status = NotificationService::distributionStatus();

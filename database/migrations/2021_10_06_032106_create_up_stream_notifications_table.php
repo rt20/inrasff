@@ -15,7 +15,43 @@ class CreateUpStreamNotificationsTable extends Migration
     {
         Schema::create('up_stream_notifications', function (Blueprint $table) {
             $table->id();
+            $table->string('status')->default('open'); // this is status document ; open, ccp process, ext process, done
+            $table->unsignedBigInteger('notif_id')->nullable();
+            $table->unsignedBigInteger('author_id');
+            
+            $table->string('number'); //document number
+
+            /** Section 1 General Information */
+            $table->string('number_ref')->nullable();
+            $table->unsignedBigInteger('status_notif_id')->nullable();
+            $table->unsignedBigInteger('type_notif_id')->nullable();
+            $table->string('title');
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('based_notif_id')->nullable();
+            $table->string('origin_source_notif')->nullable();
+            $table->string('source_notif')->nullable();
+            $table->dateTime('date_notif')->nullable();
+
+            /** Section 2 Product Information */
+            $table->string('product_name')->nullable();
+            $table->string('category_product_id')->nullable();
+            $table->string('brand_name')->nullable();
+            $table->string('package_product')->nullable();
+            $table->string('registration_number')->nullable();
+
+            /** Section 7 Additional Information */
+            $table->string('institution')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->text('others')->nullable();
+
+            $table->text('history')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->dateTime('finished_at')->nullable();
+            $table->foreign('notif_id')->references('id')->on('notifications')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+
         });
     }
 

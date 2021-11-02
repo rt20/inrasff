@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
+use App\Models\UpStreamNotification;
 use App\Models\FollowUpNotification;
 use App\Models\FollowUpNotificationAttachment;
 
@@ -44,13 +45,13 @@ class FollowUpNotificationController extends Controller
     }
 
     public function attachmentDataTable(Request $request){
-        // if($request->ajax()){
+        if($request->ajax()){
             $a = FollowUpNotificationAttachment::query();
             if($request->has('fun_id')){
                 $a = $a->where('fun_id', $request->fun_id);
             }
             return DataTables::of($a)->make();
-        // }
+        }
         return ;
     }
 

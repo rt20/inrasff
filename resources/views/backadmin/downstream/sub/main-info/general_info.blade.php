@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-center mb-1">
-    <h4>1. Informasi Umum</h4>
+    <h4>Informasi Umum</h4>
 </div>
 <div class="row">
     <div class="col-12 col-md-6 form-group">
@@ -33,10 +33,6 @@
             v-model="downstream.status_notif_id" 
             name="status_notif_id" 
             class="form-control  @error('status_notif_id') {{ 'is-invalid' }} @enderror">
-            {{-- <option value="" disabled selected>- Silahkan pilih status notifikasi -</option>
-            @foreach ($a_notification_status as $status)
-            <option value="{{$status['value']}}">{{$status['label']}}</option>    
-            @endforeach --}}
         </select>
         @error('status_notif_id')
             <small class="text-danger">{{ $errors->first('status_notif_id') }}</small>
@@ -49,9 +45,6 @@
             id="f_type_notif_id"
             v-model="downstream.type_notif_id" 
             name="type_notif_id" class="form-control @error('type_notif_id') {{ 'is-invalid' }} @enderror">
-            {{-- <option value="" disabled selected>- Silahkan pilih tipe notifikasi -</option>
-            <option value="food">Food</option>
-            <option value="feed">Feed</option> --}}
         </select>
         @error('type_notif_id')
             <small class="text-danger">{{ $errors->first('type_notif_id') }}</small>
@@ -62,9 +55,7 @@
         <label for="country_id" class="form-label">Negara yang Menotifikasi</label>
         <select
             id="country_id"
-            name="country_id"
-            {{-- v-model="downstream.title"  --}}
-            
+            name="country_id"            
             class="form-control @error('country_id') {{ 'is-invalid' }} @enderror">
         </select>
         @error('country_id')
@@ -79,10 +70,6 @@
             v-model="downstream.based_notif_id" 
             name="based_notif_id" 
             class="form-control  @error('based_notif_id') {{ 'is-invalid' }} @enderror">
-            {{-- <option value="" disabled selected>- Silahkan pilih dasar notifikasi -</option>
-            @foreach ($a_notification_base as $base)
-            <option value="{{$base['value']}}">{{$base['label']}}</option>    
-            @endforeach --}}
         </select>
         @error('based_notif_id')
             <small class="text-danger">{{ $errors->first('based_notif_id') }}</small>
@@ -151,7 +138,7 @@
             <small class="text-danger">{{ $errors->first('date_notif') }}</small>
         @enderror
     </div><!-- .col-md-6.form-group -->
-    
+{{--     
     <div class="col-12 col-md-12 form-group">
         <hr>
         <div class="d-flex justify-content-between align-items-center">
@@ -203,6 +190,6 @@
             <tbody>
             </tbody>
         </table>
-    </div>
+    </div> --}}
 
 </div>

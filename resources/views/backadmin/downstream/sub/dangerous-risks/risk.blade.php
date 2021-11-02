@@ -2,7 +2,7 @@
     <div class="col-12 col-md-12 form-group">
         
         <div class="d-flex justify-content-between align-items-center">
-            <h4>4. Daftar Resiko</h4>
+            <h4>Daftar Resiko</h4>
             @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
             <a href="{{ route('backadmin.risk_infos.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
             @endif

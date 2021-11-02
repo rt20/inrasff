@@ -25,4 +25,14 @@ class BorderControlInfo extends Model
     {
         return $this->morphTo(__FUNCTION__, 'bci_type', 'bci_id');
     }
+
+    /**
+     * Get the destinationCountry associated with the BorderControlInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function destinationCountry()
+    {
+        return $this->hasOne(Country::class, 'id', 'destination_country_id');
+    }
 }

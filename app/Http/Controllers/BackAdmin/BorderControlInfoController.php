@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
+use App\Models\UpStreamNotification;
 use App\Models\BorderControlInfo;
 
 use Exception;
@@ -23,6 +24,7 @@ class BorderControlInfoController extends Controller
     {
         if($request->ajax()){
             $bci = BorderControlInfo::query();
+            $bci = $bci->with('destinationCountry');
             if($request->has('for_downstream')){
                 if($request->for_downstream==1){
                     $bci = $bci->where('bci_type', 'App\Models\DownStreamNotification');

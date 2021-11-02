@@ -28,7 +28,7 @@ class DownStreamNotification extends Model
         'source_notif',
         'date_notif',
         'product_name',
-        'category_product_name',
+        'category_product_id',
         'brand_name',
         'registration_number',
         'package_product',
@@ -79,6 +79,11 @@ class DownStreamNotification extends Model
     public function followUp(){
         return $this->morphMany(FollowUpNotification::class, 'fun');
     }
+
+    public function attachment(){
+        return $this->morphMany(NotificationAttachment::class, 'na');
+    }
+
     
 
     /**

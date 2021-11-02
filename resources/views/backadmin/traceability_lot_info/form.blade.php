@@ -29,7 +29,7 @@
     
     }}"
     
-    >Downstream Asal</a></li>
+    >{{ str_replace('App\\Models\\', '', $traceability_lot->tli_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Keterlusuran Lot</li>
 @endsection

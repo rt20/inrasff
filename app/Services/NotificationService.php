@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 class NotificationService{
+/*
     public static function notificationStatus(){
         return [
             'border rejection' => [
@@ -85,7 +86,7 @@ class NotificationService{
             ],
         ];
     }
-
+*/
     public static function notificationSource($source = 'domestic'){
         if ($source === 'domestic') {
             return [

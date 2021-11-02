@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
+use App\Models\UpStreamNotification;
 use App\Models\TraceabilityLotInfo;
 
 use Exception;
@@ -23,6 +24,7 @@ class TraceabilityLotInfoController extends Controller
     {
         if($request->ajax()){
             $tli = TraceabilityLotInfo::query();
+            $tli = $tli->with('sourceCountry');
             if($request->has('for_downstream')){
                 if($request->for_downstream==1){
                     $tli = $tli->where('tli_type', 'App\Models\DownStreamNotification');

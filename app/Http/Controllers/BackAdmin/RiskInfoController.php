@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
+use App\Models\UpStreamNotification;
 use App\Models\RiskInfo;
 
 use Exception;
@@ -27,6 +28,17 @@ class RiskInfoController extends Controller
                 $ri = $ri->with(['distributionStatus']);
                 if($request->for_downstream==1){
                     $ri = $ri->where('ri_type', 'App\Models\DownStreamNotification');
+                }
+
+                if($request->has('ri_id')){
+                    $ri = $ri->where('ri_id', $request->ri_id);
+                }
+            }
+
+            if($request->has('for_upstream')){
+                $ri = $ri->with(['distributionStatus']);
+                if($request->for_upstream==1){
+                    $ri = $ri->where('ri_type', 'App\Models\UpStreamNotification');
                 }
 
                 if($request->has('ri_id')){

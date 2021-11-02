@@ -5,7 +5,6 @@
                 <div class="modal-header">
                     <h4 v-show="institutionModal.state !== 'delete'" class="modal-title" id="modalAddInstitution">Tambah Instansi</h4>
                     <h4 v-show="institutionModal.state === 'delete'" class="modal-title" id="modalAddInstitution">Hapus Instansi</h4>
-                    {{-- <h4 class="modal-title" id="modalAddInstitution">Tambahkan Instansi</h4> --}}
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -15,7 +14,7 @@
                         <input hidden readonly name="ds_id" value="{{$downstream->id}}">
                         <div class="col-12 col-md-12 form-group" >
                             <label class="form-label required">Nama Instansi</label>
-                            <select id="f_institution" name="institution_id" class="form-control" autocomplete="off"></select>
+                            <select id="f_institution_a" name="institution_id" class="form-control" autocomplete="off"></select>
                         </div>
                     </div>
 

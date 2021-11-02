@@ -182,6 +182,7 @@ return [
 
         Intervention\Image\ImageServiceProvider::class,
         Monarobase\CountryList\CountryListServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
 
     ],
@@ -243,6 +244,7 @@ return [
 
         'Image' => Intervention\Image\Facades\Image::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
+        
     ],
 
 ];

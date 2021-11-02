@@ -18,18 +18,31 @@ use App\Http\Controllers as Controller;
 Route::get('/', function () {
     return view('front.home');
 })->name('home');
+
 Route::get('/news', function () {
     return view('front.news');
 })->name('news');
+
 Route::get('/news/{slug}', function () {
     return view('front.news-detail');
 })->name('news_detail');
+
 Route::get('/kementrian', function () {
     return view('front.kementrian');
 })->name('kementrian');
+
 Route::get('/aboutus', function () {
     return view('front.aboutus');
 })->name('aboutus');
+
+Route::get('/logical', function () {
+    return view('front.logical');
+})->name('logical');
+
+Route::get('/baganalir', function () {
+    return view('front.baganalir');
+})->name('baganalir');
+
 Route::get('/contactus', function () {
     return view('front.contactus');
 })->name('contactus');
@@ -58,19 +71,37 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
+        Route::prefix('up_stream_institutions')->name('up_stream_institutions.')->group(function(){
+            Route::get('/', [BackAdmin\UpStreamInstitutionController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\UpStreamInstitutionController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\UpStreamInstitutionController::class, 'delete'])->name('delete');
+        });
+
         Route::prefix('notifications')->name('notifications.')->group(function() {
             Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
+            Route::put('/{notification}/process-upstream', [BackAdmin\NotificationController::class, 'processUpstream'])->name('process-upstream');
         });
 
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
             Route::post('/add-attachment', [BackAdmin\FollowUpNotificationController::class, 'addAttachment'])->name('add-attachment');
-            Route::delete('{id}/delete-attachment', [BackAdmin\FollowUpNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            Route::delete('/{id}/delete-attachment', [BackAdmin\FollowUpNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
         });
 
         Route::prefix('downstreams')->name('downstreams.')->group(function() {
             Route::put('/{downstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
+            Route::put('/{downstream}/back-ccp', [BackAdmin\DownStreamNotificationController::class, 'backCcp'])->name('back-ccp');
             Route::put('/{downstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
             Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
+            Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
+            Route::delete('/{id}/delete-attachment', [BackAdmin\DownStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+        });
+
+        Route::prefix('upstreams')->name('upstreams.')->group(function() {
+            Route::put('/{upstream}/process-ccp', [BackAdmin\DownStreamNotificationController::class, 'processCcp'])->name('process-ccp');
+            Route::put('/{upstream}/process-ext', [BackAdmin\DownStreamNotificationController::class, 'processExt'])->name('process-ext');
+            Route::put('/{upstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
+            Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
+            Route::delete('/{id}/delete-attachment', [BackAdmin\DownStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
         });
 
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
@@ -91,6 +122,8 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'risk_infos' => BackAdmin\RiskInfoController::class,
             'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
+            'upstreams' => BackAdmin\UpStreamNotificationController::class,
+            'users' => BackAdmin\UserController::class,
         ]);
 
          // Get select2 options
@@ -119,6 +152,8 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
         Route::prefix('datatables')->name('dt.')->group(function () {
             Route::get('attachment-fu', [BackAdmin\FollowUpNotificationController::class, 'attachmentDataTable'])->name('attachment_fu');
+            Route::get('attachment-n-downstreams', [BackAdmin\DownStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_downstreams');
+            Route::get('attachment-n-upstreams', [BackAdmin\UpStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_upstreams');
         });
     });
 });
