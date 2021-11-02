@@ -21,114 +21,53 @@
                         halobpom@pom.go.gid
                     </div>
                 </div>
-                <div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div class="mt-12 grid grid-cols-1 gap-8 xl:mt-0 xl:col-span-2">
+                    <div class="md:grid md:grid-cols-3 md:gap-8">
                         <div>
                             <h3 class="text-xl font-bold text-white tracking-wider uppercase">
-                                Solutions
+                                Menu
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Marketing
+                                    Home
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Analytics
+                                    Berita
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Commerce
+                                    Kementrian
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Insights
+                                    Hubungi Kami
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="mt-12 md:mt-0">
+                        <div class="col-span-2 mt-12 md:mt-0">
                             <h3 class="text-xl font-bold text-white tracking-wider uppercase">
-                                Support
+                                Tentang Kami
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Pricing
+                                    Indonesia Rapid Alert System For Food And Feed
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Documentation
+                                    Bagan Alir Penerapan INRASFF
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Guides
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    API Status
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
-                        <div>
-                            <h3 class="text-xl font-bold text-white tracking-wider uppercase">
-                                Company
-                            </h3>
-                            <ul role="list" class="mt-4 space-y-4">
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    About
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Blog
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Jobs
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Press
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Partners
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="mt-12 md:mt-0">
-                            <h3 class="text-xl font-bold text-white tracking-wider uppercase">
-                                Legal
-                            </h3>
-                            <ul role="list" class="mt-4 space-y-4">
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Claim
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Privacy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Terms
+                                    Logical Framework INRASFF
                                     </a>
                                 </li>
                             </ul>

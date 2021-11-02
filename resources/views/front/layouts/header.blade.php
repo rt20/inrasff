@@ -9,7 +9,7 @@
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
             >
-            <div class="container mx-auto flex justify-between items-center px-6 lg:px-0">
+            <div class="container mx-auto flex justify-between items-center px-6 lg:px-3">
                 <div class="text-primary text-xs tracking-wider font-semibold">
                     Selamat datang di website INRASFF
                 </div>
@@ -29,12 +29,22 @@
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
             >
-            <div class="container mx-auto flex justify-between items-center my-3 px-6 lg:px-0">
+            <div class="container mx-auto flex justify-between items-center my-3 px-6 lg:px-3">
                 <a href="{{ route('home') }}" class="flex-shrink-0">
                     <img src="{{ asset('images/logo_little_white.png') }}" class="h-12" style="filter: drop-shadow(1px 1px .5px black);" />
                 </a>
                 <div class="flex items-center">
-                    <div class="text-sm mr-3 text-gray-400">
+                    <form method="GET">
+                        <div class="relative text-gray-600 focus-within:text-gray-400">
+                            <input type="search" name="" class="py-2 text-sm text-white bg-white rounded-full pr-10 pl-5 focus:outline-none focus:bg-gray-100 focus:text-gray-900 border border-gray-300 " placeholder="Search" autocomplete="off">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-2">
+                                <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                    {{-- <div class="text-sm mr-3 text-gray-400">
                         Follow our social media
                     </div>
                     <a href="https://www.facebook.com" target="_blank" class="inline-block p-3">
@@ -45,30 +55,31 @@
                     </a>
                     <a href="https://www.twitter.com" target="_blank" class="inline-block p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter h-4 text-primary" viewBox="0 0 16 16"><path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/></svg>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>
         <hr>
         <div class="bg-primary text-white">
-            <div class="container mx-auto top-menu flex justify-between items-center py-2">
+            <div class="container mx-auto top-menu flex justify-between items-center py-2 px-3">
                 <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false }">
                     <a href="{{ route('home') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Home</a>
                     <a href="{{ route('news') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>
                     <a href="{{ route('kementrian') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementrian</a>
-                    <a href="{{ route('aboutus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Tentang Kami</a>
-                    <a href="{{ route('contactus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm">Hubungi Kami</a>
-                </menu>
-                <form method="GET">
-                    <div class="relative text-gray-600 focus-within:text-gray-400">
-                        <input type="search" name="" class="py-2 text-sm text-white bg-white rounded-full pr-10 pl-5 focus:outline-none focus:bg-gray-100 focus:text-gray-900" placeholder="Search" autocomplete="off">
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-2">
-                            <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            </button>
+                    {{-- <a href="{{ route('aboutus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Tentang Kami</a> --}}
+                    <div @click="showAbout = true; showBisnis = false" href="javascript:void(0)" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">
+                        <span class="cursor-pointer relative" @click.away="showAbout = false">
+                            Tentang Kami
+                            {{-- <div class="absolute bg-primary w-8 h-8 transform top-9 rotate-45 right-9" x-show="showAbout === true"></div> --}}
+                            <div class="absolute bg-primary w-72 px-6 py-4 rounded top-10 text-white font-semibold text-sm" x-show="showAbout === true">
+                                <a href="{{ route('aboutus') }}" class="block hover:text-gray-200 mb-2">INRASFF</a>
+                                <a href="{{ route('baganalir') }}" class="block hover:text-gray-200 mb-2 leading-normal">Bagan Alir Penerapan INRASFF</a>
+                                <a href="{{ route('logical') }}" class="block hover:text-gray-200 leading-normal">Logical Framework INRASFF</a>
+                            </div>
                         </span>
                     </div>
-                </form>
+                    <a href="{{ route('contactus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm">Hubungi Kami</a>
+                </menu>
             </div>
         </div>
     </div>
@@ -95,6 +106,8 @@
                 <a href="{{ route('news') }}" class="block py-3 transition duration-300 uppercase font-bold">Berita</a>
                 <a href="{{ route('kementrian') }}" class="block py-3 transition duration-300 uppercase font-bold">Kementrian</a>
                 <a href="{{ route('aboutus') }}" class="block py-3 transition duration-300 uppercase font-bold">Tentang Kami</a>
+                <a href="{{ route('baganalir') }}" class="block py-3 transition duration-300 uppercase font-bold">Bagan Alir Penerapan INRASFF</a>
+                <a href="{{ route('logical') }}" class="block py-3 transition duration-300 uppercase font-bold">Logical Framework INRASFF</a>
                 <a href="{{ route('contactus') }}" class="block py-3 transition duration-300 uppercase font-bold">Hubungi Kami</a>
             </div>
             <div class="bg-secondary_dark py-3 text-center fixed inset-x-0 bottom-0 w-full">
