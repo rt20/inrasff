@@ -38,6 +38,15 @@ class FollowUpNotificationController extends Controller
                     $bci = $bci->where('fun_id', $request->fun_id);
                 }
             }
+            if($request->has('for_upstream')){
+                if($request->for_upstream==1){
+                    $bci = $bci->where('fun_type', 'App\Models\UpStreamNotification');
+                }
+
+                if($request->has('fun_id')){
+                    $bci = $bci->where('fun_id', $request->fun_id);
+                }
+            }
             return DataTables::of($bci->get())->make();
         }
 
