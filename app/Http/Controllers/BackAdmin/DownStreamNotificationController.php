@@ -141,14 +141,13 @@ class DownStreamNotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(DownStreamNotification $downstream)
+    public function edit(Request $request, DownStreamNotification $downstream)
     {
-        // return $downstream->dangerousRisk()->create();
-        // $downstream->dangerousRisk;
         
         return view('backadmin.downstream.form', [
             'title' => $downstream->number,
             'downstream' => $downstream,
+            'focus' => $request->focus ?? null
         ]);
     }
 

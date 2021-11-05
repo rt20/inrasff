@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
@@ -15,6 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create('id_ID');
         $roles = Role::all()->keyBy('name');
         $users = [
             [ 
@@ -50,13 +52,52 @@ class UserSeeder extends Seeder
             
         ];
 
+        $ncp = 1;
+        $ccp = 1;
+        $lccp = 1;
         foreach ($users as $user) {
-            $u = User::factory()->create([
-                'username' => $user['username'],
-                'fullname' => $user['name'],
-                'email' => $user['username'] . '@bpom.com',
-                'type' => $user['role'],
-            ]);
+            if($user['role']==='ccp'){
+                $u = User::factory()->create([
+                    // 'username' => $user['username'],
+                    'username' => $user['role']."_".$ccp,
+                    'fullname' => $user['name'],
+                    'email' => $user['username'] . '@inrasff.com',
+                    'type' => $user['role'],
+                ]);
+                $ccp++;
+            }else if ($user['role']==='lccp'){
+                $u = User::factory()->create([
+                    // 'username' => $user['username'],
+                    'username' => $user['role']."_".$lccp,
+                    'fullname' => $user['name'],
+                    'email' => $user['username'] . '@inrasff.com',
+                    'type' => $user['role'],
+                ]);
+                $lccp++;
+            }else if($user['role']==='ncp'){
+                $u = User::factory()->create([
+                    // 'username' => $user['username'],
+                    'username' => $user['role']."_".$ncp,
+                    'fullname' => $user['name'],
+                    'email' => $user['username'] . '@inrasff.com',
+                    'type' => $user['role'],
+                ]);
+                $ncp++;
+            }
+            else{
+                $u = User::factory()->create([
+                    'username' => $user['username'],
+                    'fullname' => $user['name'],
+                    'email' => $user['username'] . '@inrasff.com',
+                    'type' => $user['role'],
+                ]);
+            }
+
+            $u->responsible_name = $faker->name;
+            $u->responsible_phone = $faker->phoneNumber;
+            $u->responsible_address = $faker->address;
+            $u->update();
+            
 
             $u->assignRole($roles[$user['role']]);
 

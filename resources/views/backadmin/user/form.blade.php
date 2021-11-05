@@ -25,7 +25,7 @@
                     @if ($user->id)
                         @method('PUT')
                     @endif
-                    <section class="pr-form-main">
+                    <section class="bi-form-main">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h4>Informasi Umum</h4>
                         </div>
@@ -38,7 +38,7 @@
                                     name="username"
                                     v-model="user.username" 
                                     class="form-control @error('username') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan kode" autocomplete="off">
+                                    placeholder="Masukkan Username" autocomplete="off">
                                 @error('username')
                                     <small class="text-danger">{{ $errors->first('username') }}</small>
                                 @enderror
@@ -50,7 +50,7 @@
                                     name="email"
                                     v-model="user.email" 
                                     class="form-control @error('email') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan kode" autocomplete="off">
+                                    placeholder="Masukkan Email" autocomplete="off">
                                 @error('email')
                                     <small class="text-danger">{{ $errors->first('email') }}</small>
                                 @enderror
@@ -110,7 +110,53 @@
                                 </div><!-- .col-md-6.form-group -->
                             @endif
                         </div><!-- .row -->
-                    </section><!-- .pr-form-main -->
+                    </section><!-- .bi-form-main -->
+                    <section class="bi-form-main">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h4>Informasi Penanggung Jawab</h4>
+                        </div>
+    
+                        <div class="row">
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="responsible_name" class="form-label required">Nama</label>
+                                <input type="text" 
+                                    name="responsible_name"
+                                    v-model="user.responsible_name" 
+                                    class="form-control @error('responsible_name') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Nama" autocomplete="off">
+                                @error('responsible_name')
+                                    <small class="text-danger">{{ $errors->first('responsible_name') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="responsible_phone" class="form-label required">Telepon</label>
+                                <input type="text" 
+                                    name="responsible_phone"
+                                    v-model="user.responsible_phone" 
+                                    class="form-control @error('responsible_phone') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Telepon" autocomplete="off">
+                                @error('responsible_phone')
+                                    <small class="text-danger">{{ $errors->first('responsible_phone') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-12 form-group">
+                                <label for="responsible_address" class="form-label required">Alamat</label>
+                                <textarea
+                                    placeholder="Masukan Alamat"
+                                    name="responsible_address"
+                                    v-model="user.responsible_address" 
+                                    class="form-control @error('email') {{ 'is-invalid' }} @enderror"
+                                ></textarea>
+                                @error('responsible_address')
+                                    <small class="text-danger">{{ $errors->first('responsible_address') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                        </div><!-- .row -->
+                    </section><!-- .bi-form-main -->
                 </form>
             </div>
         </div>
@@ -172,7 +218,10 @@
                 fullname: old.fullname ?? user.fullname ?? '',
                 username: old.username ?? user.username ?? '',
                 email: old.email ?? user.email ?? '',
-                type: old.type ?? user.type ?? '',                
+                type: old.type ?? user.type ?? '',
+                responsible_name: old.responsible_name ?? user.responsible_name ?? '',
+                responsible_phone: old.responsible_phone ?? user.responsible_phone ?? '',
+                responsible_address: old.responsible_address ?? user.responsible_address ?? '',                
             }
 
             console.log(this.user)

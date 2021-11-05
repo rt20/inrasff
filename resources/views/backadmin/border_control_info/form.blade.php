@@ -13,8 +13,8 @@
     <a 
     href="{{ 
         str_replace('App\\Models\\', '', $border_control->bci_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', $border_control->notification->id) :
-        route('backadmin.upstreams.edit', $border_control->notification->id)
+        route('backadmin.downstreams.edit', ['downstream' => $border_control->notification->id , 'focus' => 'border_controls']) :
+        route('backadmin.upstreams.edit', ['upstream' => $border_control->notification->id , 'focus' => 'border_controls'])
     
     }}"
     
@@ -23,13 +23,13 @@
     <li class="breadcrumb-item">
     <a 
     href="{{ 
-        request()->input('notification_type') === 'downstream'?
-        route('backadmin.downstreams.edit', request()->input('notification_id')) :
-        route('backadmin.upstreams.edit', request()->input('notification_id'))
+        request()->input('notification_type') === 'downstream' ?
+        route('backadmin.downstreams.edit', ['downstream' => request()->input('notification_id'), 'focus' => 'border_controls']) :
+        route('backadmin.upstreams.edit', ['upstream' => request()->input('notification_id'), 'focus' => 'border_controls'])
     
     }}"
     
-    >{{ str_replace('App\\Models\\', '', $border_control->bci_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
+    >{{ request()->input('notification_type') === 'downstream' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Kontrol Perbatasan</li>
 @endsection

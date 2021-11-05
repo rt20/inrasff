@@ -13,23 +13,23 @@
     <a 
     href="{{ 
         str_replace('App\\Models\\', '', $risk->ri_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', $risk->notification->id) :
-        route('backadmin.upstreams.edit', $risk->notification->id)
+        route('backadmin.downstreams.edit', ['downstream' => $risk->notification->id, 'focus' => 'dangerous_infos']) :
+        route('backadmin.upstreams.edit', ['upstream' => $risk->notification->id, 'focus' => 'dangerous_infos'])
     
     }}"
     
     >{{ $risk->notification->number }}</a></li>
-    @else
+@else
     <li class="breadcrumb-item">
     <a 
     href="{{ 
         request()->input('notification_type') === 'downstream'?
-        route('backadmin.downstreams.edit', request()->input('notification_id')) :
-        route('backadmin.upstreams.edit', request()->input('notification_id'))
+        route('backadmin.downstreams.edit', ['downstream' => request()->input('notification_id'), 'focus' => 'dangerous_risks']) :
+        route('backadmin.upstreams.edit', ['upstream' => request()->input('notification_id'), 'focus' => 'dangerous_risks'])
     
     }}"
     
-    >{{ str_replace('App\\Models\\', '', $risk->ri_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
+    >{{  request()->input('notification_type') === 'downstream' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Info Resiko</li>
 @endsection

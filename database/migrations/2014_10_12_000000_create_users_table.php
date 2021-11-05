@@ -24,6 +24,13 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            /**
+             * Info Penanggung Jawab Akun
+             */
+            $table->string('responsible_name')->nullable();
+            $table->string('responsible_phone')->nullable();
+            $table->text('responsible_address')->nullable();
         });
     }
 

@@ -26,7 +26,8 @@ class InstitutionSeeder extends Seeder
             ],
             [
                 'name' => 'Kementrian Kelautan'
-            ],            [
+            ],            
+            [
                 'name' => 'Bea Cukai'
             ],
         ]);

@@ -68,7 +68,10 @@ class UserController extends Controller
                 'fullname',
                 'type',
                 'email',
-                'password'
+                'password',
+                'responsible_name',
+                'responsible_phone',
+                'responsible_address',
             ]));
             $user->save();
             DB::commit();
@@ -134,6 +137,9 @@ class UserController extends Controller
                 'fullname',
                 'type',
                 'email',
+                'responsible_name',
+                'responsible_phone',
+                'responsible_address',
             ]));
             $user->save();
             DB::commit();

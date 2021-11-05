@@ -9,27 +9,27 @@
 
 @section('breadcrumb')
 @if($dangerous->id != null)
-<li class="breadcrumb-item">
-    <a 
-    href="{{ 
-        str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', $dangerous->notification->id) :
-        route('backadmin.upstreams.edit', $dangerous->notification->id)
-    
-    }}"
-    
-    >{{ $dangerous->notification->number }}</a></li>
-    @else
+    <li class="breadcrumb-item">
+        <a 
+        href="{{ 
+            str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ?
+            route('backadmin.downstreams.edit', ['downstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks']) :
+            route('backadmin.upstreams.edit', ['upstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks'])
+        
+        }}"
+        
+        >{{ $dangerous->notification->number }}</a></li>
+@else
     <li class="breadcrumb-item">
     <a 
     href="{{ 
         request()->input('notification_type') === 'downstream'?
-        route('backadmin.downstreams.edit', request()->input('notification_id')) :
-        route('backadmin.upstreams.edit', request()->input('notification_id'))
+        route('backadmin.downstreams.edit', ['downstream' => request()->input('notification_id'), 'focus' => 'dangerous_risks']) :
+        route('backadmin.upstreams.edit', ['upstream' => request()->input('notification_id'), 'focus' => 'dangerous_risks'])
     
     }}"
     
-    >{{ str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
+    >{{ request()->input('notification_type') === 'downstream' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Info Bahaya</li>
 @endsection

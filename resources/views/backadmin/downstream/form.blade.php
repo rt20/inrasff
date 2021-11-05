@@ -2,7 +2,7 @@
 
 @section('vendor-css')
 @include('backadmin.layouts.style_datatables')
-<link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/wizard/bs-stepper.min.css') }}">    
+{{-- <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/wizard/bs-stepper.min.css') }}">     --}}
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
 <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 @endsection
@@ -63,7 +63,7 @@
             
             <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
+                <a class="nav-link {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
                 </li>
                 
                 @if($downstream->id != null && !$downstream->isStatus('draft', false))
@@ -71,14 +71,14 @@
                     <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">2. Info Penindak</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
+                    <a class="nav-link {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
+                    <a class="nav-link {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
+                    <a class="nav-link {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
@@ -103,7 +103,7 @@
                     @method('PUT')
                 @endif
                 <div class="tab-content">
-                    <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus==null? 'active' : '' }}" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.downstream.tab.general')
                     </div>
 
@@ -112,14 +112,13 @@
                     <div class="tab-pane " id="institution" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.downstream.tab.institution')
                     </div>
-                    <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
-                        {{-- @include('backadmin.downstream.dangerous_risk') --}}
+                    <div class="tab-pane {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.downstream.tab.dangerous_risks')
                     </div>
-                    <div class="tab-pane " id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.downstream.tab.traceability_lots')
                     </div>
-                    <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.downstream.tab.border_controls')
                     </div>
                     <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
@@ -134,11 +133,6 @@
                     </div>
                     @endif
                     @endif
-
-                    {{-- <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
-                        @include('backadmin.downstream.follow_up')
-                    </div> --}}
-
                 </div>
             </form>
         </div>
