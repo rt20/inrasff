@@ -168,7 +168,7 @@ class NotificationController extends Controller
             $downstream = $notification->downstream()->make([
                 'number_ref' => $notification->number,
                 'title' => 'Proses Downstream Dokumen '.$notification->number,
-                'number' => 'IN.DS'.Carbon::now()->format('Hisv')
+                'number' => 'IN.DS.'.Carbon::now()->format('Hisv')
             ]);
             $downstream->author_id =  auth()->user()->id;
             $downstream->setStatus('draft', 'Dibuat untuk Proses Downstream Dokumen'.$notification->number);
@@ -200,7 +200,7 @@ class NotificationController extends Controller
             $upstream = $notification->upstream()->make([
                 'number_ref' => $notification->number,
                 'title' => 'Proses Upstream Dokumen '.$notification->number,
-                'number' => 'IN.US'.Carbon::now()->format('Hisv')
+                'number' => 'IN.US.'.Carbon::now()->format('Hisv')
             ]);
             $upstream->author_id =  auth()->user()->id;
             $upstream->setStatus('draft', 'Dibuat untuk Proses Upstream Dokumen'.$notification->number);

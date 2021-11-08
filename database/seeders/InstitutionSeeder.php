@@ -19,16 +19,13 @@ class InstitutionSeeder extends Seeder
                 'name' => 'BPOM'
             ],
             [
-                'name' => 'Kementerian Kesehatan'
+                'name' => 'Kementrian Kelautan dan Perikanan'
             ],
             [
-                'name' => 'Kementerian Perdagangan'
+                'name' => 'Kementrian Pertanian'
             ],
             [
-                'name' => 'Kementrian Kelautan'
-            ],            
-            [
-                'name' => 'Bea Cukai'
+                'name' => 'Direktorat Jenderal Bea dan Cukai'
             ],
         ]);
     }

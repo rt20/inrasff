@@ -65,6 +65,11 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('{id}/setting', [BackAdmin\IssueNotificationController::class, 'setting'])->name('setting');
         });
 
+        Route::prefix('dangerous_samplings')->name('dangerous_samplings.')->group(function(){
+            Route::get('/', [BackAdmin\DangerousSamplingInfoController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\DangerousSamplingInfoController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\DangerousSamplingInfoController::class, 'delete'])->name('delete');
+        });
         Route::prefix('down_stream_institutions')->name('down_stream_institutions.')->group(function(){
             Route::get('/', [BackAdmin\DownStreamInstitutionController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\DownStreamInstitutionController::class, 'add'])->name('add');

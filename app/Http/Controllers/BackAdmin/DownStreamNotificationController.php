@@ -111,7 +111,7 @@ class DownStreamNotificationController extends Controller
                 'registration_number',
                 'package_product'
             ]));
-            $downstream->number = 'IN.DS'.Carbon::now()->format('Hisv');
+            $downstream->number = 'IN.DS.'.Carbon::now()->format('Hisv');
             $downstream->author_id = auth()->user()->id;
             $downstream->setStatus('open', 'Dibuat ');
             $downstream->save();
@@ -287,7 +287,8 @@ class DownStreamNotificationController extends Controller
         try {
             DB::beginTransaction();
                 // dd($downstream);
-                $downstream->isStatus('ext process');
+                // $downstream->isStatus('ext process');
+                $downstream->isStatus('ccp process');
                 $downstream->setStatus('done', 'Diselesaikan ', 'finished_at');
                 $downstream->update();
             DB::commit();

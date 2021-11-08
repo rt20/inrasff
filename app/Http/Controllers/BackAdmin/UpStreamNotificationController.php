@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 use UploadFile;
 
@@ -60,6 +61,7 @@ class UpStreamNotificationController extends Controller
         return view('backadmin.upstream.form', [
             'title' => 'Tambah Upstream',
             'upstream' => $upstream,
+            'focus' => null
         ]);
     }
 
@@ -99,7 +101,7 @@ class UpStreamNotificationController extends Controller
                 'registration_number',
                 'package_product'
             ]));
-            $upstream->number = 'IN.US'.Carbon::now()->format('Hisv');
+            $upstream->number = 'IN.US.'.Carbon::now()->format('Hisv');
             $upstream->author_id = auth()->user()->id;
             $upstream->setStatus('open', 'Dibuat ');
             $upstream->save();
@@ -133,13 +135,15 @@ class UpStreamNotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(UpStreamNotification $upstream)
+    public function edit(Request $request, UpStreamNotification $upstream)
     {
         // $upstream->dangerousRisk;
         
         return view('backadmin.upstream.form', [
             'title' => $upstream->number,
             'upstream' => $upstream,
+            'focus' => $request->focus ?? null,
+            'type_infos' => NotificationAttachment::INFOS
         ]);
     }
 
@@ -249,7 +253,8 @@ class UpStreamNotificationController extends Controller
         try {
             DB::beginTransaction();
                 // dd($upstream);
-                $upstream->isStatus('ext process');
+                // $upstream->isStatus('ext process');
+                $upstream->isStatus('open');
                 $upstream->setStatus('done', 'Diselesaikan ', 'finished_at');
                 $upstream->update();
             DB::commit();

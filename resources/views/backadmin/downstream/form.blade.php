@@ -22,7 +22,7 @@
 @endsection
 
 @section('actions')
-    @if (!in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+    @if (!in_array($downstream->status, ['ccp process',/* 'ext process',*/ 'done']))
     <button type="submit" form="form-main" formaction="{{ $downstream->id ? route('backadmin.downstreams.update', $downstream->id) : route('backadmin.downstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
     @endif
     @if ($downstream->id)
@@ -30,21 +30,22 @@
         <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ccp"><i class="mr-75" data-feather="settings"></i>Proses CCP</a>
         @endif
         @if (in_array($downstream->status, ['ccp process']))
-        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ext"><i class="mr-75" data-feather="settings"></i>Proses Eksternal</a>
+        {{-- <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ext"><i class="mr-75" data-feather="settings"></i>Proses Eksternal</a> --}}
+            <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="check"></i>Selesaikan</a>
         @endif
-        @if (in_array($downstream->status, ['ext process']))
+        {{-- @if (in_array($downstream->status, ['ext process']))
         <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
-        @endif
+        @endif --}}
         <div class="btn-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
             </button>    
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
-                @if (in_array($downstream->status, ['ext process']))
+                {{-- @if (in_array($downstream->status, ['ext process']))
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-back-ccp"><i class="mr-75" data-feather="settings"></i>Kembali CCP</a>
-                @endif
+                @endif --}}
                 <a href="{{route('backadmin.downstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-                @if (!in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                @if (!in_array($downstream->status, ['ccp process',/* 'ext process',*/ 'done']))
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
                 @endif
             </div>
@@ -287,7 +288,7 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
-        @if (in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+        @if (in_array($downstream->status, ['ccp process',/* 'ext process', */'done']))
             $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
         @endif
