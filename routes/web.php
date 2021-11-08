@@ -94,6 +94,11 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
             Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
             Route::delete('/{id}/delete-attachment', [BackAdmin\DownStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            
+        });
+
+        Route::prefix('attachments')->name('attachments.')->group(function(){
+            Route::get('{id}/notification-attachment', [BackAdmin\AttachmentController::class, 'viewNotificationAttachment'])->name('view-notification-attachment');
         });
 
         Route::prefix('upstreams')->name('upstreams.')->group(function() {

@@ -20,7 +20,9 @@ class CreateNotificationAttachmentsTable extends Migration
              */
             $table->string('na_type')->nullable();
             $table->unsignedBigInteger('na_id')->nullable();
+            $table->text('link');
             $table->string('title');
+            $table->string('info');
             $table->timestamps();
         });
     }
