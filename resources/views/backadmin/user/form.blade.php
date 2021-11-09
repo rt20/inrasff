@@ -193,8 +193,9 @@
 @endpush
 
 @section('vendor-js')
-    <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    {{-- <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script> --}}
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> --}}
 @endsection
 
 @push('page-js')

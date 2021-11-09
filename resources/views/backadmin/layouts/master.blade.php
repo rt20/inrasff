@@ -21,11 +21,12 @@
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset(mix('css/core.css')) }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap-extended.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/colors.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/components.min.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/dark-layout.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/dark-layout.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/semi-dark-layout.min.css') }}"> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/core/menu/menu-types/vertical-menu.min.css') }}">
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/bordered-layout.min.css') }}"> --}}
@@ -130,7 +131,8 @@
     @stack('modal')
 
     <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('backadmin/theme/vendors/js/vendors.min.js') }}"></script>
+    {{-- <script src="{{ asset('backadmin/theme/vendors/js/vendors.min.js') }}"></script> --}}
+    <script src="{{ asset(mix('vendors/js/vendors.min.js')) }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/extensions/toastr.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
 
