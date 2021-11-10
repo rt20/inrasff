@@ -126,6 +126,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
+            'institutions' => BackAdmin\InstitutionController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'follow_ups' => BackAdmin\FollowUpNotificationController::class,
             'news' => BackAdmin\NewsController::class,
