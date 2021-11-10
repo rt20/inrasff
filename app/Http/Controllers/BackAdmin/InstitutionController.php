@@ -122,9 +122,14 @@ class InstitutionController extends Controller
             // dd($request->all());
             DB::beginTransaction();
             // $institution = Institution::find($id);
-            $institution->fill($request->only(['name', 'type', 'parent_id']));
-            if(!$request->has('parent_id'))
-                $institution->parent_id = null;
+            $institution->fill($request->only(
+                [
+                    'name', 
+                    // 'type', 
+                    // 'parent_id'
+                ]));
+            // if(!$request->has('parent_id'))
+            //     $institution->parent_id = null;
             $institution->update();
             
             DB::commit();

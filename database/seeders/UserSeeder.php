@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Institution;
 use Spatie\Permission\Models\Role;
 use Faker\Factory as Faker;
 
@@ -19,37 +20,45 @@ class UserSeeder extends Seeder
         $faker = Faker::create('id_ID');
         $roles = Role::all()->keyBy('name');
         $users = [
+            /**
+             * Sample For Super Admin
+             */
             [ 
                 'name' => 'Super Admin',
                 'role' => 'superadmin',
                 'username' => 'superadmin'
             ],
+            /**
+             * Sample for NCP
+             */
             [ 
                 'name' => 'Admin Direktorat Pengawasan Peredaran Pangan Olahan',
                 'role' => 'ncp',
-                'username' => 'ncp_1'
+                // 'username' => 'ncp_1'
             ],
             [ 
                 'name' => 'Direktur Pengawasan Peredaran Pangan Olahan',
                 'role' => 'ncp',
-                'username' => 'ncp_2'
+                // 'username' => 'ncp_2'
             ],
+            /** 
+             * Sample for CCP
+             */
             [ 
                 'name' => 'Kementerian Pertanian',
                 'role' => 'ccp',
-                'username' => 'ccp_1'
+                // 'username' => 'ccp_1'
             ],
             [ 
                 'name' => 'Kementerian Kelautan dan Perikanan',
                 'role' => 'ccp',
-                'username' => 'ccp_2'
+                // 'username' => 'ccp_2'
             ],
             [ 
                 'name' => 'Kementerian Perindustrian',
                 'role' => 'ccp',
-                'username' => 'ccp_3'
-            ],
-            
+                // 'username' => 'ccp_3'
+            ],            
         ];
 
         $ncp = 1;
@@ -61,7 +70,7 @@ class UserSeeder extends Seeder
                     // 'username' => $user['username'],
                     'username' => $user['role']."_".$ccp,
                     'fullname' => $user['name'],
-                    'email' => $user['username'] . '@inrasff.com',
+                    'email' => $user['role']."_".$ccp . '@inrasff.com',
                     'type' => $user['role'],
                 ]);
                 $ccp++;
@@ -70,7 +79,7 @@ class UserSeeder extends Seeder
                     // 'username' => $user['username'],
                     'username' => $user['role']."_".$lccp,
                     'fullname' => $user['name'],
-                    'email' => $user['username'] . '@inrasff.com',
+                    'email' => $user['role']."_".$lccp . '@inrasff.com',
                     'type' => $user['role'],
                 ]);
                 $lccp++;
@@ -79,7 +88,7 @@ class UserSeeder extends Seeder
                     // 'username' => $user['username'],
                     'username' => $user['role']."_".$ncp,
                     'fullname' => $user['name'],
-                    'email' => $user['username'] . '@inrasff.com',
+                    'email' => $user['role']."_".$ncp . '@inrasff.com',
                     'type' => $user['role'],
                 ]);
                 $ncp++;

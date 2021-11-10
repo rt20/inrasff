@@ -35,6 +35,7 @@ class User extends Authenticatable
         'responsible_name',
         'responsible_phone',
         'responsible_address',
+        'institution_id'
     ];
 
     /**
@@ -97,5 +98,15 @@ class User extends Authenticatable
             ];
         // }
 
+    }
+
+    /**
+     * Get the institution associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function institution()
+    {
+        return $this->hasOne(Institution::class, 'id', 'institution_id');
     }
 }

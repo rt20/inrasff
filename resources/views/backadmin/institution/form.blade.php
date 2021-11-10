@@ -10,9 +10,21 @@
 
 @section('actions')
     <button type="submit" form="form-main" formaction="{{ $institution->id ? route('backadmin.institutions.update', $institution->id) : route('backadmin.institutions.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
-    @if ($institution->id)
+    <div class="btn-group">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
+        </button>    
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+            <a href="{{route('backadmin.institutions.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+            @if ($institution->id)
+                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+            @endif
+        </div>
+    </div>
+    {{-- @if ($institution->id)
         <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
-    @endif
+        
+    @endif --}}
 @endsection
 
 @section('content')
@@ -40,6 +52,7 @@
                                                 <li><b>Nama Lembaga Harus Unik!</b> Sistem akan melakukan pengecekan untuk menghindari kesamaan nama lembaga</li>
                                                 <li>Lembaga yang tidak memiliki Lembaga Terkait akan otomatis bertipe <b>CCP</b></li>
                                                 <li>Lembaga yang memiliki Lembaga Terkait akan otomatis bertipe <b>LCCP</b></li>
+                                                <li>Pengubahan informasi lembaga hanya diperbolehkan pada data <b>Nama</b> saja. Hal ini untuk menghindari konflik data terkait tingkat ccp dan lccp</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -47,7 +60,7 @@
                             </div>
                             
                             <div class="col-12 col-md-6 form-group">
-                                <label for="name" class="form-label required">Judul</label>
+                                <label for="name" class="form-label required">Nama</label>
                                 <input type="text" 
                                     name="name"
                                     v-model="institution.name" 
@@ -67,10 +80,13 @@
                                     name="parent_id"
                                     v-model="institution.parent_id"
                                     ></select>
+                                    @if ($institution->id==null)
                                     <div class="input-group-append" style="width: 15% !important">
                                         <button v-on:click="clearParentId()" class="btn btn-primary w-100" type="button"><span aria-hidden="true">&times;</span></button>
                                     </div>
+                                    @endif    
                                 </div>     
+                                
                                 @error('parent_id')
                                     <small class="text-danger">{{ $errors->first('parent_id') }}</small>
                                 @enderror
@@ -208,8 +224,10 @@
                 form.setParentId()
                 
             })
+            @if ($institution->id==null)
             .data('select2').$container.addClass("s2-w-85");
             $('.s2-w-85').attr('style', 'width:85% !important')
+            @endif
             
         },
         computed: {
@@ -227,5 +245,14 @@
             }
         }
     }).mount('#app');
+</script>
+
+<script>
+    $(document).ready(function(){
+        @if ($institution->id!=null)
+            $('#f_parent_id').attr('disabled', true)
+
+        @endif
+    })
 </script>
 @endpush

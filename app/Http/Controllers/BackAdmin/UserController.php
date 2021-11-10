@@ -20,8 +20,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $user = User::query();
+            $user = User::query()->with('institution');
             $user = $user->where('username', '!=', 'superadmin');
+            if ($request->has('filter_type') && $request->filter_type != 'all') {
+                $user = $user->where('type', $request->filter_type);
+            }
             return DataTables::of($user)->make();
         }
 
