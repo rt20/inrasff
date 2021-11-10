@@ -109,6 +109,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $user->institution = $user->institution;
         return view('backadmin.user.form', [
             'title' => $user->fullname,
             'user' => $user,

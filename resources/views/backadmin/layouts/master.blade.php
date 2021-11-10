@@ -123,7 +123,7 @@
 
     <!-- BEGIN: Footer-->
     <footer class="footer footer-static footer-light">
-        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">Copyright &copy; 2021<a class="ml-25" href="https://www.pikiran-rakyat.com" target="_blank">PT. Inrasff Bandung</a></p>
+        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">Copyright &copy; 2021<a class="ml-25" href="{{route('home')}}" target="_blank">Indonesian Rapid Alert System for Food and Feed</a></p>
     </footer>
     <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
     <!-- END: Footer-->

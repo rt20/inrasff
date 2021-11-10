@@ -76,22 +76,6 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
 
-                            <div class="col-12 col-md-6 form-group">
-                                <label for="type" class="form-label required">Tipe</label>
-                                <select 
-                                    name="type"
-                                    v-model="user.type" 
-                                    class="form-control @error('type') {{ 'is-invalid' }} @enderror">
-                                    <option value="" disabled selected>Pilih Tipe User</option>
-                                    @foreach ($user_types as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
-                                @error('type')
-                                    <small class="text-danger">{{ $errors->first('type') }}</small>
-                                @enderror
-                            </div><!-- .col-md-6.form-group -->
-
                             @if (!$user->id)
                                 <div class="col-12 col-md-6 form-group">
                                     <label for="password" class="form-label required">Password</label>
@@ -119,7 +103,51 @@
                             @endif
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
-                    <section class="bi-form-main">
+                    
+                    <section class="bi-form-main mt-1">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h4>Informasi Lembaga Terkait</h4>
+                        </div>
+                        
+                        <input id="only_ccp" v-model="only_ccp" class="only_class" >
+                        <input id="only_lccp" v-model="only_lccp" class="only_class" >
+
+                        <div class="row">
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="type" class="form-label required">Tipe</label>
+                                <select 
+                                    id="f_type"
+                                    name="type"
+                                    v-model="user.type" 
+                                    class="form-control @error('type') {{ 'is-invalid' }} @enderror">
+                                    <option value="" disabled selected>Pilih Tipe User</option>
+                                    @foreach ($user_types as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                                @error('type')
+                                    <small class="text-danger">{{ $errors->first('type') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div v-show="user.type !== 'ncp'" class="col-12 col-md-6 form-group">
+                                <label for="institution_id" class="form-label required">Lembaga Terkait</label>
+                                <select 
+                                    id="f_institution_id"
+                                    name="institution_id"
+                                    v-model="user.institution_id" 
+                                    class="form-control @error('institution_id') {{ 'is-invalid' }} @enderror">
+                                    <option value="" disabled selected>Pilih Lembaga Terkait</option>
+                                </select>
+                                @error('institution_id')
+                                    <small class="text-danger">{{ $errors->first('institution_id') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                        </div><!-- .row -->
+                    </section><!-- .bi-form-main -->
+
+                    <section class="bi-form-main mt-1">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h4>Informasi Penanggung Jawab</h4>
                         </div>
@@ -201,7 +229,7 @@
 @endpush
 
 @section('vendor-js')
-    {{-- <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script> --}}
+    <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> --}}
 @endsection
@@ -216,7 +244,9 @@
                 user: {
                 },
                 availableTabs: [],
-                activeTab: null
+                activeTab: null,
+                only_ccp: false,
+                only_lccp: false,
             }
         },
         created() {
@@ -230,13 +260,71 @@
                 type: old.type ?? user.type ?? '',
                 responsible_name: old.responsible_name ?? user.responsible_name ?? '',
                 responsible_phone: old.responsible_phone ?? user.responsible_phone ?? '',
-                responsible_address: old.responsible_address ?? user.responsible_address ?? '',                
+                responsible_address: old.responsible_address ?? user.responsible_address ?? '',    
+                institution_id : old.institution_id ?? user.institution_id ?? '',            
             }
 
-            console.log(this.user)
+            // console.log(this.user)
+            if(this.user.type !== ''){
+                console.log(this.user.type)
+                switch (this.user.type) {
+                    case 'ccp':
+                        this.only_ccp = true
+                        break;
+                    case 'lccp': 
+                        this.only_lccp = true
+                        break;
+                    default:
+                        break;
+                }                
+            }
         },
         mounted() {
-            
+            $('#f_type').on('change', function(e){
+                console.log(e.target.value)
+                switch (e.target.value) {
+                    case 'ccp':
+                        $('.only_class').val(false)
+                        $('#only_ccp').val(true)
+                        break;
+                    case 'lccp': 
+                        $('.only_class').val(false)
+                        $('#only_lccp').val(true)
+                        break;
+                    default:
+                        $('.only_class').val(false)
+                        break;
+                }
+            })
+            $('#f_institution_id').select2({
+               ajax: {
+                    url: "{{ route('backadmin.s2Opt.institutions') }}",
+                    data: function(params){
+                        let req = {
+                            q:params.term,
+                            only_ccp: $('#only_ccp').val() ?? false,
+                            only_lccp: $('#only_lccp').val() ?? false,
+                        };
+                        return req;
+                    },
+                    processResults: function(data){
+                        return {results: data};
+                    },
+               },
+               minimumInputLength:1,
+               placeholder: 'Silahkan Pilih Lembaga Terkait',
+               templateResult:function(data){
+                   return data.loading ? 'Mencari...' : data.name; 
+               },
+               templateSelection: function(data) {
+                    return data.text || data.name;
+                }
+
+            }).on('select2:select', function(e){
+                // selected = e.params.data
+                form.institution.institution_id = e.target.value
+                
+            })
         },
         computed: {
 
