@@ -5,6 +5,15 @@
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/summernote/summernote.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+@endsection
+
+@section('page-css')
+<style>
+    .read-only-white{
+        background-color: #fff !important
+    }
+</style>    
 @endsection
 
 @section('breadcrumb')
@@ -13,8 +22,8 @@
     <a 
     href="{{ 
         str_replace('App\\Models\\', '', $traceability_lot->tli_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', $traceability_lot->notification->id) :
-        route('backadmin.upstreams.edit', $traceability_lot->notification->id)
+        route('backadmin.downstreams.edit', ['downstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots']) :
+        route('backadmin.upstreams.edit', ['upstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots'])
     
     }}"
     
@@ -24,12 +33,12 @@
     <a 
     href="{{ 
         request()->input('notification_type') === 'downstream'?
-        route('backadmin.downstreams.edit', request()->input('notification_id')) :
-        route('backadmin.upstreams.edit', request()->input('notification_id'))
+        route('backadmin.downstreams.edit', ['downstream' => request()->input('notification_id'), 'focus' => 'traceability_lots']) :
+        route('backadmin.upstreams.edit', ['upstream' => request()->input('notification_id'), 'focus' => 'traceability_lots'])
     
     }}"
     
-    >{{ str_replace('App\\Models\\', '', $traceability_lot->tli_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
+    >{{ request()->input('notification_type') === 'downstream' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Keterlusuran Lot</li>
 @endsection
@@ -95,7 +104,7 @@
                                 <input type="text" 
                                     name="used_by"
                                     v-model="traceability_lot.used_by" 
-                                    class="form-control @error('used_by') {{ 'is-invalid' }} @enderror" 
+                                    class="form-control @error('used_by') {{ 'is-invalid' }} @enderror date read-only-white" 
                                     placeholder="Masukkan Tanggal Used-By" autocomplete="off">
                                 @error('used_by')
                                     <small class="text-danger">{{ $errors->first('used_by') }}</small>
@@ -107,7 +116,7 @@
                                 <input type="text" 
                                     name="best_before"
                                     v-model="traceability_lot.best_before" 
-                                    class="form-control @error('best_before') {{ 'is-invalid' }} @enderror" 
+                                    class="form-control @error('best_before') {{ 'is-invalid' }} @enderror date read-only-white" 
                                     placeholder="Masukkan Best Before" autocomplete="off">
                                 @error('best_before')
                                     <small class="text-danger">{{ $errors->first('best_before') }}</small>
@@ -119,7 +128,7 @@
                                 <input type="text" 
                                     name="sell_by"
                                     v-model="traceability_lot.sell_by" 
-                                    class="form-control @error('sell_by') {{ 'is-invalid' }} @enderror" 
+                                    class="form-control @error('sell_by') {{ 'is-invalid' }} @enderror date read-only-white" 
                                     placeholder="Masukkan Sell By" autocomplete="off">
                                 @error('sell_by')
                                     <small class="text-danger">{{ $errors->first('sell_by') }}</small>
@@ -127,7 +136,7 @@
                             </div><!-- .col-md-6.form-group -->
 
                             <div class="divider divider-left col-12">
-                                <div class="divider-text">Keterangan Terkair Lot</div>
+                                <div class="divider-text">Keterangan Terkait Lot</div>
                             </div>
                             <div class="col-12 col-md-6 form-group">
                                 <label for="number_unit" class="form-label ">No Of Units</label>
@@ -171,7 +180,7 @@
                                 <input type="text" 
                                     name="cert_date"
                                     v-model="traceability_lot.cert_date" 
-                                    class="form-control @error('cert_date') {{ 'is-invalid' }} @enderror" 
+                                    class="form-control @error('cert_date') {{ 'is-invalid' }} @enderror date read-only-white" 
                                     placeholder="Masukkan Tanggal" autocomplete="off">
                                 @error('cert_date')
                                     <small class="text-danger">{{ $errors->first('cert_date') }}</small>
@@ -209,7 +218,7 @@
                                 <input type="text" 
                                     name="add_cert_date"
                                     v-model="traceability_lot.add_cert_date" 
-                                    class="form-control @error('add_cert_date') {{ 'is-invalid' }} @enderror" 
+                                    class="form-control @error('add_cert_date') {{ 'is-invalid' }} @enderror date read-only-white" 
                                     placeholder="Masukkan Tanggal" autocomplete="off">
                                 @error('add_cert_date')
                                     <small class="text-danger">{{ $errors->first('add_cert_date') }}</small>
@@ -271,6 +280,8 @@
     <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/summernote/summernote.min.js') }}"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
+    <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 @endsection
 
 @push('page-js')
@@ -318,7 +329,7 @@
             console.log(this.traceability_lot)
         },
         mounted() {
-            // $('.select2-dr').select2();
+            $('.date').flatpickr();
             $('#source_country_id').select2({
                ajax: {
                     url: "{{ route('backadmin.s2Opt.countries') }}",

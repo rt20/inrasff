@@ -65,10 +65,21 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('{id}/setting', [BackAdmin\IssueNotificationController::class, 'setting'])->name('setting');
         });
 
+        Route::prefix('dangerous_samplings')->name('dangerous_samplings.')->group(function(){
+            Route::get('/', [BackAdmin\DangerousSamplingInfoController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\DangerousSamplingInfoController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\DangerousSamplingInfoController::class, 'delete'])->name('delete');
+        });
         Route::prefix('down_stream_institutions')->name('down_stream_institutions.')->group(function(){
             Route::get('/', [BackAdmin\DownStreamInstitutionController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\DownStreamInstitutionController::class, 'add'])->name('add');
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
+        });
+
+        Route::prefix('down_stream_user_accesses')->name('down_stream_user_accesses.')->group(function(){
+            Route::get('/', [BackAdmin\DownStreamUserAccessController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\DownStreamUserAccessController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\DownStreamUserAccessController::class, 'delete'])->name('delete');
         });
 
         Route::prefix('up_stream_institutions')->name('up_stream_institutions.')->group(function(){
@@ -94,6 +105,11 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
             Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
             Route::delete('/{id}/delete-attachment', [BackAdmin\DownStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            
+        });
+
+        Route::prefix('attachments')->name('attachments.')->group(function(){
+            Route::get('{id}/notification-attachment', [BackAdmin\AttachmentController::class, 'viewNotificationAttachment'])->name('view-notification-attachment');
         });
 
         Route::prefix('upstreams')->name('upstreams.')->group(function() {
@@ -116,6 +132,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
             'issue_notifications' => BackAdmin\IssueNotificationController::class,
+            'institutions' => BackAdmin\InstitutionController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'follow_ups' => BackAdmin\FollowUpNotificationController::class,
             'news' => BackAdmin\NewsController::class,

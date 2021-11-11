@@ -12,10 +12,8 @@
             }
         },
         created() {
-            // console.log("general")
             old = {!! json_encode(old()) !!};
             downstream = {!! json_encode($downstream) !!};
-            // console.log(downstream)
             this.downstream = {
                 id: downstream.id ?? '',
                 title: old.title ?? downstream.title ?? '',

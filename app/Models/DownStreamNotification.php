@@ -42,7 +42,7 @@ class DownStreamNotification extends Model
         'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
         'open' => [ 'label' => 'Dibuka', 'class' => 'info' ],
         'ccp process' => [ 'label' => 'Proses CCP', 'class' => 'warning' ],
-        'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
+        // 'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
         'done' => [ 'label' => 'Selesai', 'class' => 'success' ],
     ];
 
@@ -84,17 +84,28 @@ class DownStreamNotification extends Model
         return $this->morphMany(NotificationAttachment::class, 'na');
     }
 
+    /**
+     * Access Permission of Institution and User Access
+     */
+    
+    public function downstreamInstitution()
+    {
+        return $this->hasMany(DownStreamInstitution::class, 'downstream_id', 'id');
+    }
+
+    public function downstreamUserAccess()
+    {
+        return $this->hasMany(DownStreamUserAccess::class, 'downstream_id', 'id');
+    }
+
     
 
     /**
      * @override save function for DownStreamNotification
      */
 
-    public function save(array $options = []){
+    // public function save(array $options = []){
         
-        parent::save();
-        // if($this->dangerousRisk == null){
-        //     $this->dangerousRisk()->create();
-        // }
-    }
+    //     parent::save();
+    // }
 }

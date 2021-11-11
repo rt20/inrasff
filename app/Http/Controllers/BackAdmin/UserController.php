@@ -20,8 +20,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $user = User::query();
+            $user = User::query()->with('institution');
             $user = $user->where('username', '!=', 'superadmin');
+            if ($request->has('filter_type') && $request->filter_type != 'all') {
+                $user = $user->where('type', $request->filter_type);
+            }
             return DataTables::of($user)->make();
         }
 
@@ -52,6 +55,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        // return $request->all();
         $request->validate([
             'fullname' => ['required', 'max:255'],
             'username' => ['required', 'max:255', 'unique:users'],
@@ -59,6 +64,13 @@ class UserController extends Controller
             'email' => ['required', 'email','max:255', 'unique:users'],
             'password' => 'required|confirmed|min:6',
             'password_confirmation' => 'required|same:password|min:6',
+
+            'type' => ['required'],
+            'institution_id' => ['required_if:type,ccp,lccp'],
+
+            'responsible_name' => ['required', 'max:255'],
+            'responsible_phone' => ['required', 'max:15'],
+            'responsible_address' => ['required'],
         ]);
 
         try {
@@ -67,9 +79,13 @@ class UserController extends Controller
                 'username',
                 'fullname',
                 'type',
+                'institution_id',
                 'email',
-                'password'
+                'responsible_name',
+                'responsible_phone',
+                'responsible_address',
             ]));
+            $user->password = bcrypt($request->password);
             $user->save();
             DB::commit();
             
@@ -103,6 +119,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $user->institution = $user->institution;
         return view('backadmin.user.form', [
             'title' => $user->fullname,
             'user' => $user,
@@ -125,6 +142,13 @@ class UserController extends Controller
             'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],
             'type' => ['required', 'max:255'],
             'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],          
+
+            'type' => ['required'],
+            'institution_id' => ['required_if:type,ccp,lccp'],
+
+            'responsible_name' => ['required', 'max:255'],
+            'responsible_phone' => ['required', 'max:15'],
+            'responsible_address' => ['required'],
         ]);
         // dd("s");
         try {
@@ -133,8 +157,14 @@ class UserController extends Controller
                 'username',
                 'fullname',
                 'type',
+                'institution_id',
                 'email',
+                'responsible_name',
+                'responsible_phone',
+                'responsible_address',
             ]));
+            if($user->type === 'ncp')
+                $user->institution_id = null;
             $user->save();
             DB::commit();
             

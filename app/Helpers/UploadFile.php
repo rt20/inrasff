@@ -29,7 +29,8 @@ class UploadFile{
             $new_name = $name.".".$requestFile->getClientOriginalExtension();    
             Helper::initPath($pathDirectory);
 
-            Storage::disk('public')->putFileAs($pathDirectory, $file, $new_name);
+            // Storage::disk('public')->putFileAs($pathDirectory, $file, $new_name);
+            Storage::disk('local')->putFileAs($pathDirectory, $file, $new_name);
             if ($callback) {
                 $callback($new_name);
             }

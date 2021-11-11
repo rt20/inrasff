@@ -16,6 +16,8 @@ class CreateInstitutionsTable extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('type'); //ccp, lccp
             $table->timestamps();
         });
     }

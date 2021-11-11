@@ -2,34 +2,41 @@
 
 @section('vendor-css')
 @include('backadmin.layouts.style_datatables')
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/summernote/summernote.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+<style>
+    .read-only-white{
+        background-color: #fff !important
+    }
+</style>
 @endsection
 
 @section('breadcrumb')
 @if($dangerous->id != null)
-<li class="breadcrumb-item">
-    <a 
-    href="{{ 
-        str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', $dangerous->notification->id) :
-        route('backadmin.upstreams.edit', $dangerous->notification->id)
-    
-    }}"
-    
-    >{{ $dangerous->notification->number }}</a></li>
-    @else
+    <li class="breadcrumb-item">
+        <a 
+        href="{{ 
+            str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ?
+            route('backadmin.downstreams.edit', ['downstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks']) :
+            route('backadmin.upstreams.edit', ['upstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks'])
+        
+        }}"
+        
+        >{{ $dangerous->notification->number }}</a></li>
+@else
     <li class="breadcrumb-item">
     <a 
     href="{{ 
         request()->input('notification_type') === 'downstream'?
-        route('backadmin.downstreams.edit', request()->input('notification_id')) :
-        route('backadmin.upstreams.edit', request()->input('notification_id'))
+        route('backadmin.downstreams.edit', ['downstream' => request()->input('notification_id'), 'focus' => 'dangerous_risks']) :
+        route('backadmin.upstreams.edit', ['upstream' => request()->input('notification_id'), 'focus' => 'dangerous_risks'])
     
     }}"
     
-    >{{ str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
+    >{{ request()->input('notification_type') === 'downstream' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Info Bahaya</li>
 @endsection
@@ -125,14 +132,18 @@
                         
                         
                             <div class="col-12 col-md-12 form-group">
-                                <label for="laboratorium" class="form-label ">Sampling</label>
-                                <table id="table-sampling" class="table table-striped table-bordered">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="laboratorium" class="form-label ">Sampling</label>
+                                    <button type="button" v-on:click="openSamplingModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                </div>
+                                <table v-cloak id="table-sampling" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
                                             <th>Jumlah Sampel</th>
                                             <th>Metode</th>
                                             <th>Tempat Pengambilan</th>
+                                            <th class="bi-table-col-action-1">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -200,6 +211,50 @@
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
                 </form>
+                <div class="modal fade" id="sampling-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddsampling" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="sampling-modal-form" action="#" method="GET">                    
+                                <div class="modal-header">
+                                    <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Instansi</h4>
+                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Hapus Instansi</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row" v-show="samplingModal.state !== 'delete'">
+                                        <div class="col-12 col-md-12 form-group" >
+                                            <label class="form-label required">Tanggal Sampling</label>
+                                            <input placeholder="Masukan Tanggal Sampling" id="sampling_date" name="sampling_date" class="form-control date read-only-white" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-12 col-md-12 form-group" >
+                                            <label class="form-label required">Jumlah Sampling</label>
+                                            <input placeholder="Masukan Jumlah Sampling" id="sampling_count" name="sampling_count" class="form-control" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-12 col-md-12 form-group" >
+                                            <label class="form-label">Metode Sampling</label>
+                                            <input placeholder="Masukan Metode Sampling" id="sampling_method" name="sampling_method" class="form-control" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-12 col-md-12 form-group" >
+                                            <label class="form-label">Tempat Pengambilan Sampling</label>
+                                            <input placeholder="Masukan Tempat Pengambilan Sampling" id="sampling_place" name="sampling_place" class="form-control" autocomplete="off"/>
+                                        </div>
+                                    </div>
+                
+                                    <div v-show="samplingModal.state === 'delete'">
+                                        <p class="mb-0">Apakah Anda yakin akan menghapus Instansi ini?</p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                                    <button v-if="samplingModal.state !== 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
+                                    <button v-if="samplingModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Ya, Hapus</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -236,16 +291,24 @@
 
 @section('vendor-js')
     @include('backadmin.layouts.script_datatables')
+    <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/id.min.js" integrity="sha512-he8U4ic6kf3kustvJfiERUpojM8barHoz0WYpAUDWQVn61efpm3aVAD8RWL8OloaDDzMZ1gZiubF9OSdYBqHfQ==" crossorigin="anonymous"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/summernote/summernote.min.js') }}"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
+    <script src="{{ asset('backadmin/app/js/network.js') }}"></script>
 @endsection
 
 @push('page-js')
 <script>
-
+    function openSamplingModal(state, id=null, item = {id:null}){
+        
+        form.openSamplingModal(state, id, item)        
+    }
 
     let form = Vue.createApp({
         data() {
@@ -269,8 +332,8 @@
                         parse: null
                     },
                     {
-                        title: 'sampling_qty',
-                        name : 'sampling_qty',
+                        title: 'sampling_count',
+                        name : 'sampling_count',
                         input: 'input',
                         required: true,
                         parse: null
@@ -279,7 +342,7 @@
                         title: 'sampling_method',
                         name : 'sampling_method',
                         input: 'input',
-                        required: true,
+                        required: false,
                         parse: null
                     },
 
@@ -287,7 +350,7 @@
                         title: 'sampling_place',
                         name : 'sampling_place',
                         input: 'input',
-                        required: true,
+                        required: false,
                         parse: null
                     },
                 ],
@@ -332,9 +395,48 @@
             
         },
         mounted() {
-            $('.select2-dr').select2();
+            // $('.select2-dr').select2();
+            $('.date').flatpickr();
 
-            this.table_sampling = $('#table-sampling').DataTable()
+            let icon = feather.icons['trash'].toSvg();
+            this.table_sampling = $('#table-sampling').DataTable({
+                ajax:{
+                    url:"{{route('backadmin.dangerous_samplings.index')}}",
+                    data: function(data) {
+                        data.di_id = '{{$dangerous->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { 
+                        data: 'sampling_date' ,
+                        render: function(data, type, row, meta){
+                            return moment(data).format('D MMMM YYYY')
+                        }
+                    },
+                    { data: 'sampling_count' },
+                    { 
+                        data: 'sampling_method',
+                        defaultContent: '-' 
+                    },
+                    { 
+                        data: 'sampling_place',
+                        defaultContent: '-'
+                    },
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return `<a href="#" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                        } 
+                    }
+                ],
+                order: [[0, 'desc']],
+                language: dtLangId
+            })
 
             this.initiateS2(
                 "#category_id",
@@ -378,7 +480,91 @@
                     attrs,
                     onSelect
                 ) 
-            }
+            },
+            openSamplingModal(state, id=null, item = {id:null}){
+                console.log("Halo")
+
+                $('#sampling-modal-form').trigger('reset')
+                
+                $('.text-warn').remove();
+                this.samplingModal.state = state;
+                switch (this.samplingModal.state) {
+                    case 'add':                    
+                        this.samplingModal.item = item;                        
+                        break;
+                    case 'delete':
+                        // this.samplingModal.item = Object.assign({}, this.slider.slider_image[index]);
+                        this.samplingModal.item = {id:id};   
+                        break;
+                    
+                    default:
+                        break;
+                }
+                $('#sampling-modal').modal({ backdrop: 'static', keyboard: false })
+            },
+            async submitItem(e){
+                e.preventDefault()
+                $('.text-warn').remove();
+                let invalid;
+
+                switch (this.samplingModal.state) {
+                    case 'add':
+                        this.validatorSampling.forEach(el => {
+                            if(el.required==true)
+                            {
+                                if(!$(el.input+'[name="'+el.title+'"]').val() ){
+                                    $(el.input+'[name="'+el.title+'"]').parent().append(`
+                                        <small class="text-danger text-warn">Field ini harus diisi</small>
+                                    `);
+                                    invalid = true;
+                                }
+                            }
+                        });
+
+                        if(invalid)
+                            return;
+
+                        var url = `{{ route('backadmin.dangerous_samplings.add') }}`
+                        var formData = new FormData()
+                        this.validatorSampling.forEach(el => {
+                            var value = $(el.input+'[name="'+el.title+'"]').val()
+                            console.log(value)
+                            formData.append(el.name, value)
+                        });
+                        formData.append('di_id', {{$dangerous->id}})
+                        
+                        var resp = await post(url,formData)
+                        console.log(resp)
+                            if(resp?.data?.status?.localeCompare('ok')==0){
+                                $('#sampling-modal').modal('hide')
+                                    this.table_sampling.ajax.reload()
+                                
+
+                            }else{
+                                alert(resp?.data?.message)
+                            }    
+                        
+                        break;
+                
+                    case 'delete': 
+                        var url = `{{ route('backadmin.dangerous_samplings.delete', '__id') }}`
+                        url = url.replace("__id", this.samplingModal?.item?.id)
+                        var resp = await destroy(url)
+                        console.log(resp)
+                        if(resp?.data?.status?.localeCompare('ok')==0){
+                            $('#sampling-modal').modal('hide')
+                                this.table_sampling.ajax.reload()
+
+                        }else{
+                            alert(resp?.data?.message)
+                        }   
+                        break;
+                    
+                    default:
+                        break;
+                }
+                
+            },
         }
     }).mount('#app');
 </script>

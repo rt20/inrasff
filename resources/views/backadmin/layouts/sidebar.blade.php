@@ -96,6 +96,10 @@
                 <a class="d-flex align-items-center" href="{{ route('backadmin.users.index') }}"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="Slider">Pengguna</span></a>
             </li>
             @endcan
+
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.institutions') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.institutions.index') }}"><i data-feather="sidebar"></i><span class="menu-title text-truncate" data-i18n="Slider">Lembaga</span></a>
+            </li>
         </ul>
     </div>
 </div>

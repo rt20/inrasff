@@ -36,4 +36,19 @@ class DangerousInfo extends Model
     {
         return $this->hasOne(DangerousCategory::class, 'id', 'category_id');
     }
+
+    /**
+     * Get all of the sampling for the DangerousInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sampling()
+    {
+        return $this->hasMany(DangerousSamplingInfo::class, 'di_id', 'id');
+    }
+
+    public function delete(){
+        $this->sampling()->delete();
+        parent::delete();
+    }
 }

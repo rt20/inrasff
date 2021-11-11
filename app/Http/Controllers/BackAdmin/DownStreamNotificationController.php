@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+
+
 
 use UploadFile;
 
@@ -38,14 +41,14 @@ class DownStreamNotificationController extends Controller
     }
 
     public function attachmentDataTable(Request $request){
-        if($request->ajax()){
+        // if($request->ajax()){
             $na = NotificationAttachment::query();
             $na = $na->where('na_type', 'App\Models\DownStreamNotification');
             if($request->has('na_id')){
                 $na = $na->where('na_id', $request->na_id);
             }
             return DataTables::of($na)->make();
-        }
+        // }
         return ;
     }
 
@@ -63,6 +66,7 @@ class DownStreamNotificationController extends Controller
         return view('backadmin.downstream.form', [
             'title' => 'Tambah Downstream',
             'downstream' => $downstream,
+            'focus' => null
         ]);
     }
 
@@ -107,7 +111,7 @@ class DownStreamNotificationController extends Controller
                 'registration_number',
                 'package_product'
             ]));
-            $downstream->number = 'IN.DS'.Carbon::now()->format('Hisv');
+            $downstream->number = 'IN.DS.'.Carbon::now()->format('Hisv');
             $downstream->author_id = auth()->user()->id;
             $downstream->setStatus('open', 'Dibuat ');
             $downstream->save();
@@ -141,14 +145,14 @@ class DownStreamNotificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(DownStreamNotification $downstream)
+    public function edit(Request $request, DownStreamNotification $downstream)
     {
-        // return $downstream->dangerousRisk()->create();
-        // $downstream->dangerousRisk;
         
         return view('backadmin.downstream.form', [
             'title' => $downstream->number,
             'downstream' => $downstream,
+            'focus' => $request->focus ?? null,
+            'type_infos' => NotificationAttachment::INFOS
         ]);
     }
 
@@ -283,7 +287,8 @@ class DownStreamNotificationController extends Controller
         try {
             DB::beginTransaction();
                 // dd($downstream);
-                $downstream->isStatus('ext process');
+                // $downstream->isStatus('ext process');
+                $downstream->isStatus('ccp process');
                 $downstream->setStatus('done', 'Diselesaikan ', 'finished_at');
                 $downstream->update();
             DB::commit();
@@ -329,6 +334,8 @@ class DownStreamNotificationController extends Controller
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
             'attachment' => ['required', 'max:2048'],
+            'info' => ['required'],
+            'title_attachment' => ['required'],
         ]);
 
         try {
@@ -352,10 +359,11 @@ class DownStreamNotificationController extends Controller
             
             $attachment = $notification->attachment()->make();
             $name = '';
+            $new_title = Str::slug($request->title_attachment);
             $res = UploadFile::uploadFile(
                 $request->file('attachment'),
                 'notification/attachment/',
-                'NA-'.Carbon::now()->format('Hisv'),
+                '[NA-'.Carbon::now()->format('Hisv').']'.$new_title,
                 function($new_name) use (&$name){
                     $name = $new_name;                    
                 }
@@ -363,7 +371,9 @@ class DownStreamNotificationController extends Controller
             if($res !== "All Process success"){
                 throw new Exception($res);
             }
-            $attachment->title = $name;
+            $attachment->link = $name;
+            $attachment->title = $request->title_attachment;
+            $attachment->info = $request->info;
             $attachment->save();
 
             DB::commit();

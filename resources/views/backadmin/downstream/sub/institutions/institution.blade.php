@@ -1,49 +1,84 @@
-<div class="d-flex justify-content-between align-items-center mb-1">
-    <h4>Informasi Umum</h4>
-</div>
-<div class="row">
-    
-    <div class="col-12 col-md-12 form-group">
-        <div class="d-flex justify-content-between align-items-center">
-            <label for="title" class="form-label">Instansi yang perlu menindaklanjuti</label>
-            @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
-                <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
-            @endif
+<section class="bi-form-main">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h4>Informasi Lembaga CCP</h4>
+    </div>
+
+    <div class="row">    
+        <div class="col-12 col-md-12 form-group">
+            <div class="d-flex justify-content-between align-items-center">
+                <label for="title" class="form-label">Lembaga yang perlu menindaklanjuti</label>
+                @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                @endif
+            </div>
+            
+            <table v-cloak  id="table-permission-rw" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="w-75">Lembaga</th>
+                        <th class="bi-table-col-action-1">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
         
-        <table v-cloak  id="table-permission-rw" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Instansi</th>
-                    <th class="bi-table-col-action-1">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="col-12 col-md-12 form-group">
-        <hr>
-        <div class="d-flex justify-content-between align-items-center">
-            <label for="title" class="form-label"> Instansi lain yang terkait</label>
-            @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
-                <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
-            @endif
+        <div class="col-12 col-md-12 form-group">
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+                <label for="title" class="form-label"> Lembaga lain yang terkait</label>
+                @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                @endif
+            </div>
+            
+            <table v-cloak  id="table-permission-r" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="w-75">Lembaga</th>
+                        <th class="bi-table-col-action-1">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-        
-        <table v-cloak  id="table-permission-r" class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Instansi</th>
-                    <th class="bi-table-col-action-1">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
-</div>
+</section>
+
+<hr>
+
+<section class="bi-form-main">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h4>Informasi Pengguna yang Menindaklanjuti</h4>
+    </div>
+
+    <div class="row">    
+        <div class="col-12 col-md-12 form-group">
+            <div class="d-flex justify-content-between align-items-center">
+                <label for="title" class="form-label">Pengguna yang perlu menindaklanjuti</label>
+                @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                @endif
+            </div>
+            
+            <table v-cloak  id="table-user" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nama Akun</th>
+                        <th>Lembaga</th>
+                        <th>Penanggung Jawab</th>
+                        <th>Tipe</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
 
 @push('page-js')
@@ -74,6 +109,7 @@
 
             })
     })
+
     function openInstitutionModal(state, id=null, item = {id:null}, institutionW=false){
         console.log("Halo")
         form_institution.openInstitutionModal(state, id, item, institutionW)
@@ -85,6 +121,7 @@
             return {
                 table_r : null,
                 table_rw: null,
+                table_user: null,
                 institutionW: false,
                 institutionModal: {
                     state: 'add',
@@ -166,16 +203,41 @@
                 language: dtLangId
             })
 
+            this.table_user = $('#table-user').DataTable({
+                ajax:{
+                    url:"{{route('backadmin.down_stream_user_accesses.index')}}",
+                    data: function(data) {
+                        data.downstream_id = '{{$downstream->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { data: 'user.fullname' },
+                    { data: 'user.institution.name' },
+                    { data: 'user.responsible_name' },
+                    { data: 'user.institution.type_label' },
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                        } 
+                    }
+                ],
+                order: [[0, 'asc']],
+                language: dtLangId
+            })
+
         },
         computed: {
 
         },
         methods: {
             openInstitutionModal(state, id=null, item = {id:null}, institutionW=false){
-                console.log("Halo")
-
                 $('#f_institution_a').val(null).trigger('change')
-                
                 $('.text-warn').remove();
                 this.institutionModal.state = state;
                 this.institutionW = institutionW
@@ -220,7 +282,7 @@
                         var formData = new FormData()
                         this.validatorItem.forEach(el => {
                             var value = $(el.input+'[name="'+el.title+'"]').val()
-                            console.log(value)
+                            
                             switch (el.parse) {
                                 case 'numeric':
                                     value = value.replace(/\./g, '')
@@ -238,8 +300,10 @@
                         console.log(resp)
                             if(resp?.data?.status?.localeCompare('ok')==0){
                                 $('#institution-modal').modal('hide')
-                                if(this.institutionW)
+                                if(this.institutionW){
                                     this.table_rw.ajax.reload()
+                                    this.table_user.ajax.reload()
+                                }
                                 else
                                     this.table_r.ajax.reload()
                                 this.institutionW = false
@@ -259,6 +323,7 @@
                             $('#institution-modal').modal('hide')
                                 this.table_rw.ajax.reload()
                                 this.table_r.ajax.reload()
+                                this.table_user.ajax.reload()
 
                         }else{
                             alert(resp?.data?.message)

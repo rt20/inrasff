@@ -5,17 +5,37 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class NotificationAttachment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title'
+        'title',
+        'link',
+        'info'
     ];
 
     protected $appends = [
-        'origin'
+        'origin',
+        'info_label'
     ];
+
+    const INFOS = [
+        'main_info' => [
+            'label' => 'Informasi Utama'
+        ],
+        'dangerous_risk' => [
+            'label' => 'Bahaya dan Resiko'
+        ],
+        'traceability_lot' => [
+            'label' => 'Keterlusuran Lot'
+        ],
+        'border_control' => [
+            'label' => 'Kontrol Perbatasan'
+        ]
+    ];
+
 
     public function notification()
     {
@@ -24,17 +44,27 @@ class NotificationAttachment extends Model
 
     public function getOriginAttribute(){
 
-        if($this->title == null)
+        if($this->link == null)
             return '#' ;
-        return asset('storage/notification/attachment/'.$this->title);
+        // return asset('storage/notification/attachment/'.$this->title);
+        return route('backadmin.attachments.view-notification-attachment', $this->id);
+        
+        
+    }
+
+    public function getInfoLabelAttribute(){
+        if($this->info != null)
+            return self::INFOS[$this->info]['label'];
+
+        return  null;
     }
 
     /**
      * Override Delete
      */
     public function delete(){
-        if($this->title != null){
-            File::delete(storage_path('app/public/notification/attachment/'.$this->title));
+        if($this->link != null){
+            File::delete(storage_path('app/notification/attachment/'.$this->link));
         }
         parent::delete();
     }

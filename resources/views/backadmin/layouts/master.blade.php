@@ -21,17 +21,18 @@
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/semi-dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset(mix('css/core.css')) }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/bootstrap-extended.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/colors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/components.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/dark-layout.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/semi-dark-layout.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/core/menu/menu-types/vertical-menu.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/themes/bordered-layout.min.css') }}"> --}}
 
     <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/plugins/extensions/ext-component-toastr.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/css/plugins/extensions/ext-component-toastr.min.css') }}">
     @yield('page-css')
     <!-- END: Page CSS-->
 
@@ -122,7 +123,7 @@
 
     <!-- BEGIN: Footer-->
     <footer class="footer footer-static footer-light">
-        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">Copyright &copy; 2021<a class="ml-25" href="https://www.pikiran-rakyat.com" target="_blank">PT. Inrasff Bandung</a></p>
+        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">Copyright &copy; 2021<a class="ml-25" href="{{route('home')}}" target="_blank">Indonesian Rapid Alert System for Food and Feed</a></p>
     </footer>
     <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
     <!-- END: Footer-->
@@ -130,7 +131,8 @@
     @stack('modal')
 
     <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('backadmin/theme/vendors/js/vendors.min.js') }}"></script>
+    {{-- <script src="{{ asset('backadmin/theme/vendors/js/vendors.min.js') }}"></script> --}}
+    <script src="{{ asset(mix('vendors/js/vendors.min.js')) }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/extensions/toastr.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
 

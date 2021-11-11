@@ -20,6 +20,8 @@
                 <thead>
                     <tr>
                         <th>Nama Lengkap</th>
+                        <th>Lembaga</th>
+                        <th>Penanggung Jawab</th>
                         <th>Username</th>
                         <th>Tipe</th>
                         <th>Status</th>
@@ -33,6 +35,16 @@
     </div>
 </div>
 
+<template id="template">
+    <label>
+        <select name="f_filter_type" class="custom-select w-100 filter_type">
+            <option value="all" selected>Semua Tipe User</option>
+            <option value="ncp">National Contact Point</option>
+            <option value="ccp">Competent Contact Point</option>
+            <option value="lccp">Local Competent Contact Point</option>
+        </select>
+    </label>
+</template>
 @endsection
 
 @section('vendor-js')
@@ -49,13 +61,26 @@
         let table = $('#table').DataTable({
             ajax: {
                 url: "{{ route('backadmin.users.index') }}",
+                data: function(data){
+                    data.filter_type = $('.filter_type').val() ?? 'all' ;
+                }
             },
             serverSide: true,
             processing: true,
             columns: [
                 { data: 'fullname' },
+                { 
+                    data: 'institution.name',
+                    defaultContent: '-'
+                },
+                { data: 'responsible_name' },
                 { data: 'username' },
-                { data: 'role_name_label' },
+                { 
+                    data: 'role_name_label' ,
+                    orderable: false,
+                    searchable: false, 
+                
+                },
                 {
                     data: 'status_label',
                     className: 'text-center',
@@ -81,6 +106,9 @@
 
         $('#table_length').append($('#template').html());
 
+        $('.filter_type').change(function(e) {
+            table.draw();
+        });
         
     })
 </script>

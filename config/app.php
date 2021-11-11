@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewComposerProvider::class,
         
+        Collective\Html\HtmlServiceProvider::class,
+
         /** Helper Added */
         App\Providers\UploadFileServiceProvider::class,
 
@@ -244,6 +246,9 @@ return [
 
         'Image' => Intervention\Image\Facades\Image::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
+
+        'Form' => Collective\Html\FormFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
         
     ],
 

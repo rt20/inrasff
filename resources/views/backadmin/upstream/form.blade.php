@@ -27,21 +27,22 @@
     @endif
     @if ($upstream->id)
         @if (in_array($upstream->status, ['open']))
-        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ext"><i class="mr-75" data-feather="settings"></i>Proses Eksternal</a>
-        @endif
-        @if (in_array($upstream->status, ['ext process']))
+        {{-- <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ext"><i class="mr-75" data-feather="settings"></i>Proses Eksternal</a> --}}
         <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
         @endif
+        {{-- @if (in_array($upstream->status, ['ext process']))
+        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
+        @endif --}}
         <div class="btn-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
             </button>    
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
-                @if (in_array($upstream->status, ['ext process']))
+                {{-- @if (in_array($upstream->status, ['ext process']))
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-back-open"><i class="mr-75" data-feather="settings"></i>Kembali Dibuka </a>
-                @endif
+                @endif --}}
                 <a href="{{route('backadmin.upstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-                @if (!in_array($upstream->status, ['ext process', 'done']))
+                @if (!in_array($upstream->status, [/*'ext process', */'done']))
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
                 @endif
             </div>
@@ -60,7 +61,7 @@
             
             <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
+                    <a class="nav-link  {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
                 </li>
                 
                 @if($upstream->id != null && !$upstream->isStatus('draft', false))
@@ -68,14 +69,14 @@
                     <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">2. Info Penindak</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
+                    <a class="nav-link {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
+                    <a class="nav-link {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
+                    <a class="nav-link {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
@@ -100,7 +101,7 @@
                     @method('PUT')
                 @endif
                 <div class="tab-content">
-                    <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus== null ? 'active' : '' }}" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.general')
                     </div>
 
@@ -109,14 +110,14 @@
                     <div class="tab-pane " id="institution" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.institution')
                     </div>
-                    <div class="tab-pane " id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
                         {{-- @include('backadmin.upstream.dangerous_risk') --}}
                         @include('backadmin.upstream.tab.dangerous_risks')
                     </div>
-                    <div class="tab-pane " id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.traceability_lots')
                     </div>
-                    <div class="tab-pane " id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.border_controls')
                     </div>
                     <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
@@ -266,7 +267,7 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
-        @if (in_array($upstream->status, ['ext process', 'done']))
+        @if (in_array($upstream->status, [/*'ext process', */'done']))
             $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
         @endif
