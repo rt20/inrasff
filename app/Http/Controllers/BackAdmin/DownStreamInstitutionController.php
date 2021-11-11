@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
 use App\Models\DownStreamInstitution;
+use App\Models\User;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,6 @@ class DownStreamInstitutionController extends Controller
             }
 
             if($request->has('ds_id')){
-                // dd($request->ds_id);
                 $d = $d->where('ds_id', $request->ds_id);
             }
 
@@ -54,6 +54,17 @@ class DownStreamInstitutionController extends Controller
             ]));
             $dsi->write = $request->write==="true" ? true : false;
             $dsi->save();
+
+            if($dsi->write){
+                $users = $dsi->institution->users;
+                foreach ($users as $i => $user) {
+                    $dsi->downstream->downstreamUserAccess()->create([
+                        'user_id' => $user->id
+                    ]);
+                }
+                
+            }
+
             DB::commit();
             return response()->json([
                 'status' => 'ok',
@@ -73,6 +84,15 @@ class DownStreamInstitutionController extends Controller
         try {
             DB::beginTransaction();
             $dsi = DownStreamInstitution::find($id);
+            if($dsi->write){
+                $dsi->downstream
+                    ->downstreamUserAccess()
+                    ->whereIn(
+                        'user_id', 
+                        $dsi->institution->users()->pluck('id')
+                    )
+                    ->delete();
+            }
             $dsi->delete();
             DB::commit();
             return response()->json([

@@ -75,33 +75,36 @@
                                     <small class="text-danger">{{ $errors->first('fullname') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-
-                            @if (!$user->id)
-                                <div class="col-12 col-md-6 form-group">
-                                    <label for="password" class="form-label required">Password</label>
-                                    <input type="password" 
-                                        name="password"
-                                        class="form-control @error('password') {{ 'is-invalid' }} @enderror" 
-                                        placeholder="Masukkan password" 
-                                        autocomplete="off">
-                                    @error('password')
-                                        <small class="text-danger">{{ $errors->first('password') }}</small>
-                                    @enderror
-                                </div><!-- .col-md-6.form-group -->
-
-                                <div class="col-12 col-md-6 form-group">
-                                    <label for="password_confirmation" class="form-label required">Ketik Ulang Password</label>
-                                    <input type="password" 
-                                        name="password_confirmation"
-                                        class="form-control @error('password_confirmation') {{ 'is-invalid' }} @enderror" 
-                                        placeholder="Ketik ulang password" 
-                                        autocomplete="off">
-                                    @error('password_confirmation')
-                                        <small class="text-danger">{{ $errors->first('password_confirmation') }}</small>
-                                    @enderror
-                                </div><!-- .col-md-6.form-group -->
-                            @endif
+                            
                         </div><!-- .row -->
+
+                        @if (!$user->id)
+                        <div class="row">
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="password" class="form-label required">Password</label>
+                                <input type="password" 
+                                    name="password"
+                                    class="form-control @error('password') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan password" 
+                                    autocomplete="off">
+                                @error('password')
+                                    <small class="text-danger">{{ $errors->first('password') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label for="password_confirmation" class="form-label required">Ketik Ulang Password</label>
+                                <input type="password" 
+                                    name="password_confirmation"
+                                    class="form-control @error('password_confirmation') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Ketik ulang password" 
+                                    autocomplete="off">
+                                @error('password_confirmation')
+                                    <small class="text-danger">{{ $errors->first('password_confirmation') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->                           
+                        </div>
+                        @endif
                     </section><!-- .bi-form-main -->
                     
                     <section class="bi-form-main mt-1">
@@ -109,8 +112,8 @@
                             <h4>Informasi Lembaga Terkait</h4>
                         </div>
                         
-                        <input id="only_ccp" v-model="only_ccp" class="only_class" >
-                        <input id="only_lccp" v-model="only_lccp" class="only_class" >
+                        <input hidden id="only_ccp" v-model="only_ccp" class="only_class" >
+                        <input hidden id="only_lccp" v-model="only_lccp" class="only_class" >
 
                         <div class="row">
                             <div class="col-12 col-md-6 form-group">
@@ -130,7 +133,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
 
-                            <div v-show="user.type !== 'ncp'" class="col-12 col-md-6 form-group">
+                            <div v-show="user.type !== 'ncp' && user.type !==''" class="col-12 col-md-6 form-group">
                                 <label for="institution_id" class="form-label required">Lembaga Terkait</label>
                                 <select 
                                     id="f_institution_id"
@@ -184,7 +187,7 @@
                                     placeholder="Masukan Alamat"
                                     name="responsible_address"
                                     v-model="user.responsible_address" 
-                                    class="form-control @error('email') {{ 'is-invalid' }} @enderror"
+                                    class="form-control @error('responsible_address') {{ 'is-invalid' }} @enderror"
                                 ></textarea>
                                 @error('responsible_address')
                                     <small class="text-danger">{{ $errors->first('responsible_address') }}</small>
@@ -231,6 +234,7 @@
 @section('vendor-js')
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
+    <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> --}}
 @endsection
 
@@ -278,23 +282,39 @@
                         break;
                 }                
             }
+
+            if(this.user.institution_id !== ''){
+                initS2FieldWithAjax(
+                    '#f_institution_id',
+                    '{{route("backadmin.s2Init.institutions")}}',
+                    {id: this.user.institution_id},
+                    ['name']
+                )
+            }
         },
         mounted() {
             $('#f_type').on('change', function(e){
-                console.log(e.target.value)
                 switch (e.target.value) {
                     case 'ccp':
-                        $('.only_class').val(false)
-                        $('#only_ccp').val(true)
+                        // $('.only_class').val(false)
+                        // $('#only_ccp').val(true)
+                        form.only_lccp = false
+                        form.only_ccp = true
                         break;
                     case 'lccp': 
-                        $('.only_class').val(false)
-                        $('#only_lccp').val(true)
+                        // $('.only_class').val(false)
+                        // $('#only_lccp').val(true)
+                        form.only_ccp = false
+                        form.only_lccp = true
                         break;
                     default:
-                        $('.only_class').val(false)
+                        // $('.only_class').val(false)
+                        form.only_ccp = false
+                        form.only_lccp = false
                         break;
                 }
+                $('#f_institution_id').val(null).trigger('change')
+                form.user.institution_id = null
             })
             $('#f_institution_id').select2({
                ajax: {

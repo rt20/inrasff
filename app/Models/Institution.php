@@ -34,5 +34,11 @@ class Institution extends Model
         return $this->types[$this->type]['label'];
     }
 
+    
+    public function users()
+    {
+        return $this->hasMany(User::class, 'institution_id', 'id');
+    }
+
 
 }

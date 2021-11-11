@@ -76,6 +76,12 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
+        Route::prefix('down_stream_user_accesses')->name('down_stream_user_accesses.')->group(function(){
+            Route::get('/', [BackAdmin\DownStreamUserAccessController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\DownStreamUserAccessController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\DownStreamUserAccessController::class, 'delete'])->name('delete');
+        });
+
         Route::prefix('up_stream_institutions')->name('up_stream_institutions.')->group(function(){
             Route::get('/', [BackAdmin\UpStreamInstitutionController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\UpStreamInstitutionController::class, 'add'])->name('add');
