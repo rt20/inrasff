@@ -5,6 +5,8 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Institution;
+use App\Models\DownStreamNotification;
+use App\Models\UpStreamNotification;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -190,5 +192,53 @@ class InstitutionController extends Controller
             ->where('id', $request->id);
 
         return $query->first();
+    }
+
+    function getS2OptionsForFollowUp(Request $request){
+        try {
+            $term = $request->q;
+            $for_notification = $request->for_notification;
+            $id_notification = $request->id_notification;    
+            // return $request->for_notification;
+            // return $request->all();
+            
+            if($for_notification==null || $id_notification==null)
+                throw new Exception("Empty Notification Parameter", 1);
+                
+            $notification;
+            switch ($for_notification) {
+                case 'downstream':
+                    $notification = DownStreamNotification::find($id_notification);
+                    break;
+                case 'upstream':
+                    $notification = UpStreamNotification::find($id_notification);
+                    break;
+                default:
+                    throw new Exception("For Notification not Defined", 1);                    
+                    break;
+            }
+            
+            
+            $ins = $notification->downstreamInstitution->pluck('institution_id');
+            
+            $query = Institution::select(['id','name', 'type'])
+                ->where(function($q) use ($term, $ins) {
+                    $q->where('name', 'like', '%' . $term . '%');
+                })
+                ->whereIn('id', $ins);
+
+            if($request->has('only_ccp') & $request->only_ccp === 'true'){
+                $query = $query->where('type', 'ccp');
+            }
+            if($request->has('only_lccp') & $request->only_lccp === 'true'){
+                $query = $query->where('type', 'lccp');
+            }
+            
+            return $query->get();
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+            return [];
+        }
     }
 }

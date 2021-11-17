@@ -20,8 +20,8 @@ class CreateFollowUpNotificationsTable extends Migration
              */
             $table->string('fun_type')->nullable();
             $table->unsignedBigInteger('fun_id')->nullable();
-            // $table->unsignedBigInteger('ds_id'); // down streaam id
             $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('receipt_id')->nullable();
             $table->string('status')->default('draft'); // draft, on process, accepted, rejected
             
             $table->string('title');
@@ -33,6 +33,7 @@ class CreateFollowUpNotificationsTable extends Migration
 
             // $table->foreign('ds_id')->references('id')->on('down_stream_notifications')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('receipt_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -82,6 +82,7 @@ class DangerousInfoController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -110,15 +111,16 @@ class DangerousInfoController extends Controller
 
             $dangerous = $notification->dangerous()->make($request->only(
                 'name',
-                // 'category',
                 'category_id',
                 'name_result',
-                // 'uom_result',
                 'uom_result_id',
                 'laboratorium',
                 'matrix',
                 'scope',
                 'max_tollerance',
+                'cl1_id',
+                'cl2_id',
+                'cl3_id'
             ));
             $dangerous->save();
            
@@ -197,6 +199,9 @@ class DangerousInfoController extends Controller
                 'scope',
                 'max_tollerance',
             ));
+            $dangerousInfo->cl1_id = $request->cl1_id;
+            $dangerousInfo->cl2_id = $request->cl2_id;
+            $dangerousInfo->cl3_id = $request->cl3_id;
             $dangerousInfo->update();
            
             DB::commit();

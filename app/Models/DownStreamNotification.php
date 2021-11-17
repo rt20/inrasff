@@ -16,13 +16,10 @@ class DownStreamNotification extends Model
         'number',
         'notif_id',
         'title',
-        'number_ref',
-        // 'status_notif',
+        // 'number_ref',
         'status_notif_id',
-        // 'type_notif',
         'type_notif_id',
         'country_id',
-        // 'based_notif',
         'based_notif_id',
         'origin_source_notif',
         'source_notif',
@@ -90,12 +87,12 @@ class DownStreamNotification extends Model
     
     public function downstreamInstitution()
     {
-        return $this->hasMany(DownStreamInstitution::class, 'downstream_id', 'id');
+        return $this->hasMany(DownStreamInstitution::class, 'ds_id', 'id');
     }
 
     public function downstreamUserAccess()
     {
-        return $this->hasMany(DownStreamUserAccess::class, 'downstream_id', 'id');
+        return $this->hasMany(DownStreamUserAccess::class, 'ds_id', 'id');
     }
 
     

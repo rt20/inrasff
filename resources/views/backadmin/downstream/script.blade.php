@@ -17,7 +17,7 @@
             this.downstream = {
                 id: downstream.id ?? '',
                 title: old.title ?? downstream.title ?? '',
-                number_ref: old.number_ref ?? downstream.number_ref ?? '',
+                // number_ref: old.number_ref ?? downstream.number_ref ?? '',
                 status_notif_id: old.status_notif_id ?? downstream.status_notif_id ?? '',
                 type_notif_id: old.type_notif_id ?? downstream.type_notif_id ?? '',
                 country_id: old.country_id ?? downstream.country_id ?? '',

@@ -323,7 +323,7 @@
                             $('#institution-modal').modal('hide')
                                 this.table_rw.ajax.reload()
                                 this.table_r.ajax.reload()
-                                this.table_user.ajax.reload()
+                                this.table_user.ajax.reload()   
 
                         }else{
                             alert(resp?.data?.message)

@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             
             NotificationSeeder::class,
             CountrySeeder::class,
+
+            DangerousCategoryLevelSeeder::class,
             
 
         ]);

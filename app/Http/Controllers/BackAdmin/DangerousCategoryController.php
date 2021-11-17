@@ -10,7 +10,7 @@ class DangerousCategoryController extends Controller
 {
     function getS2Options(Request $request) {
         $term = $request->q;
-        $query = DangerousCategory::select(['id','name'])
+        $query = DangerousCategory::select(['id', 'name', 'has_child'])
             ->where(function($q) use ($term) {
                 $q->where('name', 'like', '%' . $term . '%');
             });
@@ -19,7 +19,7 @@ class DangerousCategoryController extends Controller
     }
 
     function getS2Init(Request $request){
-        $query =  DangerousCategory::select(['id', 'name'])
+        $query =  DangerousCategory::select(['id', 'name', 'has_child'])
             ->where('id', $request->id);
 
         return $query->first();

@@ -16,19 +16,24 @@ class DangerousCategorySeeder extends Seeder
     {
         DangerousCategory::insert([
             [
-                'name' => "Bahaya Kimia"
+                'name' => "Bahaya Kimia",
+                'has_child' => true
             ],
             [
-                'name' => "Bahaya Mikrobiologi"
+                'name' => "Bahaya Mikrobiologi",
+                'has_child' => true
             ],
             [
-                'name' => "Bahaya Fisik"
+                'name' => "Bahaya Fisik",
+                'has_child' => true
             ],
             [
-                'name' => "Mutu"
+                'name' => "Mutu",
+                'has_child' => false
             ],
             [
-                'name' => "Dokumen"
+                'name' => "Dokumen",
+                'has_child' => true
             ],
         ]);
     }
