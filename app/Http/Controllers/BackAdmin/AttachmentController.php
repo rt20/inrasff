@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\NotificationAttachment;
+use App\Models\FollowUpNotificationAttachment;
 
 class AttachmentController extends Controller
 {
@@ -17,11 +18,13 @@ class AttachmentController extends Controller
         
             
         return Storage::disk('local')->response('notification/attachment/'.$na->link, $na->link);
-        // return response()
+    }
+
+    public function viewFollowUpAttachment($id){
+        $na = FollowUpNotificationAttachment::find($id);
+        if($na==null)
+            abort(404);        
             
-        //     ->file(
-        //         Storage::disk('local')->path('notification/attachment/'.$na->link),
-        //         'Ganteng'
-        //     );
+        return Storage::disk('local')->response('follow_up/attachment/'.$na->title);
     }
 }

@@ -67,14 +67,14 @@ class FollowUpNotificationController extends Controller
     }
 
     public function userFuDataTable(Request $request){
-        // if($request->ajax()){
+        if($request->ajax()){
             $a = FollowUpUser::query();
             $a = $a->with('user.institution');
             if($request->has('fun_id')){
                 $a = $a->where('fun_id', $request->fun_id);
             }
-            return DataTables::of($a)->make();
-        // }
+            return DataTables::of($a->get())->make();
+        }
         return ;
     }
 
@@ -402,4 +402,27 @@ class FollowUpNotificationController extends Controller
             ], 400);
         }
     }
+
+    public function deleteUserFu($id){
+        try {
+            DB::beginTransaction();
+            $a = FollowUpUser::find($id);
+            $a->delete();
+            DB::commit();
+            return response()->json([
+                'status' => 'ok',
+                'message' => '',
+            ], 201);
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                
+            ], 400);
+        }
+    }
+
+    
 }

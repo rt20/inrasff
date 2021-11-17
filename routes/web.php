@@ -112,6 +112,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
 
         Route::prefix('attachments')->name('attachments.')->group(function(){
             Route::get('{id}/notification-attachment', [BackAdmin\AttachmentController::class, 'viewNotificationAttachment'])->name('view-notification-attachment');
+            Route::get('{id}/follow-up-attachment', [BackAdmin\AttachmentController::class, 'viewFollowUpAttachment'])->name('view-follow-up-attachment');
         });
 
         Route::prefix('upstreams')->name('upstreams.')->group(function() {

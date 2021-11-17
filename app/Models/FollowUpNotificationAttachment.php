@@ -29,7 +29,7 @@ class FollowUpNotificationAttachment extends Model
 
         if($this->title == null)
             return '#' ;
-        return asset('storage/follow_up/attachment/'.$this->title);
+        return route('backadmin.attachments.view-follow-up-attachment', $this->id);
     }
 
     /**
@@ -37,7 +37,8 @@ class FollowUpNotificationAttachment extends Model
      */
     public function delete(){
         if($this->title != null){
-            File::delete(storage_path('app/public/follow_up/attachment/'.$this->title));
+            
+            File::delete(storage_path('app/follow_up/attachment/'.$this->title));
         }
         parent::delete();
     }

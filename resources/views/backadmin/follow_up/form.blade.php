@@ -273,13 +273,13 @@ href="{{
                                         <button v-show="userFollowUpModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
                                         
                                         
-                                        <button type="submit" class="btn btn-outline-primary" form="form-address" v-if="attachmentModal.state === 'delete'" v-on:click="submitAttachmentForm($event)">Ya, Hapus</button>
-                                        <button v-show="attachmentModal.state === 'delete'" type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-outline-primary" form="form-address" v-if="userFollowUpModal.state === 'delete'" v-on:click="submitUserFuForm($event)">Ya, Hapus</button>
+                                        <button v-show="userFollowUpModal.state === 'delete'" type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                                         <button 
                                             type="submit" 
                                             class="btn btn-primary" 
                                             form="form-address" 
-                                            v-if="attachmentModal.state === 'add'" 
+                                            v-if="userFollowUpModal.state === 'add'" 
                                             v-on:click="submitUserFuForm($event)">
                                             Tambah
                                         </button>
@@ -408,6 +408,10 @@ href="{{
     function openAttachmentModal(state, id=null, item = {id:null}){
         form.openAttachmentModal(state, id, item)
     }
+
+    function openUserFuModal(state, id=null, item = {id:null}){
+        form.openUserFuModal(state, id, item)
+    }
     let form = Vue.createApp({
         data() {
             return {
@@ -493,7 +497,8 @@ href="{{
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return `<a href="#" onclick="openUserFuModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                            // console.log(row)
+                            return `<button type="button" onclick="openUserFuModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</button>`
                         } 
                     }
                     @endif
@@ -718,6 +723,7 @@ href="{{
                     case 'delete':
                         var url = `{{ route('backadmin.follow_ups.delete-user-fu', ':id') }}`
                         url = url.replace(":id", this.userFollowUpModal.item.id)
+                        console.log(url)
                         resp = await destroy(url)      
                                       
                         break;
