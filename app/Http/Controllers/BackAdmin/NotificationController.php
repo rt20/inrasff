@@ -166,7 +166,7 @@ class NotificationController extends Controller
             DB::beginTransaction();
             
             $downstream = $notification->downstream()->make([
-                'number_ref' => $notification->number,
+                // 'number_ref' => $notification->number,
                 'title' => 'Proses Downstream Dokumen '.$notification->number,
                 'number' => 'IN.DS.'.Carbon::now()->format('Hisv')
             ]);

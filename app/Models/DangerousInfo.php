@@ -20,6 +20,9 @@ class DangerousInfo extends Model
         'matrix',
         'scope',
         'max_tollerance',
+        'cl1_id',
+        'cl2_id',
+        'cl3_id'
     ];
 
     public function notification()

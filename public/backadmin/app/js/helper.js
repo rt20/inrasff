@@ -187,12 +187,13 @@ function initiateS2(
     minimumInputLength = 3,
     placeholder = "Masukan Pilihan",
     attrs,
-    onSelect
+    onSelect,
+    paramsCallback = null
 ) {
     return $(elId).select2({
         ajax: {
             url: url,
-            data: function (params) {
+            data: paramsCallback ?? function (params) {
                 let req = {
                     q: params.term,
                 };

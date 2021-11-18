@@ -8,6 +8,7 @@
 @endsection
 
 @section('breadcrumb')
+
 @if($follow_up->id != null)
 <li class="breadcrumb-item">
     <a 
@@ -19,17 +20,17 @@
     }}"
     
     >{{ $follow_up->notification->number }}</a></li>
-    @else
-    <li class="breadcrumb-item">
-    <a 
-    href="{{ 
-        request()->input('notification_type') === 'downstream'?
-        route('backadmin.downstreams.edit', request()->input('notification_id')) :
-        route('backadmin.upstreams.edit', request()->input('notification_id'))
+@else
+<li class="breadcrumb-item">
+<a 
+href="{{ 
+    request()->input('notification_type') === 'downstream'?
+    route('backadmin.downstreams.edit', request()->input('notification_id')) :
+    route('backadmin.upstreams.edit', request()->input('notification_id'))
+
+}}"
     
-    }}"
-    
-    >{{ str_replace('App\\Models\\', '', $follow_up->fun_type) === 'DownStreamNotification' ? 'Downstream' : 'Upstream' }} Asal</a></li>
+    >{{ request()->input('notification_type') === 'downstream' ? 'Downstream' : 'Upstream' }} Asal</a></li>
 @endif
 <li class="breadcrumb-item">Tindak Lanjut</li>
 @endsection
@@ -98,7 +99,7 @@
                         </div>
     
                         <div class="row">
-                        <div class="col-12 col-md-12 form-group">
+                            <div class="col-12 col-md-12 form-group">
                                 <label for="title" class="form-label required">Judul</label>
                                 <input type="text" 
                                     name="title"
@@ -109,7 +110,51 @@
                                     <small class="text-danger">{{ $errors->first('title') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-                        
+                            @if($follow_up->id !=null)
+                            <div class="col-12 col-md-12 form-group">
+                                <label for="title" class="form-label required">Dari</label>
+                                <input type="text" 
+                                    value="{{auth()->user()->fullname." , ".auth()->user()->role_name_label}}"
+                                    readonly
+                                    class="form-control" 
+                                    placeholder="Masukkan Asal Tindak Lanjut" autocomplete="off">
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="divider divider-left col-12">
+                                <div class="divider-text">Kepada</div>
+                            </div>
+                            <div class="col-12 col-md-12 form-group">
+                                <div class="demo-spacing-0">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h4 class="alert-heading">Perhatian Penambahan Tujuan Tindak Lanjut!</h4>
+                                        <div class="alert-body">
+                                            Penambahan tujuan tindak lanjut hanya dapat dipilih dari lembaga yang terdaftar pada poin 2 Notifikasi 
+                                            Downstream/Upstream
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-12 form-group">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="title" class="form-label required">Pengguna Notifikasi Terkait</label>                                
+                                    <button type="button" v-on:click="openUserFuModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                </div>
+                                <table id="table-user-follow-up" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama Lengkap</th>
+                                            <th>Lembaga</th>
+                                            <th>Penanggung Jawab</th>
+                                            <th>Tipe</th>
+                                            <th class="bi-table-col-action-1">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div><!-- .col-md-6.form-group -->
+                            @endif
                             <div class="col-12 col-md-12 form-group">
                                 <label for="description" class="form-label ">Pesan / Deskripsi</label>
                                 <textarea 
@@ -150,6 +195,7 @@
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
                 </form>
+                @if($follow_up->id !=null)
                 <div class="modal fade" id="modal-attachment" tabindex="-1" role="dialog" aria-labelledby="modalAttachment" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <form id="form-attachment" action="#" method="POST" enctype="multipart/form-data">
@@ -163,7 +209,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div v-show="attachmentModal.state !== 'delete'">
-                                            <div class="alert alert-danger mb-50" v-if="attachmentModal.error != ''">
+                                            <div class="alert alert-danger mb-50" v-if="attachmentModal.error !== ''">
                                                 <div class="alert-body">@{{ attachmentModal.error }}</div>
                                             </div>
                                             <div class="form-group">
@@ -194,6 +240,55 @@
                         </form>
                     </div>
                 </div> 
+                <div class="modal fade" id="modal-user-fu" tabindex="-1" role="dialog" aria-labelledby="modalAttachment" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <form id="form-attachment" action="#" method="POST" enctype="multipart/form-data">
+                            <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 v-show="userFollowUpModal.state !== 'delete'" class="modal-title" id="modalAttachment">Tambah Tujuan Tindak Lanjut</h4>
+                                        <h4 v-show="userFollowUpModal.state === 'delete'" class="modal-title" id="modalAttachment">Hapus Tujuan Tindak Lanjut</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div v-show="userFollowUpModal.state !== 'delete'">
+                                            <div class="alert alert-danger mb-50" v-if="userFollowUpModal.error !== ''">
+                                                <div class="alert-body">@{{ userFollowUpModal.error }}</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label required" for="attachment">Lembaga Penindak Lanjut</label>
+                                                <select 
+                                                    class="fowm-control"
+                                                    name="institution_id" 
+                                                    id="institution_id">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div v-show="userFollowUpModal.state === 'delete'">
+                                            <p class="mb-0">Apakah Anda yakin akan menghapus penerima tindak lanjut ini?</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button v-show="userFollowUpModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                                        
+                                        
+                                        <button type="submit" class="btn btn-outline-primary" form="form-address" v-if="userFollowUpModal.state === 'delete'" v-on:click="submitUserFuForm($event)">Ya, Hapus</button>
+                                        <button v-show="userFollowUpModal.state === 'delete'" type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                                        <button 
+                                            type="submit" 
+                                            class="btn btn-primary" 
+                                            form="form-address" 
+                                            v-if="userFollowUpModal.state === 'add'" 
+                                            v-on:click="submitUserFuForm($event)">
+                                            Tambah
+                                        </button>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                </div> 
+                @endif
             </div>
         </div>
     </div>
@@ -313,11 +408,23 @@
     function openAttachmentModal(state, id=null, item = {id:null}){
         form.openAttachmentModal(state, id, item)
     }
+
+    function openUserFuModal(state, id=null, item = {id:null}){
+        form.openUserFuModal(state, id, item)
+    }
     let form = Vue.createApp({
         data() {
             return {
                 follow_up: {},
                 attachmentModal: {
+                    state: 'add',
+                    index: null,
+                    item:{
+                        id:null,
+                    },
+                    error: ''
+                },
+                userFollowUpModal: {
                     state: 'add',
                     index: null,
                     item:{
@@ -333,60 +440,145 @@
                         active: true,
                     },
                 ],
+                validatorUserFollowUp : [
+                    {
+                        name: 'institution_id',
+                        title: 'institution_id',
+                        input :'select',
+                        active: true      
+                    }
+                ],
                 table_attachment: null,
+                table_user_follow_up:null,
             }
         },
         created() {
             old = {!! json_encode(old()) !!};
             follow_up = {!! json_encode($follow_up) !!};
-            console.log(follow_up)
+            // console.log(follow_up)
             this.follow_up = {
                 title: old.title ?? follow_up.title ?? '',
-                description: old.description ?? follow_up.description ?? '',          
-                
+                description: old.description ?? follow_up.description ?? '', 
             }
 
-            console.log(this.follow_up)
+            // console.log(this.follow_up)
         },
         mounted() {
-            $('.select2-dr').select2();
+            // $('.select2-dr').select2();
             let icon = feather.icons['trash'].toSvg();
+            this.table_user_follow_up = $('#table-user-follow-up').DataTable({
+                ajax:{
+                    url:"{{route('backadmin.dt.user_fu')}}",
+                    data: function(data) {
+                        data.fun_id = '{{$follow_up->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { 
+                        data: 'user.fullname' ,
+                    },
+                    { 
+                        data: 'user.institution.name' ,
+                    },
+                    { 
+                        data: 'user.responsible_name' ,
+                    },
+                    { 
+                        data: 'user.role_name_label' ,
+                        orderable: false,
+                        searchable: false, 
+                    },
+                    @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            // console.log(row)
+                            return `<button type="button" onclick="openUserFuModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</button>`
+                        } 
+                    }
+                    @endif
+                ],
+                order: [[0, 'desc']],
+                language: dtLangId
+            })
             this.table_attachment = $('#table-attachment').DataTable({
-                    ajax:{
-                        url:"{{route('backadmin.dt.attachment_fu')}}",
-                        data: function(data) {
-                            data.fun_id = '{{$follow_up->id}}'
+                ajax:{
+                    url:"{{route('backadmin.dt.attachment_fu')}}",
+                    data: function(data) {
+                        data.fun_id = '{{$follow_up->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { 
+                        data: 'title' ,
+                        render: function(data, type, row, meta){
+                            return `<a href="`+row.origin+`" target="_blank">` + data + `</a>`
                         }
                     },
-                    serverSide: true,
-                    processing: true,
-                    columns: [
-                        { 
-                            data: 'title' ,
-                            render: function(data, type, row, meta){
-                                return `<a href="`+row.origin+`" target="_blank">` + data + `</a>`
-                            }
-                        },
-                        @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
-                        {
-                            data: 'id',
-                            className: 'text-center',
-                            orderable: false,
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
-                            } 
-                        }
-                        @endif
-                    ],
-                    order: [[0, 'desc']],
-                    language: dtLangId
-                })
+                    @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                        } 
+                    }
+                    @endif
+                ],
+                order: [[0, 'desc']],
+                language: dtLangId
+            })
+            @if($follow_up->id !=null)
+            this.initiateS2(
+                '#institution_id',
+                '{{route("backadmin.s2Opt.institution_for_follow_ups")}}',
+                1,
+                "Masukan Lembaga Penindak Lanjut",
+                ['name'],
+                null,
+                function(params){
+                    let req = {
+                        q: params.term,
+                        for_notification: "{{str_replace('App\\Models\\', '', $follow_up->fun_type) === 'DownStreamNotification' ? 'downstream' : 'notification'}}",
+                        id_notification: {{$follow_up->notification->id}},
+                    }
+                    return req
+                }
+            )
+            @endif
         },
         computed: {
 
         },
         methods: {
+            initiateS2(
+                elId,
+                url,
+                minimumInputLength = 3,
+                placeholder = "Masukan Pilihan",
+                attrs,
+                onSelect,
+                paramsCallback
+            ){
+                return initiateS2(
+                    elId,
+                    url,
+                    minimumInputLength,
+                    placeholder,
+                    attrs,
+                    onSelect,
+                    paramsCallback
+                ) 
+            },
             openAttachmentModal(state, id=null, item = {id:null}){
                 console.log("open")
                 // console.log($('#form-attachment'))
@@ -410,9 +602,30 @@
 
                 $('#modal-attachment').modal({ backdrop: 'static', keyboard: false })
             },
+            openUserFuModal(state, id=null, item = {id:null}){
+                $('.f-attachment').val(null)
+                $('.text-danger').remove();
+                this.userFollowUpModal.state = state;
+                this.userFollowUpModal.error = '';
+                $('#institution_id').val(null).trigger('change')
+                switch (this.userFollowUpModal.state) {
+                    case 'add':
+                        this.userFollowUpModal.item = item         
+                        break;                    
+                    
+                    case 'delete':
+                        this.userFollowUpModal.item = {id:id};   
+                        break;
+                    
+                    default:
+                        break;
+                }
+
+                $('#modal-user-fu').modal({ backdrop: 'static', keyboard: false })
+            },
+
             async submitAttachmentForm(e) {
                 e.preventDefault();
-                // return
                 
                 $('.text-danger').remove();
                 let invalid;
@@ -471,6 +684,68 @@
                 }else{
                     // alert(resp?.data?.message)
                     this.attachmentModal.error = resp?.data?.message
+                }
+                
+                
+            },
+
+            async submitUserFuForm(e) {
+                e.preventDefault();
+                
+                $('.text-danger').remove();
+                let invalid;
+                var resp = null
+                switch (this.userFollowUpModal.state) {
+                    case 'add':
+                        this.validatorUserFollowUp.forEach(el => {                    
+                            if(!$(el.input+'[name="'+el.title+'"]').val()){
+                                if(el.active){
+                                    $(el.input+'[name="'+el.title+'"]').parent().append(`
+                                        <small class="text-danger">Field ini harus diisi</small>
+                                    `);
+                                    invalid = true;
+                                }
+                            }
+                        });
+                        if(invalid){
+                            return;
+                        }
+                        var url = `{{ route('backadmin.follow_ups.add-user-fu') }}`
+                        var formData = new FormData()
+                        formData.append( 'fun_id',{{$follow_up->id}})
+                        formData.append('institution_id', $('select[name="institution_id"]').val())
+                        resp = await post(
+                            url,
+                            formData)                        
+                        
+                        break;
+
+                    case 'delete':
+                        var url = `{{ route('backadmin.follow_ups.delete-user-fu', ':id') }}`
+                        url = url.replace(":id", this.userFollowUpModal.item.id)
+                        console.log(url)
+                        resp = await destroy(url)      
+                                      
+                        break;
+                
+                    default:
+                        break;
+                }
+
+                        
+                if(resp?.data?.status?.localeCompare('ok')==0){
+                    $('#modal-user-fu').modal('hide')
+                    this.table_user_follow_up.ajax.reload()
+                    setTimeout(() => {
+                    console.log("Wait time out")
+                        feather.replace({
+                            width: 14,
+                            height: 14
+                        });                        
+                    }, 200)
+                }else{
+                    // alert(resp?.data?.message)
+                    this.userFollowUpModal.error = resp?.data?.message
                 }
                 
                 

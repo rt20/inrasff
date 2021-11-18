@@ -46,7 +46,6 @@ class NotificationAttachment extends Model
 
         if($this->link == null)
             return '#' ;
-        // return asset('storage/notification/attachment/'.$this->title);
         return route('backadmin.attachments.view-notification-attachment', $this->id);
         
         
