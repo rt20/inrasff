@@ -45,6 +45,37 @@
     </div>
 </div>
 
+<section class="bi-form-main">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h4>Informasi Pengguna yang Menindaklanjuti</h4>
+    </div>
+
+    <div class="row">    
+        <div class="col-12 col-md-12 form-group">
+            <div class="d-flex justify-content-between align-items-center">
+                <label for="title" class="form-label">Pengguna yang perlu menindaklanjuti</label>
+                @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
+                    <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                @endif
+            </div>
+            
+            <table v-cloak  id="table-user" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nama Akun</th>
+                        <th>Lembaga</th>
+                        <th>Penanggung Jawab</th>
+                        <th>Tipe</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
 
 @push('page-js')
 <script>
@@ -85,6 +116,7 @@
             return {
                 table_r : null,
                 table_rw: null,
+                table_user: null,
                 institutionW: false,
                 institutionModal: {
                     state: 'add',
@@ -166,6 +198,34 @@
                 language: dtLangId
             })
 
+            this.table_user = $('#table-user').DataTable({
+                ajax:{
+                    url:"{{route('backadmin.up_stream_user_accesses.index')}}",
+                    data: function(data) {
+                        data.upstream_id = '{{$upstream->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { data: 'user.fullname' },
+                    { data: 'user.institution.name' },
+                    { data: 'user.responsible_name' },
+                    { data: 'user.institution.type_label' },
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                        } 
+                    }
+                ],
+                order: [[0, 'asc']],
+                language: dtLangId
+            })
+
         },
         computed: {
 
@@ -238,8 +298,9 @@
                         console.log(resp)
                             if(resp?.data?.status?.localeCompare('ok')==0){
                                 $('#institution-modal').modal('hide')
-                                if(this.institutionW)
+                                if(this.institutionW){
                                     this.table_rw.ajax.reload()
+                                    this.table_user.ajax.reload()                                }
                                 else
                                     this.table_r.ajax.reload()
                                 this.institutionW = false
@@ -259,6 +320,7 @@
                             $('#institution-modal').modal('hide')
                                 this.table_rw.ajax.reload()
                                 this.table_r.ajax.reload()
+                                this.table_user.ajax.reload()
 
                         }else{
                             alert(resp?.data?.message)

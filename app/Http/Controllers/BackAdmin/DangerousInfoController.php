@@ -82,7 +82,7 @@ class DangerousInfoController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        // return $request->all();
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -199,7 +199,7 @@ class DangerousInfoController extends Controller
                 'category_id',
                 'name_result',
                 // 'uom_result',
-                'uom_result_idp',
+                'uom_result_id',
                 'laboratorium',
                 'matrix',
                 'scope',

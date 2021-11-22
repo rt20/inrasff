@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label required" for="title_attachment">Judul</label>
-                                    <input name="title_attachment" id="title_attachment" class="form-control" type="text" value="">
+                                    <input placeholder="Silahkan Masukan Judul" name="title_attachment" id="title_attachment" class="form-control" type="text" value="">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label required" for="title">Info Lampiran</label>
