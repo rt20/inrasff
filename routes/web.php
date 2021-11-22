@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BackAdmin;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers as Controller;
 
 /*
@@ -15,37 +16,16 @@ use App\Http\Controllers as Controller;
 |
 */
 
-Route::get('/', function () {
-    return view('front.home');
-})->name('home');
 
-Route::get('/news', function () {
-    return view('front.news');
-})->name('news');
-
-Route::get('/news/{slug}', function () {
-    return view('front.news-detail');
-})->name('news_detail');
-
-Route::get('/kementrian', function () {
-    return view('front.kementrian');
-})->name('kementrian');
-
-Route::get('/aboutus', function () {
-    return view('front.aboutus');
-})->name('aboutus');
-
-Route::get('/logical', function () {
-    return view('front.logical');
-})->name('logical');
-
-Route::get('/baganalir', function () {
-    return view('front.baganalir');
-})->name('baganalir');
-
-Route::get('/contactus', function () {
-    return view('front.contactus');
-})->name('contactus');
+// FRONTEND
+Route::get('/', [FrontController::class, 'home'])->name('home');
+Route::get('/news', [FrontController::class, 'news'])->name('news');
+Route::get('/news/{slug}', [FrontController::class, 'newsDetail'])->name('news_detail');
+Route::get('/kementrian', [FrontController::class, 'kementrian'])->name('kementrian');
+Route::get('/aboutus', [FrontController::class, 'aboutus'])->name('aboutus');
+Route::get('/logical', [FrontController::class, 'logical'])->name('logical');
+Route::get('/baganalir', [FrontController::class, 'baganalir'])->name('baganalir');
+Route::get('/contactus', [FrontController::class, 'contactus'])->name('contactus');
 
 Route::get('/login', function(){
     return redirect()->route('backadmin.auth.index');
@@ -54,6 +34,8 @@ Route::get('/login', function(){
 Route::get('/session', function(){
     return auth()->user();
 });
+// BACKEND
+
 
 Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmin.')->group(function() {
     
