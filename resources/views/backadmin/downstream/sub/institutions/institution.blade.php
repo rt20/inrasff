@@ -8,7 +8,9 @@
             <div class="d-flex justify-content-between align-items-center">
                 <label for="title" class="form-label">Lembaga yang perlu menindaklanjuti</label>
                 @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    @can('store_institution downstream')
                     <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                    @endcan
                 @endif
             </div>
             
@@ -16,7 +18,11 @@
                 <thead>
                     <tr>
                         <th class="w-75">Lembaga</th>
+                        @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                        @can('delete_institution downstream')
                         <th class="bi-table-col-action-1">Aksi</th>
+                        @endcan
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +35,9 @@
             <div class="d-flex justify-content-between align-items-center">
                 <label for="title" class="form-label"> Lembaga lain yang terkait</label>
                 @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    @can('store_institution downstream')
                     <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                    @endcan
                 @endif
             </div>
             
@@ -37,7 +45,11 @@
                 <thead>
                     <tr>
                         <th class="w-75">Lembaga</th>
+                        @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                        @can('delete_institution downstream')
                         <th class="bi-table-col-action-1">Aksi</th>
+                        @endcan
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +82,9 @@
                         <th>Lembaga</th>
                         <th>Penanggung Jawab</th>
                         <th>Tipe</th>
+                        @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                         <th>Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -160,6 +174,8 @@
                 processing: true,
                 columns: [
                     { data: 'institution.name' },
+                    @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    @can('delete_institution downstream')
                     {
                         data: 'id',
                         className: 'text-center',
@@ -169,6 +185,8 @@
                             return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
+                    @endcan
+                    @endif
                 ],
                 order: [[0, 'desc']],
                 language: dtLangId
@@ -187,6 +205,8 @@
                 processing: true,
                 columns: [
                     { data: 'institution.name' },
+                    @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    @can('delete_institution downstream')
                     {
                         data: 'id',
                         className: 'text-center',
@@ -196,6 +216,8 @@
                             return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
+                    @endcan
+                    @endif
                 ],
                 order: [[0, 'desc']],
                 language: dtLangId
@@ -215,6 +237,7 @@
                     { data: 'user.institution.name' },
                     { data: 'user.responsible_name' },
                     { data: 'user.institution.type_label' },
+                    @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                     {
                         data: 'id',
                         className: 'text-center',
@@ -224,6 +247,7 @@
                             return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
+                    @endif
                 ],
                 order: [[0, 'asc']],
                 language: dtLangId

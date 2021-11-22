@@ -3,9 +3,10 @@
         
         <div class="d-flex justify-content-between align-items-center">
             <h4>Kontrol Perbatasan</h4>
-            {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
-            <a href="{{ route('backadmin.border_control_infos.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+                @can('store border_control')
+                <a href="{{ route('backadmin.border_control_infos.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+                @endcan
             @endif
         </div>
         <table id="table-border-control" class="table table-striped table-bordered">

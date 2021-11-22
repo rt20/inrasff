@@ -9,7 +9,9 @@
 @endsection
 
 @section('actions')
+@can('store upstream')
 <a href="{{ route('backadmin.upstreams.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Upstream</a>
+@endcan
 @endsection
 
 @section('content')

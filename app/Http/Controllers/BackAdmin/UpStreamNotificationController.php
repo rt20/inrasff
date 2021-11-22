@@ -37,6 +37,9 @@ class UpStreamNotificationController extends Controller
     }
 
     public function attachmentDataTable(Request $request){
+        if (!Gate::allows('view attachment')) {
+            abort(401);
+        }
         if($request->ajax()){
             $na = NotificationAttachment::query();
             $na = $na->where('na_type', 'App\Models\UpStreamNotification');
@@ -296,6 +299,9 @@ class UpStreamNotificationController extends Controller
     }
 
     public function addAttachment(Request $request){
+        if (!Gate::allows('store attachment')) {
+            abort(401);
+        }
         $validator = Validator::make($request->all(), [
             'notification_type' => ['required'], //upstream or upstream
             'notification_id' => ['required'], //id for upstream or upstream
@@ -355,6 +361,9 @@ class UpStreamNotificationController extends Controller
     }
 
     public function deleteAttachment($id){
+        if (!Gate::allows('delete attachment')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $a = NotificationAttachment::find($id);

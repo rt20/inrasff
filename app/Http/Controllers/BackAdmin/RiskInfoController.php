@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class RiskInfoController extends Controller
 {
@@ -22,6 +23,9 @@ class RiskInfoController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view risk')) {
+            abort(401);
+        }
         if($request->ajax()){
             $ri = RiskInfo::query();
             if($request->has('for_downstream')){
@@ -58,6 +62,9 @@ class RiskInfoController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Gate::allows('store risk')) {
+            abort(401);
+        }
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -77,6 +84,9 @@ class RiskInfoController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store risk')) {
+            abort(401);
+        }
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -145,11 +155,9 @@ class RiskInfoController extends Controller
     public function edit(RiskInfo $riskInfo)
     // public function edit($id)
     {
-
-        // dd($riskInfo);
-        // $risk = RiskInfo::find($id);
-        // dd($risk);
-        // return $risk;
+        if (!Gate::allows('view risk')) {
+            abort(401);
+        }
         return view('backadmin.risk_info.form', [
             'title' => "Edit Resiko",
             'risk' => $riskInfo,
@@ -166,6 +174,9 @@ class RiskInfoController extends Controller
     public function update(Request $request, RiskInfo $riskInfo)
     // public function update(Request $request, $id)
     {
+        if (!Gate::allows('store risk')) {
+            abort(401);
+        }
         $request->validate([
             'distribution_status_id' => ['required', 'max:255'],
         ]);
@@ -207,6 +218,9 @@ class RiskInfoController extends Controller
     public function destroy(RiskInfo $riskInfo)
     // public function destroy($id)
     {
+        if (!Gate::allows('delete risk')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             // $risk = RiskInfo::find($id);

@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class TraceabilityLotInfoController extends Controller
 {
@@ -22,6 +23,9 @@ class TraceabilityLotInfoController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view traceability')) {
+            abort(401);
+        }
         if($request->ajax()){
             $tli = TraceabilityLotInfo::query();
             $tli = $tli->with('sourceCountry');
@@ -58,6 +62,9 @@ class TraceabilityLotInfoController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Gate::allows('store traceability')) {
+            abort(401);
+        }
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -77,7 +84,9 @@ class TraceabilityLotInfoController extends Controller
      */
     public function store(Request $request)
     {
-        
+        if (!Gate::allows('store traceability')) {
+            abort(401);
+        }
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -153,7 +162,9 @@ class TraceabilityLotInfoController extends Controller
      */
     public function edit(TraceabilityLotInfo $traceabilityLotInfo)
     {
-
+        if (!Gate::allows('view traceability')) {
+            abort(401);
+        }
         return view('backadmin.traceability_lot_info.form', [
             'title' => "Edit Keterlusuran Lot",
             'traceability_lot' => $traceabilityLotInfo,
@@ -170,6 +181,9 @@ class TraceabilityLotInfoController extends Controller
     public function update(Request $request, TraceabilityLotInfo $traceabilityLotInfo)
     // public function update(Request $request, $id)
     {
+        if (!Gate::allows('store traceability')) {
+            abort(401);
+        }
         $request->validate([
             'source_country_id' => ['required'],
             'number' => ['required'],
@@ -217,6 +231,9 @@ class TraceabilityLotInfoController extends Controller
     public function destroy(TraceabilityLotInfo $traceabilityLotInfo)
     // public function destroy($id)
     {
+        if (!Gate::allows('delete traceability')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $traceabilityLotInfo->delete();

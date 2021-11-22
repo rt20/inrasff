@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class BorderControlInfoController extends Controller
 {
@@ -22,6 +23,9 @@ class BorderControlInfoController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view border_control')) {
+            abort(401);
+        }
         if($request->ajax()){
             $bci = BorderControlInfo::query();
             $bci = $bci->with('destinationCountry');
@@ -56,6 +60,9 @@ class BorderControlInfoController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Gate::allows('store border_control')) {
+            abort(401);
+        }
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -75,6 +82,9 @@ class BorderControlInfoController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store border_control')) {
+            abort(401);
+        }
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -147,6 +157,9 @@ class BorderControlInfoController extends Controller
     public function edit(BorderControlInfo $borderControlInfo)
     // public function edit($id)
     {
+        if (!Gate::allows('view border_control')) {
+            abort(401);
+        }
         return view('backadmin.border_control_info.form', [
             'title' => "Edit Kontrol Perbatasan",
             'border_control' => $borderControlInfo,
@@ -162,6 +175,9 @@ class BorderControlInfoController extends Controller
      */
     public function update(Request $request, BorderControlInfo $borderControlInfo)
     {
+        if (!Gate::allows('store border_control')) {
+            abort(401);
+        }
         $request->validate([
             'start_point' => ['required', 'max:255'],
             'entry_point' => ['required', 'max:255'],
@@ -206,6 +222,9 @@ class BorderControlInfoController extends Controller
      */
     public function destroy(BorderControlInfo $borderControlInfo)
     {
+        if (!Gate::allows('delete border_control')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             // $border_control = BorderControlInfo::find($id);

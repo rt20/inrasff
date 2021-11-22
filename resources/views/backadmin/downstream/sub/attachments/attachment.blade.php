@@ -4,7 +4,9 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>Lampiran</h4>
             @if (in_array($downstream->status, ['open']))
+                @can('store attachment')
                 <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                @endcan
             @endif
             {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
         </div>
@@ -15,7 +17,9 @@
                     <th>Info Dokumen</th>
                     <th>Tanggal Ditambahkan</th>
                     @if (in_array($downstream->status, ['open']))
+                    @can('delete attachment')
                     <th class="bi-table-col-action-1">Aksi</th>
+                    @endcan
                     @endif
                 </tr>
             </thead>
@@ -157,6 +161,7 @@
                             }
                         },
                         @if (in_array($downstream->status, ['open']))
+                        @can('delete attachment')
                         {
                             data: 'id',
                             className: 'text-center',
@@ -166,6 +171,7 @@
                                 return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                             } 
                         }
+                        @endcan
                         @endif
                     ],
                   
