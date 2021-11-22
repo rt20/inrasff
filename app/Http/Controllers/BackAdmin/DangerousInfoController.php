@@ -82,13 +82,16 @@ class DangerousInfoController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
+        return $request->all();
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
             'name' => ['required', 'max:255'],
             // 'category' => ['required', 'max:255'],
             'category_id' => ['required', 'max:255'],
+            'cl1_id' => ['required_if:cl1_id_show,==,1'],
+            'cl2_id' => ['required_if:cl2_id_show,==,1'],
+            'cl3_id' => ['required_if:cl3_id_show,==,1'],
         ]);
 
         try {
@@ -178,10 +181,13 @@ class DangerousInfoController extends Controller
     public function update(Request $request, DangerousInfo $dangerousInfo)
     // public function update(Request $request, $id)
     {
+        // return $request->all();
         $request->validate([
             'name' => ['required', 'max:255'],
-            // 'category' => ['required', 'max:255'],
             'category_id' => ['required', 'max:255'],
+            'cl1_id' => ['required_if:cl1_id_show,==,1'],
+            'cl2_id' => ['required_if:cl2_id_show,==,1'],
+            'cl3_id' => ['required_if:cl3_id_show,==,1'],
         ]);
 
         try {

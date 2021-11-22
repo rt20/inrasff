@@ -22,7 +22,7 @@
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="text-xl font-bold mb-5 leading-normal">Indonesia Rapid Alert System For Food And Feed</div>
 	<div class="leading-normal mb-5">
-		<p>Indonesia Rapid Alert System For Food And Feed (INRASFF) Adalah Suatu Sistem Komunikasi Cepat Yang Melibatkan Instansi Terkait Keamanan Pangan Di Indonesia Untuk Melaksanakan Kewaspadaan Dan Penanggulangan Kasus Keamanan Pangan Dan Pakan. INRASFF Melakukan Pengumpulan Dan Analisis Data Permasalahan Keamanan Pangan Melalui Competent Contact Point (CCP) INRASFF Di Dalam Negeri Dan Jejaring Keamanan Pangan Internasional (European Union RASFF, ASEAN RASFF, International Food Safety Authority Network (INFOSAN), Dsb.). Instansi Yang Berperan Sebagai CCP Dalam Jejaring INRASFF Adalah Kementerian Pertanian, Kementerian Kelautan Dan Perikanan, Kementerian Kesehatan, Kementerian Perdagangan, Kementerian Perindustrian, Kementerian Keuangan, Serta Badan POM. Selain Sebagai CCP, Badan POM Juga Berperan Sebagai National Contact Point (NCP) Bagi Indonesia.</p>
+		<p>Indonesia Rapid Alert System For Food And Feed (INRASFF) Adalah Suatu Sistem Komunikasi Cepat Yang Melibatkan Lembaga Terkait Keamanan Pangan Di Indonesia Untuk Melaksanakan Kewaspadaan Dan Penanggulangan Kasus Keamanan Pangan Dan Pakan. INRASFF Melakukan Pengumpulan Dan Analisis Data Permasalahan Keamanan Pangan Melalui Competent Contact Point (CCP) INRASFF Di Dalam Negeri Dan Jejaring Keamanan Pangan Internasional (European Union RASFF, ASEAN RASFF, International Food Safety Authority Network (INFOSAN), Dsb.). Lembaga Yang Berperan Sebagai CCP Dalam Jejaring INRASFF Adalah Kementerian Pertanian, Kementerian Kelautan Dan Perikanan, Kementerian Kesehatan, Kementerian Perdagangan, Kementerian Perindustrian, Kementerian Keuangan, Serta Badan POM. Selain Sebagai CCP, Badan POM Juga Berperan Sebagai National Contact Point (NCP) Bagi Indonesia.</p>
 	</div>
 	<div class="mx-auto text-center w-full lg:w-3/4">
 		<img src="http://inrasff.net/images/32/INRASFF.png" class="w-full">
@@ -136,7 +136,7 @@
 				<p>Beberapa hal yang telah dilakukan Indonesia dalam rangka penerapan INRASFF, yaitu:</p>
 				<br>
 				<ul class="mb-5 list-decimal list-inside space-y-3 mb-8">
-					<li>Identifikasi Competence Contact Point (CCP) di Instansi terkait</li>
+					<li>Identifikasi Competence Contact Point (CCP) di Lembaga terkait</li>
 					<li>Pembentukan Working Group INRASFF pada tanggal 30 Juni 2010</li>
 					<li>Pembuatan roadmap pelaksanaan INRASFF</li>
 					<li>Adanya Rancangan guideline INRASFF</li>
@@ -147,7 +147,7 @@
 
 				<ul class="mb-5 list-decimal list-inside space-y-3 mb-8">
 					<li>
-						<span class="font-semibold">Identifikasi Competence Contact Point (CCP) di Instansi terkait</span><br>
+						<span class="font-semibold">Identifikasi Competence Contact Point (CCP) di Lembaga terkait</span><br>
 						<p>Rekomendasi tim EU expert on RASFF pada kunjungan pertama adalah agar segera dilakukan identifikasi NCP dan CCP di Indonesia, maka sebagai tindak lanjutnya, Badan POM RI mengirimkan surat kepada sekretaris jenderal di kementerian terkait perihal permintaan RASFF Competence Contact Point (CCP) dan penentuan National Contact Point (NCP) di masing – masing kementerian terkait.</p>
 						<p>Berdasarkan formulir isian yang dikembalikan ke Badan POM RI,  4 dari 6 instansi memberikan dukungannya untuk mendukung Badan POM sebagai NCP. Selain itu, telah teridentifikasi CCP di Kementerian terkait.</p>
 					</li>

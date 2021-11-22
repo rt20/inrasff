@@ -5,7 +5,7 @@
     
     <div class="col-12 col-md-12 form-group">
         <div class="d-flex justify-content-between align-items-center">
-            <label for="title" class="form-label">Instansi yang perlu menindaklanjuti</label>
+            <label for="title" class="form-label">Lembaga yang perlu menindaklanjuti</label>
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                 <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
@@ -14,7 +14,7 @@
         <table v-cloak  id="table-permission-rw" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Instansi</th>
+                    <th>Lembaga</th>
                     <th class="bi-table-col-action-1">Aksi</th>
                 </tr>
             </thead>
@@ -26,7 +26,7 @@
     <div class="col-12 col-md-12 form-group">
         <hr>
         <div class="d-flex justify-content-between align-items-center">
-            <label for="title" class="form-label"> Instansi lain yang terkait</label>
+            <label for="title" class="form-label"> Lembaga lain yang terkait</label>
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                 <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
@@ -35,7 +35,7 @@
         <table v-cloak  id="table-permission-r" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Instansi</th>
+                    <th>Lembaga</th>
                     <th class="bi-table-col-action-1">Aksi</th>
                 </tr>
             </thead>

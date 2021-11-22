@@ -46,7 +46,7 @@ class UpStreamInstitutionController extends Controller
             if($validator->fails())
                 throw new Exception("Input validasi bermasalah, cek kembali inputan!", 1);
             if(UpStreamInstitution::where('us_id', $request->us_id)->where('institution_id', $request->institution_id)->first() != null)
-                throw new Exception("Instansi tersebut telah di berikan akses untuk upstream ini", 1);
+                throw new Exception("Lembaga tersebut telah di berikan akses untuk upstream ini", 1);
                 
             $dsi = UpStreamInstitution::make($request->only([
                 'us_id',

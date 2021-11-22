@@ -177,6 +177,23 @@ function slugify(text) {
         .replace(/-+$/, '');            // Trim - from end of text
 }
 
+// function alpha_only(e){
+function alpha_only(text) {
+    var regex = /^[a-zA-Z ]+$/;
+    // if (regex.test(e.value) !== true)
+    //     e.value = e.value.replace(/[^a-zA-Z ]+/, '');
+    if (regex.test(text) !== true)
+        return text.replace(/[^a-zA-Z ]+/, '');
+}
+// function number_only(e) {
+function number_only(text) {
+    var regex = /^[0-9]+$/;
+    // if (regex.test(e.value) !== true)
+    //     e.value = e.value.replace(/[^0-9]+/, '');
+    if (regex.test(text) !== true)
+        return text.replace(/[^0-9]+/, '');
+}
+
 
 /**
  * Initiate S2 With option
