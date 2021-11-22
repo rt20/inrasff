@@ -152,11 +152,16 @@
 
                             <div class="col-12 col-md-6 form-group">
                                 <label for="net_weight" class="form-label ">Total (net) weight / volume of lot</label>
-                                <input type="text" 
-                                    name="net_weight"
-                                    v-model="traceability_lot.net_weight" 
-                                    class="form-control @error('net_weight') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Total (net) weight / volume of lot" autocomplete="off">
+                                <div class="input-group form-password-toggle mb-2">
+                                    <input type="text" 
+                                        name="net_weight"
+                                        v-model="traceability_lot.net_weight" 
+                                        class="form-control @error('net_weight') {{ 'is-invalid' }} @enderror" 
+                                        placeholder="Masukkan Total (net) weight / volume of lot" autocomplete="off">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text cursor-pointer">Kg</span>
+                                    </div>
+                                </div>
                                 @error('net_weight')
                                     <small class="text-danger">{{ $errors->first('net_weight') }}</small>
                                 @enderror
@@ -187,12 +192,12 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                             <div class="col-12 col-md-6 form-group">
-                                <label for="cert_institution" class="form-label ">Instansi Pemberi</label>
+                                <label for="cert_institution" class="form-label ">Lembaga Pemberi</label>
                                 <input type="text" 
                                     name="cert_institution"
                                     v-model="traceability_lot.cert_institution" 
                                     class="form-control @error('cert_institution') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Instansi Pemberi" autocomplete="off">
+                                    placeholder="Masukkan Lembaga Pemberi" autocomplete="off">
                                 @error('cert_institution')
                                     <small class="text-danger">{{ $errors->first('cert_institution') }}</small>
                                 @enderror
@@ -225,12 +230,12 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                             <div class="col-12 col-md-6 form-group">
-                                <label for="add_cert_institution" class="form-label ">Instansi Pemberi</label>
+                                <label for="add_cert_institution" class="form-label ">Lembaga Pemberi</label>
                                 <input type="text" 
                                     name="add_cert_institution"
                                     v-model="traceability_lot.add_cert_institution" 
                                     class="form-control @error('add_cert_institution') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Instansi Pemberi" autocomplete="off">
+                                    placeholder="Masukkan Lembaga Pemberi" autocomplete="off">
                                 @error('add_cert_institution')
                                     <small class="text-danger">{{ $errors->first('add_cert_institution') }}</small>
                                 @enderror

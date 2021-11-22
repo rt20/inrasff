@@ -300,6 +300,8 @@ class UpStreamNotificationController extends Controller
             'notification_type' => ['required'], //upstream or upstream
             'notification_id' => ['required'], //id for upstream or upstream
             'attachment' => ['required', 'max:2048'],
+            'info' => ['required'],
+            'title_attachment' => ['required'],
         ]);
 
         try {
@@ -319,10 +321,12 @@ class UpStreamNotificationController extends Controller
             
             $attachment = $notification->attachment()->make();
             $name = '';
+
+            $new_title = Str::slug($request->title_attachment);
             $res = UploadFile::uploadFile(
                 $request->file('attachment'),
                 'notification/attachment/',
-                'NA-'.Carbon::now()->format('Hisv'),
+                '[NA-'.Carbon::now()->format('Hisv').']'.$new_title,
                 function($new_name) use (&$name){
                     $name = $new_name;                    
                 }
@@ -330,7 +334,10 @@ class UpStreamNotificationController extends Controller
             if($res !== "All Process success"){
                 throw new Exception($res);
             }
-            $attachment->title = $name;
+            $attachment->link = $name;
+            $attachment->title = $request->title_attachment;
+            $attachment->info = $request->info;
+
             $attachment->save();
 
             DB::commit();

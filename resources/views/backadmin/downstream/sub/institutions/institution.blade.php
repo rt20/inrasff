@@ -146,8 +146,6 @@
             
         },
         mounted() {
-            
-
             let icon = feather.icons['trash'].toSvg();
             this.table_r = $('#table-permission-r').DataTable({
                 ajax:{

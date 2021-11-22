@@ -16,8 +16,6 @@ use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-
-
 use UploadFile;
 
 class DownStreamNotificationController extends Controller
@@ -225,7 +223,9 @@ class DownStreamNotificationController extends Controller
         
         try {
             DB::beginTransaction();
-                // dd($downstream);
+                if($downstream->downstreamInstitution()->count()<1)
+                    throw new Exception("Belum ada lembaga yang ditambahkan untuk info penindak", 1);
+                    
                 $downstream->isStatus('open');
                 $downstream->setStatus('ccp process', 'Diproses untuk CCP ');
                 $downstream->update();
@@ -346,10 +346,6 @@ class DownStreamNotificationController extends Controller
             switch ($request->notification_type) {
                 case 'downstream':
                     $notification = DownStreamNotification::find($request->notification_id);
-                    break;
-                
-                case 'upstream':
-                    $notification = UpStreamNotification::find($request->notification_id);
                     break;
 
                 default:

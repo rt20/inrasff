@@ -75,4 +75,18 @@ class UpStreamNotification extends Model
         return $this->morphMany(NotificationAttachment::class, 'na');
     }
 
+    /**
+     * Access Permission of Institution and User Access
+     */
+    
+    public function upstreamInstitution()
+    {
+        return $this->hasMany(UpStreamInstitution::class, 'us_id', 'id');
+    }
+
+    public function upstreamUserAccess()
+    {
+        return $this->hasMany(UpStreamUserAccess::class, 'upstream_id', 'id');
+    }
+
 }

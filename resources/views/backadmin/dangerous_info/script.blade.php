@@ -140,7 +140,11 @@
         mounted() {
             // $('.select2-dr').select2();
             $('.date').flatpickr();
-
+            $('#sampling_count').keyup(function(e){
+                var regex = /^[0-9]+$/;
+                if (regex.test(e.target.value) !== true)
+                    e.target.value = e.target.value.replace(/[^0-9]+/, '');
+            })
             let icon = feather.icons['trash'].toSvg();
             this.table_sampling = $('#table-sampling').DataTable({
                 ajax:{

@@ -97,6 +97,7 @@
 
                             <div class="col-12 col-md-12 form-group" v-show="dangerous1" v-cloak>
                                 <label for="cl1_id" class="form-label required">Kategori Bahaya (Isian 1)</small></label>
+                                    <input name="cl1_id_show" hidden :value="dangerous1? 1:0">
                                     <select
                                         id="cl1_id" 
                                         name="cl1_id" 
@@ -110,6 +111,7 @@
 
                             <div class="col-12 col-md-12 form-group" v-show="dangerous2" v-cloak>
                                 <label for="cl2_id" class="form-label required">Kategori Bahaya (Isian 2)</small></label>
+                                    <input name="cl2_id_show" hidden :value="dangerous2? 1:0">
                                     <select
                                         id="cl2_id" 
                                         name="cl2_id" 
@@ -123,6 +125,7 @@
 
                             <div class="col-12 col-md-12 form-group" v-show="dangerous3" v-cloak>
                                 <label for="cl3_id" class="form-label required">Kategori Bahaya (Isian 3)</small></label>
+                                    <input name="cl3_id_show" hidden :value="dangerous3? 1:0">
                                     <select
                                         id="cl3_id" 
                                         name="cl3_id" 
@@ -245,8 +248,8 @@
                         <div class="modal-content">
                             <form id="sampling-modal-form" action="#" method="GET">                    
                                 <div class="modal-header">
-                                    <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Instansi</h4>
-                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Hapus Instansi</h4>
+                                    <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Sampling</h4>
+                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Hapus Sampling</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -272,7 +275,7 @@
                                     </div>
                 
                                     <div v-show="samplingModal.state === 'delete'">
-                                        <p class="mb-0">Apakah Anda yakin akan menghapus Instansi ini?</p>
+                                        <p class="mb-0">Apakah Anda yakin akan menghapus Lembaga ini?</p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

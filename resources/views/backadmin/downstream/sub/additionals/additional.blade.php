@@ -4,12 +4,12 @@
 </div>
 <div class="row">
     <div class="col-12 col-md-6 form-group">
-        <label for="institution" class="form-label">Instansi</label>
+        <label for="institution" class="form-label">Lembaga</label>
         <input type="text" 
             name="institution"
             v-model="downstream.institution" 
             class="form-control @error('institution') {{ 'is-invalid' }} @enderror" 
-            placeholder="Masukkan Nama Produk" autocomplete="off">
+            placeholder="Masukkan Nama Lembaga" autocomplete="off">
         @error('institution')
             <small class="text-danger">{{ $errors->first('institution') }}</small>
         @enderror

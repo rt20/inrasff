@@ -92,7 +92,7 @@ class DownStreamNotification extends Model
 
     public function downstreamUserAccess()
     {
-        return $this->hasMany(DownStreamUserAccess::class, 'ds_id', 'id');
+        return $this->hasMany(DownStreamUserAccess::class, 'downstream_id', 'id');
     }
 
     

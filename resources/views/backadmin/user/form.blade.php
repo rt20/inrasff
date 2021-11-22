@@ -156,7 +156,6 @@
                         </div>
     
                         <div class="row">
-
                             <div class="col-12 col-md-6 form-group">
                                 <label for="responsible_name" class="form-label required">Nama</label>
                                 <input type="text" 
@@ -268,6 +267,8 @@
                 institution_id : old.institution_id ?? user.institution_id ?? '',            
             }
 
+            this.user.responsible_phone = this.user.responsible_phone.replace(/ /g,"")
+            this.user.responsible_phone = this.user.responsible_phone.replace("(+62)","0")
             // console.log(this.user)
             if(this.user.type !== ''){
                 console.log(this.user.type)
@@ -293,6 +294,13 @@
             }
         },
         mounted() {
+            $('input[name="responsible_phone"]').keyup(function(e) {
+                var regex = /^[0-9]+$/;
+                console.log(e.target.value)
+                if (regex.test(e.target.value) !== true)
+                    e.target.value = e.target.value.replace(/[^0-9]+/, '');
+            });  
+            
             $('#f_type').on('change', function(e){
                 switch (e.target.value) {
                     case 'ccp':
@@ -350,7 +358,9 @@
 
         },
         methods: {
-            
+            number_only(text){
+                return number_only(text)
+            }
         }
     }).mount('#app');
 </script>

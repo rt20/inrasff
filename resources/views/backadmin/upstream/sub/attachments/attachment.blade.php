@@ -13,6 +13,7 @@
                 <tr>
                     <th>Judul</th>
                     <th>Tanggal Ditambahkan</th>
+                    <th>Info Lampiran</th>
                     @if (in_array($upstream->status, ['open']))
                     <th class="bi-table-col-action-1">Aksi</th>
                     @endif
@@ -37,6 +38,19 @@
                             <div v-show="attachmentModal.state !== 'delete'">
                                 <div class="alert alert-danger mb-50" v-if="attachmentModal.error != ''">
                                     <div class="alert-body">@{{ attachmentModal.error }}</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label required" for="title_attachment">Judul</label>
+                                    <input placeholder="Silahkan Masukan Judul" name="title_attachment" id="title_attachment" class="form-control" type="text" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label required" for="title">Info Lampiran</label>
+                                    <select name="info" id="info" class="form-control">
+                                        <option value="" selected>-Silahkan Pilih Info Lampiran-</option>
+                                        @foreach ($type_infos as $key => $ti)
+                                            <option value="{{$key}}">{{$ti['label']}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label required" for="attachment">Lampiran</label>
@@ -91,6 +105,18 @@
                         input: 'input',
                         active: true,
                     },
+                    {
+                        name: 'title_attachment',
+                        title: 'title_attachment',
+                        input: 'input',
+                        active: true,
+                    },
+                    {
+                        name: 'info',
+                        title: 'info',
+                        input: 'select',
+                        active: true,
+                    },
                 ],
                 table_attachment: null,
             }
@@ -116,6 +142,11 @@
                             render: function(data, type, row, meta){
                                 return `<a href="`+row.origin+`" target="_blank">` + data + `</a>`
                             }
+                        },
+                        {
+                            data: 'info_label',
+                            searchable:false,
+                            orderable:false,
                         },
                         { 
                             data: 'created_at' ,
@@ -146,8 +177,8 @@
         methods: {
             openAttachmentModal(state, id=null, item = {id:null}){
                 console.log("open")
-                // console.log($('#form-attachment'))
                 $('.f-attachment').val(null)
+                $('#form-attachment').trigger('reset')
                 $('.text-danger').remove();
                 this.attachmentModal.state = state;
                 this.attachmentModal.error = '';
@@ -195,6 +226,8 @@
                         formData.append('notification_type', 'upstream')
                         formData.append('notification_id', {{$upstream->id}})
                         formData.append('attachment', $('input[name="attachment"]')[0].files[0])
+                        formData.append('info', $('select[name="info"]').val())
+                        formData.append('title_attachment', $('input[name="title_attachment"]').val())
                         resp = await post(
                             url,
                             formData,

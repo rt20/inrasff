@@ -118,12 +118,12 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label class="form-label" for="vertical-email">Instansi yang perlu menindaklanjuti</label>
+                        <label class="form-label" for="vertical-email">Lembaga yang perlu menindaklanjuti</label>
                         <input type="text" id="vertical-email" class="form-control"   />
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label class="form-label" for="vertical-email">Instansi lain yang terkait</label>
+                        <label class="form-label" for="vertical-email">Lembaga lain yang terkait</label>
                         <input type="text" id="vertical-email" class="form-control"   />
                     </div>
                 </div>
