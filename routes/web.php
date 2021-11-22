@@ -42,12 +42,12 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
     Route::middleware('guest')->group(function () {
         Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
         Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
-        Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
+        
     });
 
     Route::middleware('auth', 'admin')->group(function () {
         Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
-
+        Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
 
         // Slider
         Route::post('sliders/slider-image/store', [BackAdmin\SliderController::class, 'uploadImage'])->name('sliders.slider_image.store');
