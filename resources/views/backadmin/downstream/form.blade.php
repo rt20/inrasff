@@ -184,8 +184,8 @@
                         <p>Apakah Anda yakin akan memproses Downstream ini untuk CCP?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Proses</button>
                     </div>
                 </form>
             </div>
@@ -208,8 +208,8 @@
                         <p>Apakah Anda yakin akan mengembalikan Downstream ini untuk proses CCP?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Proses</button>
                     </div>
                 </form>
             </div>
@@ -232,8 +232,8 @@
                         <p>Apakah Anda yakin akan memproses Downstream ini untuk Eksternal?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Proses</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Proses</button>
                     </div>
                 </form>
             </div>

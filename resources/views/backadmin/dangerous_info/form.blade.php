@@ -67,7 +67,7 @@
     
                         <div class="row">
                             
-                            <div class="col-12 col-md-6 form-group">
+                            <div class="col-12 col-md-12 form-group">
                                 <label for="name" class="form-label required">Jenis Bahaya yang Diidentifikasi</label>
                                 <input
                                     autocomplete="disabled"
@@ -81,24 +81,61 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
-                            <div class="col-12 col-md-6 form-group">
+                            <div class="col-12 col-md-12 form-group">
                                 <label for="category_id" class="form-label required">Kategori Bahaya</small></label>
                                     <select
                                         id="category_id" 
                                         name="category_id" 
                                         v-model="dangerous.category_id" 
                                         class="form-control @error('category_id') {{ 'is-invalid' }} @enderror">
-                                        {{-- <option value="" selected>- Silahkan Pilih Kategori Bahaya -</option>
-                                        @foreach ($a_dangerous_category_id as $status)
-                                        <option value="{{$status['value']}}">{{$status['label']}}</option>    
-                                        @endforeach --}}
                         
                                     </select>
                                 @error('category_id')
                                     <small class="text-danger">{{ $errors->first('category_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-12 form-group" v-show="dangerous1" v-cloak>
+                                <label for="cl1_id" class="form-label required">Kategori Bahaya (Isian 1)</small></label>
+                                    <input name="cl1_id_show" hidden :value="dangerous1? 1:0">
+                                    <select
+                                        id="cl1_id" 
+                                        name="cl1_id" 
+                                        class="form-control @error('cl1_id') {{ 'is-invalid' }} @enderror">
                         
+                                    </select>
+                                @error('cl1_id')
+                                    <small class="text-danger">{{ $errors->first('cl1_id') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-12 form-group" v-show="dangerous2" v-cloak>
+                                <label for="cl2_id" class="form-label required">Kategori Bahaya (Isian 2)</small></label>
+                                    <input name="cl2_id_show" hidden :value="dangerous2? 1:0">
+                                    <select
+                                        id="cl2_id" 
+                                        name="cl2_id" 
+                                        class="form-control @error('cl2_id') {{ 'is-invalid' }} @enderror">
+                        
+                                    </select>
+                                @error('cl2_id')
+                                    <small class="text-danger">{{ $errors->first('cl2_id') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-12 form-group" v-show="dangerous3" v-cloak>
+                                <label for="cl3_id" class="form-label required">Kategori Bahaya (Isian 3)</small></label>
+                                    <input name="cl3_id_show" hidden :value="dangerous3? 1:0">
+                                    <select
+                                        id="cl3_id" 
+                                        name="cl3_id" 
+                                        class="form-control @error('cl3_id') {{ 'is-invalid' }} @enderror">
+                                    </select>
+                                @error('cl3_id')
+                                    <small class="text-danger">{{ $errors->first('cl3_id') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+                            
                             <div class="col-12 col-md-6 form-group">
                                 <label for="name_result" class="form-label">Hasil Uji <small>(Kosongkan apabila negatif)</small></label>
                                 <input type="text" 
@@ -118,12 +155,7 @@
                                         id="uom_result_id" 
                                         name="uom_result_id" 
                                         v-model="dangerous.uom_result_id" 
-                                        class="form-control @error('uom_result_id') {{ 'is-invalid' }} @enderror">
-                                        {{-- <option value="" selected>- Silahkan Pilih Satuan Hasil Uji -</option>
-                                        @foreach ($a_uom_result_id as $status)
-                                        <option value="{{$status['value']}}">{{$status['label']}}</option>    
-                                        @endforeach --}}
-                        
+                                        class="form-control @error('uom_result_id') {{ 'is-invalid' }} @enderror">                        
                                     </select>
                                 @error('uom_result_id')
                                     <small class="text-danger">{{ $errors->first('uom_result_id') }}</small>
@@ -216,8 +248,8 @@
                         <div class="modal-content">
                             <form id="sampling-modal-form" action="#" method="GET">                    
                                 <div class="modal-header">
-                                    <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Instansi</h4>
-                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Hapus Instansi</h4>
+                                    <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Sampling</h4>
+                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Hapus Sampling</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -243,7 +275,7 @@
                                     </div>
                 
                                     <div v-show="samplingModal.state === 'delete'">
-                                        <p class="mb-0">Apakah Anda yakin akan menghapus Instansi ini?</p>
+                                        <p class="mb-0">Apakah Anda yakin akan menghapus Lembaga ini?</p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -304,268 +336,5 @@
 @endsection
 
 @push('page-js')
-<script>
-    function openSamplingModal(state, id=null, item = {id:null}){
-        
-        form.openSamplingModal(state, id, item)        
-    }
-
-    let form = Vue.createApp({
-        data() {
-            return {
-                dangerous: {},
-                table_sampling : null,
-                samplingModal: {
-                    state: 'add',
-                    index: null,
-                    item:{
-                        id:null,
-                    },
-                    error: ''
-                },
-                validatorSampling : [
-                    {
-                        title: 'sampling_date',
-                        name : 'sampling_date',
-                        input: 'input',
-                        required: true,
-                        parse: null
-                    },
-                    {
-                        title: 'sampling_count',
-                        name : 'sampling_count',
-                        input: 'input',
-                        required: true,
-                        parse: null
-                    },
-                    {
-                        title: 'sampling_method',
-                        name : 'sampling_method',
-                        input: 'input',
-                        required: false,
-                        parse: null
-                    },
-
-                    {
-                        title: 'sampling_place',
-                        name : 'sampling_place',
-                        input: 'input',
-                        required: false,
-                        parse: null
-                    },
-                ],
-            }
-        },
-        created() {
-            old = {!! json_encode(old()) !!};
-            dangerous = {!! json_encode($dangerous) !!};
-            console.log(dangerous)
-            this.dangerous = {
-                name: old.name ?? dangerous.name ?? '',
-                category_id: old.category_id ?? dangerous.category_id ?? '',
-                name_result: old.name_result ?? dangerous.name_result ?? '',
-                uom_result_id: old.uom_result_id ?? dangerous.uom_result_id ?? '',
-                laboratorium: old.laboratorium ?? dangerous.laboratorium ?? '',
-                matrix: old.matrix ?? dangerous.matrix ?? '',
-                scope: old.scope ?? dangerous.scope ?? '',
-                max_tollerance: old.max_tollerance ?? dangerous.max_tollerance ?? '',                
-                
-            }
-
-            // console.log(this.dangerous)
-
-            if(this.dangerous.category_id !== ''){
-                initS2FieldWithAjax(
-                    '#category_id',
-                    '{{route("backadmin.s2Init.dangerous_category")}}',
-                    {id:this.dangerous.category_id},
-                    ['name']
-                )
-            }
-
-            if(this.dangerous.uom_result_id !== ''){
-                initS2FieldWithAjax(
-                    '#uom_result_id',
-                    '{{route("backadmin.s2Init.uom_result")}}',
-                    {id:this.dangerous.uom_result_id},
-                    ['name']
-                )
-            }
-
-            
-        },
-        mounted() {
-            // $('.select2-dr').select2();
-            $('.date').flatpickr();
-
-            let icon = feather.icons['trash'].toSvg();
-            this.table_sampling = $('#table-sampling').DataTable({
-                ajax:{
-                    url:"{{route('backadmin.dangerous_samplings.index')}}",
-                    data: function(data) {
-                        data.di_id = '{{$dangerous->id}}'
-                    }
-                },
-                serverSide: true,
-                processing: true,
-                columns: [
-                    { 
-                        data: 'sampling_date' ,
-                        render: function(data, type, row, meta){
-                            return moment(data).format('D MMMM YYYY')
-                        }
-                    },
-                    { data: 'sampling_count' },
-                    { 
-                        data: 'sampling_method',
-                        defaultContent: '-' 
-                    },
-                    { 
-                        data: 'sampling_place',
-                        defaultContent: '-'
-                    },
-                    {
-                        data: 'id',
-                        className: 'text-center',
-                        orderable: false,
-                        searchable: false, 
-                        render: function(data, type, row, meta) {
-                            return `<a href="#" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
-                        } 
-                    }
-                ],
-                order: [[0, 'desc']],
-                language: dtLangId
-            })
-
-            this.initiateS2(
-                "#category_id",
-                "{{route('backadmin.s2Opt.dangerous_category')}}",
-                0,
-                "Silahkan Pilih Kategori Bahaya",
-                ['name'],
-                function(e){
-                    form.dangerous.category_id = e.target.value
-                }
-            )
-
-            this.initiateS2(
-                "#uom_result_id",
-                "{{route('backadmin.s2Opt.uom_result')}}",
-                0,
-                "Silahkan Pilih Satuan Hasil Uji",
-                ['name'],
-                function(e){
-                    form.dangerous.uom_result_id = e.target.value
-                }
-            )
-        },
-        computed: {
-
-        },
-        methods: {
-            initiateS2(
-                elId,
-                url,
-                minimumInputLength = 3,
-                placeholder = "Masukan Pilihan",
-                attrs,
-                onSelect
-            ){
-                return initiateS2(
-                    elId,
-                    url,
-                    minimumInputLength,
-                    placeholder,
-                    attrs,
-                    onSelect
-                ) 
-            },
-            openSamplingModal(state, id=null, item = {id:null}){
-                console.log("Halo")
-
-                $('#sampling-modal-form').trigger('reset')
-                
-                $('.text-warn').remove();
-                this.samplingModal.state = state;
-                switch (this.samplingModal.state) {
-                    case 'add':                    
-                        this.samplingModal.item = item;                        
-                        break;
-                    case 'delete':
-                        // this.samplingModal.item = Object.assign({}, this.slider.slider_image[index]);
-                        this.samplingModal.item = {id:id};   
-                        break;
-                    
-                    default:
-                        break;
-                }
-                $('#sampling-modal').modal({ backdrop: 'static', keyboard: false })
-            },
-            async submitItem(e){
-                e.preventDefault()
-                $('.text-warn').remove();
-                let invalid;
-
-                switch (this.samplingModal.state) {
-                    case 'add':
-                        this.validatorSampling.forEach(el => {
-                            if(el.required==true)
-                            {
-                                if(!$(el.input+'[name="'+el.title+'"]').val() ){
-                                    $(el.input+'[name="'+el.title+'"]').parent().append(`
-                                        <small class="text-danger text-warn">Field ini harus diisi</small>
-                                    `);
-                                    invalid = true;
-                                }
-                            }
-                        });
-
-                        if(invalid)
-                            return;
-
-                        var url = `{{ route('backadmin.dangerous_samplings.add') }}`
-                        var formData = new FormData()
-                        this.validatorSampling.forEach(el => {
-                            var value = $(el.input+'[name="'+el.title+'"]').val()
-                            console.log(value)
-                            formData.append(el.name, value)
-                        });
-                        formData.append('di_id', {{$dangerous->id}})
-                        
-                        var resp = await post(url,formData)
-                        console.log(resp)
-                            if(resp?.data?.status?.localeCompare('ok')==0){
-                                $('#sampling-modal').modal('hide')
-                                    this.table_sampling.ajax.reload()
-                                
-
-                            }else{
-                                alert(resp?.data?.message)
-                            }    
-                        
-                        break;
-                
-                    case 'delete': 
-                        var url = `{{ route('backadmin.dangerous_samplings.delete', '__id') }}`
-                        url = url.replace("__id", this.samplingModal?.item?.id)
-                        var resp = await destroy(url)
-                        console.log(resp)
-                        if(resp?.data?.status?.localeCompare('ok')==0){
-                            $('#sampling-modal').modal('hide')
-                                this.table_sampling.ajax.reload()
-
-                        }else{
-                            alert(resp?.data?.message)
-                        }   
-                        break;
-                    
-                    default:
-                        break;
-                }
-                
-            },
-        }
-    }).mount('#app');
-</script>
+@include('backadmin.dangerous_info.script')
 @endpush

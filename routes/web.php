@@ -16,6 +16,7 @@ use App\Http\Controllers as Controller;
 |
 */
 
+
 // FRONTEND
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('/news', [FrontController::class, 'news'])->name('news');
@@ -27,7 +28,7 @@ Route::get('/baganalir', [FrontController::class, 'baganalir'])->name('baganalir
 Route::get('/contactus', [FrontController::class, 'contactus'])->name('contactus');
 
 // BACKEND
-Route::prefix('backadmin')->name('backadmin.')->group(function() {
+Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmin.')->group(function() {
 
     Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
     Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
@@ -56,16 +57,22 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::delete('{id}/delete', [BackAdmin\DownStreamInstitutionController::class, 'delete'])->name('delete');
         });
 
+        Route::prefix('up_stream_institutions')->name('up_stream_institutions.')->group(function(){
+            Route::get('/', [BackAdmin\UpStreamInstitutionController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\UpStreamInstitutionController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\UpStreamInstitutionController::class, 'delete'])->name('delete');
+        });
+
         Route::prefix('down_stream_user_accesses')->name('down_stream_user_accesses.')->group(function(){
             Route::get('/', [BackAdmin\DownStreamUserAccessController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\DownStreamUserAccessController::class, 'add'])->name('add');
             Route::delete('{id}/delete', [BackAdmin\DownStreamUserAccessController::class, 'delete'])->name('delete');
         });
 
-        Route::prefix('up_stream_institutions')->name('up_stream_institutions.')->group(function(){
-            Route::get('/', [BackAdmin\UpStreamInstitutionController::class, 'index'])->name('index');
-            Route::post('/add', [BackAdmin\UpStreamInstitutionController::class, 'add'])->name('add');
-            Route::delete('{id}/delete', [BackAdmin\UpStreamInstitutionController::class, 'delete'])->name('delete');
+        Route::prefix('up_stream_user_accesses')->name('up_stream_user_accesses.')->group(function(){
+            Route::get('/', [BackAdmin\UpStreamUserAccessController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\UpStreamUserAccessController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\UpStreamUserAccessController::class, 'delete'])->name('delete');
         });
 
         Route::prefix('notifications')->name('notifications.')->group(function() {
@@ -76,6 +83,8 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
             Route::post('/add-attachment', [BackAdmin\FollowUpNotificationController::class, 'addAttachment'])->name('add-attachment');
             Route::delete('/{id}/delete-attachment', [BackAdmin\FollowUpNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            Route::post('/add-user-fu', [BackAdmin\FollowUpNotificationController::class, 'addUserFu'])->name('add-user-fu');
+            Route::delete('/{id}/delete-user-fu', [BackAdmin\FollowUpNotificationController::class, 'deleteUserFu'])->name('delete-user-fu');
         });
 
         Route::prefix('downstreams')->name('downstreams.')->group(function() {
@@ -90,6 +99,7 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
 
         Route::prefix('attachments')->name('attachments.')->group(function(){
             Route::get('{id}/notification-attachment', [BackAdmin\AttachmentController::class, 'viewNotificationAttachment'])->name('view-notification-attachment');
+            Route::get('{id}/follow-up-attachment', [BackAdmin\AttachmentController::class, 'viewFollowUpAttachment'])->name('view-follow-up-attachment');
         });
 
         Route::prefix('upstreams')->name('upstreams.')->group(function() {
@@ -127,10 +137,12 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
          Route::prefix('s2opt')->name('s2Opt.')->group(function () {
             Route::get('countries', [Controller\CountryController::class, 'getS2Options'])->name('countries');
             Route::get('institutions', [BackAdmin\InstitutionController::class, 'getS2Options'])->name('institutions');
+            Route::get('institution-for-follow-ups', [BackAdmin\InstitutionController::class, 'getS2OptionsForFollowUp'])->name('institution_for_follow_ups');
             Route::get('notification-status', [BackAdmin\NotificationStatusController::class, 'getS2Options'])->name('notification_status');
             Route::get('notification-type', [BackAdmin\NotificationTypeController::class, 'getS2Options'])->name('notification_type');
             Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Options'])->name('notification_base');
             Route::get('dangerous-category', [BackAdmin\DangerousCategoryController::class, 'getS2Options'])->name('dangerous_category');
+            Route::get('dangerous-category-level', [BackAdmin\DangerousCategoryLevelController::class, 'getS2Options'])->name('dangerous_category_level');
             Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Options'])->name('uom_result');
             Route::get('distribution-status', [BackAdmin\DistributionStatusController::class, 'getS2Options'])->name('distribution_status');
         });
@@ -143,12 +155,14 @@ Route::prefix('backadmin')->name('backadmin.')->group(function() {
             Route::get('notification-type', [BackAdmin\NotificationTypeController::class, 'getS2Init'])->name('notification_type');
             Route::get('notification-base', [BackAdmin\NotificationBaseController::class, 'getS2Init'])->name('notification_base');
             Route::get('dangerous-category', [BackAdmin\DangerousCategoryController::class, 'getS2Init'])->name('dangerous_category');
+            Route::get('dangerous-category-level', [BackAdmin\DangerousCategoryLevelController::class, 'getS2Init'])->name('dangerous_category_level');
             Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Init'])->name('uom_result');
             Route::get('distribution-status', [BackAdmin\DistributionStatusController::class, 'getS2Init'])->name('distribution_status');
         });
 
         Route::prefix('datatables')->name('dt.')->group(function () {
             Route::get('attachment-fu', [BackAdmin\FollowUpNotificationController::class, 'attachmentDataTable'])->name('attachment_fu');
+            Route::get('user-fu', [BackAdmin\FollowUpNotificationController::class, 'userFuDataTable'])->name('user_fu');
             Route::get('attachment-n-downstreams', [BackAdmin\DownStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_downstreams');
             Route::get('attachment-n-upstreams', [BackAdmin\UpStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_upstreams');
         });

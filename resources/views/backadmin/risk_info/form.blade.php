@@ -13,8 +13,8 @@
     <a 
     href="{{ 
         str_replace('App\\Models\\', '', $risk->ri_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', ['downstream' => $risk->notification->id, 'focus' => 'dangerous_infos']) :
-        route('backadmin.upstreams.edit', ['upstream' => $risk->notification->id, 'focus' => 'dangerous_infos'])
+        route('backadmin.downstreams.edit', ['downstream' => $risk->notification->id, 'focus' => 'dangerous_risks']) :
+        route('backadmin.upstreams.edit', ['upstream' => $risk->notification->id, 'focus' => 'dangerous_risks'])
     
     }}"
     

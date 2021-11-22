@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDangerousCategoriesTable extends Migration
+class CreateFollowUpUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDangerousCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('dangerous_categories', function (Blueprint $table) {
+        Schema::create('follow_up_users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('has_child')->default(false);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('fun_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateDangerousCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dangerous_categories');
+        Schema::dropIfExists('follow_up_users');
     }
 }

@@ -46,7 +46,7 @@ class UpStreamInstitutionController extends Controller
             if($validator->fails())
                 throw new Exception("Input validasi bermasalah, cek kembali inputan!", 1);
             if(UpStreamInstitution::where('us_id', $request->us_id)->where('institution_id', $request->institution_id)->first() != null)
-                throw new Exception("Instansi tersebut telah di berikan akses untuk upstream ini", 1);
+                throw new Exception("Lembaga tersebut telah di berikan akses untuk upstream ini", 1);
                 
             $dsi = UpStreamInstitution::make($request->only([
                 'us_id',
@@ -54,6 +54,17 @@ class UpStreamInstitutionController extends Controller
             ]));
             $dsi->write = $request->write==="true" ? true : false;
             $dsi->save();
+
+            if($dsi->write){
+                $users = $dsi->institution->users;
+                foreach ($users as $i => $user) {
+                    $dsi->upstream->upstreamUserAccess()->create([
+                        'user_id' => $user->id
+                    ]);
+                }
+                
+            }
+
             DB::commit();
             return response()->json([
                 'status' => 'ok',
@@ -73,6 +84,15 @@ class UpStreamInstitutionController extends Controller
         try {
             DB::beginTransaction();
             $dsi = UpStreamInstitution::find($id);
+            if($dsi->write){
+                $dsi->upstream
+                    ->upstreamUserAccess()
+                    ->whereIn(
+                        'user_id', 
+                        $dsi->institution->users()->pluck('id')
+                    )
+                    ->delete();
+            }
             $dsi->delete();
             DB::commit();
             return response()->json([

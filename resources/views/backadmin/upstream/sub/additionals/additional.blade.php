@@ -4,7 +4,7 @@
 </div>
 <div class="row">
     <div class="col-12 col-md-6 form-group">
-        <label for="institution" class="form-label">Instansi</label>
+        <label for="institution" class="form-label">Lembaga</label>
         <input type="text" 
             name="institution"
             v-model="upstream.institution" 

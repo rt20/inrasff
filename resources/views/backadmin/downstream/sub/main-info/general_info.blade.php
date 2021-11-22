@@ -2,7 +2,7 @@
     <h4>Informasi Umum</h4>
 </div>
 <div class="row">
-    <div class="col-12 col-md-6 form-group">
+    <div class="col-12 col-md-12 form-group">
         <label for="title" class="form-label required">Judul Notifikasi</label>
         <input type="text" 
             name="title"
@@ -14,7 +14,7 @@
         @enderror
     </div><!-- .col-md-6.form-group -->
 
-    <div class="col-12 col-md-6 form-group">
+    {{-- <div class="col-12 col-md-6 form-group">
         <label for="number_ref" class="form-label required">Nomor Referensi</label>
         <input type="text" 
             name="number_ref"
@@ -24,7 +24,7 @@
         @error('number_ref')
             <small class="text-danger">{{ $errors->first('number_ref') }}</small>
         @enderror
-    </div><!-- .col-md-6.form-group -->
+    </div><!-- .col-md-6.form-group --> --}}
 
     <div class="col-12 col-md-6 form-group">
         <label for="status_notif_id" class="form-label required">Status Notifikasi</label>
@@ -142,7 +142,7 @@
     <div class="col-12 col-md-12 form-group">
         <hr>
         <div class="d-flex justify-content-between align-items-center">
-            <label for="title" class="form-label">Instansi yang perlu menindaklanjuti</label>
+            <label for="title" class="form-label">Lembaga yang perlu menindaklanjuti</label>
             @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                 <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
@@ -157,7 +157,7 @@
         <table v-cloak v-if="downstream.id !== ''" id="table-permission-rw" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Instansi</th>
+                    <th>Lembaga</th>
                     <th class="bi-table-col-action-1">Aksi</th>
                 </tr>
             </thead>
@@ -169,7 +169,7 @@
     <div class="col-12 col-md-12 form-group">
         <hr>
         <div class="d-flex justify-content-between align-items-center">
-            <label for="title" class="form-label"> Instansi lain yang terkait</label>
+            <label for="title" class="form-label"> Lembaga lain yang terkait</label>
             @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
                 <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
             @endif
@@ -183,7 +183,7 @@
         <table v-cloak v-if="downstream.id !== ''" id="table-permission-r" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Instansi</th>
+                    <th>Lembaga</th>
                     <th class="bi-table-col-action-1">Aksi</th>
                 </tr>
             </thead>

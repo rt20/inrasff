@@ -16,8 +16,6 @@ use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
-
-
 use UploadFile;
 
 class DownStreamNotificationController extends Controller
@@ -81,7 +79,7 @@ class DownStreamNotificationController extends Controller
         // return $request->all();
         $request->validate([
             'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
+            // 'number_ref' => ['required', 'max:255'],
             // 'status_notif' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
@@ -94,7 +92,7 @@ class DownStreamNotificationController extends Controller
             $downstream = DownStreamNotification::make($request->only([
                 'notif_id',
                 'title',
-                'number_ref',
+                // 'number_ref',
                 // 'status_notif',
                 'status_notif_id',
                 // 'type_notif',
@@ -168,7 +166,7 @@ class DownStreamNotificationController extends Controller
         // return $request->all();   
         $request->validate([
             'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
+            // 'number_ref' => ['required', 'max:255'],
             // 'status_notif' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
@@ -182,7 +180,7 @@ class DownStreamNotificationController extends Controller
                 $downstream->fill($request->only([
                     'notif_id',
                     'title',
-                    'number_ref',
+                    // 'number_ref',
                     // 'status_notif',
                     'status_notif_id',
                     // 'type_notif',
@@ -225,7 +223,9 @@ class DownStreamNotificationController extends Controller
         
         try {
             DB::beginTransaction();
-                // dd($downstream);
+                if($downstream->downstreamInstitution()->count()<1)
+                    throw new Exception("Belum ada lembaga yang ditambahkan untuk info penindak", 1);
+                    
                 $downstream->isStatus('open');
                 $downstream->setStatus('ccp process', 'Diproses untuk CCP ');
                 $downstream->update();
@@ -346,10 +346,6 @@ class DownStreamNotificationController extends Controller
             switch ($request->notification_type) {
                 case 'downstream':
                     $notification = DownStreamNotification::find($request->notification_id);
-                    break;
-                
-                case 'upstream':
-                    $notification = UpStreamNotification::find($request->notification_id);
                     break;
 
                 default:

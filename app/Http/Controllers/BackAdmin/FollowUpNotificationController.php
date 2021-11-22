@@ -8,6 +8,8 @@ use App\Models\DownStreamNotification;
 use App\Models\UpStreamNotification;
 use App\Models\FollowUpNotification;
 use App\Models\FollowUpNotificationAttachment;
+use App\Models\FollowUpUser;
+use App\Models\Institution;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -60,6 +62,18 @@ class FollowUpNotificationController extends Controller
                 $a = $a->where('fun_id', $request->fun_id);
             }
             return DataTables::of($a)->make();
+        }
+        return ;
+    }
+
+    public function userFuDataTable(Request $request){
+        if($request->ajax()){
+            $a = FollowUpUser::query();
+            $a = $a->with('user.institution');
+            if($request->has('fun_id')){
+                $a = $a->where('fun_id', $request->fun_id);
+            }
+            return DataTables::of($a->get())->make();
         }
         return ;
     }
@@ -326,6 +340,45 @@ class FollowUpNotificationController extends Controller
         ], 200);
     }
 
+    public function addUserFu(Request $request){
+        $validator = Validator::make($request->all(), [
+            'fun_id' => ['required'],
+            'institution_id' => ['required'],
+        ]);
+
+        try {
+            DB::beginTransaction();
+            if($validator->fails())
+                throw new Exception(implode($validator->messages()->all()));
+            $institution = Institution::find($request->institution_id);
+            if($institution==null)
+                throw new Exception("Institution not found", 1);
+                
+            $users = $institution->users;
+            foreach ($users as $i => $user) {
+                if(FollowUpUser::where('fun_id', $request->fun_id)
+                        ->where('user_id', $user->id)->first() != null)
+                        continue;
+                $fuu = FollowUpUser::make([
+                    'fun_id' => $request->fun_id,
+                    'user_id' => $user->id,
+                ]); 
+                $fuu->save();
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 400);    
+        }
+        return response()->json([
+            'status' => 'ok',
+            'message' => ''
+        ], 200);
+    }
+
     public function deleteAttachment($id){
         try {
             DB::beginTransaction();
@@ -349,4 +402,27 @@ class FollowUpNotificationController extends Controller
             ], 400);
         }
     }
+
+    public function deleteUserFu($id){
+        try {
+            DB::beginTransaction();
+            $a = FollowUpUser::find($id);
+            $a->delete();
+            DB::commit();
+            return response()->json([
+                'status' => 'ok',
+                'message' => '',
+            ], 201);
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                
+            ], 400);
+        }
+    }
+
+    
 }
