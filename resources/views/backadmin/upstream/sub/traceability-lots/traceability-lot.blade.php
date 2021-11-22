@@ -3,9 +3,10 @@
         
         <div class="d-flex justify-content-between align-items-center">
             <h4>Daftar Keterlusuran Lot</h4>
-            {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
-            <a href="{{ route('backadmin.traceability_lot_infos.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+                @can('store traceability')
+                <a href="{{ route('backadmin.traceability_lot_infos.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
+                @endcan
             @endif
         </div>
         <table id="table-traceability-lot" class="table table-striped table-bordered">
@@ -24,7 +25,7 @@
 
 @push('page-js')
 <script>
-    let url3 = "{{ route('backadmin.risk_infos.edit', '__id') }}";
+    let url3 = "{{ route('backadmin.traceability_lot_infos.edit', '__id') }}";
     let icon3 = feather.icons['eye'].toSvg();
      $('#table-traceability-lot').DataTable({
             ajax:{

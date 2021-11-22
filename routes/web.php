@@ -47,13 +47,23 @@ Route::get('/contactus', function () {
     return view('front.contactus');
 })->name('contactus');
 
+Route::get('/login', function(){
+    return redirect()->route('backadmin.auth.index');
+});
+
+Route::get('/session', function(){
+    return auth()->user();
+});
+
 Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmin.')->group(function() {
+    
+    Route::middleware('guest')->group(function () {
+        Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
+        Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
+        Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
+    });
 
-    Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
-    Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
-    Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
-
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth', 'admin')->group(function () {
         Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
 
 
@@ -61,10 +71,6 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
         Route::post('sliders/slider-image/store', [BackAdmin\SliderController::class, 'uploadImage'])->name('sliders.slider_image.store');
         Route::delete('sliders/{slider}/slider-image/destroy', [BackAdmin\SliderController::class, 'deleteImage'])->name('sliders.slider_image.destroy');
         
-        Route::prefix('issue_notifications')->name('issue_notifications.')->group(function() {
-            Route::get('{id}/setting', [BackAdmin\IssueNotificationController::class, 'setting'])->name('setting');
-        });
-
         Route::prefix('dangerous_samplings')->name('dangerous_samplings.')->group(function(){
             Route::get('/', [BackAdmin\DangerousSamplingInfoController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\DangerousSamplingInfoController::class, 'add'])->name('add');
@@ -140,7 +146,6 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,
             'downstreams' => BackAdmin\DownStreamNotificationController::class,
             'notifications' => BackAdmin\NotificationController::class,
-            'issue_notifications' => BackAdmin\IssueNotificationController::class,
             'institutions' => BackAdmin\InstitutionController::class,
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'follow_ups' => BackAdmin\FollowUpNotificationController::class,

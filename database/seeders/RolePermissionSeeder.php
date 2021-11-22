@@ -33,10 +33,19 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         $masterDataPermissions = $this->createPermissions([
-            'notification',
+            // 'notification',
             'news',
             'slider',
-            'user'
+            'user',
+            'institution'
+        ]);
+
+        $sideDataPermissions = $this->createPermissions([
+            'dangerous',
+            'risk',
+            'traceability',
+            'border_control',
+            'attachment'
         ]);
 
         $processPermissions = $this->createPermissions([
@@ -50,16 +59,20 @@ class RolePermissionSeeder extends Seeder
             'delete',
         ]);
 
-        $processPermissions['notification']['process_downstream'] = Permission::create(['name' => 'process_downstream notification']);
-        $processPermissions['notification']['process_upstream'] = Permission::create(['name' => 'process_upstream notification']);
+        // $processPermissions['notification']['process_downstream'] = Permission::create(['name' => 'process_downstream notification']);
+        // $processPermissions['notification']['process_upstream'] = Permission::create(['name' => 'process_upstream notification']);
 
         $processPermissions['upstream']['process_ccp'] = Permission::create(['name' => 'process_ccp upstream']);
         $processPermissions['upstream']['process_ext'] = Permission::create(['name' => 'process_ext upstream']);
         $processPermissions['upstream']['finish'] = Permission::create(['name' => 'finish upstream']);
+        $processPermissions['upstream']['store_institution'] = Permission::create(['name' => 'store_institution upstream']);
+        $processPermissions['upstream']['delete_institution'] = Permission::create(['name' => 'delete_institution upstream']);
 
         $processPermissions['downstream']['process_ccp'] = Permission::create(['name' => 'process_ccp downstream']);
         $processPermissions['downstream']['process_ext'] = Permission::create(['name' => 'process_ext downstream']);
         $processPermissions['downstream']['finish'] = Permission::create(['name' => 'finish downstream']);
+        $processPermissions['downstream']['store_institution'] = Permission::create(['name' => 'store_institution downstream']);
+        $processPermissions['downstream']['delete_institution'] = Permission::create(['name' => 'delete_institution downstream']);
         
 
         $processPermissions['follow_up']['process'] = Permission::create(['name' => 'process follow_up']);
@@ -71,7 +84,7 @@ class RolePermissionSeeder extends Seeder
             $roles['ncp'],
             $masterDataPermissions,
             [
-                'notification',
+                // 'notification',
                 'news',
                 'slider',
                 'user'
@@ -88,12 +101,36 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $sideDataPermissions,
+            [
+                'dangerous',
+                'risk',
+                'traceability',
+                'border_control',
+                'attachment'
+            ]
+        );
+
         /**CCP Roles */
+        // $this->assignEntityActionPermissions(
+        //     $roles['ccp'],
+        //     $masterDataPermissions,
+        //     [
+        //         'notification' => ['view'],
+        //     ]
+        // );
+
         $this->assignEntityActionPermissions(
             $roles['ccp'],
-            $masterDataPermissions,
+            $sideDataPermissions,
             [
-                'notification' => ['view'],
+                'dangerous' => ['view'],
+                'risk' => ['view'],
+                'traceability' => ['view'],
+                'border_control' => ['view'],
+                'attachment' => ['view']
             ]
         );
 
@@ -109,6 +146,8 @@ class RolePermissionSeeder extends Seeder
                 'upstream' => [
                     'view all',
                     'view',
+                    'store', 
+                    'delete'
                 ],
 
                 'follow_up' => [
@@ -118,11 +157,23 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
+        // $this->assignEntityActionPermissions(
+        //     $roles['lccp'],
+        //     $masterDataPermissions,
+        //     [
+        //         'notification' => ['view'],
+        //     ]
+        // );
+
         $this->assignEntityActionPermissions(
             $roles['lccp'],
-            $masterDataPermissions,
+            $sideDataPermissions,
             [
-                'notification' => ['view'],
+                'dangerous' => ['view'],
+                'risk' => ['view'],
+                'traceability' => ['view'],
+                'border_control' => ['view'],
+                'attachment' => ['view']
             ]
         );
 
@@ -138,6 +189,8 @@ class RolePermissionSeeder extends Seeder
                 'upstream' => [
                     'view all',
                     'view',
+                    'store', 
+                    'delete'
                 ],
                 'follow_up' => [
                     'view all',

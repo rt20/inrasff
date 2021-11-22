@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
 
 use UploadFile;
 
@@ -27,7 +28,10 @@ class DownStreamNotificationController extends Controller
      */
     public function index(Request $request)
     {
-        // return "Hangetng";
+        if (!Gate::allows('view downstream')) {
+            abort(401);
+        }
+        
         if($request->ajax()){
             $d = DownStreamNotification::all();
             return DataTables::of($d)->make();
@@ -39,14 +43,17 @@ class DownStreamNotificationController extends Controller
     }
 
     public function attachmentDataTable(Request $request){
-        // if($request->ajax()){
+        if (!Gate::allows('view attachment')) {
+            abort(401);
+        }
+        if($request->ajax()){
             $na = NotificationAttachment::query();
             $na = $na->where('na_type', 'App\Models\DownStreamNotification');
             if($request->has('na_id')){
                 $na = $na->where('na_id', $request->na_id);
             }
             return DataTables::of($na)->make();
-        // }
+        }
         return ;
     }
 
@@ -57,6 +64,9 @@ class DownStreamNotificationController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Gate::allows('store downstream')) {
+            abort(401);
+        }
         $downstream = new DownStreamNotification;
         if($request->has('notif_id')){
             $downstream->notif_id = $request->notif_id;
@@ -76,11 +86,11 @@ class DownStreamNotificationController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
+        if (!Gate::allows('store downstream')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
-            // 'number_ref' => ['required', 'max:255'],
-            // 'status_notif' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -92,13 +102,9 @@ class DownStreamNotificationController extends Controller
             $downstream = DownStreamNotification::make($request->only([
                 'notif_id',
                 'title',
-                // 'number_ref',
-                // 'status_notif',
                 'status_notif_id',
-                // 'type_notif',
                 'type_notif_id',
                 'country_id',
-                // 'based_notif',
                 'based_notif_id',
                 'origin_source_notif',
                 'source_notif',
@@ -145,7 +151,9 @@ class DownStreamNotificationController extends Controller
      */
     public function edit(Request $request, DownStreamNotification $downstream)
     {
-        
+        if (!Gate::allows('view downstream')) {
+            abort(401);
+        }
         return view('backadmin.downstream.form', [
             'title' => $downstream->number,
             'downstream' => $downstream,
@@ -163,11 +171,11 @@ class DownStreamNotificationController extends Controller
      */
     public function update(Request $request, DownStreamNotification $downstream)
     {
-        // return $request->all();   
+        if (!Gate::allows('store downstream')) {
+            abort(401);
+        }  
         $request->validate([
             'title' => ['required', 'max:255'],
-            // 'number_ref' => ['required', 'max:255'],
-            // 'status_notif' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -180,13 +188,9 @@ class DownStreamNotificationController extends Controller
                 $downstream->fill($request->only([
                     'notif_id',
                     'title',
-                    // 'number_ref',
-                    // 'status_notif',
                     'status_notif_id',
-                    // 'type_notif',
                     'type_notif_id',
                     'country_id',
-                    // 'based_notif',
                     'based_notif_id',
                     'origin_source_notif',
                     'source_notif',
@@ -220,7 +224,9 @@ class DownStreamNotificationController extends Controller
 
     public function processCcp(Request $request, DownStreamNotification $downstream)
     {
-        
+        if (!Gate::allows('process_ccp downstream')) {
+            abort(401);
+        }        
         try {
             DB::beginTransaction();
                 if($downstream->downstreamInstitution()->count()<1)
@@ -284,6 +290,9 @@ class DownStreamNotificationController extends Controller
 
     public function done(Request $request, DownStreamNotification $downstream)
     {
+        if (!Gate::allows('finish downstream')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
                 // dd($downstream);
@@ -312,6 +321,9 @@ class DownStreamNotificationController extends Controller
      */
     public function destroy(DownStreamNotification $downstream)
     {
+        if (!Gate::allows('delete downstream')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $downstream->delete();
@@ -330,6 +342,9 @@ class DownStreamNotificationController extends Controller
     }
 
     public function addAttachment(Request $request){
+        if (!Gate::allows('store attachment')) {
+            abort(401);
+        }
         $validator = Validator::make($request->all(), [
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -387,6 +402,9 @@ class DownStreamNotificationController extends Controller
     }
 
     public function deleteAttachment($id){
+        if (!Gate::allows('delete attachment')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $a = NotificationAttachment::find($id);

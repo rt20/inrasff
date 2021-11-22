@@ -23,27 +23,26 @@
 
 @section('actions')
     @if (!in_array($upstream->status, ['ext process', 'done']))
+    @can('store upstream')
     <button type="submit" form="form-main" formaction="{{ $upstream->id ? route('backadmin.upstreams.update', $upstream->id) : route('backadmin.upstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endcan
     @endif
     @if ($upstream->id)
         @if (in_array($upstream->status, ['open']))
-        {{-- <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process-ext"><i class="mr-75" data-feather="settings"></i>Proses Eksternal</a> --}}
-        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
+            @can('finish upstream')
+            <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
+            @endcan
         @endif
-        {{-- @if (in_array($upstream->status, ['ext process']))
-        <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-done"><i class="mr-75" data-feather="settings"></i>Selesaikan</a>
-        @endif --}}
         <div class="btn-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
             </button>    
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
-                {{-- @if (in_array($upstream->status, ['ext process']))
-                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-back-open"><i class="mr-75" data-feather="settings"></i>Kembali Dibuka </a>
-                @endif --}}
                 <a href="{{route('backadmin.upstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-                @if (!in_array($upstream->status, [/*'ext process', */'done']))
+                @if (!in_array($upstream->status, ['done']))
+                    @can('delete upstream')
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
                 @endif
             </div>
         </div>

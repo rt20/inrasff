@@ -48,16 +48,8 @@
                 <a class="d-flex align-items-center" href="{{ route('backadmin.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Dashboard</span></a>
             </li>
 
-            {{-- <li class=" navigation-header"><span data-i18n="Proses Bisnis &amp; Data">Proses Bisnis</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
-            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.issue_notifications') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.issue_notifications.index') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Isu Notifikasi</span></a>
-            </li>
-
-            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.follow_up_issues') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.follow_up_issues.index') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Tindak Lanjut Isu</span></a>
-            </li> --}}
-
             <li class=" navigation-header"><span data-i18n="Data &amp; Data">Data</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
+            
             @can('view notification')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.notifications') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.notifications.index') }}"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="bell">Notifikasi</span></a>
@@ -97,9 +89,11 @@
             </li>
             @endcan
 
+            @can('view institution')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.institutions') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.institutions.index') }}"><i data-feather="sidebar"></i><span class="menu-title text-truncate" data-i18n="Slider">Lembaga</span></a>
             </li>
+            @endcan
         </ul>
     </div>
 </div>

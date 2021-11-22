@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class DangerousInfoController extends Controller
 {
@@ -22,6 +23,9 @@ class DangerousInfoController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view dangerous')) {
+            abort(401);
+        }
         if($request->ajax()){
             $di = DangerousInfo::query();
             if($request->has('for_downstream')){
@@ -51,9 +55,6 @@ class DangerousInfoController extends Controller
         }
 
         return ;
-        // return view('backadmin.downstream.index')->with([
-        //     'title' => 'Downstream'
-        // ]);
     }
 
     /**
@@ -63,6 +64,9 @@ class DangerousInfoController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Gate::allows('store dangerous')) {
+            abort(401);
+        }
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -82,6 +86,9 @@ class DangerousInfoController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store dangerous')) {
+            abort(401);
+        }
         // return $request->all();
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
@@ -158,13 +165,10 @@ class DangerousInfoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(DangerousInfo $dangerousInfo)
-    // public function edit($id)
     {
-        // $dangerous = DangerousInfo::find($id);
-        // dd($dangerous);
-        // return $dangerous->notification;
-        // return $dangerous->di_type;
-        // return str_replace('App\\Models\\', '', $dangerous->di_type);
+        if (!Gate::allows('view dangerous')) {
+            abort(401);
+        }
         return view('backadmin.dangerous_info.form', [
             'title' => $dangerousInfo->name,
             'dangerous' => $dangerousInfo,
@@ -181,7 +185,9 @@ class DangerousInfoController extends Controller
     public function update(Request $request, DangerousInfo $dangerousInfo)
     // public function update(Request $request, $id)
     {
-        // return $request->all();
+        if (!Gate::allows('store dangerous')) {
+            abort(401);
+        }
         $request->validate([
             'name' => ['required', 'max:255'],
             'category_id' => ['required', 'max:255'],
@@ -232,6 +238,9 @@ class DangerousInfoController extends Controller
     public function destroy(DangerousInfo $dangerousInfo)
     // public function destroy($id)
     {
+        if (!Gate::allows('delete dangerous')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             // $dangerous = DangerousInfo::find($id);

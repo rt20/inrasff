@@ -42,9 +42,25 @@
 @endsection
 
 @section('actions')
+    @can('store dangerous')
     <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endcan
     @if ($dangerous->id)
-        <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+        <div class="btn-group">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
+            </button>    
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+                <a href="{{
+                        str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification' ?
+                        route('backadmin.downstreams.edit', ['downstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks']) :
+                        route('backadmin.upstreams.edit', ['upstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks'])
+                    }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+                @can('delete dangerous')
+                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endcan                
+            </div>
+        </div>
     @endif
 @endsection
 
