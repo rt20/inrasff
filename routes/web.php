@@ -136,6 +136,8 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             'follow_ups' => BackAdmin\FollowUpNotificationController::class,
             'news' => BackAdmin\NewsController::class,
             'categories' => BackAdmin\CategoryController::class,
+            'faq' => BackAdmin\FAQController::class,
+            'kementrian' => BackAdmin\KementrianController::class,
             'risk_infos' => BackAdmin\RiskInfoController::class,
             'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
