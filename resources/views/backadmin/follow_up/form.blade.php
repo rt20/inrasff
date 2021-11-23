@@ -208,20 +208,30 @@ href="{{
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div v-show="attachmentModal.state !== 'delete'">
-                                            <div class="alert alert-danger mb-50" v-if="attachmentModal.error !== ''">
-                                                <div class="alert-body">@{{ attachmentModal.error }}</div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label required" for="attachment">Lampiran</label>
-                                                <input name="attachment" id="attachment" class="form-control f-attachment" type="file">
+                                        <div class="d-flex justify-content-center mt-2" v-if="attachmentModal.loading==1">
+                                            <div class="spinner-border text-success" style="width: 10rem; height: 10rem"  role="status">
+                                                <span class="sr-only">Loading...</span>
                                             </div>
                                         </div>
-                                        <div v-show="attachmentModal.state === 'delete'">
-                                            <p class="mb-0">Apakah Anda yakin akan menghapus Lampiran ini?</p>
+                                        <div class="d-flex justify-content-center mt-1" v-if="attachmentModal.loading==1">
+                                            <h2>Memproses</h2>
+                                        </div>
+                                        <div v-if="attachmentModal.loading == 0">
+                                            <div v-show="attachmentModal.state !== 'delete'">
+                                                <div class="alert alert-danger mb-50" v-if="attachmentModal.error !== ''">
+                                                    <div class="alert-body">@{{ attachmentModal.error }}</div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label required" for="attachment">Lampiran</label>
+                                                    <input name="attachment" id="attachment" class="form-control f-attachment" type="file">
+                                                </div>
+                                            </div>
+                                            <div v-show="attachmentModal.state === 'delete'">
+                                                <p class="mb-0">Apakah Anda yakin akan menghapus Lampiran ini?</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer" v-if="attachmentModal.loading == 0">
                                         <button v-show="attachmentModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
                                         
                                         
@@ -422,7 +432,8 @@ href="{{
                     item:{
                         id:null,
                     },
-                    error: ''
+                    error: '',
+                    loading: 0
                 },
                 userFollowUpModal: {
                     state: 'add',
@@ -586,7 +597,8 @@ href="{{
                 $('.text-danger').remove();
                 this.attachmentModal.state = state;
                 this.attachmentModal.error = '';
-                
+                this.attachmentModal.loading = 0
+
                 switch (this.attachmentModal.state) {
                     case 'add':
                         this.attachmentModal.item = item         
@@ -628,6 +640,7 @@ href="{{
                 e.preventDefault();
                 
                 $('.text-danger').remove();
+                this.attachmentModal.loading = 1
                 let invalid;
                 var resp = null
                 switch (this.attachmentModal.state) {
@@ -672,7 +685,9 @@ href="{{
 
                         
                 if(resp?.data?.status?.localeCompare('ok')==0){
-                    $('#modal-attachment').modal('hide')
+                    $('#modal-attachment').modal('hide').on('hidden.bs.modal', function(){
+                        na.attachmentModal.loading = 0    
+                    })
                     this.table_attachment.ajax.reload()
                     setTimeout(() => {
                     console.log("Wait time out")

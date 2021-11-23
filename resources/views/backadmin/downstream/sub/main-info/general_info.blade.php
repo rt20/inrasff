@@ -137,7 +137,8 @@
         @error('date_notif')
             <small class="text-danger">{{ $errors->first('date_notif') }}</small>
         @enderror
-    </div><!-- .col-md-6.form-group -->
+    </div>
+    <!-- .col-md-6.form-group -->
 {{--     
     <div class="col-12 col-md-12 form-group">
         <hr>

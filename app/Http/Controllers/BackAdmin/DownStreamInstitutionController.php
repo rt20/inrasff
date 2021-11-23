@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
 use App\Models\DownStreamInstitution;
 use App\Models\User;
+use App\Events\DownStreamEmailNotification;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -59,9 +60,10 @@ class DownStreamInstitutionController extends Controller
             if($dsi->write){
                 $users = $dsi->institution->users;
                 foreach ($users as $i => $user) {
-                    $dsi->downstream->downstreamUserAccess()->create([
+                    $dsua = $dsi->downstream->downstreamUserAccess()->create([
                         'user_id' => $user->id
                     ]);
+                    event(new DownStreamEmailNotification($dsua));
                 }
                 
             }
