@@ -36,7 +36,11 @@
 
 @section('actions')
     @can('store risk')
-    <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @if(!$risk->id)
+        <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @elseif(in_array($risk->notification->status, ['open', 'draft']))
+        <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @endif
     @endcan
     @if ($risk->id)
     <div class="btn-group">
@@ -50,7 +54,9 @@
                     route('backadmin.upstreams.edit', ['upstream' => $risk->notification->id, 'focus' => 'dangerous_risks'])
                 }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             @can('delete risk')
+            @if(in_array($risk->notification->status, ['open', 'draft']))
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+            @endif
             @endcan                
         </div>
     </div>
@@ -297,4 +303,13 @@
 
 @push('page-js')
 @include('backadmin.risk_info.script')
+<script>
+    $(document).ready(function(){
+        console.log('ready log section form')
+        @if(!in_array($risk->notification->status, ['open', 'draft']))
+            $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
+            $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
+    })
+</script>
 @endpush

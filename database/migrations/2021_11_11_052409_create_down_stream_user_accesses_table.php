@@ -17,6 +17,7 @@ class CreateDownStreamUserAccessesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('downstream_id');
+            $table->string('status')->default('draft'); /** draft, assigned */
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

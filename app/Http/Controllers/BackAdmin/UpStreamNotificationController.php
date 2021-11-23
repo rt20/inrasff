@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Gate;
 use UploadFile;
 
 class UpStreamNotificationController extends Controller
@@ -26,6 +26,9 @@ class UpStreamNotificationController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view upstream')) {
+            abort(401);
+        }
         if($request->ajax()){
             $d = UpStreamNotification::all();
             return DataTables::of($d)->make();
@@ -57,6 +60,9 @@ class UpStreamNotificationController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Gate::allows('store upstream')) {
+            abort(401);
+        }
         $upstream = new UpStreamNotification;
         if($request->has('notif_id')){
             $upstream->notif_id = $request->notif_id;
@@ -76,6 +82,9 @@ class UpStreamNotificationController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store upstream')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'number_ref' => ['required', 'max:255'],
@@ -140,8 +149,9 @@ class UpStreamNotificationController extends Controller
      */
     public function edit(Request $request, UpStreamNotification $upstream)
     {
-        // $upstream->dangerousRisk;
-        
+        if (!Gate::allows('view upstream')) {
+            abort(401);
+        }
         return view('backadmin.upstream.form', [
             'title' => $upstream->number,
             'upstream' => $upstream,
@@ -159,6 +169,9 @@ class UpStreamNotificationController extends Controller
      */
     public function update(Request $request, UpStreamNotification $upstream)
     {
+        if (!Gate::allows('store upstream')) {
+            abort(401);
+        }  
         $request->validate([
             'title' => ['required', 'max:255'],
             'number_ref' => ['required', 'max:255'],
@@ -253,6 +266,9 @@ class UpStreamNotificationController extends Controller
 
     public function done(Request $request, UpStreamNotification $upstream)
     {
+        if (!Gate::allows('finish upstream')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
                 // dd($upstream);
@@ -281,6 +297,9 @@ class UpStreamNotificationController extends Controller
      */
     public function destroy(UpStreamNotification $upstream)
     {
+        if (!Gate::allows('delete upstream')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $upstream->delete();

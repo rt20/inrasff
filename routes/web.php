@@ -34,6 +34,9 @@ Route::get('/login', function(){
 Route::get('/session', function(){
     return auth()->user();
 });
+
+Route::get('/mail', [Controller\TestController::class, 'mail']);
+Route::get('/send-mail', [Controller\TestController::class, 'sendMail']);
 // BACKEND
 
 

@@ -43,7 +43,11 @@
 
 @section('actions')
     @can('store dangerous')
-    <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @if(!$dangerous->id)
+        <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @elseif(in_array($dangerous->notification->status, ['open', 'draft']))
+        <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @endif
     @endcan
     @if ($dangerous->id)
         <div class="btn-group">
@@ -57,7 +61,10 @@
                         route('backadmin.upstreams.edit', ['upstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks'])
                     }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
                 @can('delete dangerous')
-                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @if(in_array($dangerous->notification->status, ['open', 'draft']))
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif
+                
                 @endcan                
             </div>
         </div>
@@ -178,7 +185,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
-                        
+                            @if($dangerous->id)
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="laboratorium" class="form-label ">Sampling</label>
@@ -198,7 +205,7 @@
                                     </tbody>
                                 </table>
                             </div><!-- .col-md-6.form-group -->
-                        
+                            @endif
                         
                             <div class="divider divider-left col-12">
                                 <div class="divider-text">Analisis</div>
@@ -222,7 +229,7 @@
                                     name="matrix"
                                     v-model="dangerous.matrix" 
                                     class="form-control @error('matrix') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Analisis Matriks" autocomplete="off">
+                                    placeholder="Masukkan Matriks" autocomplete="off">
                                 @error('matrix')
                                     <small class="text-danger">{{ $errors->first('matrix') }}</small>
                                 @enderror
@@ -237,7 +244,7 @@
                                     name="scope"
                                     v-model="dangerous.scope" 
                                     class="form-control @error('scope') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Analisis Laboratorium" autocomplete="off">
+                                    placeholder="Masukkan Standar yang Berlaku" autocomplete="off">
                                 @error('scope')
                                     <small class="text-danger">{{ $errors->first('scope') }}</small>
                                 @enderror
@@ -249,7 +256,7 @@
                                     name="max_tollerance"
                                     v-model="dangerous.max_tollerance" 
                                     class="form-control @error('max_tollerance') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Analisis Matriks" autocomplete="off">
+                                    placeholder="Masukkan Maksimum Batas yang Diijinkan" autocomplete="off">
                                 @error('max_tollerance')
                                     <small class="text-danger">{{ $errors->first('max_tollerance') }}</small>
                                 @enderror
@@ -259,6 +266,7 @@
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
                 </form>
+
                 <div class="modal fade" id="sampling-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddsampling" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -353,4 +361,13 @@
 
 @push('page-js')
 @include('backadmin.dangerous_info.script')
+<script>
+    $(document).ready(function(){
+        console.log('ready log section form')
+        @if(!in_array($dangerous->notification->status, ['open', 'draft']))
+            $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
+            $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
+    })
+</script>
 @endpush

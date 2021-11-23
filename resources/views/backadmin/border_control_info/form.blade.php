@@ -36,7 +36,11 @@
 
 @section('actions')
     @can('store border_control')
-    <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @if(!$border_control->id)
+        <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @elseif(in_array($border_control->notification->status, ['open', 'draft']))
+        <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @endif
     @endcan
     @if ($border_control->id)
     <div class="btn-group">
@@ -51,7 +55,9 @@
                     
                 }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             @can('delete border_control')
-            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @if(in_array($border_control->notification->status, ['open', 'draft']))
+                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif
             @endcan                
         </div>
     </div>
@@ -308,5 +314,14 @@
             }
         }
     }).mount('#app');
+</script>
+<script>
+    $(document).ready(function(){
+        console.log('ready log section form')
+        @if(!in_array($border_control->notification->status, ['open', 'draft']))
+            $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
+            $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
+    })
 </script>
 @endpush

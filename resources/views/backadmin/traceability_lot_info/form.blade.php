@@ -45,7 +45,11 @@
 
 @section('actions')
     @can('store traceability')
-    <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @if(!$traceability_lot->id)
+        <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @elseif(in_array($traceability_lot->notification->status, ['open', 'draft']))
+        <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @endif
     @endcan
     @if ($traceability_lot->id)
     <div class="btn-group">
@@ -59,7 +63,9 @@
                             route('backadmin.upstreams.edit', ['upstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots'])
                 }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             @can('delete traceability')
+            @if(in_array($traceability_lot->notification->status, ['open', 'draft']))
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+            @endif
             @endcan                
         </div>
     </div>
@@ -387,5 +393,15 @@
             }
         }
     }).mount('#app');
+</script>
+<script>
+    $(document).ready(function(){
+        console.log('ready log section form')
+        @if(!in_array($traceability_lot->notification->status, ['open', 'draft']))
+            $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
+            $('.bi-form-main input').removeClass('read-only-white')
+            $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
+    })
 </script>
 @endpush

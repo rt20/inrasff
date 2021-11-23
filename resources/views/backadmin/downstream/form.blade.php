@@ -62,33 +62,37 @@
         
         <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
             <li class="nav-item">
-            <a class="nav-link {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
+            <a class="nav-link {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">
+                <b class="d-none d-md-inline">1. Informasi Utama</b> 
+                <i class="mr-75 d-inline d-md-none" data-feather="globe"></i></a>
             </li>
             
             @if($downstream->id != null && !$downstream->isStatus('draft', false))
             <li class="nav-item">
-                <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">2. Info Penindak</a>
+                <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">
+                    <b class="d-none d-md-inline">2. Info Penindak</b> 
+                    <i class="mr-75 d-inline d-md-none" data-feather="users"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
+                <a class="nav-link {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true"><b class="d-none d-md-inline">3. Bahaya & Resiko</b> <i class="mr-75 d-inline d-md-none" data-feather="alert-triangle"></i></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
+                <a class="nav-link {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true"><b class="d-none d-md-inline">4. Keterlusuran</b> <i class="mr-75 d-inline d-md-none" data-feather="activity"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
+                <a class="nav-link {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true"><b class="d-none d-md-inline">5. Kontrol Perbatasan</b> <i class="mr-75 d-inline d-md-none" data-feather="terminal"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
+                <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true"><b class="d-none d-md-inline">6. Informasi Tambahan</b> <i class="mr-75 d-inline d-md-none" data-feather="plus-square"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true">7. Lampiran</a>
+                <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true"> <b class="d-none d-md-inline">7. Lampiran</b> <i class="mr-75 d-inline d-md-none" data-feather="paperclip"></i></a>
             </li>
             
                 @if(!$downstream->isStatus('open', false))
                 <li class="nav-item">
-                    <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
+                    <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true"><b class="d-none d-md-inline">8. Tindak Lanjut</b> <i class="mr-75 d-inline d-md-none" data-feather="user-check"></i></a>
                 </li>
                 @endif
             @endif
