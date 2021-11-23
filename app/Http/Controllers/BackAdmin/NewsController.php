@@ -58,11 +58,13 @@ class NewsController extends Controller
             'title' => ['required', 'max:255'],
             'slug' => ['required', 'max:255', 'unique:news'],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
-            // 'category_id' => ['required'],
+            'status' => ['required'],
+            'published_at' => ['required'],
+            'category_id' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-            $n = News::make($request->only(['title', 'slug', 'content', /* 'category_id',*/]));
+            $n = News::make($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
 
             $n->save();
             if($request->has('image')){
@@ -134,12 +136,12 @@ class NewsController extends Controller
             'title' => ['required', 'max:255'],
             'slug' => ['required', 'max:255', 'unique:news,id,'.$id],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
-            // 'category_id' => ['required'],
+            'category_id' => ['required'],
         ]);
         try {
             DB::beginTransaction();
             $n = News::find($id);
-            $n->fill($request->only(['title', 'slug', 'content',/* 'category_id',*/]));
+            $n->fill($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
 
             $n->save();
             if($request->has('image')){

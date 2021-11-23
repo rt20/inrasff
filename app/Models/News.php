@@ -14,7 +14,10 @@ class News extends Model
         'content',
         'image',
         'show',
-        // 'category_id'
+        'published_at',
+        'status',
+        'excerpt',
+        'category_id'
     ];
 
     public function getImage(){
