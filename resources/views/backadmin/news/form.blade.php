@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/summernote/summernote.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 @endsection
 
 @section('breadcrumb')
@@ -64,9 +65,33 @@
                                 @error('slug')
                                     <small class="text-danger">{{ $errors->first('slug') }}</small>
                                 @enderror
+                            </div>
+                            
+                            <div class="col-12 col-md-4 form-group">
+                                <label for="status" class="form-label required">Status</label>
+                                <select name="status" class="form-control @error('status') {{ 'is-invalid' }} @enderror"
+                                    placeholder="Pilih Status" autocomplete="off">
+                                    <option value='draft' {{ $news->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                                    <option value='published' {{ $news->status == 'published' ? 'selected' : '' }}>Published</option>
+                                </select>
+                                @error('status')
+                                    <small class="text-danger">{{ $errors->first('status') }}</small>
+                                @enderror
                             </div><!-- .col-md-6.form-group -->
 
-                            {{-- <div class="col-12 col-md-6 form-group">
+                            <div class="col-12 col-md-4 form-group">
+                                <label for="published_at" class="form-label required">Tanggal Publish</label>
+                                <input type="text" 
+                                    name="published_at"
+                                    v-model="news.published_at" 
+                                    class="form-control date @error('published_at') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Tanggal Publish" autocomplete="off">
+                                @error('published_at')
+                                    <small class="text-danger">{{ $errors->first('published_at') }}</small>
+                                @enderror
+                            </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-4 form-group">
                                 <label for="category_id" class="form-label required">Kategori Berita</label>
                                 <select name="category_id" 
                                     v-model="news.category_id" 
@@ -76,7 +101,7 @@
                                 @error('category_id')
                                     <small class="text-danger">{{ $errors->first('category_id') }}</small>
                                 @enderror
-                            </div><!-- .col-md-6.form-group --> --}}
+                            </div><!-- .col-md-6.form-group -->
 
                             <div class="col-12 col-md-12 form-group">
                                 <label for="image" class="form-label">Gambar</label>
@@ -90,6 +115,18 @@
                                     <small class="text-danger">{{ $errors->first('image') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
+
+                            <div class="col-12 col-md-12 form-group">
+                                <label for="excerpt" class="form-label required">Excerpt</label>
+                                <textarea
+                                    type="text" 
+                                    name="excerpt"
+                                    class="form-control @error('excerpt') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Excerpt" autocomplete="off">{{old()? old('excerpt') : ($news->excerpt??'')}}</textarea>
+                                @error('excerpt')
+                                    <small class="text-danger">{{ $errors->first('excerpt') }}</small>
+                                @enderror
+                            </div>
 
                             <div class="col-12 col-md-12 form-group">
                                 <label for="content" class="form-label required">Dekripsi</label>
@@ -147,6 +184,7 @@
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/summernote/summernote.min.js') }}"></script>
+    <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
 @endsection
 
@@ -171,18 +209,30 @@
                 title: old.title ?? news.title ?? '',
                 slug: old.slug ?? news.slug ?? '',
                 category_id: old.category_id ?? news.category_id ?? '',
-                // content: old.content ?? news.content ?? '',
-                
+                content: old.content ?? news.content ?? '',
+                published_at: old.published_at ?? news.published_at ?? '',
+                status: old.status ?? news.status ?? '',
+                excerpt: old.excerpt ?? news.excerpt ?? '',
+            }
+
+            if(this.news.category_id !== ''){
+                initS2FieldWithAjax(
+                    '#f_category_id',
+                    '{{route("backadmin.s2Init.category_news")}}',
+                    {id:this.news.category_id},
+                    ['name']
+                )
             }
 
             console.log(this.news)
         },
         mounted() {
+            $('.date').flatpickr();
             $('.dropify').dropify();
             $('input[name="title"]').keyup(function(event) {
                 // $('input[name="slug"]').val(form.slugify($(this).val()));
                 form.news.slug = form.slugify($(this).val())
-            });  
+            });
             
 
             var lfm = function (options, cb) {
@@ -219,8 +269,7 @@
                     ['color', ['color']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['height', ['height']],
-                    ['popovers', ['lfm']],
-                    
+                    // ['popovers', ['lfm']],
                 ],
                 buttons: {
                     lfm: LFMButton,
@@ -228,6 +277,33 @@
                 height: 300
             };
             $('#summernote').summernote(summernote_config);
+
+            $('#f_category_id').select2({
+               ajax: {
+                    url: "{{ route('backadmin.s2Opt.category_news') }}",
+                    data: function(params){
+                        let req = {
+                            q:params.term,
+                        };
+                        return req;
+                    },
+                    processResults: function(data){
+                        return {results: data};
+                    },
+               },
+               minimumInputLength:1,
+               placeholder: 'Silahkan Pilih Kategori',
+               templateResult:function(data){
+                   return data.loading ? 'Mencari...' : data.name; 
+               },
+               templateSelection: function(data) {
+                    return data.text || data.name;
+                }
+
+            }).on('select2:select', function(e){
+                // selected = e.params.data
+                form.news.category_id = e.target.value
+            })
         },
         computed: {
 

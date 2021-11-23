@@ -5,24 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class Kementrian extends Model
 {
     use HasFactory;
+
+    protected $table = 'kementrian';
+    
     protected $fillable = [
         'title',
-        'slug',
         'content',
         'image',
-        'show',
-        'published_at',
-        'status',
-        'excerpt',
-        'category_id'
+        'link',
+        'facebook',
+        'twitter',
+        'instagram',
     ];
 
     public function getImage(){
         if($this->image != null){
-            return asset('storage/news/'.$this->image);
+            return asset('storage/kementrian/'.$this->image);
         }
         return null;
     }
