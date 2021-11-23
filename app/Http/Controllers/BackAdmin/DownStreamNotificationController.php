@@ -71,6 +71,7 @@ class DownStreamNotificationController extends Controller
         if($request->has('notif_id')){
             $downstream->notif_id = $request->notif_id;
         }
+        $downstream->status = 'draft';
         return view('backadmin.downstream.form', [
             'title' => 'Tambah Downstream',
             'downstream' => $downstream,

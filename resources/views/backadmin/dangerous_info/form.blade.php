@@ -222,7 +222,7 @@
                                     name="matrix"
                                     v-model="dangerous.matrix" 
                                     class="form-control @error('matrix') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Analisis Matriks" autocomplete="off">
+                                    placeholder="Masukkan Matriks" autocomplete="off">
                                 @error('matrix')
                                     <small class="text-danger">{{ $errors->first('matrix') }}</small>
                                 @enderror
@@ -237,7 +237,7 @@
                                     name="scope"
                                     v-model="dangerous.scope" 
                                     class="form-control @error('scope') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Analisis Laboratorium" autocomplete="off">
+                                    placeholder="Masukkan Standar yang Berlaku" autocomplete="off">
                                 @error('scope')
                                     <small class="text-danger">{{ $errors->first('scope') }}</small>
                                 @enderror
@@ -249,7 +249,7 @@
                                     name="max_tollerance"
                                     v-model="dangerous.max_tollerance" 
                                     class="form-control @error('max_tollerance') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Analisis Matriks" autocomplete="off">
+                                    placeholder="Masukkan Maksimum Batas yang Diijinkan" autocomplete="off">
                                 @error('max_tollerance')
                                     <small class="text-danger">{{ $errors->first('max_tollerance') }}</small>
                                 @enderror

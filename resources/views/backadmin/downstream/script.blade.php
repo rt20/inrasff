@@ -83,6 +83,10 @@
                 form.downstream.source_notif = e.target.value
             })
 
+            $('select[name="category_product_id"').on('change', function(e){
+                form.downstream.category_product_id = e.target.value
+            })
+
             $('#country_id').select2({
                ajax: {
                     url: "{{ route('backadmin.s2Opt.countries') }}",
