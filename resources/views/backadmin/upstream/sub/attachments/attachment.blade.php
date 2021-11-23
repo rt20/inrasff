@@ -199,7 +199,7 @@
                 $('.text-danger').remove();
                 this.attachmentModal.state = state;
                 this.attachmentModal.error = '';
-                
+                this.attachmentModal.loading = 0
                 switch (this.attachmentModal.state) {
                     case 'add':
                         this.attachmentModal.item = item         
