@@ -178,7 +178,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                         
-                        
+                            @if($dangerous->id)
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="laboratorium" class="form-label ">Sampling</label>
@@ -198,7 +198,7 @@
                                     </tbody>
                                 </table>
                             </div><!-- .col-md-6.form-group -->
-                        
+                            @endif
                         
                             <div class="divider divider-left col-12">
                                 <div class="divider-text">Analisis</div>
@@ -259,6 +259,7 @@
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
                 </form>
+
                 <div class="modal fade" id="sampling-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddsampling" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
