@@ -29,22 +29,22 @@
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
+                                    <a href="{{ route('home') }}" class="text-base text-white hover:text-gray-400">
                                     Home
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
+                                    <a href="{{ route('news') }}" class="text-base text-white hover:text-gray-400">
                                     Berita
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
-                                    Kementrian
+                                    <a href="{{ route('kementrian') }}" class="text-base text-white hover:text-gray-400">
+                                    Kementerian
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
+                                    <a href="{{ route('contactus') }}" class="text-base text-white hover:text-gray-400">
                                     Hubungi Kami
                                     </a>
                                 </li>
@@ -56,17 +56,17 @@
                             </h3>
                             <ul role="list" class="mt-4 space-y-4">
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
+                                    <a href="{{ route('aboutus') }}" class="text-base text-white hover:text-gray-400">
                                     Indonesia Rapid Alert System For Food And Feed
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
+                                    <a href="{{ route('baganalir') }}" class="text-base text-white hover:text-gray-400">
                                     Bagan Alir Penerapan INRASFF
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-white hover:text-gray-400">
+                                    <a href="{{ route('logical') }}" class="text-base text-white hover:text-gray-400">
                                     Logical Framework INRASFF
                                     </a>
                                 </li>

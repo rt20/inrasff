@@ -5,11 +5,11 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.categories.index') }}">Kategori</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.categories.index') }}">Kategori Berita</a></li>
 @endsection
 
 @section('actions')
-<a href="{{ route('backadmin.categories.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Kategori</a>
+<a href="{{ route('backadmin.categories.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Kategori Berita</a>
 @endsection
 
 @section('content')

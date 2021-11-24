@@ -20,6 +20,16 @@ class News extends Model
         'category_id'
     ];
 
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
+    }
+
     public function getImage(){
         if($this->image != null){
             return asset('storage/news/'.$this->image);

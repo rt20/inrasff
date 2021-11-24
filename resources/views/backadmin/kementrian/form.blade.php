@@ -5,7 +5,7 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.kementrian.index') }}">Kementrian</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.kementrian.index') }}">Kementerian</a></li>
 @endsection
 
 @section('actions')
@@ -78,12 +78,12 @@
                             </div><!-- .col-md-6.form-group -->
                             
                             <div class="col-12 col-md-6 form-group">
-                                <label for="link" class="form-label">Website Link</label>
+                                <label for="link" class="form-label required">Website Link</label>
                                 <input type="text" 
                                     name="link"
                                     v-model="kementrian.link" 
                                     class="form-control @error('link') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Website Link" autocomplete="off">
+                                    placeholder="Masukkan Link Website" autocomplete="off">
                                 @error('link')
                                     <small class="text-danger">{{ $errors->first('link') }}</small>
                                 @enderror
