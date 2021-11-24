@@ -138,7 +138,9 @@ href="{{
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="title" class="form-label required">Pengguna Notifikasi Terkait</label>                                
+                                    @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                                     <button type="button" v-on:click="openUserFuModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                    @endif
                                 </div>
                                 <table id="table-user-follow-up" class="table table-striped table-bordered">
                                     <thead>
@@ -147,7 +149,9 @@ href="{{
                                             <th>Lembaga</th>
                                             <th>Penanggung Jawab</th>
                                             <th>Tipe</th>
+                                            @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                                             <th class="bi-table-col-action-1">Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -202,7 +206,7 @@ href="{{
                             <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 v-show="attachmentModal.state !== 'delete'" class="modal-title" id="modalAttachment">Tambah Lampiran</h4>
-                                        <h4 v-show="attachmentModal.state === 'delete'" class="modal-title" id="modalAttachment">Hapus Lampiran</h4>
+                                        <h4 v-show="attachmentModal.state === 'delete'" class="modal-title" id="modalAttachment">Konfirmasi</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -233,8 +237,6 @@ href="{{
                                     </div>
                                     <div class="modal-footer" v-if="attachmentModal.loading == 0">
                                         <button v-show="attachmentModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
-                                        
-                                        
                                         <button type="submit" class="btn btn-outline-primary" form="form-address" v-if="attachmentModal.state === 'delete'" v-on:click="submitAttachmentForm($event)">Ya, Hapus</button>
                                         <button v-show="attachmentModal.state === 'delete'" type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                                         <button 

@@ -189,7 +189,9 @@
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="laboratorium" class="form-label ">Sampling</label>
+                                    @if(in_array($dangerous->notification->status, ['open', 'draft']))
                                     <button type="button" v-on:click="openSamplingModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                    @endif
                                 </div>
                                 <table v-cloak id="table-sampling" class="table table-striped table-bordered">
                                     <thead>
@@ -198,7 +200,9 @@
                                             <th>Jumlah Sampel</th>
                                             <th>Metode</th>
                                             <th>Tempat Pengambilan</th>
+                                            @if(in_array($dangerous->notification->status, ['open', 'draft']))
                                             <th class="bi-table-col-action-1">Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -244,7 +248,7 @@
                                     name="scope"
                                     v-model="dangerous.scope" 
                                     class="form-control @error('scope') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Standar yang Berlaku" autocomplete="off">
+                                    placeholder="Masukkan Scope" autocomplete="off">
                                 @error('scope')
                                     <small class="text-danger">{{ $errors->first('scope') }}</small>
                                 @enderror
@@ -273,7 +277,7 @@
                             <form id="sampling-modal-form" action="#" method="GET">                    
                                 <div class="modal-header">
                                     <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Sampling</h4>
-                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Hapus Sampling</h4>
+                                    <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Konfirmasi</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -299,13 +303,14 @@
                                     </div>
                 
                                     <div v-show="samplingModal.state === 'delete'">
-                                        <p class="mb-0">Apakah Anda yakin akan menghapus Lembaga ini?</p>
+                                        <p class="mb-0">Apakah Anda yakin akan menghapus Sampling ini?</p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                                    <button v-if="samplingModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
                                     <button v-if="samplingModal.state !== 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
-                                    <button v-if="samplingModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Ya, Hapus</button>
+                                    <button v-if="samplingModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-outline-primary">Ya, Hapus</button>
+                                    <button v-if="samplingModal.state === 'delete'"  type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                                 </div>
                             </form>
                         </div>
@@ -364,9 +369,11 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
+        @if(isset($dangerous->notification))
         @if(!in_array($dangerous->notification->status, ['open', 'draft']))
             $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
         @endif
     })
 </script>

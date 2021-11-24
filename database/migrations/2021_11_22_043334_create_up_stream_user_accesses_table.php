@@ -21,7 +21,7 @@ class CreateUpStreamUserAccessesTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('upstream_id')->references('id')->on('down_stream_notifications')->onDelete('cascade');
+            $table->foreign('upstream_id')->references('id')->on('up_stream_notifications')->onDelete('cascade');
         });
     }
 

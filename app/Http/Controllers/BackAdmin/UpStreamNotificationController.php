@@ -30,7 +30,13 @@ class UpStreamNotificationController extends Controller
             abort(401);
         }
         if($request->ajax()){
-            $d = UpStreamNotification::all();
+            $d = UpStreamNotification::query();
+            if($request->user->institution_id!=null){
+                $institution_id = $request->user->institution_id;
+                $d = $d->whereHas('upstreamInstitution', function($q) use($institution_id){
+                    $q->where('institution_id', $institution_id);
+                });
+            }
             return DataTables::of($d)->make();
         }
 
@@ -64,6 +70,7 @@ class UpStreamNotificationController extends Controller
             abort(401);
         }
         $upstream = new UpStreamNotification;
+        $upstream->status = 'draft';
         if($request->has('notif_id')){
             $upstream->notif_id = $request->notif_id;
         }
@@ -87,7 +94,7 @@ class UpStreamNotificationController extends Controller
         }
         $request->validate([
             'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
+            
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -99,7 +106,7 @@ class UpStreamNotificationController extends Controller
             $upstream = UpStreamNotification::make($request->only([
                 'notif_id',
                 'title',
-                'number_ref',
+                
                 'status_notif_id',
                 'type_notif_id',
                 'country_id',
@@ -117,7 +124,31 @@ class UpStreamNotificationController extends Controller
             $upstream->author_id = auth()->user()->id;
             $upstream->setStatus('open', 'Dibuat ');
             $upstream->save();
+            
+            switch ($request->user->type) {
+                case 'ccp':
+                    $upstream->upstreamInstitution()->create([
+                        'institution_id' => $request->user->institution->id,
+                        'write' => true
+                    ]);
+                    break;
+                case 'lccp':
+                    $upstream->upstreamInstitution()->create([
+                        'institution_id' => $request->user->institution->id,
+                        'write' => true
+                    ]);
+                    $upstream->upstreamInstitution()->create([
+                        'institution_id' => $request->user->institution->parent_id,
+                        'write' => true
+                    ]);
+                    # code...
+                    break;
+                default:
+                    # code...
+                    break;
+            }
             DB::commit();
+            
             
         } catch (Exception $e) {
             DB::rollback();
@@ -174,7 +205,6 @@ class UpStreamNotificationController extends Controller
         }  
         $request->validate([
             'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -187,7 +217,6 @@ class UpStreamNotificationController extends Controller
                 $upstream->fill($request->only([
                     'notif_id',
                     'title',
-                    'number_ref',
                     'status_notif_id',
                     'type_notif_id',
                     'country_id',
@@ -208,6 +237,13 @@ class UpStreamNotificationController extends Controller
                     $upstream->setStatus('open', 'Diupdate dari draft');
                 }
                 $upstream->update();
+                // return $upstream->upstreamInstitution[0]->institution->users;
+                $upstream->upstreamInstitution()->update([
+                    'status' => 'assigned'
+                ]);
+                foreach ($upstream->upstreamInstitution as $i => $institution) {
+                    //Send Email 
+                }
            
             DB::commit();
             

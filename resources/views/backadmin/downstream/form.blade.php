@@ -63,7 +63,7 @@
         <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
             <li class="nav-item">
             <a class="nav-link {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">
-                <b class="d-none d-md-inline">1. Informasi Utama</b> 
+                <b class="d-none d-md-inline">1. Informasi Umum</b> 
                 <i class="mr-75 d-inline d-md-none" data-feather="globe"></i></a>
             </li>
             

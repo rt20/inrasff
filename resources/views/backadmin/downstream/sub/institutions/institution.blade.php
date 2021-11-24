@@ -1,13 +1,13 @@
 <section class="bi-form-main">
     <div class="d-flex justify-content-between align-items-center mb-1">
-        <h4>Informasi Lembaga CCP</h4>
+        <h4>Daftar Penindak</h4>
     </div>
 
     <div class="row">    
         <div class="col-12 col-md-12 form-group">
             <div class="d-flex justify-content-between align-items-center">
                 <label for="title" class="form-label">Lembaga yang perlu menindaklanjuti</label>
-                @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                     @can('store_institution downstream')
                     <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
                     @endcan
@@ -17,8 +17,9 @@
             <table v-cloak  id="table-permission-rw" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="w-75">Lembaga</th>
-                        @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                        <th class="w-50">Lembaga</th>
+                        <th class="w-25">Status</th>
+                        @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                         @can('delete_institution downstream')
                         <th class="bi-table-col-action-1">Aksi</th>
                         @endcan
@@ -34,7 +35,7 @@
             <hr>
             <div class="d-flex justify-content-between align-items-center">
                 <label for="title" class="form-label"> Lembaga lain yang terkait</label>
-                @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                     @can('store_institution downstream')
                     <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
                     @endcan
@@ -44,8 +45,9 @@
             <table v-cloak  id="table-permission-r" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="w-75">Lembaga</th>
-                        @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                        <th class="w-50">Lembaga</th>
+                        <th class="w-25">Status</th>
+                        @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                         @can('delete_institution downstream')
                         <th class="bi-table-col-action-1">Aksi</th>
                         @endcan
@@ -59,7 +61,7 @@
     </div>
 </section>
 
-<hr>
+{{-- <hr>
 
 <section class="bi-form-main">
     <div class="d-flex justify-content-between align-items-center mb-1">
@@ -70,7 +72,7 @@
         <div class="col-12 col-md-12 form-group">
             <div class="d-flex justify-content-between align-items-center">
                 <label for="title" class="form-label">Pengguna yang perlu menindaklanjuti</label>
-                @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                     <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
                 @endif
             </div>
@@ -82,7 +84,7 @@
                         <th>Lembaga</th>
                         <th>Penanggung Jawab</th>
                         <th>Tipe</th>
-                        @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                        @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                         <th>Aksi</th>
                         @endif
                     </tr>
@@ -92,7 +94,7 @@
             </table>
         </div>
     </div>
-</section>
+</section> --}}
 
 
 @push('page-js')
@@ -105,6 +107,11 @@
                         data: function(params){
                             let req = {
                                 q:params.term,
+                                @if(auth()->user()->type === 'ncp')
+                                only_ccp:true,
+                                @elseif(auth()->user()->type === 'ccp')
+                                only_lccp:true,
+                                @endif
                             };
                             return req;
                         },
@@ -113,7 +120,7 @@
                         },
                 },
                 minimumInputLength:1,
-                placeholder: 'Masukkan Institusi Terkait',
+                placeholder: 'Masukkan Lembaga Terkait',
                 templateResult:function(data){
                     return data.loading ? 'Mencari...' : data.name; 
                 },
@@ -174,7 +181,16 @@
                 processing: true,
                 columns: [
                     { data: 'institution.name' },
-                    @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    { 
+                        data: 'status' ,
+                        searchable:false,
+                        orderable:false,
+                        className: 'text-center',
+                        render: function(data,type,row,meta){
+                            return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                        }
+                    },
+                    @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                     @can('delete_institution downstream')
                     {
                         data: 'id',
@@ -205,7 +221,16 @@
                 processing: true,
                 columns: [
                     { data: 'institution.name' },
-                    @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    { 
+                        data: 'status' ,
+                        searchable:false,
+                        orderable:false,
+                        className: 'text-center',
+                        render: function(data,type,row,meta){
+                            return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                        }
+                    },
+                    @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                     @can('delete_institution downstream')
                     {
                         data: 'id',
@@ -237,7 +262,7 @@
                     { data: 'user.institution.name' },
                     { data: 'user.responsible_name' },
                     { data: 'user.institution.type_label' },
-                    @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
+                    @if($downstream->id !== null && !in_array($downstream->status, ['done']))
                     {
                         data: 'id',
                         className: 'text-center',

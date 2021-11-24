@@ -15,7 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 class UpStreamInstitutionController extends Controller
 {
     public function index(Request $request){
-        // if ($request->ajax()) {
+        if ($request->ajax()) {
             $d = UpStreamInstitution::with(['institution', 'upstream']);
 
             if($request->has('read')){
@@ -31,7 +31,7 @@ class UpStreamInstitutionController extends Controller
             }
 
             return DataTables::of($d->get())->make();
-        // }
+        }
 
         return ;
     }
@@ -54,14 +54,14 @@ class UpStreamInstitutionController extends Controller
             ]));
             $dsi->write = $request->write==="true" ? true : false;
             $dsi->save();
-
+              
             if($dsi->write){
                 $users = $dsi->institution->users;
-                foreach ($users as $i => $user) {
-                    $dsi->upstream->upstreamUserAccess()->create([
-                        'user_id' => $user->id
-                    ]);
-                }
+                // foreach ($users as $i => $user) {
+                //     $dsi->upstream->upstreamUserAccess()->create([
+                //         'user_id' => $user->id
+                //     ]);
+                // }
                 
             }
 
@@ -84,15 +84,15 @@ class UpStreamInstitutionController extends Controller
         try {
             DB::beginTransaction();
             $dsi = UpStreamInstitution::find($id);
-            if($dsi->write){
-                $dsi->upstream
-                    ->upstreamUserAccess()
-                    ->whereIn(
-                        'user_id', 
-                        $dsi->institution->users()->pluck('id')
-                    )
-                    ->delete();
-            }
+            // if($dsi->write){
+            //     $dsi->upstream
+            //         ->upstreamUserAccess()
+            //         ->whereIn(
+            //             'user_id', 
+            //             $dsi->institution->users()->pluck('id')
+            //         )
+            //         ->delete();
+            // }
             $dsi->delete();
             DB::commit();
             return response()->json([

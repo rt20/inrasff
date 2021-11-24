@@ -4,7 +4,7 @@
             <form id="institution-modal-form" action="#" method="GET">                    
                 <div class="modal-header">
                     <h4 v-show="institutionModal.state !== 'delete'" class="modal-title" id="modalAddInstitution">Tambah Lembaga</h4>
-                    <h4 v-show="institutionModal.state === 'delete'" class="modal-title" id="modalAddInstitution">Hapus Lembaga</h4>
+                    <h4 v-show="institutionModal.state === 'delete'" class="modal-title" id="modalAddInstitution">Konfirmasi</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -23,9 +23,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                    <button v-if="institutionModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
                     <button v-if="institutionModal.state !== 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
-                    <button v-if="institutionModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Ya, Hapus</button>
+                    <button v-if="institutionModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-outline-primary">Ya, Hapus</button>
+                    <button v-if="institutionModal.state === 'delete'" type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                 </div>
             </form>
         </div>

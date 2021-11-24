@@ -243,14 +243,26 @@ class DangerousInfoController extends Controller
         }
         try {
             DB::beginTransaction();
-            // $dangerous = DangerousInfo::find($id);
-            // dd($dangerous);
+            // return $dangerousInfo->notification->number;
+            $number = $dangerousInfo->notification->number;
+            $id = $dangerousInfo->notification->id;
+
             $dangerousInfo->delete();
             DB::commit();
 
-            return redirect()
-                ->route('backadmin.dangerous_infos.index')
+            if(str_contains($number, "IN.DS")){
+                return redirect()
+                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'dangerous_risks'])
                 ->withSuccess('Info Bahaya berhasil dihapus');
+            }else  if(str_contains($number, "IN.US")){
+                return redirect()
+                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'dangerous_risks'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else{
+                return redirect()
+                    ->route('backadmin.dashboard')
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            }
 
         } catch (Exception $e) {
             DB::rollBack();

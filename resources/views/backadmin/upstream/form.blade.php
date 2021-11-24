@@ -60,7 +60,7 @@
             
             <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link  {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Utama</a>
+                    <a class="nav-link  {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Umum</a>
                 </li>
                 
                 @if($upstream->id != null && !$upstream->isStatus('draft', false))

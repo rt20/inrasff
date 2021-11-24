@@ -140,7 +140,7 @@
                                     name="best_before"
                                     v-model="traceability_lot.best_before" 
                                     class="form-control @error('best_before') {{ 'is-invalid' }} @enderror date read-only-white" 
-                                    placeholder="Masukkan Best Before" autocomplete="off">
+                                    placeholder="Masukkan Tanggal Best Before" autocomplete="off">
                                 @error('best_before')
                                     <small class="text-danger">{{ $errors->first('best_before') }}</small>
                                 @enderror
@@ -152,7 +152,7 @@
                                     name="sell_by"
                                     v-model="traceability_lot.sell_by" 
                                     class="form-control @error('sell_by') {{ 'is-invalid' }} @enderror date read-only-white" 
-                                    placeholder="Masukkan Sell By" autocomplete="off">
+                                    placeholder="Masukkan Tanggal Sell By" autocomplete="off">
                                 @error('sell_by')
                                     <small class="text-danger">{{ $errors->first('sell_by') }}</small>
                                 @enderror
@@ -397,10 +397,12 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
+        @if(isset($traceability_lot->notification))
         @if(!in_array($traceability_lot->notification->status, ['open', 'draft']))
             $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.bi-form-main input').removeClass('read-only-white')
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
         @endif
     })
 </script>

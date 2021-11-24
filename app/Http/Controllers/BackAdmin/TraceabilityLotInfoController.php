@@ -236,8 +236,24 @@ class TraceabilityLotInfoController extends Controller
         }
         try {
             DB::beginTransaction();
+            $number = $traceabilityLotInfo->notification->number;
+            $id = $traceabilityLotInfo->notification->id;
             $traceabilityLotInfo->delete();
             DB::commit();
+
+            if(str_contains($number, "IN.DS")){
+                return redirect()
+                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'traceability_lots'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else  if(str_contains($number, "IN.US")){
+                return redirect()
+                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'traceability_lots'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else{
+                return redirect()
+                    ->route('backadmin.dashboard')
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            }
 
             return redirect()
                 ->route('backadmin.traceability_lot_infos.index')

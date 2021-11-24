@@ -21,7 +21,11 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
-        Events\DownStreamEmailNotification::class => [
+        // Events\DownStreamEmailNotification::class => [
+        //     Listeners\SendDownStreamNotification::class,
+        // ],
+
+        Events\DownStreamInstitutionMailNotification::class => [
             Listeners\SendDownStreamNotification::class,
         ],
     ];
