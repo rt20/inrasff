@@ -93,7 +93,7 @@
                             </div><!-- .col-md-6.form-group -->
 
                             <div class="col-12 col-md-6 form-group" hidden>
-                                <label for="type" class="form-label required">Tipe Institusi</label>
+                                <label for="type" class="form-label required">Tipe Lembaga</label>
                                 <input type="text" 
                                     name="type"
                                     readonly
@@ -105,7 +105,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                             <div class="col-12 col-md-6 form-group">
-                                <label for="type" class="form-label required">Tipe Institusi</label>
+                                <label for="type" class="form-label required">Tipe Lembaga</label>
                                 <input type="text" 
                                     name="type_label"
                                     readonly

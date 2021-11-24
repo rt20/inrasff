@@ -23,7 +23,7 @@ class NotificationAttachment extends Model
 
     const INFOS = [
         'main_info' => [
-            'label' => 'Informasi Utama'
+            'label' => 'Informasi Umum'
         ],
         'dangerous_risk' => [
             'label' => 'Bahaya dan Resiko'

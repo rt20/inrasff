@@ -64,6 +64,7 @@ class UpStreamNotificationController extends Controller
             abort(401);
         }
         $upstream = new UpStreamNotification;
+        $upstream->status = 'draft';
         if($request->has('notif_id')){
             $upstream->notif_id = $request->notif_id;
         }

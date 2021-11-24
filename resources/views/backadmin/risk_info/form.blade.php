@@ -306,9 +306,11 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
+        @if(isset($risk->notification))
         @if(!in_array($risk->notification->status, ['open', 'draft']))
             $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @endif
         @endif
     })
 </script>
