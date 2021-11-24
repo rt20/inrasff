@@ -15,7 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 class UpStreamInstitutionController extends Controller
 {
     public function index(Request $request){
-        // if ($request->ajax()) {
+        if ($request->ajax()) {
             $d = UpStreamInstitution::with(['institution', 'upstream']);
 
             if($request->has('read')){
@@ -31,7 +31,7 @@ class UpStreamInstitutionController extends Controller
             }
 
             return DataTables::of($d->get())->make();
-        // }
+        }
 
         return ;
     }

@@ -2,7 +2,7 @@
     <h4>Informasi Utama</h4>
 </div>
 <div class="row">
-    <div class="col-12 col-md-6 form-group">
+    <div class="col-12 col-md-12 form-group">
         <label for="title" class="form-label required">Judul Notifikasi</label>
         <input type="text" 
             name="title"
@@ -14,7 +14,7 @@
         @enderror
     </div><!-- .col-md-6.form-group -->
 
-    <div class="col-12 col-md-6 form-group">
+    {{-- <div class="col-12 col-md-6 form-group">
         <label for="number_ref" class="form-label required">Nomor Referensi</label>
         <input type="text" 
             name="number_ref"
@@ -24,7 +24,7 @@
         @error('number_ref')
             <small class="text-danger">{{ $errors->first('number_ref') }}</small>
         @enderror
-    </div><!-- .col-md-6.form-group -->
+    </div><!-- .col-md-6.form-group --> --}}
 
     <div class="col-12 col-md-6 form-group">
         <label for="status_notif_id" class="form-label required">Status Notifikasi</label>

@@ -16,7 +16,7 @@ class UpStreamNotification extends Model
         'number',
         'notif_id',
         'title',
-        'number_ref',
+        
         'status_notif_id',
         'type_notif_id',
         'country_id',

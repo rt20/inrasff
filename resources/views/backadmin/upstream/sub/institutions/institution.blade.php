@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between align-items-center mb-1">
-    <h4>Informasi Umum</h4>
+    <h4>Daftar Penindak</h4>
 </div>
 <div class="row">
     
@@ -16,7 +16,8 @@
         <table v-cloak  id="table-permission-rw" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Lembaga</th>
+                    <th class="w-50">Lembaga</th>
+                        <th class="w-25">Status</th>
                     @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
                     <th class="bi-table-col-action-1">Aksi</th>
@@ -43,7 +44,8 @@
         <table v-cloak  id="table-permission-r" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Lembaga</th>
+                    <th class="w-50">Lembaga</th>
+                    <th class="w-25">Status</th>
                     @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
                     <th class="bi-table-col-action-1">Aksi</th>
@@ -57,7 +59,7 @@
     </div>
 </div>
 
-<section class="bi-form-main">
+{{-- <section class="bi-form-main">
     <div class="d-flex justify-content-between align-items-center mb-1">
         <h4>Informasi Pengguna yang Menindaklanjuti</h4>
     </div>
@@ -88,7 +90,7 @@
             </table>
         </div>
     </div>
-</section>
+</section> --}}
 
 
 @push('page-js')
@@ -171,6 +173,15 @@
                 processing: true,
                 columns: [
                     { data: 'institution.name' },
+                    { 
+                        data: 'status' ,
+                        searchable:false,
+                        orderable:false,
+                        className: 'text-center',
+                        render: function(data,type,row,meta){
+                            return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                        }
+                    },
                     @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
                     {
@@ -202,6 +213,15 @@
                 processing: true,
                 columns: [
                     { data: 'institution.name' },
+                    { 
+                        data: 'status' ,
+                        searchable:false,
+                        orderable:false,
+                        className: 'text-center',
+                        render: function(data,type,row,meta){
+                            return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                        }
+                    },
                     @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
                     {

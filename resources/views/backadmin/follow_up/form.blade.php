@@ -138,7 +138,9 @@ href="{{
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="title" class="form-label required">Pengguna Notifikasi Terkait</label>                                
+                                    @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                                     <button type="button" v-on:click="openUserFuModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                    @endif
                                 </div>
                                 <table id="table-user-follow-up" class="table table-striped table-bordered">
                                     <thead>
@@ -147,7 +149,9 @@ href="{{
                                             <th>Lembaga</th>
                                             <th>Penanggung Jawab</th>
                                             <th>Tipe</th>
+                                            @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                                             <th class="bi-table-col-action-1">Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>

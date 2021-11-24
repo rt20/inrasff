@@ -88,7 +88,7 @@ class UpStreamNotificationController extends Controller
         }
         $request->validate([
             'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
+            
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -100,7 +100,7 @@ class UpStreamNotificationController extends Controller
             $upstream = UpStreamNotification::make($request->only([
                 'notif_id',
                 'title',
-                'number_ref',
+                
                 'status_notif_id',
                 'type_notif_id',
                 'country_id',
@@ -175,7 +175,6 @@ class UpStreamNotificationController extends Controller
         }  
         $request->validate([
             'title' => ['required', 'max:255'],
-            'number_ref' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -188,7 +187,6 @@ class UpStreamNotificationController extends Controller
                 $upstream->fill($request->only([
                     'notif_id',
                     'title',
-                    'number_ref',
                     'status_notif_id',
                     'type_notif_id',
                     'country_id',
@@ -209,6 +207,13 @@ class UpStreamNotificationController extends Controller
                     $upstream->setStatus('open', 'Diupdate dari draft');
                 }
                 $upstream->update();
+                // return $upstream->upstreamInstitution[0]->institution->users;
+                $upstream->upstreamInstitution()->update([
+                    'status' => 'assigned'
+                ]);
+                foreach ($upstream->upstreamInstitution as $i => $institution) {
+                    //Send Email 
+                }
            
             DB::commit();
             
