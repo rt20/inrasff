@@ -141,13 +141,17 @@ class RolePermissionSeeder extends Seeder
                 'downstream' => [
                     'view all',
                     'view',
+                    'store_institution',
+                    'delete_institution',
                 ],
 
                 'upstream' => [
                     'view all',
                     'view',
                     'store', 
-                    'delete'
+                    'delete',
+                    'store_institution',
+                    'delete_institution',
                 ],
 
                 'follow_up' => [

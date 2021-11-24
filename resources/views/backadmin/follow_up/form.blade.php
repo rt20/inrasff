@@ -206,7 +206,7 @@ href="{{
                             <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 v-show="attachmentModal.state !== 'delete'" class="modal-title" id="modalAttachment">Tambah Lampiran</h4>
-                                        <h4 v-show="attachmentModal.state === 'delete'" class="modal-title" id="modalAttachment">Hapus Lampiran</h4>
+                                        <h4 v-show="attachmentModal.state === 'delete'" class="modal-title" id="modalAttachment">Konfirmasi</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -237,8 +237,6 @@ href="{{
                                     </div>
                                     <div class="modal-footer" v-if="attachmentModal.loading == 0">
                                         <button v-show="attachmentModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
-                                        
-                                        
                                         <button type="submit" class="btn btn-outline-primary" form="form-address" v-if="attachmentModal.state === 'delete'" v-on:click="submitAttachmentForm($event)">Ya, Hapus</button>
                                         <button v-show="attachmentModal.state === 'delete'" type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                                         <button 

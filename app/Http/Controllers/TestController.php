@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 class TestController extends Controller
 {
+
     public function mail(){
         return view('mail.notification');
     }

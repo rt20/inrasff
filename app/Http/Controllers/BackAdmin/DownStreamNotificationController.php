@@ -32,9 +32,16 @@ class DownStreamNotificationController extends Controller
         if (!Gate::allows('view downstream')) {
             abort(401);
         }
-        
+           
         if($request->ajax()){
-            $d = DownStreamNotification::all();
+            $d = DownStreamNotification::query();
+            if($request->user->institution_id!=null){
+                $institution_id = $request->user->institution_id;
+                $d = $d->whereHas('downstreamInstitution', function($q) use($institution_id){
+                    $q->where('institution_id', $institution_id);
+                });
+                $d = $d->whereIn('status', ['ccp process', 'done']);
+            }
             return DataTables::of($d)->make();
         }
 
