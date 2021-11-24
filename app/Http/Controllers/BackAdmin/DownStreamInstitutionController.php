@@ -59,12 +59,12 @@ class DownStreamInstitutionController extends Controller
 
             if($dsi->write){
                 $users = $dsi->institution->users;
-                foreach ($users as $i => $user) {
-                    $dsua = $dsi->downstream->downstreamUserAccess()->create([
-                        'user_id' => $user->id
-                    ]);
-                    // event(new DownStreamEmailNotification($dsua));
-                }
+                // foreach ($users as $i => $user) {
+                //     $dsua = $dsi->downstream->downstreamUserAccess()->create([
+                //         'user_id' => $user->id
+                //     ]);
+                //     // event(new DownStreamEmailNotification($dsua));
+                // }
                 
             }
 
@@ -87,15 +87,15 @@ class DownStreamInstitutionController extends Controller
         try {
             DB::beginTransaction();
             $dsi = DownStreamInstitution::find($id);
-            if($dsi->write){
-                $dsi->downstream
-                    ->downstreamUserAccess()
-                    ->whereIn(
-                        'user_id', 
-                        $dsi->institution->users()->pluck('id')
-                    )
-                    ->delete();
-            }
+            // if($dsi->write){
+            //     $dsi->downstream
+            //         ->downstreamUserAccess()
+            //         ->whereIn(
+            //             'user_id', 
+            //             $dsi->institution->users()->pluck('id')
+            //         )
+            //         ->delete();
+            // }
             $dsi->delete();
             DB::commit();
             return response()->json([

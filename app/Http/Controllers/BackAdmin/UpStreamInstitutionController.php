@@ -57,11 +57,11 @@ class UpStreamInstitutionController extends Controller
               
             if($dsi->write){
                 $users = $dsi->institution->users;
-                foreach ($users as $i => $user) {
-                    $dsi->upstream->upstreamUserAccess()->create([
-                        'user_id' => $user->id
-                    ]);
-                }
+                // foreach ($users as $i => $user) {
+                //     $dsi->upstream->upstreamUserAccess()->create([
+                //         'user_id' => $user->id
+                //     ]);
+                // }
                 
             }
 
@@ -84,15 +84,15 @@ class UpStreamInstitutionController extends Controller
         try {
             DB::beginTransaction();
             $dsi = UpStreamInstitution::find($id);
-            if($dsi->write){
-                $dsi->upstream
-                    ->upstreamUserAccess()
-                    ->whereIn(
-                        'user_id', 
-                        $dsi->institution->users()->pluck('id')
-                    )
-                    ->delete();
-            }
+            // if($dsi->write){
+            //     $dsi->upstream
+            //         ->upstreamUserAccess()
+            //         ->whereIn(
+            //             'user_id', 
+            //             $dsi->institution->users()->pluck('id')
+            //         )
+            //         ->delete();
+            // }
             $dsi->delete();
             DB::commit();
             return response()->json([
