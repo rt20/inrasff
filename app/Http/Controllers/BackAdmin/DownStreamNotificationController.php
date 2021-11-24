@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 
+use App\Events\DownStreamInstitutionMailNotification;
 use UploadFile;
 
 class DownStreamNotificationController extends Controller
@@ -31,9 +32,16 @@ class DownStreamNotificationController extends Controller
         if (!Gate::allows('view downstream')) {
             abort(401);
         }
-        
+           
         if($request->ajax()){
-            $d = DownStreamNotification::all();
+            $d = DownStreamNotification::query();
+            if($request->user->institution_id!=null){
+                $institution_id = $request->user->institution_id;
+                $d = $d->whereHas('downstreamInstitution', function($q) use($institution_id){
+                    $q->where('institution_id', $institution_id);
+                });
+                $d = $d->whereIn('status', ['ccp process', 'done']);
+            }
             return DataTables::of($d)->make();
         }
 
@@ -209,13 +217,18 @@ class DownStreamNotificationController extends Controller
                     $downstream->setStatus('open', 'Diupdate dari draft');
                 }
                 $downstream->update();
-                
-                $downstream->upstreamInstitution()->update([
-                    'status' => 'assigned'
-                ]);
-                foreach ($downstream->upstreamInstitution as $i => $institution) {
-                    //Send Email 
+
+                // dd($downstream->downstreamInstitution()->where('status', 'draft')->get());
+                $draft_institutions =  $downstream->downstreamInstitution()
+                            ->where('status', 'draft')
+                            ->get();
+                foreach ($draft_institutions as $i => $dsi) {
+                    $dsi->status = 'assigned';
+                    $dsi->update();
+                    event(new DownStreamInstitutionMailNotification($downstream, $dsi));    
                 }
+                
+
             DB::commit();
             
         } catch (Exception $e) {

@@ -248,7 +248,7 @@
                                     name="scope"
                                     v-model="dangerous.scope" 
                                     class="form-control @error('scope') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Standar yang Berlaku" autocomplete="off">
+                                    placeholder="Masukkan Scope" autocomplete="off">
                                 @error('scope')
                                     <small class="text-danger">{{ $errors->first('scope') }}</small>
                                 @enderror

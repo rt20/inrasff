@@ -180,9 +180,13 @@ class InstitutionController extends Controller
             });
         if($request->has('only_ccp') & $request->only_ccp === 'true'){
             $query = $query->where('type', 'ccp');
+            
         }
         if($request->has('only_lccp') & $request->only_lccp === 'true'){
             $query = $query->where('type', 'lccp');
+        }
+        if($request->user->institution_id!==null){
+            $query = $query->where('parent_id', $request->user->institution_id);
         }
         return $query->get();
     }
