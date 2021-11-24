@@ -209,7 +209,13 @@ class DownStreamNotificationController extends Controller
                     $downstream->setStatus('open', 'Diupdate dari draft');
                 }
                 $downstream->update();
-           
+                
+                $downstream->upstreamInstitution()->update([
+                    'status' => 'assigned'
+                ]);
+                foreach ($downstream->upstreamInstitution as $i => $institution) {
+                    //Send Email 
+                }
             DB::commit();
             
         } catch (Exception $e) {

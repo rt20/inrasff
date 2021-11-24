@@ -19,6 +19,7 @@ class CreateDownStreamInstitutionsTable extends Migration
             $table->unsignedBigInteger('institution_id');
             $table->boolean('read')->default(true);
             $table->boolean('write')->default(false);
+            $table->string('status')->default('draft'); /** draft, assigned */
             $table->timestamps();
 
             $table->foreign('ds_id')->references('id')->on('down_stream_notifications')->onDelete('cascade');

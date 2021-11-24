@@ -19,7 +19,7 @@
             this.upstream = {
                 id: upstream.id ?? '',
                 title: old.title ?? upstream.title ?? '',
-                number_ref: old.number_ref ?? upstream.number_ref ?? '',
+                // number_ref: old.number_ref ?? upstream.number_ref ?? '',
                 status_notif_id: old.status_notif_id ?? upstream.status_notif_id ?? '',
                 type_notif_id: old.type_notif_id ?? upstream.type_notif_id ?? '',
                 country_id: old.country_id ?? upstream.country_id ?? '',

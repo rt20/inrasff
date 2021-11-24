@@ -22,7 +22,7 @@ class CreateUpStreamNotificationsTable extends Migration
             $table->string('number'); //document number
 
             /** Section 1 General Information */
-            $table->string('number_ref')->nullable();
+            // $table->string('number_ref')->nullable();
             $table->unsignedBigInteger('status_notif_id')->nullable();
             $table->unsignedBigInteger('type_notif_id')->nullable();
             $table->string('title');

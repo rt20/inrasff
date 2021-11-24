@@ -63,7 +63,7 @@ class DownStreamInstitutionController extends Controller
                     $dsua = $dsi->downstream->downstreamUserAccess()->create([
                         'user_id' => $user->id
                     ]);
-                    event(new DownStreamEmailNotification($dsua));
+                    // event(new DownStreamEmailNotification($dsua));
                 }
                 
             }
