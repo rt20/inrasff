@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNewsTable extends Migration
+class CreateKementrianTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateNewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('kementrian', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->string('slug', 100)->unique();
             $table->text('content')->nullable();
             $table->string('image', 255)->nullable();
-            $table->boolean('show')->default(false);
-            $table->string('status', 255)->default('draft');
-            $table->text('excerpt')->nullable();
-            $table->date('published_at')->nullable();
+            $table->string('link', 100)->nullable();
+            $table->string('facebook', 255)->nullable();
+            $table->string('twitter', 255)->nullable();
+            $table->string('instagram', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateNewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news');
+        Schema::dropIfExists('kementrian');
     }
 }

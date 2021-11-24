@@ -77,6 +77,24 @@
             </li>
             @endcan
 
+            @can('view categories')
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.categories') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.categories.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="Category">Category</span></a>
+            </li>
+            @endcan
+
+            @can('view faq')
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.faq') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.faq.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="faq">FAQ</span></a>
+            </li>
+            @endcan
+
+            @can('view kementrian')
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.kementrian') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.kementrian.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="kementrian">Kementrian</span></a>
+            </li>
+            @endcan
+
             @can('view slider')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.sliders') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.sliders.index') }}"><i data-feather="play"></i><span class="menu-title text-truncate" data-i18n="Slider">Slider</span></a>

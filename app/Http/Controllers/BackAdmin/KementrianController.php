@@ -4,7 +4,7 @@ namespace App\Http\Controllers\BackAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\News;
+use App\Models\Kementrian;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 use UploadFile;
 use Carbon\Carbon;
 
-class NewsController extends Controller
+class KementrianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +24,12 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $n = News::all();
+            $n = Kementrian::all();
             return DataTables::of($n)->make();
         }
 
-        return view('backadmin.news.index')->with([
-            'title' => 'Berita'
+        return view('backadmin.kementrian.index')->with([
+            'title' => 'Kementrian'
         ]);
     }
 
@@ -40,9 +40,9 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('backadmin.news.form', [
-            'title' => 'Tambah Berita',
-            'news' => new News,
+        return view('backadmin.kementrian.form', [
+            'title' => 'Tambah Kementrian',
+            'kementrian' => new Kementrian,
         ]);
     }
 
@@ -56,22 +56,19 @@ class NewsController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'slug' => ['required', 'max:255', 'unique:news'],
+            'content' => ['required', 'max:255'],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
-            'status' => ['required'],
-            'published_at' => ['required'],
-            'category_id' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-            $n = News::make($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
+            $n = Kementrian::make($request->only(['title', 'content', 'link', 'facebook', 'twitter', 'instagram']));
 
             $n->save();
             if($request->has('image')){
                 $name = '';
                 $res = UploadFile::uploadImage(
                     $request->file('image'),
-                    'news/',
+                    'kementrian/',
                     'A-'.Carbon::now()->format('Hisv'),
                     null,
                     function($new_name) use (&$name){
@@ -93,8 +90,8 @@ class NewsController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.news.edit', $n->id)
-            ->withSuccess('Berita berhasil dibuat');
+            ->route('backadmin.kementrian.edit', $n->id)
+            ->withSuccess('Kementrian berhasil dibuat');
     }
 
     /**
@@ -116,10 +113,10 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        $n = News::find($id);
-        return view('backadmin.news.form', [
-            'title' => 'Edit Berita',
-            'news' => $n,
+        $n = Kementrian::find($id);
+        return view('backadmin.Kementrian.form', [
+            'title' => 'Edit Kementrian',
+            'kementrian' => $n,
         ]);
     }
 
@@ -134,21 +131,20 @@ class NewsController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'slug' => ['required', 'max:255', 'unique:news,id,'.$id],
+            'content' => ['required', 'max:255'],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
-            'category_id' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-            $n = News::find($id);
-            $n->fill($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
+            $n = Kementrian::find($id);
+            $n->fill($request->only(['title', 'content', 'link', 'facebook', 'twitter', 'instagram']));
 
             $n->save();
             if($request->has('image')){
                 $name = '';
                 $res = UploadFile::uploadImage(
                     $request->file('image'),
-                    'news/',
+                    'kementrian/',
                     'A-'.Carbon::now()->format('Hisv'),
                     null,
                     function($new_name) use (&$name){
@@ -158,8 +154,8 @@ class NewsController extends Controller
                 if($res !== "All Process success"){
                     throw new Exception($res);
                 }
-                File::delete(storage_path('app/public/news/'.$n->image));
-                File::delete(storage_path('app/public/news/thumb_'.$n->image));
+                File::delete(storage_path('app/public/kementrian/'.$n->image));
+                File::delete(storage_path('app/public/kementrian/thumb_'.$n->image));
                 
                 $n->image = $name;
                 $n->save();
@@ -173,8 +169,8 @@ class NewsController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.news.edit', $n->id)
-            ->withSuccess('Berita berhasil diubah');
+            ->route('backadmin.kementrian.edit', $n->id)
+            ->withSuccess('Kementrian berhasil diubah');
     }
 
     /**
@@ -187,18 +183,18 @@ class NewsController extends Controller
     {
         try {
             DB::beginTransaction();
-            $n = News::find($id);
+            $n = Kementrian::find($id);
             
             if($n->image != null){
-                File::delete(storage_path('app/public/news/'.$n->image));
-                File::delete(storage_path('app/public/news/thumb_'.$n->image));
+                File::delete(storage_path('app/public/kementrian/'.$n->image));
+                File::delete(storage_path('app/public/kementrian/thumb_'.$n->image));
             }
             $n->delete();
             DB::commit();
 
             return redirect()
-                ->route('backadmin.news.index')
-                ->withSuccess('Berita berhasil dihapus');
+                ->route('backadmin.kementrian.index')
+                ->withSuccess('Kementrian berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();

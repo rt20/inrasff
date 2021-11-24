@@ -135,6 +135,9 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             'follow_up_issues' => BackAdmin\FollowUpIssueController::class,
             'follow_ups' => BackAdmin\FollowUpNotificationController::class,
             'news' => BackAdmin\NewsController::class,
+            'categories' => BackAdmin\CategoryController::class,
+            'faq' => BackAdmin\FAQController::class,
+            'kementrian' => BackAdmin\KementrianController::class,
             'risk_infos' => BackAdmin\RiskInfoController::class,
             'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,
@@ -154,6 +157,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::get('dangerous-category-level', [BackAdmin\DangerousCategoryLevelController::class, 'getS2Options'])->name('dangerous_category_level');
             Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Options'])->name('uom_result');
             Route::get('distribution-status', [BackAdmin\DistributionStatusController::class, 'getS2Options'])->name('distribution_status');
+            Route::get('category-news', [BackAdmin\CategoryController::class, 'getS2Options'])->name('category_news');
         });
 
         // Get select2 initial value
@@ -167,6 +171,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::get('dangerous-category-level', [BackAdmin\DangerousCategoryLevelController::class, 'getS2Init'])->name('dangerous_category_level');
             Route::get('uom-result', [BackAdmin\UomResultController::class, 'getS2Init'])->name('uom_result');
             Route::get('distribution-status', [BackAdmin\DistributionStatusController::class, 'getS2Init'])->name('distribution_status');
+            Route::get('category-news', [BackAdmin\CategoryController::class, 'getS2Init'])->name('category_news');
         });
 
         Route::prefix('datatables')->name('dt.')->group(function () {
