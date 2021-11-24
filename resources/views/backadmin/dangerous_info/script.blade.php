@@ -171,6 +171,8 @@
                         data: 'sampling_place',
                         defaultContent: '-'
                     },
+                    @if($dangerous->id)
+                    @if(in_array($dangerous->notification->status, ['open', 'draft']))
                     {
                         data: 'id',
                         className: 'text-center',
@@ -180,6 +182,8 @@
                             return `<a href="#" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
+                    @endif
+                    @endif
                 ],
                 order: [[0, 'desc']],
                 language: dtLangId

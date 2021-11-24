@@ -113,7 +113,7 @@
                         },
                 },
                 minimumInputLength:1,
-                placeholder: 'Masukkan Institusi Terkait',
+                placeholder: 'Masukkan Lembaga Terkait',
                 templateResult:function(data){
                     return data.loading ? 'Mencari...' : data.name; 
                 },

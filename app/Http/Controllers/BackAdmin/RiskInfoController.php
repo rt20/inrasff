@@ -223,13 +223,24 @@ class RiskInfoController extends Controller
         }
         try {
             DB::beginTransaction();
-            // $risk = RiskInfo::find($id);
+            $number = $riskInfo->notification->number;
+            $id = $riskInfo->notification->id;
             $riskInfo->delete();
             DB::commit();
 
-            return redirect()
-                ->route('backadmin.risk_infos.index')
-                ->withSuccess('Info Resiko berhasil dihapus');
+            if(str_contains($number, "IN.DS")){
+                return redirect()
+                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'dangerous_risks'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else  if(str_contains($number, "IN.US")){
+                return redirect()
+                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'dangerous_risks'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else{
+                return redirect()
+                    ->route('backadmin.dashboard')
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            }
 
         } catch (Exception $e) {
             DB::rollBack();

@@ -227,13 +227,24 @@ class BorderControlInfoController extends Controller
         }
         try {
             DB::beginTransaction();
-            // $border_control = BorderControlInfo::find($id);
+            $number = $borderControlInfo->notification->number;
+            $id = $borderControlInfo->notification->id;
             $borderControlInfo->delete();
             DB::commit();
 
-            return redirect()
-                ->route('backadmin.border_control_infos.index')
-                ->withSuccess('Info Kontrol Perbatasan berhasil dihapus');
+            if(str_contains($number, "IN.DS")){
+                return redirect()
+                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'border_controls'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else  if(str_contains($number, "IN.US")){
+                return redirect()
+                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'border_controls'])
+                ->withSuccess('Info Bahaya berhasil dihapus');
+            }else{
+                return redirect()
+                    ->route('backadmin.dashboard')
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            }
 
         } catch (Exception $e) {
             DB::rollBack();

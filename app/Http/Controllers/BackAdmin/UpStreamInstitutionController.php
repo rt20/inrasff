@@ -54,7 +54,7 @@ class UpStreamInstitutionController extends Controller
             ]));
             $dsi->write = $request->write==="true" ? true : false;
             $dsi->save();
-
+              
             if($dsi->write){
                 $users = $dsi->institution->users;
                 foreach ($users as $i => $user) {

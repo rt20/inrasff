@@ -33,7 +33,7 @@
                 <div class="modal-content">
                         <div class="modal-header">
                             <h4 v-show="attachmentModal.state !== 'delete'" class="modal-title" id="modalAttachment">Tambah Lampiran</h4>
-                            <h4 v-show="attachmentModal.state === 'delete'" class="modal-title" id="modalAttachment">Hapus Lampiran</h4>
+                            <h4 v-show="attachmentModal.state === 'delete'" class="modal-title" id="modalAttachment">Konfirmasi</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
