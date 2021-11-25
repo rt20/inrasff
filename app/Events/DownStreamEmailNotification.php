@@ -10,7 +10,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-use App\Models\DownStreamUserAccess;
+// use App\Models\DownStreamUserAccess;
+use App\Models\User;
+use App\Models\DownStreamNotification;
 
 class DownStreamEmailNotification
 {
@@ -21,11 +23,14 @@ class DownStreamEmailNotification
      *
      * @return void
      */
-    public $user_access;
+    // public $user_access;
+    public $user;
+    public $downstream;
 
-    public function __construct(DownStreamUserAccess $user_access)
+    public function __construct(DownStreamNotification $downstream, User $user)
     {
-        $this->user_access = $user_access;
+        $this->user = $user;
+        $this->downstream = $downstream;
     }
 
     /**

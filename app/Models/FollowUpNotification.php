@@ -38,4 +38,14 @@ class FollowUpNotification extends Model
     {
         return $this->hasMany(FollowUpNotificationAttachment::class, 'fun_id', 'id');
     }
+
+    /**
+     * Get all of the institutionFollowUp for the FollowUpNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function followUpInstitution()
+    {
+        return $this->hasMany(FollowUpInstitution::class, 'fun_id', 'id');
+    }
 }

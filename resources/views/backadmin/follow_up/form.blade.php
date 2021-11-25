@@ -44,8 +44,10 @@ href="{{
         <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process"><i class="mr-75" data-feather="settings"></i>Proses</a>
         @endif
         @if (in_array($follow_up->status, ['on process']))
+        @can('accept follow_up')
         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal-accept"><i class="mr-75" data-feather="check"></i>Setujui</a>
-        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modal-reject"><i class="mr-75" data-feather="x"></i>Tolak</a>
+        @endcan
+        {{-- <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modal-reject"><i class="mr-75" data-feather="x"></i>Tolak</a> --}}
         @endif
         {{-- @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
         <a href="#" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
@@ -137,7 +139,7 @@ href="{{
                             
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <label for="title" class="form-label required">Pengguna Notifikasi Terkait</label>                                
+                                    <label for="title" class="form-label required">Lembaga Notifikasi Terkait</label>                                
                                     @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                                     <button type="button" v-on:click="openUserFuModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
                                     @endif
@@ -145,10 +147,10 @@ href="{{
                                 <table id="table-user-follow-up" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Nama Lengkap</th>
+                                            {{-- <th>Nama Lengkap</th> --}}
                                             <th>Lembaga</th>
-                                            <th>Penanggung Jawab</th>
-                                            <th>Tipe</th>
+                                            {{-- <th>Penanggung Jawab</th> --}}
+                                            {{-- <th>Tipe</th> --}}
                                             @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                                             <th class="bi-table-col-action-1">Aksi</th>
                                             @endif
@@ -348,8 +350,8 @@ href="{{
                         <p>Apakah Anda Yakin Akan Mengajukan Tindak Lanjut ini?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Ajukan</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Ajukan</button>
                     </div>
                 </form>
             </div>
@@ -371,8 +373,8 @@ href="{{
                         <p>Apakah Anda Yakin Akan Menyetujui Tindak Lanjut ini?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Setujui</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Setujui</button>
                     </div>
                 </form>
             </div>
@@ -489,20 +491,23 @@ href="{{
                 serverSide: true,
                 processing: true,
                 columns: [
+                    // { 
+                    //     data: 'user.fullname' ,
+                    // },
+                    // { 
+                    //     data: 'user.institution.name' ,
+                    // },
                     { 
-                        data: 'user.fullname' ,
+                        data: 'institution.name' ,
                     },
-                    { 
-                        data: 'user.institution.name' ,
-                    },
-                    { 
-                        data: 'user.responsible_name' ,
-                    },
-                    { 
-                        data: 'user.role_name_label' ,
-                        orderable: false,
-                        searchable: false, 
-                    },
+                    // { 
+                    //     data: 'user.responsible_name' ,
+                    // },
+                    // { 
+                    //     data: 'user.role_name_label' ,
+                    //     orderable: false,
+                    //     searchable: false, 
+                    // },
                     @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
                     {
                         data: 'id',

@@ -9,7 +9,9 @@
 @endsection
 
 @section('actions')
+@can('store notification')
 <a href="{{ route('backadmin.notifications.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Notifikasi</a>
+@endcan
 @endsection
 
 @section('content')

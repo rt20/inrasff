@@ -209,6 +209,29 @@ class NotificationController extends Controller
             $notification->setStatus('processed', 'Diproses untuk Upstream '.$upstream->number);
             $notification->update();
 
+            switch ($request->user->type) {
+                case 'ccp':
+                    $upstream->upstreamInstitution()->create([
+                        'institution_id' => $request->user->institution->id,
+                        'write' => true
+                    ]);
+                    break;
+                case 'lccp':
+                    $r = $upstream->upstreamInstitution()->create([
+                        'institution_id' => $request->user->institution->id,
+                        'write' => true
+                    ]);
+                    $i = $upstream->upstreamInstitution()->create([
+                        'institution_id' => $request->user->institution->parent_id,
+                        'write' => true
+                    ]);
+                    # code...
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+
             DB::commit();
 
             return redirect()
