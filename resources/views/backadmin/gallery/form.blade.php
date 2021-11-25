@@ -1,25 +1,22 @@
 @extends('backadmin.layouts.master')
 
 @section('vendor-css')
-<link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
-<link rel="stylesheet" href="{{ asset('backadmin/vendors/summernote/summernote.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.categories.index') }}">Kategori Berita</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.galleries.index') }}">Galeri</a></li>
 @endsection
 
 @section('actions')
-    <button type="submit" form="form-main" formaction="{{ $category->id ? route('backadmin.categories.update', $category->id) : route('backadmin.categories.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    <button type="submit" form="form-main" formaction="{{ $gallery->id ? route('backadmin.galleries.update', $gallery->id) : route('backadmin.galleries.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
     <div class="btn-group">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
         </button>    
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
-            <a href="{{route('backadmin.categories.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-            @if ($category->id)
+            <a href="{{route('backadmin.galleries.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+            @if ($gallery->id)
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
             @endif
         </div>
@@ -33,7 +30,7 @@
             <div id="app">
                 <form id="form-main" method="post" enctype="multipart/form-data">
                     @csrf
-                    @if ($category->id)
+                    @if ($gallery->id)
                         @method('PUT')
                     @endif
                     <section class="bi-form-main">
@@ -44,28 +41,29 @@
                         <div class="row">
                             
                             <div class="col-12 col-md-12 form-group">
-                                <label for="name" class="form-label required">Nama</label>
+                                <label for="title" class="form-label required">Judul</label>
                                 <input type="text" 
-                                    name="name"
-                                    v-model="category.name" 
-                                    class="form-control @error('name') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Nama" autocomplete="off">
-                                @error('name')
-                                    <small class="text-danger">{{ $errors->first('name') }}</small>
+                                    name="title"
+                                    v-model="gallery.title" 
+                                    class="form-control @error('title') {{ 'is-invalid' }} @enderror" 
+                                    placeholder="Masukkan Judul" autocomplete="off">
+                                @error('title')
+                                    <small class="text-danger">{{ $errors->first('title') }}</small>
                                 @enderror
                             </div>
 
                             <div class="col-12 col-md-12 form-group">
-                                <label for="excerpt" class="form-label required">Deskripsi</label>
-                                <textarea
-                                    type="text" 
-                                    name="description"
-                                    class="form-control @error('description') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Deskripsi" autocomplete="off">{{old()? old('description') : ($category->description??'')}}</textarea>
-                                @error('description')
-                                    <small class="text-danger">{{ $errors->first('description') }}</small>
+                                <label for="image" class="form-label required">Gambar</label>
+                                <input 
+                                    data-default-file="{{$gallery->getImage()}}"
+                                    type="file" 
+                                    name="image"
+                                    class="form-control @error('image') {{ 'is-invalid' }} @enderror dropify" 
+                                    placeholder="Masukkan gambar" autocomplete="off">
+                                @error('image')
+                                    <small class="text-danger">{{ $errors->first('image') }}</small>
                                 @enderror
-                            </div>
+                            </div><!-- .col-md-6.form-group -->
 
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
@@ -77,11 +75,11 @@
 @endsection
 
 @push('modal')
-    @if ($category->id)
+    @if ($gallery->id)
     <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modalDelete" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{{ route('backadmin.categories.destroy', $category->id) }}" method="POST">
+                <form action="{{ route('backadmin.galleries.destroy', $gallery->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="modal-header">
@@ -91,7 +89,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah Anda yakin akan menghapus Kategori Berita ini?</p>
+                        <p>Apakah Anda yakin akan menghapus Gambar ini?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-outline-primary">Ya, Hapus</button>
@@ -105,11 +103,8 @@
 @endpush
 
 @section('vendor-js')
-    <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
-    <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
-    <script src="{{ asset('backadmin/vendors/summernote/summernote.min.js') }}"></script>
-    <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
 @endsection
 
@@ -119,7 +114,7 @@
     let form = Vue.createApp({
         data() {
             return {
-                category: {
+                gallery: {
                 },
                 availableTabs: [],
                 activeTab: null
@@ -127,17 +122,17 @@
         },
         created() {
             old = {!! json_encode(old()) !!};
-            category = {!! json_encode($category) !!};
-            console.log(category)
-            this.category = {
-                name: old.name ?? category.name ?? '',
-                description: old.description ?? category.description ?? '',
+            gallery = {!! json_encode($gallery) !!};
+            console.log(gallery)
+            this.gallery = {
+                title: old.title ?? gallery.title ?? '',
+                // image: old.image ?? gallery.image ?? '',
             }
 
             console.log(this.category)
         },
         mounted() {
-            //
+            $('.dropify').dropify();
         },
         computed: {
 

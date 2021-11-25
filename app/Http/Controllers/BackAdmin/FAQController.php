@@ -61,6 +61,7 @@ class FAQController extends Controller
         try {
             DB::beginTransaction();
             $n = FAQ::create($request->only(['question', 'answer']));
+            $n->save();
             DB::commit();
             
         } catch (Exception $e) {
@@ -110,7 +111,8 @@ class FAQController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'max:255'],
+            'question' => ['required', 'max:255'],
+            'answer' => ['required'],
         ]);
         try {
             DB::beginTransaction();

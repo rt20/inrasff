@@ -5,11 +5,11 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.kementrian.index') }}">Kementerian</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.galleries.index') }}">Galeri</a></li>
 @endsection
 
 @section('actions')
-<a href="{{ route('backadmin.kementrian.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Kementerian</a>
+<a href="{{ route('backadmin.galleries.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Galeri</a>
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>Judul</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>
@@ -40,12 +40,12 @@
 {{-- <script src="{{ asset('backadmin/app/js/helper.js') }}"></script> --}}
 <script>
     $(document).ready(function() {
-        let url = "{{ route('backadmin.kementrian.edit', '__id') }}";
+        let url = "{{ route('backadmin.galleries.edit', '__id') }}";
         let icon = feather.icons['edit-2'].toSvg();
 
         let table = $('#table').DataTable({
             ajax: {
-                url: "{{ route('backadmin.kementrian.index') }}",
+                url: "{{ route('backadmin.galleries.index') }}",
             },
             serverSide: true,
             processing: true,

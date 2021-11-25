@@ -57,7 +57,7 @@
                                     type="text" 
                                     name="answer"
                                     class="form-control @error('answer') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan answer" autocomplete="off">{{old()? old('answer') : ($faq->answer??'')}}</textarea>
+                                    placeholder="Masukkan Jawaban" autocomplete="off">{{old()? old('answer') : ($faq->answer??'')}}</textarea>
                                 @error('answer')
                                     <small class="text-danger">{{ $errors->first('answer') }}</small>
                                 @enderror

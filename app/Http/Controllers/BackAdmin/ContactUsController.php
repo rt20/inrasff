@@ -4,7 +4,7 @@ namespace App\Http\Controllers\BackAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\ContactUs;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 use UploadFile;
 use Carbon\Carbon;
 
-class CategoryController extends Controller
+class ContactUsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +24,12 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $n = Category::all();
+            $n = ContactUs::all();
             return DataTables::of($n)->make();
         }
 
-        return view('backadmin.category.index')->with([
-            'title' => 'Kategori Berita'
+        return view('backadmin.contactus.index')->with([
+            'title' => 'Hubungi Kami'
         ]);
     }
 
@@ -40,10 +40,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('backadmin.category.form', [
-            'title' => 'Tambah Kategori Berita',
-            'category' => new Category,
-        ]);
+        //
     }
 
     /**
@@ -54,24 +51,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'max:255'],
-            // 'category_id' => ['required'],
-        ]);
-        try {
-            DB::beginTransaction();
-            $n = Category::create($request->only(['name', 'description']));
-            DB::commit();
-            
-        } catch (Exception $e) {
-            DB::rollback();
-            report($e);
-            return redirect()->back()->withInput()->withError($e->getMessage());
-
-        }
-        return redirect()
-            ->route('backadmin.categories.edit', $n->id)
-            ->withSuccess('Kategori berhasil dibuat');
+        //
     }
 
     /**
@@ -93,10 +73,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $c = Category::find($id);
-        return view('backadmin.category.form', [
-            'title' => 'Edit Kategori Berita',
-            'category' => $c,
+        $c = ContactUs::find($id);
+        return view('backadmin.contactus.form', [
+            'title' => 'Lihat Hubungi Kami',
+            'contactus' => $c,
         ]);
     }
 
@@ -110,12 +90,12 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'max:255'],
+            'status' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-            $n = Category::find($id);
-            $n->fill($request->only(['name', 'description']));
+            $n = ContactUs::find($id);
+            $n->fill($request->only(['status']));
             $n->save();
             DB::commit();
             
@@ -126,8 +106,8 @@ class CategoryController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.categories.edit', $n->id)
-            ->withSuccess('Kategori berhasil diubah');
+            ->route('backadmin.contactus.edit', $n->id)
+            ->withSuccess('Status berhasil diubah');
     }
 
     /**
@@ -140,13 +120,13 @@ class CategoryController extends Controller
     {
         try {
             DB::beginTransaction();
-            $n = Category::find($id);
+            $n = ContactUs::find($id);
             $n->delete();
             DB::commit();
 
             return redirect()
-                ->route('backadmin.categories.index')
-                ->withSuccess('Kategori berhasil dihapus');
+                ->route('backadmin.contactus.index')
+                ->withSuccess('Pesan berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -154,21 +134,5 @@ class CategoryController extends Controller
 
             return redirect()->back()->withError($e->getMessage());
         }
-    }
-
-    function getS2Options(Request $request) {
-        $term = $request->q;
-        $query = Category::select(['id','name'])
-            ->where(function($q) use ($term) {
-                $q->where('name', 'like', '%' . $term . '%');
-            });
-        return $query->get();
-    }
-
-    function getS2Init(Request $request){
-        $query =  Category::select(['id', 'name'])
-            ->where('id', $request->id);
-
-        return $query->first();
     }
 }

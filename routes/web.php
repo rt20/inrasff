@@ -18,28 +18,29 @@ use App\Http\Controllers as Controller;
 
 
 // FRONTEND
-Route::get('/', [FrontController::class, 'home'])->name('home');
-Route::get('/news', [FrontController::class, 'news'])->name('news');
-Route::get('/news/{slug}', [FrontController::class, 'newsDetail'])->name('news_detail');
-Route::get('/kementrian', [FrontController::class, 'kementrian'])->name('kementrian');
-Route::get('/aboutus', [FrontController::class, 'aboutus'])->name('aboutus');
-Route::get('/logical', [FrontController::class, 'logical'])->name('logical');
-Route::get('/baganalir', [FrontController::class, 'baganalir'])->name('baganalir');
-Route::get('/contactus', [FrontController::class, 'contactus'])->name('contactus');
+Route::middleware('anti-script-middleware')->group(function() {
+    Route::get('/', [FrontController::class, 'home'])->name('home');
+    Route::get('/news', [FrontController::class, 'news'])->name('news');
+    Route::get('/news/{slug}', [FrontController::class, 'newsDetail'])->name('news_detail');
+    Route::get('/kementrian', [FrontController::class, 'kementrian'])->name('kementrian');
+    Route::get('/aboutus', [FrontController::class, 'aboutus'])->name('aboutus');
+    Route::get('/logical', [FrontController::class, 'logical'])->name('logical');
+    Route::get('/baganalir', [FrontController::class, 'baganalir'])->name('baganalir');
+    Route::get('/contactus', [FrontController::class, 'contactus'])->name('contactus');
 
-Route::get('/login', function(){
-    return redirect()->route('backadmin.auth.index');
+    Route::get('/login', function(){
+        return redirect()->route('backadmin.auth.index');
+    });
+
+    Route::get('/session', function(){
+        return auth()->user();
+    });
+
+    Route::get('/mail', [Controller\TestController::class, 'mail']);
+    Route::get('/send-mail', [Controller\TestController::class, 'sendMail']);
 });
 
-Route::get('/session', function(){
-    return auth()->user();
-});
-
-Route::get('/mail', [Controller\TestController::class, 'mail']);
-Route::get('/send-mail', [Controller\TestController::class, 'sendMail']);
 // BACKEND
-
-
 Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmin.')->group(function() {
     
     Route::middleware('guest')->group(function () {
@@ -138,6 +139,8 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             'categories' => BackAdmin\CategoryController::class,
             'faq' => BackAdmin\FAQController::class,
             'kementrian' => BackAdmin\KementrianController::class,
+            'contactus' => BackAdmin\ContactUsController::class,
+            'galleries' => BackAdmin\GalleryController::class,
             'risk_infos' => BackAdmin\RiskInfoController::class,
             'traceability_lot_infos' => BackAdmin\TraceabilityLotInfoController::class,
             'sliders' => BackAdmin\SliderController::class,

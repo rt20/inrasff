@@ -34,9 +34,9 @@
                     <img src="{{ asset('images/logo_little_white.png') }}" class="h-12" style="filter: drop-shadow(1px 1px .5px black);" />
                 </a>
                 <div class="flex items-center">
-                    <form method="GET">
+                    <form method="GET" action="{{ route('news') }}">
                         <div class="relative text-gray-600 focus-within:text-gray-400">
-                            <input type="search" name="" class="py-2 text-sm text-white bg-white rounded-full pr-10 pl-5 focus:outline-none focus:bg-gray-100 focus:text-gray-900 border border-gray-300 " placeholder="Search" autocomplete="off">
+                            <input type="search" name="search" class="py-2 text-sm text-white bg-white rounded-full pr-10 pl-5 focus:outline-none focus:bg-gray-100 focus:text-gray-900 border border-gray-300 " placeholder="Search" autocomplete="off">
                             <span class="absolute inset-y-0 right-0 flex items-center pr-2">
                                 <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
                                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -65,7 +65,7 @@
                 <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false }">
                     <a href="{{ route('home') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Home</a>
                     <a href="{{ route('news') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>
-                    <a href="{{ route('kementrian') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementrian</a>
+                    <a href="{{ route('kementrian') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementerian</a>
                     {{-- <a href="{{ route('aboutus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Tentang Kami</a> --}}
                     <div @click="showAbout = true; showBisnis = false" href="javascript:void(0)" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">
                         <span class="cursor-pointer relative" @click.away="showAbout = false">
@@ -104,7 +104,7 @@
             <div class="w-full text-primary mt-8 h-full">
                 <a href="{{ route('home') }}" class="block py-3 transition duration-300 uppercase font-bold">Home</a>
                 <a href="{{ route('news') }}" class="block py-3 transition duration-300 uppercase font-bold">Berita</a>
-                <a href="{{ route('kementrian') }}" class="block py-3 transition duration-300 uppercase font-bold">Kementrian</a>
+                <a href="{{ route('kementrian') }}" class="block py-3 transition duration-300 uppercase font-bold">Kementerian</a>
                 <a href="{{ route('aboutus') }}" class="block py-3 transition duration-300 uppercase font-bold">Tentang Kami</a>
                 <a href="{{ route('baganalir') }}" class="block py-3 transition duration-300 uppercase font-bold">Bagan Alir Penerapan INRASFF</a>
                 <a href="{{ route('logical') }}" class="block py-3 transition duration-300 uppercase font-bold">Logical Framework INRASFF</a>
