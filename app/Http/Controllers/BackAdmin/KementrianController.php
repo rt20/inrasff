@@ -115,7 +115,7 @@ class KementrianController extends Controller
     public function edit($id)
     {
         $n = Kementrian::find($id);
-        return view('backadmin.Kementrian.form', [
+        return view('backadmin.kementrian.form', [
             'title' => 'Edit Kementerian',
             'kementrian' => $n,
         ]);
