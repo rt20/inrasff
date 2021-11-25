@@ -71,6 +71,28 @@
 
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="text-xl font-bold mb-8">Frequently Asked Questions</div>
+	@if($faq->count() > 0)
+		@foreach($faq as $data)
+			<div x-data={show:false}>
+				<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
+					@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
+					<div class="font-semibold text-base lg:text-lg">
+						{{ $data->question }}
+					</div>
+					<div class="font-semibold text-base lg:text-lg mx-3">
+						
+						<svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>
+
+						<svg x-show="!show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>
+					
+					</div>
+				</div> 
+				<div x-show="show" class="border-b text-sm lg:text-base border-gray-200 pb-4 leading-normal">
+					{{ $data->answer }}
+				</div>
+			</div>
+		@endforeach
+	@else
 	<div x-data={show:false}>
 		<div class="flex justify-between items-center mb-5 py-4 border-b border-gray-200 leading-normal cursor-pointer" 
 			@click="show = !show" :aria-expanded="show ? 'true' : 'false'" :class="{ 'border-b': !show }">
@@ -179,6 +201,7 @@
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed imperdiet libero id nisi euismod, sed porta est consectetur. Vestibulum auctor felis eget orci semper vestibulum. Pellentesque ultricies nibh gravida, accumsan libero luctus, molestie nunc.L orem ipsum dolor sit amet, consectetur adipiscing elit.
 		</div>
 	</div>
+	@endif
 </section>
 @endsection
 

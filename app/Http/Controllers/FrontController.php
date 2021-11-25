@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\Kementrian;
+use App\Models\FAQ;
 
 class FrontController extends Controller
 {
@@ -73,6 +74,8 @@ class FrontController extends Controller
 
     public function contactus()
     {
-    	return view('front.contactus');
+        $faq = FAQ::get();
+
+    	return view('front.contactus', compact('faq'));
     }
 }
