@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="col-12 col-md-12 form-group">
-                                <label for="image" class="form-label">Gambar</label>
+                                <label for="image" class="form-label required">Gambar</label>
                                 <input 
                                     data-default-file="{{$gallery->getImage()}}"
                                     type="file" 
