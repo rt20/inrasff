@@ -28,6 +28,8 @@ Route::middleware('anti-script-middleware')->group(function() {
     Route::get('/baganalir', [FrontController::class, 'baganalir'])->name('baganalir');
     Route::get('/contactus', [FrontController::class, 'contactus'])->name('contactus');
 
+    Route::post('/contactus/submit', [FrontController::class, 'contactusSubmit'])->name('contactus.submit');
+
     Route::get('/login', function(){
         return redirect()->route('backadmin.auth.index');
     });

@@ -9,6 +9,9 @@ use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\Kementrian;
 use App\Models\FAQ;
+use App\Models\ContactUs;
+
+use DB;
 
 class FrontController extends Controller
 {
@@ -77,5 +80,27 @@ class FrontController extends Controller
         $faq = FAQ::get();
 
     	return view('front.contactus', compact('faq'));
+    }
+
+    public function contactusSubmit(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'max:255'],
+            'message' => ['required'],
+        ]);
+        try {
+            DB::beginTransaction();
+            $n = ContactUs::make($request->only(['name', 'email', 'message']));
+            $n->save();
+            DB::commit();
+            
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->withError($e->getMessage());
+
+        }
+        return redirect()->route('contactus')->withSuccess('Pesan berhasil dikirim!');
     }
 }
