@@ -350,8 +350,8 @@ href="{{
                         <p>Apakah Anda Yakin Akan Mengajukan Tindak Lanjut ini?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Ajukan</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Ajukan</button>
                     </div>
                 </form>
             </div>
@@ -373,8 +373,8 @@ href="{{
                         <p>Apakah Anda Yakin Akan Menyetujui Tindak Lanjut ini?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Setujui</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Setujui</button>
                     </div>
                 </form>
             </div>

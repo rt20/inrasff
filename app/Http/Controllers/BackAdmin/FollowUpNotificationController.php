@@ -226,8 +226,14 @@ class FollowUpNotificationController extends Controller
         
         try {
             DB::beginTransaction();
+                if($followUp->followUpInstitution()->count() < 1){
+                    throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);
+                    
+                }
                 $followUp->isStatus('draft');
                 $followUp->setStatus('on process', 'Diajukan ');
+                if(auth()->user()->type !== 'lccp')
+                    $followUp->setStatus('accepted', 'Disetujui ');
                 $followUp->update();
             DB::commit();
             
