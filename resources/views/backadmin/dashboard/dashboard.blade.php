@@ -54,7 +54,7 @@
                         <div class="text-center">
                             <h1 class="mb-1 text-white">Dashboard</h1>
                             <p class="card-text m-auto w-75">
-                                Rangkuman Data INRASFF
+                                Rangkuman Data INRASFF Periode {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
                             </p>
                         </div>
                     </div>
@@ -68,11 +68,11 @@
                     <div class="card-header flex-column align-items-start pb-0">
                         <div class="avatar bg-light-primary p-50 m-0">
                             <div class="avatar-content">
-                                <i data-feather="navigation" class="font-medium-5"></i>
+                                <i data-feather="download-cloud" class="font-medium-5"></i>
                             </div>
                         </div>
-                        <h2 class="font-weight-bolder mt-1">92.2K</h2>
-                        <p class="card-text">Isu Nasional</p>
+                        <h2 class="font-weight-bolder mt-1" v-cloak>@{{stringFormatNumber(downstream_month)}}</h2>
+                        <p class="card-text">Notifikasi Downstream</p>
                     </div>
                     <div id="gained-chart"></div>
                 </div>
@@ -85,11 +85,11 @@
                     <div class="card-header flex-column align-items-start pb-0">
                         <div class="avatar bg-light-warning p-50 m-0">
                             <div class="avatar-content">
-                                <i data-feather="globe" class="font-medium-5"></i>
+                                <i data-feather="upload-cloud" class="font-medium-5"></i>
                             </div>
                         </div>
                         <h2 class="font-weight-bolder mt-1">38.5K</h2>
-                        <p class="card-text">Isu Internasional</p>
+                        <p class="card-text">Notifikasi Upstream</p>
                     </div>
                     <div id="order-chart"></div>
                 </div>
@@ -105,11 +105,11 @@
                             <div
                                 class="col-sm-6 col-12 d-flex justify-content-between flex-column order-sm-1 order-2 mt-1 mt-sm-0">
                                 <div class="mb-1 mb-sm-0">
-                                    <h2 class="font-weight-bolder mb-25">2.7K</h2>
-                                    <p class="card-text font-weight-bold mb-2">Rata-rata Isu</p>
+                                    <h2 class="font-weight-bolder mb-25">Statistik</h2>
+                                    <p class="card-text font-weight-bold mb-2">Notifikasi Downstream</p>
                                     <div class="font-medium-2">
-                                        <span class="text-success mr-25">+5.2%</span>
-                                        <span>vs Agustus 2021</span>
+                                        <span v-bind:class="{ 'text-danger':downstream_diff_last_month<0, 'text-success':downstream_diff_last_month>0}" class="text-success mr-25">@{{downstream_diff_last_month}}%</span>
+                                        <span>vs {{$last_month}}</span>
                                     </div>
                                 </div>
                                 <button type="button" class="btn btn-primary">Selengkapnya</button>
@@ -122,12 +122,6 @@
                                         aria-expanded="false">
                                         {{date('F Y')}}
                                     </button>
-                                    {{-- <div class="dropdown-menu dropdown-menu-right"
-                                        aria-labelledby="dropdownItem5">
-                                        <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                                    </div> --}}
                                 </div>
                                 <div id="avg-sessions-chart"></div>
                             </div>
@@ -135,31 +129,31 @@
                         <hr />
                         <div class="row avg-sessions pt-50">
                             <div class="col-6 mb-2">
-                                <p class="mb-50">Kesehatan: 100.000 <span class="text-danger mr-25">( -50.2%)</span></p>
-                                <div class="progress progress-bar-primary" style="height: 6px">
+                                <p class="mb-50">Draft: {{ isset($downstream_status['draft']) ? $downstream_status['draft'][0]->total : 0 }}</p>
+                                <div class="progress progress-bar-info" style="height: 6px">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                                        aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
+                                        aria-valuemin="50" aria-valuemax="100" style="width: {{ isset($downstream_status['draft']) ? 100* $downstream_status['draft'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
                             <div class="col-6 mb-2">
-                                <p class="mb-50">Pangan: 123.020 <span class="text-success mr-25">( 10.2%)</span></p>
-                                <div class="progress progress-bar-warning" style="height: 6px">
+                                <p class="mb-50">Dibuka: {{ isset($downstream_status['open']) ? $downstream_status['open'][0]->total : 0 }}</p>
+                                <div class="progress progress-bar-info" style="height: 6px">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="60"
-                                        aria-valuemin="60" aria-valuemax="100" style="width: 60%"></div>
+                                        aria-valuemin="60" aria-valuemax="100" style="width: {{ isset($downstream_status['open']) ? 100* $downstream_status['open'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <p class="mb-50">Obat-obatan: 349.120</p>
-                                <div class="progress progress-bar-danger" style="height: 6px">
+                                <p class="mb-50">Proses CCP: {{ isset($downstream_status['ccp process']) ? $downstream_status['ccp process'][0]->total : 0 }}</p>
+                                <div class="progress progress-bar-warning" style="height: 6px">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                                        aria-valuemin="70" aria-valuemax="100" style="width: 70%"></div>
+                                        aria-valuemin="70" aria-valuemax="100" style="width: {{ isset($downstream_status['ccp process']) ? 100* $downstream_status['ccp process'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <p class="mb-50">Lainnya: 802.000</p>
+                                <p class="mb-50">Selesai: {{ isset($downstream_status['done']) ? $downstream_status['done'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-success" style="height: 6px">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="90"
-                                        aria-valuemin="90" aria-valuemax="100" style="width: 90%"></div>
+                                        aria-valuemin="90" aria-valuemax="100" style="width: {{ isset($downstream_status['done']) ? 100* $downstream_status['done'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
                         </div>
@@ -220,7 +214,9 @@
 @endsection
 
 @section('vendor-js')
+<script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
 <script src="{{ asset('backadmin/theme/vendors/js/charts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
 @endsection
 
 @push('page-js')
