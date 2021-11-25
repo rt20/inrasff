@@ -47,16 +47,20 @@
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.dashboard') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Home">Dashboard</span></a>
             </li>
-
+            @can('view data')
             <li class=" navigation-header"><span data-i18n="Data &amp; Data">Data</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
+            @endcan
             
             @can('view notification')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.notifications') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.notifications.index') }}"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="bell">Notifikasi</span></a>
             </li>
             @endcan
-
+            
+            @can('view bussiness_process')
             <li class=" navigation-header"><span data-i18n="Proses Bisnis &amp; Data">Proses Bisnis</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
+            @endcan
+
             @can('view all downstream')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.downstreams') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.downstreams.index') }}"><i data-feather="download-cloud"></i><span class="menu-title text-truncate" data-i18n="download-cloud">Down Stream</span></a>
@@ -69,8 +73,10 @@
             </li>
             @endcan
 
+            @can('view front_end')
             <li class=" navigation-header"><span data-i18n="Front End &amp; Data">Front End</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
-
+            @endcan 
+            
             @can('view categories')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.categories') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('backadmin.categories.index') }}"><i data-feather="inbox"></i><span class="menu-title text-truncate" data-i18n="Category">Kategori Berita</span></a>
@@ -113,7 +119,9 @@
             </li>
             @endcan
 
+            @can('view master_data')
             <li class=" navigation-header"><span data-i18n="Master Data &amp; Data">Master Data</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
+            @endcan
 
             @can('view user')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.users') ? 'active' : '' }}">

@@ -28,25 +28,20 @@ class SendDownStreamNotification implements ShouldQueue
      */
     public function handle($event)
     {
-        // $user_access = $event->user_access;
-        // $user = $event->user_access->user;
         $downstream = $event->downstream;
-        $dsi = $event->dsi;
-        // $dsInstitutions = $downstream->downstreamInstitution;
+        $user = $event->user;
 
-        foreach ($dsi->institution->users as $i => $user) {
-            Mail::to($user->email)
+        Mail::to($user->email)
                 ->send(new DownStreamNotificationMail($downstream, $user));
-        }
-        // foreach ($dsInstitutions as $i => $dsInstitution) {
-        //     if($dsInstitution->status === 'draft'){
-        //         $dsInstitution->status = 'assigned';
-        //         $dsInstitution->save();
-        //         foreach ($dsInstitution->institution->users as $k => $user) {
-        //                 Mail::to($user->email)
-        //                 ->send(new DownStreamNotificationMail($downstream, $user));
-        //         }
-        //     }
+
+
+
+        // $downstream = $event->downstream;
+        // $dsi = $event->dsi;
+
+        // foreach ($dsi->institution->users as $i => $user) {
+        //     Mail::to($user->email)
+        //         ->send(new DownStreamNotificationMail($downstream, $user));
         // }
 
         

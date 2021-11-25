@@ -238,12 +238,12 @@ class UpStreamNotificationController extends Controller
                 }
                 $upstream->update();
                 // return $upstream->upstreamInstitution[0]->institution->users;
-                $upstream->upstreamInstitution()->update([
-                    'status' => 'assigned'
-                ]);
-                foreach ($upstream->upstreamInstitution as $i => $institution) {
-                    //Send Email 
-                }
+                // $upstream->upstreamInstitution()->update([
+                //     'status' => 'assigned'
+                // ]);
+                // foreach ($upstream->upstreamInstitution as $i => $institution) {
+                //     //Send Email 
+                // }
            
             DB::commit();
             

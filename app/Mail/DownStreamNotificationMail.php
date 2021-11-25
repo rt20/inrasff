@@ -9,32 +9,35 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Models\User;
 use App\Models\DownStreamNotification;
+// use App\Models\DownStreamUserAccess;
 
 class DownStreamNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    // public $user_access;
-    public $downstream;
     public $user;
+    public $downstream;
+
+    // public $user;
     public $title;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    // public function __construct(DownStreamUserAccess $user_access)
-    // {
-    //     $this->user_access = $user_access;
-    //     $this->title = $user_access->downstream->number;
-    // }
-
     public function __construct(DownStreamNotification $downstream, User $user)
     {
-        $this->user =  $user;
+        $this->user = $user;
         $this->downstream = $downstream;
         $this->title = $downstream->number;
     }
+
+    // public function __construct(DownStreamNotification $downstream, User $user)
+    // {
+    //     $this->user =  $user;
+    //     $this->downstream = $downstream;
+    //     $this->title = $downstream->number;
+    // }
 
     /**
      * Build the message.

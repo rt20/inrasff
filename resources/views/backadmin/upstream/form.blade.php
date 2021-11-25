@@ -23,9 +23,12 @@
 
 @section('actions')
     @if (!in_array($upstream->status, ['ext process', 'done']))
-    @can('store upstream')
-    <button type="submit" form="form-main" formaction="{{ $upstream->id ? route('backadmin.upstreams.update', $upstream->id) : route('backadmin.upstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
-    @endcan
+        @can('store upstream')
+
+        {{-- @if($upstream->author_id == auth()->user()->id) --}}
+        <button type="submit" form="form-main" formaction="{{ $upstream->id ? route('backadmin.upstreams.update', $upstream->id) : route('backadmin.upstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        {{-- @endif --}}
+        @endcan
     @endif
     @if ($upstream->id)
         @if (in_array($upstream->status, ['open']))
@@ -41,7 +44,9 @@
                 <a href="{{route('backadmin.upstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
                 @if (!in_array($upstream->status, ['done']))
                     @can('delete upstream')
+                    @if($upstream->author_id == auth()->user()->id)
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endif
                     @endcan
                 @endif
             </div>
@@ -266,9 +271,15 @@
 <script>
     $(document).ready(function(){
         console.log('ready log section form')
-        @if (in_array($upstream->status, [/*'ext process', */'done']))
+        @if (in_array($upstream->status, ['done']))
             $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
             $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+        @elseif($upstream->id)
+            @if($upstream->author_id != auth()->user()->id)
+                $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
+                $('.read-only-white').removeClass('read-only-white')
+                $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+            @endif
         @endif
     })
 </script>

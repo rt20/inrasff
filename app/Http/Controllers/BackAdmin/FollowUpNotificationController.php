@@ -8,7 +8,8 @@ use App\Models\DownStreamNotification;
 use App\Models\UpStreamNotification;
 use App\Models\FollowUpNotification;
 use App\Models\FollowUpNotificationAttachment;
-use App\Models\FollowUpUser;
+// use App\Models\FollowUpUser;
+use App\Models\FollowUpInstitution;
 use App\Models\Institution;
 
 use Exception;
@@ -66,10 +67,22 @@ class FollowUpNotificationController extends Controller
         return ;
     }
 
-    public function userFuDataTable(Request $request){
+    // public function userFuDataTable(Request $request){
+    //     if($request->ajax()){
+    //         $a = FollowUpUser::query();
+    //         $a = $a->with('user.institution');
+    //         if($request->has('fun_id')){
+    //             $a = $a->where('fun_id', $request->fun_id);
+    //         }
+    //         return DataTables::of($a->get())->make();
+    //     }
+    //     return ;
+    // }
+
+    public function institutionFuDataTable(Request $request){
         if($request->ajax()){
-            $a = FollowUpUser::query();
-            $a = $a->with('user.institution');
+            $a = FollowUpInstitution::query();
+            $a = $a->with('institution');
             if($request->has('fun_id')){
                 $a = $a->where('fun_id', $request->fun_id);
             }
@@ -213,8 +226,14 @@ class FollowUpNotificationController extends Controller
         
         try {
             DB::beginTransaction();
+                if($followUp->followUpInstitution()->count() < 1){
+                    throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);
+                    
+                }
                 $followUp->isStatus('draft');
                 $followUp->setStatus('on process', 'Diajukan ');
+                if(auth()->user()->type !== 'lccp')
+                    $followUp->setStatus('accepted', 'Disetujui ');
                 $followUp->update();
             DB::commit();
             
@@ -340,7 +359,7 @@ class FollowUpNotificationController extends Controller
         ], 200);
     }
 
-    public function addUserFu(Request $request){
+    public function addInstitutionFu(Request $request){
         $validator = Validator::make($request->all(), [
             'fun_id' => ['required'],
             'institution_id' => ['required'],
@@ -353,18 +372,28 @@ class FollowUpNotificationController extends Controller
             $institution = Institution::find($request->institution_id);
             if($institution==null)
                 throw new Exception("Institution not found", 1);
+            $fui = FollowUpInstitution::where('fun_id', $request->fun_id)
+                        ->where('institution_id', $request->institution_id)
+                        ->first();
+            if($fui!=null)
+                throw new Exception("Lembaga sudah ditambahkan untuk tindak lanjut ini", 1);
                 
-            $users = $institution->users;
-            foreach ($users as $i => $user) {
-                if(FollowUpUser::where('fun_id', $request->fun_id)
-                        ->where('user_id', $user->id)->first() != null)
-                        continue;
-                $fuu = FollowUpUser::make([
-                    'fun_id' => $request->fun_id,
-                    'user_id' => $user->id,
-                ]); 
-                $fuu->save();
-            }
+            
+            FollowUpInstitution::create([
+                'fun_id' => $request->fun_id,
+                'institution_id' => $request->institution_id
+            ]);
+            // $users = $institution->users;
+            // foreach ($users as $i => $user) {
+            //     if(FollowUpUser::where('fun_id', $request->fun_id)
+            //             ->where('user_id', $user->id)->first() != null)
+            //             continue;
+            //     $fuu = FollowUpUser::make([
+            //         'fun_id' => $request->fun_id,
+            //         'user_id' => $user->id,
+            //     ]); 
+            //     $fuu->save();
+            // }
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
@@ -403,10 +432,11 @@ class FollowUpNotificationController extends Controller
         }
     }
 
-    public function deleteUserFu($id){
+    public function deleteInstitutionFu($id){
         try {
             DB::beginTransaction();
-            $a = FollowUpUser::find($id);
+            // $a = FollowUpUser::find($id);
+            $a = FollowUpInstitution::find($id);
             $a->delete();
             DB::commit();
             return response()->json([
