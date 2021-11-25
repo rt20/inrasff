@@ -29,7 +29,7 @@ class ContactUsController extends Controller
         }
 
         return view('backadmin.contactus.index')->with([
-            'title' => 'Contact Us'
+            'title' => 'Hubungi Kami'
         ]);
     }
 
@@ -75,7 +75,7 @@ class ContactUsController extends Controller
     {
         $c = ContactUs::find($id);
         return view('backadmin.contactus.form', [
-            'title' => 'Lihat Contact Us',
+            'title' => 'Lihat Hubungi Kami',
             'contactus' => $c,
         ]);
     }

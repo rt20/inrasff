@@ -103,7 +103,7 @@
 
             @can('view galleries')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.galleries') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.galleries.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="galleries">Gallery</span></a>
+                <a class="d-flex align-items-center" href="{{ route('backadmin.galleries.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="galleries">Galeri</span></a>
             </li>
             @endcan
 

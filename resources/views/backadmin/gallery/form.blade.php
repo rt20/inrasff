@@ -5,7 +5,7 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.galleries.index') }}">FAQ</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.galleries.index') }}">Galeri</a></li>
 @endsection
 
 @section('actions')
