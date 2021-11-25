@@ -15,7 +15,11 @@ class FrontController extends Controller
     {
         $slider = News::published()->orderBy('published_at', 'DESC')->limit(6)->get();
         $firstNews = News::published()->orderBy('published_at', 'DESC')->first();
-        $news = News::published()->orderBy('published_at', 'DESC')->where('id', '!=', $firstNews->id)->limit(6)->get();
+        if($firstNews) {
+            $news = News::published()->orderBy('published_at', 'DESC')->where('id', '!=', $firstNews->id)->limit(6)->get();
+        } else {
+            $news = News::limit(6)->get();
+        }
         $category = Category::get();
         $gallery = Gallery::orderBy('created_at', 'DESC')->limit(12)->get();
         $kementrian = Kementrian::limit(6)->get();
