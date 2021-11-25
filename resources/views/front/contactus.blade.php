@@ -45,27 +45,43 @@
 <section class="bg-gray-100">
 	<div class="container px-3 py-12 lg:mx-auto">
 		<div class="text-xl font-bold mb-5">Send us a message</div>
+		{!! Form::open(['route' => 'contactus.submit', 'method' => 'POST']) !!}
 		<div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8">
 			<div>
 				<div class="py-4">
 					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your Name</div>
-					<input type="text" name="name" class="w-full h-12 border border-gray-200 rounded p-4">
+					<input type="text" name="name" class="w-full h-12 border border-gray-200 rounded p-4 @error('name') {{ 'is-invalid border-red-500' }} @enderror">
+                    @error('name')
+                        <small class="text-red-500">{{ $errors->first('name') }}</small>
+                    @enderror
 				</div>
 				<div class="py-4">
 					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your E-mail</div>
-					<input type="email" name="email" class="w-full h-12 border border-gray-200 rounded p-4">
+					<input type="email" name="email" class="w-full h-12 border border-gray-200 rounded p-4 @error('email') {{ 'is-invalid border-red-500' }} @enderror">
+                    @error('email')
+                        <small class="text-red-500">{{ $errors->first('email') }}</small>
+                    @enderror
 				</div>
 			</div>
 			<div>
 				<div class="py-4">
 					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your Message</div>
-					<textarea type="text" name="name" class="w-full h-36 border border-gray-200 rounded p-4"></textarea>
+					<textarea type="text" name="message" class="w-full h-36 border border-gray-200 rounded p-4 @error('message') {{ 'is-invalid border-red-500' }} @enderror"></textarea>
+                    @error('message')
+                        <small class="text-red-500">{{ $errors->first('message') }}</small>
+                    @enderror
 				</div>
 				<div class="py-4 text-center lg:text-left">
 					<button type="submit" class="bg-secondary text-white text-xs lg:text-sm tracking-wide uppercase rounded px-8 py-4">Send Message</button>
 				</div>
 			</div>
 		</div>
+		@if (session()->has('success'))
+		<div class="bg-green-200 text-gray-400 px-5 py-5 rounded">
+			<div>{{ session('success')}}</div>
+		</div>
+		@endif
+		{!! Form::close() !!}
 	</div>
 </section>
 
