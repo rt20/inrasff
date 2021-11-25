@@ -55,16 +55,18 @@ class DownStreamInstitutionController extends Controller
                 'institution_id',
             ]));
             $dsi->write = $request->write==="true" ? true : false;
+            $dsi->status = 'assigned';
             $dsi->save();
 
             if($dsi->write){
                 $users = $dsi->institution->users;
-                // foreach ($users as $i => $user) {
-                //     $dsua = $dsi->downstream->downstreamUserAccess()->create([
-                //         'user_id' => $user->id
-                //     ]);
-                //     // event(new DownStreamEmailNotification($dsua));
-                // }
+                foreach ($users as $i => $user) {
+                    // $dsua = $dsi->downstream->downstreamUserAccess()->create([
+                    //     'user_id' => $user->id,
+                    // ]);
+                    
+                    event(new DownStreamEmailNotification($dsi->downstream, $user));
+                }
                 
             }
 

@@ -12,7 +12,9 @@
 
 @section('actions')
     @if (!in_array($notification->status, ['processed']))
+    @can('store notification')
     <button type="submit" form="form-main" formaction="{{ $notification->id ? route('backadmin.notifications.update', $notification->id) : route('backadmin.notifications.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endcan
     @endif
     @if ($notification->id)
         {{-- <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="btn btn-secondary"><i class="mr-75" data-feather="check"></i></a> --}}
@@ -23,9 +25,15 @@
             </button>            
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">   
                 @if (!in_array($notification->status, ['processed']))
-                <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Downstream</a>
-                <a href="#" data-toggle="modal" data-target="#modal-process-upstream"  class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Upstream</a>
-                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @can('process_downstream notification')
+                        <a href="#" data-toggle="modal" data-target="#modal-process-downstream" class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Downstream</a>
+                    @endcan
+                    @can('process_upstream notification')
+                        <a href="#" data-toggle="modal" data-target="#modal-process-upstream"  class="dropdown-item"><i class="mr-75" data-feather="settings"></i>Upstream</a>
+                    @endcan
+                    @can('delete notification')
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
                 @endif
                 <a href="{{route('backadmin.notifications.index')}}" class="dropdown-item"><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             </div>

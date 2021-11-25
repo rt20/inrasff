@@ -93,8 +93,8 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
             Route::post('/add-attachment', [BackAdmin\FollowUpNotificationController::class, 'addAttachment'])->name('add-attachment');
             Route::delete('/{id}/delete-attachment', [BackAdmin\FollowUpNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
-            Route::post('/add-user-fu', [BackAdmin\FollowUpNotificationController::class, 'addUserFu'])->name('add-user-fu');
-            Route::delete('/{id}/delete-user-fu', [BackAdmin\FollowUpNotificationController::class, 'deleteUserFu'])->name('delete-user-fu');
+            Route::post('/add-user-fu', [BackAdmin\FollowUpNotificationController::class, 'addInstitutionFu'])->name('add-user-fu');
+            Route::delete('/{id}/delete-user-fu', [BackAdmin\FollowUpNotificationController::class, 'deleteInstitutionFu'])->name('delete-user-fu');
         });
 
         Route::prefix('downstreams')->name('downstreams.')->group(function() {
@@ -176,7 +176,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
 
         Route::prefix('datatables')->name('dt.')->group(function () {
             Route::get('attachment-fu', [BackAdmin\FollowUpNotificationController::class, 'attachmentDataTable'])->name('attachment_fu');
-            Route::get('user-fu', [BackAdmin\FollowUpNotificationController::class, 'userFuDataTable'])->name('user_fu');
+            Route::get('user-fu', [BackAdmin\FollowUpNotificationController::class, 'institutionFuDataTable'])->name('user_fu');
             Route::get('attachment-n-downstreams', [BackAdmin\DownStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_downstreams');
             Route::get('attachment-n-upstreams', [BackAdmin\UpStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_upstreams');
         });
