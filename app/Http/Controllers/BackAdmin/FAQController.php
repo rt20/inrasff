@@ -111,7 +111,8 @@ class FAQController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'max:255'],
+            'question' => ['required', 'max:255'],
+            'answer' => ['required'],
         ]);
         try {
             DB::beginTransaction();
