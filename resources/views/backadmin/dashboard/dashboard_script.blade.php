@@ -1,5 +1,28 @@
 <script>
+    let dashboard = Vue.createApp({
+        data(){
+            return {
+                downstream_month : {{$downstream_month}},
+                downstream_graph: {!! json_encode(array_reverse($downstream_graph)) !!},
+                downstream_diff_last_month: {{$downstream_diff_last_month * 100}}
+            }
+        },
+        created(){
+
+        },
+        mounted(){
+
+        },
+        methods :{
+            stringFormatNumber(string){
+                return stringFormatNumber(string)
+            }
+        }
+    }).mount('#dashboard')
+</script>
+<script>
     $(document).ready(function(){
+
         'use strict';
         var $avgSessionStrokeColor2 = '#ebf0f7';
         var $textHeadingColor = '#5e5873';
@@ -21,6 +44,15 @@
         var avgSessionsChart;
         var supportTrackerChart;
 
+        var array_stats = []
+        for (let j = 0; j < dashboard.downstream_graph.length; j++) {
+            if(j+1 ==dashboard.downstream_graph.length){
+                array_stats.push(window.colors.solid.primary)            
+            }else{
+                array_stats.push($avgSessionStrokeColor2)            
+            }
+            
+        }
 
         // On load Toast
         setTimeout(function () {
@@ -74,8 +106,9 @@
             },
             series: [
             {
-                name: 'Subscribers',
-                data: [28, 40, 36, 52, 38, 60, 55]
+                name: 'Jumlah Kasus',
+                // data: [1,2,1]
+                data: dashboard.downstream_graph
             }
             ],
             xaxis: {
@@ -182,18 +215,19 @@
                 filter: 'none'
             }
             },
-            colors: [
-            $avgSessionStrokeColor2,
-            $avgSessionStrokeColor2,
-            window.colors.solid.primary,
-            $avgSessionStrokeColor2,
-            $avgSessionStrokeColor2,
-            $avgSessionStrokeColor2
-            ],
+            // colors: [
+            //     $avgSessionStrokeColor2,
+            //     $avgSessionStrokeColor2,
+            //     window.colors.solid.primary,
+            //     $avgSessionStrokeColor2,
+            //     $avgSessionStrokeColor2,
+            //     $avgSessionStrokeColor2
+            // ],
+            colors: array_stats,
             series: [
             {
-                name: 'Sessions',
-                data: [75, 125, 225, 175, 125, 75, 25]
+                name: 'Jumlah Kasus',
+                data: dashboard.downstream_graph
             }
             ],
             grid: {
