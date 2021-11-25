@@ -74,32 +74,43 @@
 	<div class="text-xl font-bold uppercase py-6">Berita Terbaru</div>
 	<div class="grid grid-cols-1 lg:grid-cols-6 gap-6 w-full">
 		<div class="lg:col-span-4">
-			<img src="{{ asset('seeder/image_4.jpg') }}" class="w-full">
-			<button class="text-white bg-tertiary rounded px-6 py-2 my-6 font-semibold text-xs">World</button>
-			<div class="font-semibold text-2xl leading-normal">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-			<div class="text-gray-500 text-sm py-3">2 September 2021</div>
+
+			<img src="{{ $firstNews ? $firstNews->getImage() : asset('seeder/image_4.jpg') }}" class="w-full">
+			<button class="text-white bg-tertiary rounded px-6 py-2 my-6 font-semibold text-xs">{{ $firstNews ? $firstNews->category->name : 'World' }}</button>
+			<div class="font-semibold text-2xl leading-normal">{{ $firstNews ? $firstNews->title : 'Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?' }}</div>
+			<div class="text-gray-500 text-sm py-3">{{ $firstNews ? Carbon\Carbon::parse($firstNews->published_at)->format('d M Y') : '2 September 2021' }}</div>
 			<div class="text-gray-400 text-sm pb-6 leading-normal">
-				Bayangkan jika saat Anda di mini market, membawa banyak barang dan saat tiba di kasir, sang kasir malah menaruh kembali barang barang Anda di rak seperti semula, tanpa memberitahu alasannya...
+				{{ $firstNews ? $firstNews->excerpt : 'Bayangkan jika saat Anda di mini market, membawa banyak barang dan saat tiba di kasir, sang kasir malah menaruh kembali barang barang Anda di rak seperti semula, tanpa memberitahu alasannya...' }}
 			</div>
 
 			<div class="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 w-full">
-				@for($i=1;$i<=2;$i++)
-				<div>
-					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full mb-2">
-					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
-					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
-				</div>
-				<div>
-					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full mb-2">
-					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
-					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
-				</div>
-				<div>
-					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full mb-2">
-					<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
-					<div class="text-gray-500 text-sm py-3">2 September 2021</div>
-				</div>
-				@endfor
+				@if($news->count() > 0)
+					@foreach($news as $data)
+					<div>
+						<img src="{{ $data->getImage() }}" class="w-full mb-2">
+						<a href="{{ route('news_detail', $data->id) }}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
+						<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
+					</div>
+					@endforeach
+				@else
+					@for($i=1;$i<=2;$i++)
+					<div>
+						<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full mb-2">
+						<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+						<div class="text-gray-500 text-sm py-3">2 September 2021</div>
+					</div>
+					<div>
+						<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full mb-2">
+						<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+						<div class="text-gray-500 text-sm py-3">2 September 2021</div>
+					</div>
+					<div>
+						<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full mb-2">
+						<a href="{{ route('news_detail', 1) }}" class="font-semibold text-base leading-6">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</a>
+						<div class="text-gray-500 text-sm py-3">2 September 2021</div>
+					</div>
+					@endfor
+				@endif
 			</div>
 		</div>
 
@@ -107,6 +118,15 @@
 
 			<div class="text-base font-semibold mb-5">Supported By</div>
 			<div class="supported">
+				@if($kementrian->count() > 0)
+					@foreach($kementrian as $data)
+						<div class="bg-gray-100 p-3 rounded">
+							<a href="{{ $data->link }}">
+								<img src="{{ $data->getImage() }}" class="w-full">
+							</a>
+						</div>
+					@endforeach
+				@else
 				<div class="bg-gray-100 p-3 rounded">
 					<a href="http://www.pom.go.id/">
 						<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
@@ -142,6 +162,7 @@
 						<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
 					</a>
 				</div>
+				@endif
 			</div>
 
 			<div class="text-base font-semibold mb-5">Maklumat Pelayanan</div>
@@ -151,24 +172,38 @@
 
 			<div class="text-base font-semibold mb-5">Categories</div>
 			<ul class="list-disc list-inside space-y-3 mb-8" style="column-count: 2;">
-				@foreach($array as $data)
-				<li><a href="{{ route('news') }}">{{ $data }}</a></li>
-				@endforeach
+				@if($category->count() > 0)
+					@foreach($category as $data)
+					<li><a href="{{ route('news', ['category' => $data->id]) }}">{{ $data->name }}</a></li>
+					@endforeach
+				@else
+					@foreach($array as $data)
+					<li><a href="{{ route('news') }}">{{ $data }}</a></li>
+					@endforeach
+				@endif
 			</ul>
 
 			<div class="text-base font-semibold mb-5">Pictures</div>
 			<div class="grid grid-cols-4 gap-1 mb-8">
-				@for($i=1;$i<=4;$i++)
-				<a href="{{ asset('seeder/image_1.jpg') }}" class="magnific-popup">
-					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
-				</a>
-				<a href="{{ asset('seeder/image_2.jpg') }}" class="magnific-popup">
-					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full rounded">
-				</a>
-				<a href="{{ asset('seeder/image_3.jpg') }}" class="magnific-popup">
-					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
-				</a>
-				@endfor
+				@if($gallery->count() > 0)
+					@foreach($gallery as $data)
+						<a href="{{ $data->getImage() }}" class="magnific-popup">
+							<img src="{{ $data->getImage() }}" class="w-full rounded">
+						</a>
+					@endforeach
+				@else
+					@for($i=1;$i<=4;$i++)
+					<a href="{{ asset('seeder/image_1.jpg') }}" class="magnific-popup">
+						<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
+					</a>
+					<a href="{{ asset('seeder/image_2.jpg') }}" class="magnific-popup">
+						<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full rounded">
+					</a>
+					<a href="{{ asset('seeder/image_3.jpg') }}" class="magnific-popup">
+						<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
+					</a>
+					@endfor
+				@endif	
 			</div>
 
 			<div class="text-base font-semibold mb-5">Related Link</div>

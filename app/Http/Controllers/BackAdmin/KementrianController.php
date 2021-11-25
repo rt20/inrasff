@@ -29,7 +29,7 @@ class KementrianController extends Controller
         }
 
         return view('backadmin.kementrian.index')->with([
-            'title' => 'Kementrian'
+            'title' => 'Kementerian'
         ]);
     }
 
@@ -41,7 +41,7 @@ class KementrianController extends Controller
     public function create()
     {
         return view('backadmin.kementrian.form', [
-            'title' => 'Tambah Kementrian',
+            'title' => 'Tambah Kementerian',
             'kementrian' => new Kementrian,
         ]);
     }
@@ -57,6 +57,7 @@ class KementrianController extends Controller
         $request->validate([
             'title' => ['required', 'max:255'],
             'content' => ['required', 'max:255'],
+            'link' => ['required', 'max:255'],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
         ]);
         try {
@@ -91,7 +92,7 @@ class KementrianController extends Controller
         }
         return redirect()
             ->route('backadmin.kementrian.edit', $n->id)
-            ->withSuccess('Kementrian berhasil dibuat');
+            ->withSuccess('Kementerian berhasil dibuat');
     }
 
     /**
@@ -115,7 +116,7 @@ class KementrianController extends Controller
     {
         $n = Kementrian::find($id);
         return view('backadmin.Kementrian.form', [
-            'title' => 'Edit Kementrian',
+            'title' => 'Edit Kementerian',
             'kementrian' => $n,
         ]);
     }
@@ -132,6 +133,7 @@ class KementrianController extends Controller
         $request->validate([
             'title' => ['required', 'max:255'],
             'content' => ['required', 'max:255'],
+            'link' => ['required', 'max:255'],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
         ]);
         try {
@@ -170,7 +172,7 @@ class KementrianController extends Controller
         }
         return redirect()
             ->route('backadmin.kementrian.edit', $n->id)
-            ->withSuccess('Kementrian berhasil diubah');
+            ->withSuccess('Kementerian berhasil diubah');
     }
 
     /**
@@ -194,7 +196,7 @@ class KementrianController extends Controller
 
             return redirect()
                 ->route('backadmin.kementrian.index')
-                ->withSuccess('Kementrian berhasil dihapus');
+                ->withSuccess('Kementerian berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();

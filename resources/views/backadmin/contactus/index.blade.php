@@ -5,11 +5,10 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.kementrian.index') }}">Kementerian</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.contactus.index') }}">Hubungi Kami</a></li>
 @endsection
 
 @section('actions')
-<a href="{{ route('backadmin.kementrian.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Kementerian</a>
 @endsection
 
 @section('content')
@@ -19,7 +18,8 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>Nama</th>
+                        <th>Email</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>
@@ -40,17 +40,18 @@
 {{-- <script src="{{ asset('backadmin/app/js/helper.js') }}"></script> --}}
 <script>
     $(document).ready(function() {
-        let url = "{{ route('backadmin.kementrian.edit', '__id') }}";
+        let url = "{{ route('backadmin.contactus.edit', '__id') }}";
         let icon = feather.icons['edit-2'].toSvg();
 
         let table = $('#table').DataTable({
             ajax: {
-                url: "{{ route('backadmin.kementrian.index') }}",
+                url: "{{ route('backadmin.contactus.index') }}",
             },
             serverSide: true,
             processing: true,
             columns: [
-                { data: 'title' },
+                { data: 'name' },
+                { data: 'email' },
                 {
                     data: 'id',
                     className: 'text-center',

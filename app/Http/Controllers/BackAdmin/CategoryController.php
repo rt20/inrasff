@@ -29,7 +29,7 @@ class CategoryController extends Controller
         }
 
         return view('backadmin.category.index')->with([
-            'title' => 'Kategori'
+            'title' => 'Kategori Berita'
         ]);
     }
 
@@ -41,7 +41,7 @@ class CategoryController extends Controller
     public function create()
     {
         return view('backadmin.category.form', [
-            'title' => 'Tambah Kategori',
+            'title' => 'Tambah Kategori Berita',
             'category' => new Category,
         ]);
     }
@@ -95,7 +95,7 @@ class CategoryController extends Controller
     {
         $c = Category::find($id);
         return view('backadmin.category.form', [
-            'title' => 'Edit Kategori',
+            'title' => 'Edit Kategori Berita',
             'category' => $c,
         ]);
     }
@@ -115,7 +115,7 @@ class CategoryController extends Controller
         try {
             DB::beginTransaction();
             $n = Category::find($id);
-            $n->fill($request->only(['title', 'description']));
+            $n->fill($request->only(['name', 'description']));
             $n->save();
             DB::commit();
             

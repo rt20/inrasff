@@ -79,7 +79,7 @@
 
             @can('view categories')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.categories') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.categories.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="Category">Category</span></a>
+                <a class="d-flex align-items-center" href="{{ route('backadmin.categories.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="Category">Kategori Berita</span></a>
             </li>
             @endcan
 
@@ -91,7 +91,19 @@
 
             @can('view kementrian')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.kementrian') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.kementrian.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="kementrian">Kementrian</span></a>
+                <a class="d-flex align-items-center" href="{{ route('backadmin.kementrian.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="kementrian">Kementerian</span></a>
+            </li>
+            @endcan
+
+            @can('view contactus')
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.contactus') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.contactus.index') }}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="contactus">Hubungi Kami</span></a>
+            </li>
+            @endcan
+
+            @can('view galleries')
+            <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.galleries') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('backadmin.galleries.index') }}"><i data-feather="book"></i><span class="menu-title text-truncate" data-i18n="galleries">Gallery</span></a>
             </li>
             @endcan
 

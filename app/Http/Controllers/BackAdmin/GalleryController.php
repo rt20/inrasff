@@ -4,7 +4,7 @@ namespace App\Http\Controllers\BackAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\FAQ;
+use App\Models\Gallery;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 use UploadFile;
 use Carbon\Carbon;
 
-class FAQController extends Controller
+class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +24,12 @@ class FAQController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $n = FAQ::all();
+            $n = Gallery::all();
             return DataTables::of($n)->make();
         }
 
-        return view('backadmin.faq.index')->with([
-            'title' => 'FAQ'
+        return view('backadmin.gallery.index')->with([
+            'title' => 'Gallery'
         ]);
     }
 
@@ -40,9 +40,9 @@ class FAQController extends Controller
      */
     public function create()
     {
-        return view('backadmin.faq.form', [
-            'title' => 'Tambah FAQ',
-            'faq' => new FAQ,
+        return view('backadmin.gallery.form', [
+            'title' => 'Tambah Gallery',
+            'gallery' => new Gallery,
         ]);
     }
 
@@ -55,13 +55,30 @@ class FAQController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'question' => ['required', 'max:255'],
-            'answer' => ['required'],
+            'title' => ['required', 'max:255'],
+            'image' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-            $n = FAQ::create($request->only(['question', 'answer']));
+            $n = Gallery::create($request->only(['title']));
             $n->save();
+            if($request->has('image')){
+                $name = '';
+                $res = UploadFile::uploadImage(
+                    $request->file('image'),
+                    'gallery/',
+                    'A-'.Carbon::now()->format('Hisv'),
+                    null,
+                    function($new_name) use (&$name){
+                        $name = $new_name;
+                    }
+                );
+                if($res !== "All Process success"){
+                    throw new Exception($res);
+                }
+                $n->image = $name;
+                $n->save();
+            }
             DB::commit();
             
         } catch (Exception $e) {
@@ -71,8 +88,8 @@ class FAQController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.faq.edit', $n->id)
-            ->withSuccess('FAQ berhasil dibuat');
+            ->route('backadmin.galleries.edit', $n->id)
+            ->withSuccess('Gallery berhasil dibuat');
     }
 
     /**
@@ -94,10 +111,10 @@ class FAQController extends Controller
      */
     public function edit($id)
     {
-        $c = FAQ::find($id);
-        return view('backadmin.faq.form', [
-            'title' => 'Edit FAQ',
-            'faq' => $c,
+        $c = Gallery::find($id);
+        return view('backadmin.gallery.form', [
+            'title' => 'Edit Gallery',
+            'gallery' => $c,
         ]);
     }
 
@@ -111,13 +128,33 @@ class FAQController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'max:255'],
+            'title' => ['required', 'max:255'],
         ]);
         try {
             DB::beginTransaction();
-            $n = FAQ::find($id);
-            $n->fill($request->only(['question', 'answer']));
+            $n = Gallery::find($id);
+            $n->fill($request->only(['title']));
             $n->save();
+            if($request->has('image')){
+                $name = '';
+                $res = UploadFile::uploadImage(
+                    $request->file('image'),
+                    'gallery/',
+                    'A-'.Carbon::now()->format('Hisv'),
+                    null,
+                    function($new_name) use (&$name){
+                        $name = $new_name;
+                    }
+                );
+                if($res !== "All Process success"){
+                    throw new Exception($res);
+                }
+                File::delete(storage_path('app/public/gallery/'.$n->image));
+                File::delete(storage_path('app/public/gallery/thumb_'.$n->image));
+                
+                $n->image = $name;
+                $n->save();
+            }
             DB::commit();
             
         } catch (Exception $e) {
@@ -127,8 +164,8 @@ class FAQController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.faq.edit', $n->id)
-            ->withSuccess('FAQ berhasil diubah');
+            ->route('backadmin.galleries.edit', $n->id)
+            ->withSuccess('Gallery berhasil diubah');
     }
 
     /**
@@ -141,13 +178,17 @@ class FAQController extends Controller
     {
         try {
             DB::beginTransaction();
-            $n = FAQ::find($id);
+            $n = Gallery::find($id);
+            if($n->image != null){
+                File::delete(storage_path('app/public/gallery/'.$n->image));
+                File::delete(storage_path('app/public/gallery/thumb_'.$n->image));
+            }
             $n->delete();
             DB::commit();
 
             return redirect()
-                ->route('backadmin.faq.index')
-                ->withSuccess('FAQ berhasil dihapus');
+                ->route('backadmin.galleries.index')
+                ->withSuccess('Gallery berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();

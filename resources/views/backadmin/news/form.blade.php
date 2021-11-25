@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
 <link rel="stylesheet" href="{{ asset('backadmin/vendors/summernote/summernote.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+<style type="text/css">
+    .read-only-white {
+        background-color: #FFF !important;
+    }
+</style>
 @endsection
 
 @section('breadcrumb')
@@ -84,7 +89,7 @@
                                 <input type="text" 
                                     name="published_at"
                                     v-model="news.published_at" 
-                                    class="form-control date @error('published_at') {{ 'is-invalid' }} @enderror" 
+                                    class="form-control date read-only-white @error('published_at') {{ 'is-invalid' }} @enderror" 
                                     placeholder="Masukkan Tanggal Publish" autocomplete="off">
                                 @error('published_at')
                                     <small class="text-danger">{{ $errors->first('published_at') }}</small>

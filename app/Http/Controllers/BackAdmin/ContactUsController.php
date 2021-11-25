@@ -4,7 +4,7 @@ namespace App\Http\Controllers\BackAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\FAQ;
+use App\Models\ContactUs;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 use UploadFile;
 use Carbon\Carbon;
 
-class FAQController extends Controller
+class ContactUsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +24,12 @@ class FAQController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $n = FAQ::all();
+            $n = ContactUs::all();
             return DataTables::of($n)->make();
         }
 
-        return view('backadmin.faq.index')->with([
-            'title' => 'FAQ'
+        return view('backadmin.contactus.index')->with([
+            'title' => 'Contact Us'
         ]);
     }
 
@@ -40,10 +40,7 @@ class FAQController extends Controller
      */
     public function create()
     {
-        return view('backadmin.faq.form', [
-            'title' => 'Tambah FAQ',
-            'faq' => new FAQ,
-        ]);
+        //
     }
 
     /**
@@ -54,25 +51,7 @@ class FAQController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'question' => ['required', 'max:255'],
-            'answer' => ['required'],
-        ]);
-        try {
-            DB::beginTransaction();
-            $n = FAQ::create($request->only(['question', 'answer']));
-            $n->save();
-            DB::commit();
-            
-        } catch (Exception $e) {
-            DB::rollback();
-            report($e);
-            return redirect()->back()->withInput()->withError($e->getMessage());
-
-        }
-        return redirect()
-            ->route('backadmin.faq.edit', $n->id)
-            ->withSuccess('FAQ berhasil dibuat');
+        //
     }
 
     /**
@@ -94,10 +73,10 @@ class FAQController extends Controller
      */
     public function edit($id)
     {
-        $c = FAQ::find($id);
-        return view('backadmin.faq.form', [
-            'title' => 'Edit FAQ',
-            'faq' => $c,
+        $c = ContactUs::find($id);
+        return view('backadmin.contactus.form', [
+            'title' => 'Lihat Contact Us',
+            'contactus' => $c,
         ]);
     }
 
@@ -111,12 +90,12 @@ class FAQController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required', 'max:255'],
+            'status' => ['required'],
         ]);
         try {
             DB::beginTransaction();
-            $n = FAQ::find($id);
-            $n->fill($request->only(['question', 'answer']));
+            $n = ContactUs::find($id);
+            $n->fill($request->only(['status']));
             $n->save();
             DB::commit();
             
@@ -127,8 +106,8 @@ class FAQController extends Controller
 
         }
         return redirect()
-            ->route('backadmin.faq.edit', $n->id)
-            ->withSuccess('FAQ berhasil diubah');
+            ->route('backadmin.contactus.edit', $n->id)
+            ->withSuccess('Status berhasil diubah');
     }
 
     /**
@@ -141,13 +120,13 @@ class FAQController extends Controller
     {
         try {
             DB::beginTransaction();
-            $n = FAQ::find($id);
+            $n = ContactUs::find($id);
             $n->delete();
             DB::commit();
 
             return redirect()
-                ->route('backadmin.faq.index')
-                ->withSuccess('FAQ berhasil dihapus');
+                ->route('backadmin.contactus.index')
+                ->withSuccess('Pesan berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();
