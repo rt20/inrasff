@@ -5,11 +5,11 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.galleries.index') }}">Gallery</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.galleries.index') }}">Galeri</a></li>
 @endsection
 
 @section('actions')
-<a href="{{ route('backadmin.galleries.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Gallery</a>
+<a href="{{ route('backadmin.galleries.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Galeri</a>
 @endsection
 
 @section('content')

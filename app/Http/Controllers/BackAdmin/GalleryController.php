@@ -29,7 +29,7 @@ class GalleryController extends Controller
         }
 
         return view('backadmin.gallery.index')->with([
-            'title' => 'Gallery'
+            'title' => 'Galeri'
         ]);
     }
 
@@ -41,7 +41,7 @@ class GalleryController extends Controller
     public function create()
     {
         return view('backadmin.gallery.form', [
-            'title' => 'Tambah Gallery',
+            'title' => 'Tambah Galeri',
             'gallery' => new Gallery,
         ]);
     }
@@ -89,7 +89,7 @@ class GalleryController extends Controller
         }
         return redirect()
             ->route('backadmin.galleries.edit', $n->id)
-            ->withSuccess('Gallery berhasil dibuat');
+            ->withSuccess('Galeri berhasil dibuat');
     }
 
     /**
@@ -113,7 +113,7 @@ class GalleryController extends Controller
     {
         $c = Gallery::find($id);
         return view('backadmin.gallery.form', [
-            'title' => 'Edit Gallery',
+            'title' => 'Edit Galeri',
             'gallery' => $c,
         ]);
     }
@@ -165,7 +165,7 @@ class GalleryController extends Controller
         }
         return redirect()
             ->route('backadmin.galleries.edit', $n->id)
-            ->withSuccess('Gallery berhasil diubah');
+            ->withSuccess('Gal;eri berhasil diubah');
     }
 
     /**
@@ -188,7 +188,7 @@ class GalleryController extends Controller
 
             return redirect()
                 ->route('backadmin.galleries.index')
-                ->withSuccess('Gallery berhasil dihapus');
+                ->withSuccess('Galeri berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();
