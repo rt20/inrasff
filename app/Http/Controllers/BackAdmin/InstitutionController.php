@@ -213,9 +213,11 @@ class InstitutionController extends Controller
             switch ($for_notification) {
                 case 'downstream':
                     $notification = DownStreamNotification::find($id_notification);
+                    $ins = $notification->downstreamInstitution->pluck('institution_id');
                     break;
                 case 'upstream':
                     $notification = UpStreamNotification::find($id_notification);
+                    $ins = $notification->upstreamInstitution->pluck('institution_id');
                     break;
                 default:
                     throw new Exception("For Notification not Defined", 1);                    
@@ -223,7 +225,7 @@ class InstitutionController extends Controller
             }
             
             
-            $ins = $notification->downstreamInstitution->pluck('institution_id');
+            
             
             $query = Institution::select(['id','name', 'type'])
                 ->where(function($q) use ($term, $ins) {

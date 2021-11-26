@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>Tindak Lanjut</h4>
             {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
-            @if($upstream->id !== null && in_array($upstream->status, ['ext process']))
+            @if($upstream->id !== null && in_array($upstream->status, ['open']))
             <a href="{{ route('backadmin.follow_ups.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
             @endif
         </div>

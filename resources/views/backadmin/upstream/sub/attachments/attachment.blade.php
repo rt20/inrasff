@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>Lampiran</h4>
             @if (in_array($upstream->status, ['open']))
-                @can('store attachment')
+                @can('store u_attachment')
                 <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
                 @endcan
             @endif

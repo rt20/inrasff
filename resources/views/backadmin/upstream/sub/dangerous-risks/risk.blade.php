@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>Daftar Resiko</h4>
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
-                @can('store risk')
+                @can('store u_risk')
                 <a href="{{ route('backadmin.risk_infos.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
                 @endcan
             @endif

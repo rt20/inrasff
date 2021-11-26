@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>Daftar Bahaya</h4>
             @if($downstream->id !== null && !in_array($downstream->status, ['ccp process', 'ext process', 'done']))
-                @can('store dangerous')
+                @can('store d_dangerous')
                 <a href="{{ route('backadmin.dangerous_infos.create', ["notification_type" => "downstream", "notification_id" => $downstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
                 @endcan
             @endif

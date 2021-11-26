@@ -116,7 +116,12 @@ href="{{
                             <div class="col-12 col-md-12 form-group">
                                 <label for="title" class="form-label required">Dari</label>
                                 <input type="text" 
-                                    value="{{auth()->user()->fullname." , ".auth()->user()->role_name_label}}"
+                                    value="{{
+                                        $follow_up->id ? 
+                                        $follow_up->author->fullname. " , ".$follow_up->author->role_name_label
+                                        :
+                                        auth()->user()->fullname." , ".auth()->user()->role_name_label
+                                    }}"
                                     readonly
                                     class="form-control" 
                                     placeholder="Masukkan Asal Tindak Lanjut" autocomplete="off">
@@ -566,7 +571,7 @@ href="{{
                 function(params){
                     let req = {
                         q: params.term,
-                        for_notification: "{{str_replace('App\\Models\\', '', $follow_up->fun_type) === 'DownStreamNotification' ? 'downstream' : 'notification'}}",
+                        for_notification: "{{str_replace('App\\Models\\', '', $follow_up->fun_type) === 'DownStreamNotification' ? 'downstream' : 'upstream'}}",
                         id_notification: {{$follow_up->notification->id}},
                     }
                     return req
