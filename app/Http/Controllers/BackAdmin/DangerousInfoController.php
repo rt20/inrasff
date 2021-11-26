@@ -64,8 +64,16 @@ class DangerousInfoController extends Controller
      */
     public function create(Request $request)
     {
-        if (!Gate::allows('store dangerous')) {
-            abort(401);
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                if (!Gate::allows('store u_dangerous')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store dangerous')) {
+                abort(401);
+            }
         }
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');

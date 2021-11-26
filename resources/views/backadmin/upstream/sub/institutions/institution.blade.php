@@ -8,7 +8,7 @@
             <label for="title" class="form-label">Lembaga yang perlu menindaklanjuti</label>
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                 @can('store_institution upstream')
-                <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                {{-- <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button> --}}
                 @endcan
             @endif
         </div>
@@ -18,11 +18,11 @@
                 <tr>
                     <th class="w-50">Lembaga</th>
                         <th class="w-25">Status</th>
-                    @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
+                    {{-- @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
                     <th class="bi-table-col-action-1">Aksi</th>
                     @endcan
-                    @endif
+                    @endif --}}
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
             <label for="title" class="form-label"> Lembaga lain yang terkait</label>
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                 @can('store_institution upstream')
-                <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                {{-- <button type="button" v-on:click="openInstitutionModal('add')" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button> --}}
                 @endcan
             @endif
         </div>
@@ -45,12 +45,15 @@
             <thead>
                 <tr>
                     <th class="w-50">Lembaga</th>
+                    
                     <th class="w-25">Status</th>
-                    @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
-                    @can('delete_institution upstream')
-                    <th class="bi-table-col-action-1">Aksi</th>
-                    @endcan
+                    {{--
+                        @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
+                        @can('delete_institution upstream')
+                        <th class="bi-table-col-action-1">Aksi</th>
+                        @endcan
                     @endif
+                    --}}
                 </tr>
             </thead>
             <tbody>
@@ -182,8 +185,10 @@
                             return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
                         }
                     },
+                    
                     @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
+                    /*
                     {
                         data: 'id',
                         className: 'text-center',
@@ -193,6 +198,7 @@
                             return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
+                    */
                     @endcan
                     @endif
                 ],
@@ -224,6 +230,7 @@
                     },
                     @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
                     @can('delete_institution upstream')
+                    /*
                     {
                         data: 'id',
                         className: 'text-center',
@@ -233,6 +240,7 @@
                             return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                         } 
                     }
+                    */
                     @endcan
                     @endif
                 ],
