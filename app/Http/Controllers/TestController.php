@@ -20,4 +20,8 @@ class TestController extends Controller
         // event(new DownStreamEmailNotification($data));
         return Carbon::make('2021-11-24')->isoFormat('dddd, D MMM Y');
     }
+
+    public function report(){
+        return view('report.notification');
+    }
 }

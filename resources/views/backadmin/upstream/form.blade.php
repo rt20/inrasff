@@ -42,6 +42,7 @@
             </button>    
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
                 <a href="{{route('backadmin.upstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+                <a href="{{route('test_report')}}" class="dropdown-item" ><i class="mr-75" data-feather="printer"></i>Dokumen</a>
                 @if (!in_array($upstream->status, ['done']))
                     @can('delete upstream')
                     @if($upstream->author_id == auth()->user()->id)
