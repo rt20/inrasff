@@ -11,6 +11,16 @@
 	.slick-list {
 		padding: 0 -10px;
 	}
+	.slider-image:after {
+	    content: '\A';
+	    position: absolute;
+	    width: 100%; height:100%;
+	    top:0; left:0;
+	    background:rgba(0,0,0,0.6);
+	    opacity: 0;
+	    transition: all 1s;
+	    -webkit-transition: all 1s;
+	}
 	@media only screen and (min-width: 600px) {
 		.slick-slide {
 			padding: 0 17px;
@@ -41,7 +51,7 @@
 			@foreach($slider as $data)
 			<div>
 				<div class="bg-cover relative">
-					<img src="{{ $data->getImage() }}" class="w-full">
+					<img src="{{ $data->getImage() }}" class="slider-image w-full h-96 object-contain">
 					<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
 						<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">{{ $data->category->name }}</button>
 						<div class="font-semibold text-base leading-6 text-white mb-3">{{ $data->title }}</div>
