@@ -37,11 +37,20 @@ href="{{
 
 @section('actions')
     @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+    @if($follow_up->id)
+    @if($follow_up->author_id == auth()->user()->id)
     <button type="submit" form="form-main" formaction="{{ $follow_up->id ? route('backadmin.follow_ups.update', $follow_up->id) : route('backadmin.follow_ups.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endif
+
+    @else
+    <button type="submit" form="form-main" formaction="{{ $follow_up->id ? route('backadmin.follow_ups.update', $follow_up->id) : route('backadmin.follow_ups.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endif
     @endif
     @if ($follow_up->id)
         @if (in_array($follow_up->status, ['draft']))
+        @if($follow_up->author_id == auth()->user()->id)
         <a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal-process"><i class="mr-75" data-feather="settings"></i>Proses</a>
+        @endif
         @endif
         @if (in_array($follow_up->status, ['on process']))
         @can('accept follow_up')
@@ -75,7 +84,9 @@ href="{{
                 @endif
                 
                 @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                    @if($follow_up->author_id == auth()->user()->id)
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endif
                 @endif
             </div>
         </div>
@@ -146,7 +157,9 @@ href="{{
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="title" class="form-label required">Lembaga Notifikasi Terkait</label>                                
                                     @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                                    @if($follow_up->author_id == auth()->user()->id)
                                     <button type="button" v-on:click="openUserFuModal('add', null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                    @endif
                                     @endif
                                 </div>
                                 <table id="table-user-follow-up" class="table table-striped table-bordered">
@@ -185,7 +198,9 @@ href="{{
                                 <div class="d-flex justify-content-between align-items-center">
                                     <label for="description" class="form-label ">Lampiran</label>
                                     @if (!in_array($follow_up->status, ['on process', 'accepted', 'rejected']))
+                                    @if($follow_up->author_id == auth()->user()->id)
                                     <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
+                                    @endif
                                     @endif
                                 </div>
                                 <table id="table-attachment" class="table table-striped table-bordered">
