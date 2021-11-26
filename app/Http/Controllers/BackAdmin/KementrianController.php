@@ -58,7 +58,7 @@ class KementrianController extends Controller
             'title' => ['required', 'max:255'],
             'content' => ['required', 'max:255'],
             'link' => ['required', 'max:255'],
-            'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
+            'image' => ['required', 'image', 'mimes: jpeg,jpg,png', 'max:2048'],
         ]);
         try {
             DB::beginTransaction();

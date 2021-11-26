@@ -19,7 +19,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>Nama</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>

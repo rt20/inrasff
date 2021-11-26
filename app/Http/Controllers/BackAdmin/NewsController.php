@@ -57,10 +57,10 @@ class NewsController extends Controller
         $request->validate([
             'title' => ['required', 'max:255'],
             'slug' => ['required', 'max:255', 'unique:news'],
-            'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
-            'status' => ['required'],
+            'image' => ['required', 'image', 'mimes: jpeg,jpg,png', 'max:2048'],
             'published_at' => ['required'],
-            'category_id' => ['required'],
+            'content' => ['required'],
+            'excerpt' => ['required'],
         ]);
         try {
             DB::beginTransaction();
@@ -137,6 +137,8 @@ class NewsController extends Controller
             'slug' => ['required', 'max:255', 'unique:news,id,'.$id],
             'image' => ['image', 'mimes: jpeg,jpg,png', 'max:2048'],
             'category_id' => ['required'],
+            'content' => ['required'],
+            'excerpt' => ['required'],
         ]);
         try {
             DB::beginTransaction();

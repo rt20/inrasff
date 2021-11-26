@@ -34,12 +34,12 @@ class FrontController extends Controller
 
     public function news(Request $request)
     {
-        $news = News::published()->paginate(12);
+        $news = News::published()->orderBy('published_at', 'DESC')->paginate(12);
         if($request->search) {
-            $news = News::published()->where('title', 'LIKE', $request->search)->paginate(12);
+            $news = News::published()->where('title', 'LIKE', '%'.$request->search.'%')->orderBy('published_at', 'DESC')->paginate(12);
         }
         if($request->category) {
-            $news = News::published()->where('category_id', $request->category)->paginate(12);
+            $news = News::published()->where('category_id', $request->category)->orderBy('published_at', 'DESC')->paginate(12);
         }
 
     	return view('front.news', compact('news'));
