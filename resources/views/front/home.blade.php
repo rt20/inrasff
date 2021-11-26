@@ -30,37 +30,53 @@
 			<span>news</span>
 		</div>
 		<marquee direction="left" class="text-tertiary text-left">
-			Apa itu konteks dan mengapa hal itu penting dalam pembuatan produk digital?
+			{{ $firstNews ? $firstNews->title : 'Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?' }}
 		</marquee>
 	</div>
 </section>
 
 <section class="mb-0 lg:mb-8">
 	<div class="slick">
-		@for($i=1;$i<=3;$i++)
-		<div>
-			<div class="bg-cover relative">
-				<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
-				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
-					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
-					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-					<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
-					<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+		@if($slider->count() > 0)
+			@foreach($slider as $data)
+			<div>
+				<div class="bg-cover relative">
+					<img src="{{ $data->getImage() }}" class="w-full">
+					<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
+						<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">{{ $data->category->name }}</button>
+						<div class="font-semibold text-base leading-6 text-white mb-3">{{ $data->title }}</div>
+						<div class="text-gray-300 text-sm pb-5 mb-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
+						<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', $data->slug) }}">Read Story</a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div>
-			<div class="bg-cover relative">
-				<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
-				<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
-					<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
-					<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
-					<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
-					<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+			@endforeach
+		@else
+			@for($i=1;$i<=3;$i++)
+			<div>
+				<div class="bg-cover relative">
+					<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+					<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
+						<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
+						<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
+						<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
+						<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+					</div>
 				</div>
 			</div>
-		</div>
-		@endfor
+			<div>
+				<div class="bg-cover relative">
+					<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+					<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
+						<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">World</button>
+						<div class="font-semibold text-base leading-6 text-white mb-3">Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?</div>
+						<div class="text-gray-300 text-sm pb-5 mb-3">2 September 2021</div>
+						<a class="border rounded border-white px-5 py-2 text-white hover:bg-black hover:opacity-50" href="{{ route('news_detail', 1) }}">Read Story</a>
+					</div>
+				</div>
+			</div>
+			@endfor
+		@endif
 	</div>
 </section>
 

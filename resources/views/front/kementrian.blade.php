@@ -46,11 +46,25 @@
 
 <section class="container px-3 py-12 lg:mx-auto">
 	<div class="slider">
-		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
-		<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		@if($slider)
+		@if($slider->sliderImage->count() > 0)
+			@foreach($slider->sliderImage as $data)
+				<img src="{{ $data->getRefAttribute() }}" class="w-full h-96 object-cover">
+			@endforeach
+		@else
+			<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		@endif
+		@else
+			<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		@endif
 	</div>
 </section>
 
