@@ -25,9 +25,13 @@
     @if (!in_array($upstream->status, ['ext process', 'done']))
         @can('store upstream')
 
-        {{-- @if($upstream->author_id == auth()->user()->id) --}}
+        @if($upstream->id)
+            @if($upstream->author_id == auth()->user()->id)
+            <button type="submit" form="form-main" formaction="{{ $upstream->id ? route('backadmin.upstreams.update', $upstream->id) : route('backadmin.upstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endif
+        @else
         <button type="submit" form="form-main" formaction="{{ $upstream->id ? route('backadmin.upstreams.update', $upstream->id) : route('backadmin.upstreams.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
-        {{-- @endif --}}
+        @endif
         @endcan
     @endif
     @if ($upstream->id)
@@ -88,9 +92,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true">7. Lampiran</a>
+                    
                 </li>
                 
-                    @if(!$upstream->isStatus('open', false))
+                    @if($upstream->isStatus('open', false))
                     <li class="nav-item">
                         <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
                     </li>
@@ -131,7 +136,7 @@
                     <div class="tab-pane " id="attachment" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.attachment')
                     </div>
-                    @if(!$upstream->isStatus('open', false))
+                    @if($upstream->isStatus('open', false))
                     <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.follow_ups')
                     </div>

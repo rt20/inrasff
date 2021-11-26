@@ -65,6 +65,22 @@ class RolePermissionSeeder extends Seeder
             'attachment'
         ]);
 
+        $downstreamSideDataPermissions = $this->createPermissions([
+            'd_dangerous',
+            'd_risk',
+            'd_traceability',
+            'd_border_control',
+            'd_attachment'
+        ]);
+
+        $upstreamSideDataPermissions = $this->createPermissions([
+            'u_dangerous',
+            'u_risk',
+            'u_traceability',
+            'u_border_control',
+            'u_attachment'
+        ]);
+
         $processPermissions = $this->createPermissions([
             'downstream',
             'upstream',
@@ -84,7 +100,7 @@ class RolePermissionSeeder extends Seeder
         $processPermissions['upstream']['finish'] = Permission::create(['name' => 'finish upstream']);
         $processPermissions['upstream']['store_institution'] = Permission::create(['name' => 'store_institution upstream']);
         $processPermissions['upstream']['delete_institution'] = Permission::create(['name' => 'delete_institution upstream']);
-
+        
         $processPermissions['downstream']['process_ccp'] = Permission::create(['name' => 'process_ccp downstream']);
         $processPermissions['downstream']['process_ext'] = Permission::create(['name' => 'process_ext downstream']);
         $processPermissions['downstream']['finish'] = Permission::create(['name' => 'finish downstream']);
@@ -131,6 +147,7 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
+        
         $this->assignEntityPermissions(
             $roles['ncp'],
             $labelSubPermission,
@@ -139,6 +156,30 @@ class RolePermissionSeeder extends Seeder
                 'bussiness_process',
                 'front_end',
                 'master_data'
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $downstreamSideDataPermissions,
+            [
+                'd_dangerous',
+                'd_risk',
+                'd_traceability',
+                'd_border_control',
+                'd_attachment'
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $upstreamSideDataPermissions,
+            [
+                'u_dangerous',
+                'u_risk',
+                'u_traceability',
+                'u_border_control',
+                'u_attachment'
             ]
         );
         
@@ -205,6 +246,33 @@ class RolePermissionSeeder extends Seeder
         );
 
         $this->assignEntityActionPermissions(
+            $roles['ccp'],
+            $downstreamSideDataPermissions,
+            [
+                'd_dangerous' => ['view'],
+                'd_risk' => ['view'],
+                'd_traceability' => ['view'],
+                'd_border_control' => ['view'],
+                'd_attachment' => ['view']
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['ccp'],
+            $upstreamSideDataPermissions,
+            [
+                'u_dangerous',
+                'u_risk',
+                'u_traceability',
+                'u_border_control',
+                'u_attachment'
+            ]
+        );
+
+        /**
+         * LCCP Role
+         */
+        $this->assignEntityActionPermissions(
             $roles['lccp'],
             $masterDataPermissions,
             [
@@ -255,6 +323,30 @@ class RolePermissionSeeder extends Seeder
             [
                 'data',
                 'bussiness_process',
+            ]
+        );
+
+        $this->assignEntityActionPermissions(
+            $roles['lccp'],
+            $downstreamSideDataPermissions,
+            [
+                'd_dangerous' => ['view'],
+                'd_risk' => ['view'],
+                'd_traceability' => ['view'],
+                'd_border_control' => ['view'],
+                'd_attachment' => ['view']
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['lccp'],
+            $upstreamSideDataPermissions,
+            [
+                'u_dangerous',
+                'u_risk',
+                'u_traceability',
+                'u_border_control',
+                'u_attachment'
             ]
         );
     }

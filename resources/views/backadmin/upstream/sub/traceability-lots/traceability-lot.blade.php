@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h4>Daftar Keterlusuran Lot</h4>
             @if($upstream->id !== null && !in_array($upstream->status, ['ccp process', 'ext process', 'done']))
-                @can('store traceability')
+                @can('store u_traceability')
                 <a href="{{ route('backadmin.traceability_lot_infos.create', ["notification_type" => "upstream", "notification_id" => $upstream->id]) }}" type="button" class="btn btn-icon btn-primary"><i data-feather="plus"></i></a>
                 @endcan
             @endif

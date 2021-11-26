@@ -48,4 +48,14 @@ class FollowUpNotification extends Model
     {
         return $this->hasMany(FollowUpInstitution::class, 'fun_id', 'id');
     }
+
+    /**
+     * Get the author associated with the FollowUpNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function author()
+    {
+        return $this->hasOne(User::class, 'id', 'author_id');
+    }
 }
