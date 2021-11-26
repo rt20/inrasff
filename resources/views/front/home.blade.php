@@ -138,7 +138,7 @@
 					@foreach($news as $data)
 					<div>
 						<img src="{{ $data->getImage() }}" class="w-full mb-2 h-60 object-contain">
-						<a href="{{ route('news_detail', $data->id) }}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
+						<a href="{{ route('news_detail', $data->slug) }}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
 						<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
 					</div>
 					@endforeach
