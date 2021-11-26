@@ -10,6 +10,7 @@ use App\Models\Gallery;
 use App\Models\Kementrian;
 use App\Models\FAQ;
 use App\Models\ContactUs;
+use App\Models\Slider;
 
 use DB;
 
@@ -57,7 +58,9 @@ class FrontController extends Controller
     {
         $kementrian = Kementrian::get();
 
-    	return view('front.kementrian', compact('kementrian'));
+        $slider = Slider::where('location', 'home_page')->first();
+
+    	return view('front.kementrian', compact('kementrian', 'slider'));
     }
 
     public function aboutus()
