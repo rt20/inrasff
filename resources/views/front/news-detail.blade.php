@@ -7,7 +7,7 @@
 <section class="px-3 lg:mx-auto mt-16 lg:mt-44">
 	<div class="container mx-auto py-8">
 		<div class="font-semibold text-2xl leading-normal">{{ $news->title }}</div>
-		<div class="text-gray-500 text-sm pt-3 pb-7">{{ Carbon\Carbon::parse($news->created_at)->format('d M Y') }}</div>
+		<div class="text-gray-500 text-sm pt-3 pb-7">{{ Carbon\Carbon::parse($news->published_at)->format('d M Y') }}</div>
 		<img src="{{ $news->getImage() }}" class="w-full">
 		<div class="leading-normal py-5">
 			{!! $news->content !!}
@@ -22,7 +22,7 @@
 				<div>
 					<img src="{{ $data->image ?  $data->getImage() : asset('seeder/image_1.jpg') }}" class="w-full pb-4">
 					<a href="{{ route('news_detail', $data->slug) }}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
-					<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->created_at)->format('d M Y') }}</div>
+					<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
 				</div>
 			@endforeach
 		@else

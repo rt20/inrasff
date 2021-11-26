@@ -36,7 +36,7 @@
 				<div>
 					<img src="{{ $data->image ?  $data->getImage() : asset('seeder/image_1.jpg') }}" class="w-full pb-4">
 					<a href="{{ route('news_detail', $data->slug)}}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
-					<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->created_at)->format('d M Y') }}</div>
+					<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
 				</div>
 			@endforeach
 		@else

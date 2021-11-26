@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="col-12 col-md-12 form-group">
-                                <label for="excerpt" class="form-label required">Deskripsi</label>
+                                <label for="excerpt" class="form-label">Deskripsi</label>
                                 <textarea
                                     type="text" 
                                     name="description"
