@@ -11,15 +11,37 @@
 	.slick-list {
 		padding: 0 -10px;
 	}
+	.slider-image {
+	    position:relative;
+	}
+	.slider-image img {
+	    width:100%;
+	    vertical-align:top;
+	}
+	.slider-image:after, .slider-image:before {
+	    position:absolute;
+	    opacity:0;
+	    transition: all 0.5s;
+	    -webkit-transition: all 0.5s;
+	}
 	.slider-image:after {
-	    content: '\A';
-	    position: absolute;
-	    width: 100%; height:100%;
+	    content:'\A';
+	    width:100%; height:100%;
 	    top:0; left:0;
 	    background:rgba(0,0,0,0.6);
-	    opacity: 0;
-	    transition: all 1s;
-	    -webkit-transition: all 1s;
+	    opacity:1;
+	}
+	.slider-image:before {
+	    content:'\A';
+	    width:100%;
+	    color:#fff;
+	    z-index:1;
+	    bottom:0;
+	    padding:4px 10px;
+	    text-align:center;
+	    box-sizing:border-box;
+	    -moz-box-sizing:border-box;
+	    opacity:1;
 	}
 	@media only screen and (min-width: 600px) {
 		.slick-slide {
@@ -51,7 +73,9 @@
 			@foreach($slider as $data)
 			<div>
 				<div class="bg-cover relative">
-					<img src="{{ $data->getImage() }}" class="slider-image w-full h-96 object-contain">
+					<div class="slider-image h-96 object-contain">
+						<img src="{{ $data->getImage() }}" class="w-full">
+					</div>
 					<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
 						<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">{{ $data->category->name }}</button>
 						<div class="font-semibold text-base leading-6 text-white mb-3">{{ $data->title }}</div>
