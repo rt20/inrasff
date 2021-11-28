@@ -21,6 +21,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nomor</th>
                         <th>Judul</th>
                         <th>Sumber</th>
@@ -71,7 +72,10 @@
             serverSide: true,
             processing: true,
             columns: [
-
+                { 
+                    data: 'DT_RowIndex',
+                    className: 'text-center',
+                },
                 { data: 'number' },
                 { data: 'title' },
                 { data: 'source' },

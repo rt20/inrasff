@@ -148,8 +148,8 @@
                         <p>Apakah Anda yakin akan membuat Notifikasi ini menjadi Notifikasi Downstream?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Proses Downstream</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Proses Downstream</button>
                     </div>
                 </form>
             </div>
@@ -172,8 +172,8 @@
                         <p>Apakah Anda yakin akan membuat Notifikasi ini menjadi Notifikasi Upstream?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-primary">Ya, Proses Upstream</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Ya, Proses Upstream</button>
                     </div>
                 </form>
             </div>

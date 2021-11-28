@@ -113,6 +113,27 @@ class RolePermissionSeeder extends Seeder
         $processPermissions['follow_up']['accept'] = Permission::create(['name' => 'accept follow_up']);
         $processPermissions['follow_up']['reject'] = Permission::create(['name' => 'reject follow_up']);
 
+        /** Notifier Roles */
+        $this->assignEntityActionPermissions(
+            $roles['notifier'],
+            $masterDataPermissions,
+            [
+                'notification' => [
+                    'store',
+                    'view',
+                    'delete'
+                ]
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['notifier'],
+            $labelSubPermission,
+            [
+                'data'
+            ]
+        );
+
         /**NCP Roles */
         $this->assignEntityPermissions(
             $roles['ncp'],

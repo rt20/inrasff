@@ -19,6 +19,7 @@ class User extends Authenticatable
         'ncp' => 'National Contact Point',
         'ccp' => 'Competent Contact Point',
         'lccp' => 'Local Competent Contact Point',
+        'notifier' => 'Notifier',
     ];
 
     /**

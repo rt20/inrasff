@@ -60,6 +60,7 @@ class NotificationController extends Controller
         try {
             DB::beginTransaction();
             $notification = Notification::make($request->only([
+                'number',
                 'title', 'description']));
             $notification->author_id = auth()->user()->id;
             $notification->setStatus('unread', 'Dibuat ');
@@ -122,6 +123,7 @@ class NotificationController extends Controller
         try {
             DB::beginTransaction();
             $notification->fill($request->only([
+                'number',
                 'title', 'description']));
             $notification->update();
             DB::commit();

@@ -36,6 +36,22 @@ class UserSeederV2 extends Seeder
         $u->save();
         $u->assignRole('superadmin');
 
+        /**
+         * Notifier
+         */
+
+        $u = User::factory()->make([
+            'username' => 'notifier',
+            'fullname' => 'Notifier #1',
+            'email' => 'notifier@inrasff.com',
+            'type' => 'notifier',
+            'responsible_name' => $faker->name,
+            'responsible_phone' => $faker->phoneNumber,
+            'responsible_address' => $faker->address,
+        ]);
+        $u->save();
+        $u->assignRole('notifier');
+
          /**
           * NCP
           */
