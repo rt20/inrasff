@@ -34,7 +34,7 @@
         </div>
     </div>
 </div>
-
+@if(auth()->user()->type==='superadmin')
 <template id="template">
     <label>
         <select name="f_filter_type" class="custom-select w-100 filter_type">
@@ -45,6 +45,7 @@
         </select>
     </label>
 </template>
+@endif
 @endsection
 
 @section('vendor-js')
@@ -62,7 +63,9 @@
             ajax: {
                 url: "{{ route('backadmin.users.index') }}",
                 data: function(data){
+                    @if(auth()->user()->type==='superadmin')
                     data.filter_type = $('.filter_type').val() ?? 'all' ;
+                    @endif
                 }
             },
             serverSide: true,
@@ -103,12 +106,13 @@
             order: [[0, 'desc']],
             language: dtLangId
         });
-
+        @if(auth()->user()->type==='superadmin')
         $('#table_length').append($('#template').html());
 
         $('.filter_type').change(function(e) {
             table.draw();
         });
+        @endif
         
     })
 </script>
