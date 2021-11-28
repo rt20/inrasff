@@ -44,6 +44,7 @@
     <div class="col-12 col-md-6 form-group">
         <label for="origin_source_notif" class="form-label required">Sumber Asal Notifikasi</label>
             <select 
+                id="origin_source_notif"
                 name="origin_source_notif"
                 v-model="upstream.origin_source_notif" 
                 class="form-control select2 @error('origin_source_notif') {{ 'is-invalid' }} @enderror"
