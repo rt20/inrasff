@@ -365,7 +365,7 @@ class UpStreamNotificationController extends Controller
         $validator = Validator::make($request->all(), [
             'notification_type' => ['required'], //upstream or upstream
             'notification_id' => ['required'], //id for upstream or upstream
-            'attachment' => ['required', 'max:2048'],
+            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
             'info' => ['required'],
             'title_attachment' => ['required'],
         ]);

@@ -19,6 +19,7 @@ class DangerousCategoryLevelSeeder extends Seeder
         $bahaya_fisik = 3;
         $mutu = 4;
         $dokumen = 5;
+        $label = 6;
 
         /**
          * Start Level 1

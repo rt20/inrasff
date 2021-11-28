@@ -33,7 +33,35 @@ class NotificationAttachment extends Model
         ],
         'border_control' => [
             'label' => 'Kontrol Perbatasan'
-        ]
+        ],
+        'health_certificate' => [
+            'label' => 'Health Certificate'
+        ],
+        'cved_ced' => [
+            'label' => 'CVED/CED'
+        ],
+        'phytosanitary_certificate' => [
+            'label' => 'Phytosanitary Certificate'
+        ],
+        'public_warning' => [
+            'label' => 'Public Warning / Press Release'
+        ],
+        'analytical_report' => [
+            'label' => 'Analytical Report'
+        ],
+        'bills' => [
+            'label' => 'Bills / Delivery Document'
+        ],
+        'pictures' => [
+            'label' => 'Pictures'
+        ],
+        'risk_assessment' => [
+            'label' => 'Risk Assessment'
+        ],
+        'original_notification' => [
+            'label' => 'Original Notification'
+        ],
+        
     ];
 
 

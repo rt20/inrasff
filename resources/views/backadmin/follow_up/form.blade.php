@@ -248,8 +248,22 @@ href="{{
                                                     <div class="alert-body">@{{ attachmentModal.error }}</div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label class="form-label required" for="title_attachment">Judul</label>
+                                                    <input placeholder="Silahkan Masukan Judul" name="title_attachment" id="title_attachment" class="form-control" type="text" value="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label required" for="title">Info Lampiran</label>
+                                                    <select name="info" id="info" class="form-control">
+                                                        <option value="" selected>-Silahkan Pilih Info Lampiran-</option>
+                                                        @foreach ($type_infos as $key => $ti)
+                                                            <option value="{{$key}}">{{$ti['label']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="form-label required" for="attachment">Lampiran</label>
                                                     <input name="attachment" id="attachment" class="form-control f-attachment" type="file">
+                                                    <small>*format: pdf, excel, jpg, jpeg, png. Max:10MB</small><br>
                                                 </div>
                                             </div>
                                             <div v-show="attachmentModal.state === 'delete'">
@@ -474,6 +488,18 @@ href="{{
                         input: 'input',
                         active: true,
                     },
+                    {
+                        name: 'title_attachment',
+                        title: 'title_attachment',
+                        input: 'input',
+                        active: true,
+                    },
+                    {
+                        name: 'info',
+                        title: 'info',
+                        input: 'select',
+                        active: true,
+                    },
                 ],
                 validatorUserFollowUp : [
                     {
@@ -683,12 +709,15 @@ href="{{
                             }
                         });
                         if(invalid){
+                            this.attachmentModal.loading = 0
                             return;
                         }
                         var url = `{{ route('backadmin.follow_ups.add-attachment') }}`
                         var formData = new FormData()
                         formData.append( 'fun_id',{{$follow_up->id}})
                         formData.append('attachment', $('input[name="attachment"]')[0].files[0])
+                        formData.append('info', $('select[name="info"]').val())
+                        formData.append('title_attachment', $('input[name="title_attachment"]').val())
                         resp = await post(
                             url,
                             formData,
@@ -725,6 +754,7 @@ href="{{
                     }, 200)
                 }else{
                     // alert(resp?.data?.message)
+                    this.attachmentModal.loading = 0
                     this.attachmentModal.error = resp?.data?.message
                 }
                 

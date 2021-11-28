@@ -106,6 +106,7 @@ class FollowUpNotificationController extends Controller
         return view('backadmin.follow_up.form', [
             'title' => 'Tambah Tindak Lanjut',
             'follow_up' => $follow_up,
+            'type_infos' => FollowUpNotificationAttachment::INFOS
         ]);
     }
 
@@ -183,6 +184,7 @@ class FollowUpNotificationController extends Controller
         return view('backadmin.follow_up.form', [
             'title' => "Edit Tindak Lanjut",
             'follow_up' => $followUp,
+            'type_infos' => FollowUpNotificationAttachment::INFOS
         ]);
     }
 
@@ -320,7 +322,9 @@ class FollowUpNotificationController extends Controller
     public function addAttachment(Request $request){
         $validator = Validator::make($request->all(), [
             'fun_id' => ['required'],
-            'attachment' => ['required', 'max:2048'],
+            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
+            'info' => ['required'],
+            'title_attachment' => ['required'],
         ]);
 
         try {
@@ -342,7 +346,9 @@ class FollowUpNotificationController extends Controller
             if($res !== "All Process success"){
                 throw new Exception($res);
             }
-            $attachment->title = $name;
+            $attachment->link = $name;
+            $attachment->title = $request->title_attachment;
+            $attachment->info = $request->info;
             $attachment->save();
 
             DB::commit();

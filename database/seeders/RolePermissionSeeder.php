@@ -29,7 +29,8 @@ class RolePermissionSeeder extends Seeder
             'superadmin',
             'ncp',
             'ccp',
-            'lccp'
+            'lccp',
+            'notifier'
         ]);
 
         $masterDataPermissions = $this->createPermissions([

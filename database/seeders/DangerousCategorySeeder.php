@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\DangerousCategory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DangerousCategorySeeder extends Seeder
 {
@@ -14,6 +16,10 @@ class DangerousCategorySeeder extends Seeder
      */
     public function run()
     {
+
+        Schema::disableForeignKeyConstraints();
+        DB::table('dangerous_categories')->truncate();       
+
         DangerousCategory::insert([
             [
                 'name' => "Bahaya Kimia",
@@ -35,6 +41,11 @@ class DangerousCategorySeeder extends Seeder
                 'name' => "Dokumen",
                 'has_child' => true
             ],
+            [
+                'name' => "Label",
+                'has_child' => false
+            ],
         ]);
+        Schema::enableForeignKeyConstraints();
     }
 }
