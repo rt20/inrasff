@@ -139,10 +139,18 @@ class RolePermissionSeeder extends Seeder
             $roles['ncp'],
             $masterDataPermissions,
             [
-                'notification',
+                // 'notification',
                 'news',
                 'slider',
                 'user'
+            ]
+        );
+
+        $this->assignEntityActionPermissions(
+            $roles['ncp'],
+            $masterDataPermissions,
+            [
+                'notification' => ['view'],
             ]
         );
 
