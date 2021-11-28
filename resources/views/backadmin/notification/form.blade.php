@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.notifications.index') }}">Notifikasi</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.notifications.index') }}">Informasi Awal</a></li>
 @endsection
 
 @section('actions')

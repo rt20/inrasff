@@ -33,7 +33,7 @@
                 url:"{{route('backadmin.follow_ups.index')}}",
                 data: function(data) {
                     data.for_upstream = 1
-                    data.bci_id = '{{$upstream->id}}'
+                    data.fun_id = '{{$upstream->id}}'
                 }
             },
             serverSide: true,

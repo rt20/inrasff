@@ -43,7 +43,12 @@ class DownStreamNotificationController extends Controller
                 });
                 $d = $d->whereIn('status', ['ccp process', 'done']);
             }
-            return DataTables::of($d)->make();
+
+            if ($request->has('filter_status') && $request->filter_status != 'all') {
+                $d = $d->where('status', $request->filter_status);
+            }
+            
+            return DataTables::of($d->get())->addIndexColumn()->make();
         }
 
         return view('backadmin.downstream.index')->with([

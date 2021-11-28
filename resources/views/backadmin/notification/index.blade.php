@@ -5,12 +5,12 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('backadmin.notifications.index') }}">Notifikasi</a></li>
+<li class="breadcrumb-item"><a href="{{ route('backadmin.notifications.index') }}">Informasi Awal</a></li>
 @endsection
 
 @section('actions')
 @can('store notification')
-<a href="{{ route('backadmin.notifications.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Notifikasi</a>
+<a href="{{ route('backadmin.notifications.create') }}" class="btn btn-primary"><i data-feather="plus"></i> Informasi Awal</a>
 @endcan
 @endsection
 
@@ -35,7 +35,16 @@
         </div>
     </div>
 </div>
-
+<template id="template">
+    <label>
+        <select name="f_filter_status" class="custom-select w-100 filter_status">
+            <option value="all" selected>Semua Status</option>
+            <option value="unread">Belum Dibaca</option>
+            <option value="read">Dibaca</option>
+            <option value="processed">Diproses</option>
+        </select>
+    </label>
+</template>
 @endsection
 
 @section('vendor-js')
@@ -55,6 +64,9 @@
         let table = $('#table').DataTable({
             ajax: {
                 url: "{{ route('backadmin.notifications.index') }}",
+                data: function(data){
+                    data.filter_status = $('.filter_status').val() ?? 'all' 
+                }
             },
             serverSide: true,
             processing: true,
@@ -65,6 +77,8 @@
                 { data: 'source' },
                 { 
                     data: 'status' ,
+                    orderable: false,
+                    searchable: false,
                     className: 'text-center',
                     render: function(data,type,row,meta){
                         return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
@@ -91,6 +105,10 @@
         });
 
         $('#table_length').append($('#template').html());
+
+        $('.filter_status').change(function(e) {
+            table.draw();
+        });
 
         
     })

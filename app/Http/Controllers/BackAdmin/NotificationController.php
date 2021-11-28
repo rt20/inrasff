@@ -21,12 +21,15 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $n = Notification::all();
-            return DataTables::of($n)->make();
+            $n = Notification::query();
+            if ($request->has('filter_status') && $request->filter_status != 'all') {
+                $n = $n->where('status', $request->filter_status);
+            }
+            return DataTables::of($n->get())->addIndexColumn()->make();
         }
 
         return view('backadmin.notification.index')->with([
-            'title' => 'Notifikasi'
+            'title' => 'Informasi Awal'
         ]);
     }
 
@@ -38,7 +41,7 @@ class NotificationController extends Controller
     public function create()
     {
         return view('backadmin.notification.form', [
-            'title' => 'Tambah Notifikasi',
+            'title' => 'Tambah Informasi Awal',
             'notification' => new Notification,
         ]);
     }
@@ -71,7 +74,7 @@ class NotificationController extends Controller
         }
         return redirect()
             ->route('backadmin.notifications.edit', $notification->id)
-            ->withSuccess('Notifikasi berhasil dibuat');
+            ->withSuccess('Informasi Awal berhasil dibuat');
     }
 
     /**
@@ -131,7 +134,7 @@ class NotificationController extends Controller
         }
         return redirect()
             ->route('backadmin.notifications.edit', $notification->id)
-            ->withSuccess('Notifikasi berhasil dibuat');
+            ->withSuccess('Informasi Awal berhasil dibuat');
     }
 
     /**
@@ -149,7 +152,7 @@ class NotificationController extends Controller
 
             return redirect()
                 ->route('backadmin.notifications.index')
-                ->withSuccess('Notifikasi berhasil dihapus');
+                ->withSuccess('Informasi Awal berhasil dihapus');
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -181,7 +184,7 @@ class NotificationController extends Controller
 
             return redirect()
                 ->route('backadmin.downstreams.edit', $downstream->id)
-                ->withSuccess('Notifikasi berhasil diproses menjadi Downstream');
+                ->withSuccess('Informasi Awal berhasil diproses menjadi Downstream');
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -236,7 +239,7 @@ class NotificationController extends Controller
 
             return redirect()
                 ->route('backadmin.upstreams.edit', $upstream->id)
-                ->withSuccess('Notifikasi berhasil diproses menjadi Upstream');
+                ->withSuccess('Informasi Awal berhasil diproses menjadi Upstream');
 
         } catch (Exception $e) {
             DB::rollBack();

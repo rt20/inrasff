@@ -37,7 +37,12 @@ class UpStreamNotificationController extends Controller
                     $q->where('institution_id', $institution_id);
                 });
             }
-            return DataTables::of($d)->make();
+
+            if ($request->has('filter_status') && $request->filter_status != 'all') {
+                $d = $d->where('status', $request->filter_status);
+            }
+
+            return DataTables::of($d->get())->addIndexColumn()->make();
         }
 
         return view('backadmin.upstream.index')->with([
