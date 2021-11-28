@@ -70,7 +70,7 @@
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-
+                            @if(auth()->user()->type==='superadmin')
                             <div class="col-12 col-md-6 form-group">
                                 <label for="parent_id" class="form-label">Lembaga Terkait</label>
                                 <div class="input-group">
@@ -91,7 +91,7 @@
                                     <small class="text-danger">{{ $errors->first('parent_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-
+                            @endif
                             <div class="col-12 col-md-6 form-group" hidden>
                                 <label for="type" class="form-label required">Tipe Lembaga</label>
                                 <input type="text" 
@@ -179,8 +179,13 @@
             console.log(institution)
             this.institution = {
                 name: old.name ?? institution.name ?? '',
+                @if(auth()->user()->type!=='ccp')
                 type: old.type ?? institution.type ?? 'ccp',
                 type_label: old.type_label ?? institution.type_label ?? 'Competent Contact Point',
+                @else
+                type: old.type ?? institution.type ?? 'lccp',
+                type_label: old.type_label ?? institution.type_label ?? 'Local Competent Contact Point',
+                @endif
                 parent_id: old.parent_id ?? institution.parent_id ?? '',
                 
             }

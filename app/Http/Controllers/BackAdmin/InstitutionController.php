@@ -25,8 +25,22 @@ class InstitutionController extends Controller
     {
         
         if($request->ajax()){
-            $institution = Institution::all();
-            
+            $institution = Institution::query();
+            if(auth()->user()->type!=='superadmin'){
+                switch (auth()->user()->type) {
+                    case 'ncp':
+                        $institution = $institution->where('type', 'ccp');
+                        break;
+                    case 'ccp':
+                        $institution = $institution->where('type', 'lccp')
+                                            ->where('parent_id', auth()->user()->institution_id);
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
             return DataTables::of($institution)->make();
         }
 
@@ -63,7 +77,9 @@ class InstitutionController extends Controller
         try {
             DB::beginTransaction();
             $institution = Institution::make($request->only(['name', 'type', 'parent_id']));
-
+            if(auth()->user()->type==='ccp'){
+                $institution->parent_id = auth()->user()->institution_id;
+            }
             $institution->save();
             
             DB::commit();

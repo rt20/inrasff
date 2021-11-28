@@ -140,6 +140,7 @@ class RolePermissionSeeder extends Seeder
             $masterDataPermissions,
             [
                 // 'notification',
+                'institution',
                 'news',
                 'slider',
                 'user'
@@ -223,6 +224,16 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
+        $this->assignEntityPermissions(
+            $roles['ccp'],
+            $masterDataPermissions,
+            [
+                'institution',
+                'news',
+                'user'
+            ]
+        );
+
         $this->assignEntityActionPermissions(
             $roles['ccp'],
             $sideDataPermissions,
@@ -272,6 +283,7 @@ class RolePermissionSeeder extends Seeder
             [
                 'data',
                 'bussiness_process',
+                'master_data'
             ]
         );
 
@@ -309,6 +321,7 @@ class RolePermissionSeeder extends Seeder
                 'notification' => ['view'],
             ]
         );
+        
 
         $this->assignEntityActionPermissions(
             $roles['lccp'],
