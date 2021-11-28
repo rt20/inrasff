@@ -11,6 +11,38 @@
 	.slick-list {
 		padding: 0 -10px;
 	}
+	.slider-image {
+	    position:relative;
+	}
+	.slider-image img {
+	    width:100%;
+	    vertical-align:top;
+	}
+	.slider-image:after, .slider-image:before {
+	    position:absolute;
+	    opacity:0;
+	    transition: all 0.5s;
+	    -webkit-transition: all 0.5s;
+	}
+	.slider-image:after {
+	    content:'\A';
+	    width:100%; height:100%;
+	    top:0; left:0;
+	    background:rgba(0,0,0,0.6);
+	    opacity:1;
+	}
+	.slider-image:before {
+	    content:'\A';
+	    width:100%;
+	    color:#fff;
+	    z-index:1;
+	    bottom:0;
+	    padding:4px 10px;
+	    text-align:center;
+	    box-sizing:border-box;
+	    -moz-box-sizing:border-box;
+	    opacity:1;
+	}
 	@media only screen and (min-width: 600px) {
 		.slick-slide {
 			padding: 0 17px;
@@ -41,7 +73,9 @@
 			@foreach($slider as $data)
 			<div>
 				<div class="bg-cover relative">
-					<img src="{{ $data->getImage() }}" class="w-full">
+					<div class="slider-image h-96 object-contain">
+						<img src="{{ $data->getImage() }}" class="w-full">
+					</div>
 					<div class="absolute bottom-0 left-0 w-full lg:w-1/2 pl-5 pb-10">
 						<button class="text-white bg-tertiary rounded px-6 py-2 mb-3 font-semibold text-xs">{{ $data->category->name }}</button>
 						<div class="font-semibold text-base leading-6 text-white mb-3">{{ $data->title }}</div>
@@ -103,8 +137,8 @@
 				@if($news->count() > 0)
 					@foreach($news as $data)
 					<div>
-						<img src="{{ $data->getImage() }}" class="w-full mb-2">
-						<a href="{{ route('news_detail', $data->id) }}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
+						<img src="{{ $data->getImage() }}" class="w-full mb-2 h-60 object-contain">
+						<a href="{{ route('news_detail', $data->slug) }}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
 						<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
 					</div>
 					@endforeach

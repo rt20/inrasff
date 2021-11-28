@@ -34,7 +34,7 @@
 		@if($news->count() > 0)
 			@foreach($news as $data)
 				<div>
-					<img src="{{ $data->image ?  $data->getImage() : asset('seeder/image_1.jpg') }}" class="w-full pb-4">
+					<img src="{{ $data->image ?  $data->getImage() : asset('seeder/image_1.jpg') }}" class="w-full pb-4 h-60 object-contain">
 					<a href="{{ route('news_detail', $data->slug)}}" class="font-semibold text-base leading-6">{{ $data->title }}</a>
 					<div class="text-gray-500 text-sm py-3">{{ Carbon\Carbon::parse($data->published_at)->format('d M Y') }}</div>
 				</div>
