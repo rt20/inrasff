@@ -38,11 +38,11 @@
                                     Berita
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route('kementrian') }}" class="text-base text-white hover:text-gray-400">
                                     Kementerian
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ route('contactus') }}" class="text-base text-white hover:text-gray-400">
                                     Hubungi Kami

@@ -16,8 +16,8 @@ class SliderSeeder extends Seeder
     {
         Slider::insert([
             [
-                'name' => 'Kementerian',
-                'location' => 'kementerian',
+                'name' => 'Home Page',
+                'location' => 'home_page',
                 'settings' => json_encode([
                     'width' => 1280,
                     'height' => 720
