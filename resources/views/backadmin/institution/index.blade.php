@@ -19,6 +19,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nama</th>
                         <th>Tipe</th>
                         <th class="bi-table-col-action-1">Aksi</th>
@@ -50,6 +51,10 @@
             serverSide: true,
             processing: true,
             columns: [
+                { 
+                    data: 'DT_RowIndex',
+                    className: 'text-center',
+                },
                 { data: 'name' },
                 { 
                     data: 'type' ,

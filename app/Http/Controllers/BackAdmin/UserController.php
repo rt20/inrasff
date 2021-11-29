@@ -40,7 +40,7 @@ class UserController extends Controller
                         break;
                 }
             }
-            return DataTables::of($user)->make();
+            return DataTables::of($user->get())->addIndexColumn()->make();
         }
 
         return view('backadmin.user.index')->with([

@@ -41,7 +41,7 @@ class InstitutionController extends Controller
                         break;
                 }
             }
-            return DataTables::of($institution)->make();
+            return DataTables::of($institution->get())->addIndexColumn()->make();
         }
 
         return view('backadmin.institution.index')->with([
