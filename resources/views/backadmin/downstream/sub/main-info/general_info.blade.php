@@ -14,18 +14,6 @@
         @enderror
     </div><!-- .col-md-6.form-group -->
 
-    {{-- <div class="col-12 col-md-6 form-group">
-        <label for="number_ref" class="form-label required">Nomor Referensi</label>
-        <input type="text" 
-            name="number_ref"
-            v-model="downstream.number_ref" 
-            class="form-control @error('number_ref') {{ 'is-invalid' }} @enderror" 
-            placeholder="Masukkan Nomor Referensi" autocomplete="off">
-        @error('number_ref')
-            <small class="text-danger">{{ $errors->first('number_ref') }}</small>
-        @enderror
-    </div><!-- .col-md-6.form-group --> --}}
-
     <div class="col-12 col-md-6 form-group">
         <label for="status_notif_id" class="form-label required">Status Notifikasi</label>
         <select 
@@ -51,34 +39,11 @@
         @enderror
     </div><!-- .col-md-6.form-group -->
 
-    <div class="col-12 col-md-6 form-group">
-        <label for="country_id" class="form-label">Negara yang Menotifikasi</label>
-        <select
-            id="country_id"
-            name="country_id"            
-            class="form-control @error('country_id') {{ 'is-invalid' }} @enderror">
-        </select>
-        @error('country_id')
-            <small class="text-danger">{{ $errors->first('country_id') }}</small>
-        @enderror
-    </div><!-- .col-md-6.form-group -->
-
-    <div class="col-12 col-md-6 form-group">
-        <label for="based_notif_id" class="form-label">Dasar Notifikasi</label>
-        <select 
-            id="f_based_notif_id"
-            v-model="downstream.based_notif_id" 
-            name="based_notif_id" 
-            class="form-control  @error('based_notif_id') {{ 'is-invalid' }} @enderror">
-        </select>
-        @error('based_notif_id')
-            <small class="text-danger">{{ $errors->first('based_notif_id') }}</small>
-        @enderror
-    </div><!-- .col-md-6.form-group -->
 
     <div class="col-12 col-md-6 form-group">
         <label for="origin_source_notif" class="form-label required">Sumber Asal Notifikasi</label>
             <select 
+                id="origin_source_notif"
                 name="origin_source_notif"
                 v-model="downstream.origin_source_notif" 
                 class="form-control select2 @error('origin_source_notif') {{ 'is-invalid' }} @enderror"
@@ -91,6 +56,7 @@
             <small class="text-danger">{{ $errors->first('origin_source_notif') }}</small>
         @enderror
     </div><!-- .col-md-6.form-group -->
+    
     <div class="col-12 col-md-6 form-group">
         <label for="source_notif" class="form-label required" >Sumber Notifikasi</label>
         <div v-show="downstream.origin_source_notif === '' ">
@@ -124,6 +90,32 @@
         </div>
         @error('source_notif')
             <small class="text-danger">{{ $errors->first('source_notif') }}</small>
+        @enderror
+    </div><!-- .col-md-6.form-group -->
+
+
+    <div class="col-12 col-md-6 form-group">
+        <label for="country_id" class="form-label">Negara yang Menotifikasi</label>
+        <select
+            id="country_id"
+            name="country_id"            
+            class="form-control @error('country_id') {{ 'is-invalid' }} @enderror">
+        </select>
+        @error('country_id')
+            <small class="text-danger">{{ $errors->first('country_id') }}</small>
+        @enderror
+    </div><!-- .col-md-6.form-group -->
+
+    <div class="col-12 col-md-6 form-group">
+        <label for="based_notif_id" class="form-label">Dasar Notifikasi</label>
+        <select 
+            id="f_based_notif_id"
+            v-model="downstream.based_notif_id" 
+            name="based_notif_id" 
+            class="form-control  @error('based_notif_id') {{ 'is-invalid' }} @enderror">
+        </select>
+        @error('based_notif_id')
+            <small class="text-danger">{{ $errors->first('based_notif_id') }}</small>
         @enderror
     </div><!-- .col-md-6.form-group -->
 

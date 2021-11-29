@@ -17,6 +17,8 @@ class CreateFollowUpNotificationAttachmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('fun_id');
             $table->string('title');
+            $table->string('info');
+            $table->text('link');
             $table->timestamps();
 
             $table->foreign('fun_id')->references('id')->on('follow_up_notifications')->onDelete('cascade');

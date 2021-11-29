@@ -43,7 +43,12 @@ class DownStreamNotificationController extends Controller
                 });
                 $d = $d->whereIn('status', ['ccp process', 'done']);
             }
-            return DataTables::of($d)->make();
+
+            if ($request->has('filter_status') && $request->filter_status != 'all') {
+                $d = $d->where('status', $request->filter_status);
+            }
+            
+            return DataTables::of($d->get())->addIndexColumn()->make();
         }
 
         return view('backadmin.downstream.index')->with([
@@ -369,7 +374,7 @@ class DownStreamNotificationController extends Controller
         $validator = Validator::make($request->all(), [
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
-            'attachment' => ['required', 'max:2048'],
+            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
             'info' => ['required'],
             'title_attachment' => ['required'],
         ]);

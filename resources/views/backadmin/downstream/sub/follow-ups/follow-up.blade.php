@@ -33,14 +33,14 @@
                 url:"{{route('backadmin.follow_ups.index')}}",
                 data: function(data) {
                     data.for_downstream = 1
-                    data.bci_id = '{{$downstream->id}}'
+                    data.fun_id = '{{$downstream->id}}'
                 }
             },
             serverSide: true,
             processing: true,
             columns: [
-                { data: 'title' },
-                { data: 'title' },
+                { data: 'author.fullname' },
+                { data: 'author.institution.name' },
                 { 
                     data: 'created_at',
                     render: function(data, type, row, meta) {

@@ -68,6 +68,7 @@
                                     <div class="form-group">
                                         <label class="form-label required" for="attachment">Lampiran</label>
                                         <input name="attachment" id="attachment" class="form-control f-attachment" type="file">
+                                        <small>*format: pdf, excel, jpg, jpeg, png. Max:10MB</small><br>
                                     </div>
                                 </div>
                                 <div v-show="attachmentModal.state === 'delete'">
@@ -241,8 +242,10 @@
                             }
                         });
                         if(invalid){
+                            this.attachmentModal.loading = 0
                             return;
                         }
+                        
                         var url = `{{ route('backadmin.downstreams.add-attachment') }}`
                         var formData = new FormData()
                         
@@ -291,6 +294,7 @@
                     }, 200)
                 }else{
                     // alert(resp?.data?.message)
+                    this.attachmentModal.loading = 0
                     this.attachmentModal.error = resp?.data?.message
                 }
                 

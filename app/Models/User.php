@@ -19,6 +19,7 @@ class User extends Authenticatable
         'ncp' => 'National Contact Point',
         'ccp' => 'Competent Contact Point',
         'lccp' => 'Local Competent Contact Point',
+        'notifier' => 'Notifier',
     ];
 
     /**
@@ -91,11 +92,33 @@ class User extends Authenticatable
         // if (!Gate::allows('create all user')) {
             // return ['non-admin' => 'Non Admin'];
         // } else {
-            return [
-                'ncp' => 'National Contact Point',
-                'ccp' => 'Competent Contact Point',
-                'lccp' => 'Local Competent Contact Point',
-            ];
+        $cur_type_user = auth()->user()->type;
+        switch ($cur_type_user) {
+            case 'superadmin':
+                return [
+                    'ncp' => 'National Contact Point',
+                    'ccp' => 'Competent Contact Point',
+                    'lccp' => 'Local Competent Contact Point',
+                ];
+                break;
+            case 'ncp':
+
+                return [
+                    'ccp' => 'Competent Contact Point',
+                ];
+                # code...
+                break;
+            case 'ccp':
+
+                return [
+                    'lccp' => 'Local Competent Contact Point',
+                ];
+                # code...
+                break;
+            default:
+                return [];
+                break;
+        }
         // }
 
     }

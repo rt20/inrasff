@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\DangerousCategoryLevel as DCL;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DangerousCategoryLevelSeeder extends Seeder
 {
@@ -19,7 +21,10 @@ class DangerousCategoryLevelSeeder extends Seeder
         $bahaya_fisik = 3;
         $mutu = 4;
         $dokumen = 5;
+        $label = 6;
 
+        Schema::disableForeignKeyConstraints();
+        DB::table('dangerous_category_levels')->truncate();
         /**
          * Start Level 1
          */
@@ -50,7 +55,7 @@ class DangerousCategoryLevelSeeder extends Seeder
             [
                 'name' => 'BTP yang tidak diizinkan (unauthorized food additive)',
                 'level' => 1,
-                'has_child' => true,
+                'has_child' => false,
                 'dc_id' => $bahaya_kimia,
                 'parent_id' => null
             ],
@@ -918,5 +923,8 @@ class DangerousCategoryLevelSeeder extends Seeder
           /**
           * End of Level 3
           */
+
+
+        Schema::enableForeignKeyConstraints();
     }
 }

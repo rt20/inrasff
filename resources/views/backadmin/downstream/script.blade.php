@@ -76,6 +76,22 @@
 
             $('select[name="origin_source_notif"]').on('change', function(e){
                 form.downstream.origin_source_notif = e.target.value
+                $('#country_id').val(null).trigger('change')
+                $('select[name="source_notif"]').val(null).trigger('change')
+                if(e.target.value==='local'){
+                    /*
+                    Auto Select Indonesia for Local Case
+                    */
+                    initS2FieldWithAjax(
+                        '#country_id',
+                        '{{route("backadmin.s2Init.countries")}}',
+                        {id:76},
+                        ['code', 'name'],
+                        function(res){
+                            form.upstream.country_id = 76
+                        }
+                    )
+                }
                 console.log(form.downstream)
             })
 

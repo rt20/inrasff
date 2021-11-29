@@ -32,6 +32,7 @@ class FollowUpNotificationController extends Controller
     {
         if($request->ajax()){
             $bci = FollowUpNotification::query();
+            $bci = $bci->with(['author.institution']);
             if($request->has('for_downstream')){
                 if($request->for_downstream==1){
                     $bci = $bci->where('fun_type', 'App\Models\DownStreamNotification');
@@ -106,6 +107,7 @@ class FollowUpNotificationController extends Controller
         return view('backadmin.follow_up.form', [
             'title' => 'Tambah Tindak Lanjut',
             'follow_up' => $follow_up,
+            'type_infos' => FollowUpNotificationAttachment::INFOS
         ]);
     }
 
@@ -183,6 +185,7 @@ class FollowUpNotificationController extends Controller
         return view('backadmin.follow_up.form', [
             'title' => "Edit Tindak Lanjut",
             'follow_up' => $followUp,
+            'type_infos' => FollowUpNotificationAttachment::INFOS
         ]);
     }
 
@@ -301,13 +304,24 @@ class FollowUpNotificationController extends Controller
         try {
             DB::beginTransaction();
             // $follow_up = FollowUpNotification::find($id);
+            $number = $followUp->notification->number;
+            $id = $followUp->notification->id;
             $followUp->attachment()->delete();
             $followUp->delete();
             DB::commit();
-
-            return redirect()
-                ->route('backadmin.follow_ups.index')
-                ->withSuccess('Info Tindak Lanjut berhasil dihapus');
+            if(str_contains($number, "IN.DS")){
+                return redirect()
+                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'follow_up'])
+                ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            }else  if(str_contains($number, "IN.US")){
+                return redirect()
+                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'follow_up'])
+                ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            }else{
+                return redirect()
+                    ->route('backadmin.dashboard')
+                    ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            }
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -320,7 +334,9 @@ class FollowUpNotificationController extends Controller
     public function addAttachment(Request $request){
         $validator = Validator::make($request->all(), [
             'fun_id' => ['required'],
-            'attachment' => ['required', 'max:2048'],
+            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
+            'info' => ['required'],
+            'title_attachment' => ['required'],
         ]);
 
         try {
@@ -342,7 +358,9 @@ class FollowUpNotificationController extends Controller
             if($res !== "All Process success"){
                 throw new Exception($res);
             }
-            $attachment->title = $name;
+            $attachment->link = $name;
+            $attachment->title = $request->title_attachment;
+            $attachment->info = $request->info;
             $attachment->save();
 
             DB::commit();

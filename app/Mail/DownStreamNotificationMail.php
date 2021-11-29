@@ -46,7 +46,8 @@ class DownStreamNotificationMail extends Mailable
      */
     public function build()
     {
-        return $this->from('system@inrasff.com')
+        return $this->from('inrasff@pom.go.id')
+            // $this->from('system@inrasff.com')
             ->subject('[INRASFF-Assign] ' . $this->title)
             ->view('mail.downstream_notification');
     }

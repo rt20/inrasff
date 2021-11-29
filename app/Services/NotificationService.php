@@ -157,7 +157,7 @@ class NotificationService{
             ],
             [
                 'value' => 5,
-                'label' => 'Food contact material'
+                'label' => 'Bahan Kontak Pangan  / Food contact material'
             ],
             [
                 'value' => 6,

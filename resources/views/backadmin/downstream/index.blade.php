@@ -21,6 +21,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Judul</th>
                         <th>Status</th>
                         <th>Tanggal Diterbitkan</th>
@@ -33,7 +34,17 @@
         </div>
     </div>
 </div>
-
+<template id="template">
+    <label>
+        <select name="f_filter_status" class="custom-select w-100 filter_status">
+            <option value="all" selected>Semua Status</option>
+            <option value="draft">Draft</option>
+            <option value="open">Dibuka</option>
+            <option value="ccp process">Proses CCP</option>
+            <option value="done">Selesai</option>
+        </select>
+    </label>
+</template>
 @endsection
 
 @section('vendor-js')
@@ -52,13 +63,22 @@
         let table = $('#table').DataTable({
             ajax: {
                 url: "{{ route('backadmin.downstreams.index') }}",
+                data: function(data){
+                    data.filter_status = $('.filter_status').val() ?? 'all' 
+                }
             },
             serverSide: true,
             processing: true,
             columns: [
+                { 
+                    data: 'DT_RowIndex',
+                    className: 'text-center',
+                },
                 { data: 'title' },
                 { 
                     data: 'status' ,
+                    orderable: false,
+                    searchable: false,
                     className: 'text-center',
                     render: function(data,type,row,meta){
                         return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
@@ -80,8 +100,14 @@
                     } 
                 }
             ],
-            order: [[0, 'desc']],
+            order: [[0, 'asc']],
             language: dtLangId
+        });
+
+        $('#table_length').append($('#template').html());
+
+        $('.filter_status').change(function(e) {
+            table.draw();
         });
         
     })

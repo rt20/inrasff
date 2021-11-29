@@ -25,6 +25,21 @@ class UserController extends Controller
             if ($request->has('filter_type') && $request->filter_type != 'all') {
                 $user = $user->where('type', $request->filter_type);
             }
+            if(auth()->user()->type!=='superadmin'){
+                switch (auth()->user()->type) {
+                    case 'ncp':
+                        $user = $user->where('type', 'ccp');
+                        break;
+                    case 'ccp':
+                        $user = $user->where('type', 'lccp');
+                            
+                        # code...
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
+            }
             return DataTables::of($user)->make();
         }
 

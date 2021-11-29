@@ -53,7 +53,7 @@
             
             @can('view notification')
             <li class="nav-item {{ Str::startsWith(Route::currentRouteName(), 'backadmin.notifications') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('backadmin.notifications.index') }}"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="bell">Notifikasi</span></a>
+                <a class="d-flex align-items-center" href="{{ route('backadmin.notifications.index') }}"><i data-feather="bell"></i><span class="menu-title text-truncate" data-i18n="bell">Informasi Awal</span></a>
             </li>
             @endcan
             

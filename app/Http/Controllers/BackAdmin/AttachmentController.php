@@ -25,6 +25,6 @@ class AttachmentController extends Controller
         if($na==null)
             abort(404);        
             
-        return Storage::disk('local')->response('follow_up/attachment/'.$na->title);
+        return Storage::disk('local')->response('follow_up/attachment/'.$na->link, $na->link);
     }
 }
