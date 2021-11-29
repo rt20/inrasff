@@ -26,7 +26,7 @@
                         <th>Judul</th>
                         <th>Sumber</th>
                         <th>Status</th>
-                        <th>Tanggal Terbit</th>
+                        <th>Tanggal Dibuat</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>
