@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/slick/slick/slick-theme.css') }}"/>
 <link rel="stylesheet" href="{{ asset('vendors/magnific-popup/dist/magnific-popup.css') }}">
-<style type="text/css">	
+{{-- <style type="text/css">	
 	.slick-slide {
 		padding: 0 10px;
 	}
@@ -51,6 +51,34 @@
 			padding: 0 -17px;
 		}
 	}
+</style> --}}
+<style type="text/css">
+	.slider .slick-prev {
+	    left: 0;
+	    z-index: 1;
+	}
+	.slider .slick-prev:before {
+	    content: '<';
+	}
+	.slider .slick-next {
+	    right: 6%;
+	}
+	.slider .slick-next:before {
+	    content: '>';
+	}
+	.slider .slick-prev:before, .slider .slick-next:before {
+	    font-size: 20px;
+	    font-weight: bold;
+	    color: #FFF;
+	    background-color: rgba(0,0,0,0.5);
+	    padding: 2rem 1rem;
+	}
+
+	@media only screen and (min-width: 600px) {
+		.slider .slick-next {
+		    right: 2%;
+		}
+	}
 </style>
 @endsection
 
@@ -67,7 +95,32 @@
 	</div>
 </section>
 
-<section class="mb-0 lg:mb-8">
+
+<section class="container px-3 pb-5 lg:mx-auto">
+	<div class="slider">
+		@if($slider)
+			@if($slider->sliderImage->count() > 0)
+				@foreach($slider->sliderImage as $data)
+					<img src="{{ $data->getRefAttribute() }}" class="w-full h-96 object-cover">
+				@endforeach
+			@else
+				<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+				<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+				<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+				<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+				<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+			@endif
+		@else
+			<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_2.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
+			<img src="{{ asset('seeder/slider_1.jpg') }}" class="w-full">
+		@endif
+	</div>
+</section>
+
+{{-- <section class="mb-0 lg:mb-8">
 	<div class="slick">
 		@if($slider->count() > 0)
 			@foreach($slider as $data)
@@ -112,7 +165,7 @@
 			@endfor
 		@endif
 	</div>
-</section>
+</section> --}}
 
 <section class="w-full bg-secondary">
 	<div class="container px-3 lg:mx-auto py-10">
@@ -129,8 +182,11 @@
 			<button class="text-white bg-tertiary rounded px-6 py-2 my-6 font-semibold text-xs">{{ $firstNews ? $firstNews->category->name : 'World' }}</button>
 			<div class="font-semibold text-2xl leading-normal">{{ $firstNews ? $firstNews->title : 'Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?' }}</div>
 			<div class="text-gray-500 text-sm py-3">{{ $firstNews ? Carbon\Carbon::parse($firstNews->published_at)->format('d M Y') : '2 September 2021' }}</div>
-			<div class="text-gray-400 text-sm pb-6 leading-normal">
-				{{ $firstNews ? $firstNews->excerpt : 'Bayangkan jika saat Anda di mini market, membawa banyak barang dan saat tiba di kasir, sang kasir malah menaruh kembali barang barang Anda di rak seperti semula, tanpa memberitahu alasannya...' }}
+			<div class="text-gray-400 text-sm pb-3 leading-normal">
+				{{ $firstNews ? $firstNews->excerpt : 'Bayangkan jika saat Anda di mini market, membawa banyak barang dan saat tiba di kasir, sang kasir malah menaruh kembali barang barang Anda di rak seperti semula, tanpa memberitahu alasannya...' }} <br>
+				<a href="{{ $firstNews ? route('news_detail',$firstNews->slug) : route('news_detail', 1) }}" class="text-blue-600 underline pointer">
+					Selengkapnya
+				</a>
 			</div>
 
 			<div class="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 w-full">
@@ -233,7 +289,7 @@
 				@endif
 			</ul>
 
-			<div class="text-base font-semibold mb-5">Pictures</div>
+			{{-- <div class="text-base font-semibold mb-5">Pictures</div>
 			<div class="grid grid-cols-4 gap-1 mb-8">
 				@if($gallery->count() > 0)
 					@foreach($gallery as $data)
@@ -254,7 +310,7 @@
 					</a>
 					@endfor
 				@endif	
-			</div>
+			</div> --}}
 
 			<div class="text-base font-semibold mb-5">Related Link</div>
 			<div class="break-all leading-normal">
@@ -272,10 +328,37 @@
 	</div>
 </section>
 
-<section class="bg-gray-100 py-8">
+{{-- <section class="bg-gray-100 py-8">
 	<div class="container px-3 lg:mx-auto">
 		<div class="text-xl font-bold uppercase pb-6">statistik</div>
 		<img src="{{ asset('images/statistik.png') }}" class="w-full rounded">
+	</div>
+</section> --}}
+
+<section class="bg-gray-100 py-8">
+	<div class="container px-3 lg:mx-auto">
+		<div class="text-xl font-bold uppercase pb-6">pictures</div>
+		<div class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-5 mb-8">
+			@if($gallery->count() > 0)
+				@foreach($gallery as $data)
+					<a href="{{ $data->getImage() }}" class="magnific-popup">
+						<img src="{{ $data->getImage() }}" class="w-full rounded">
+					</a>
+				@endforeach
+			@else
+				@for($i=1;$i<=4;$i++)
+				<a href="{{ asset('seeder/image_1.jpg') }}" class="magnific-popup">
+					<img src="{{ asset('seeder/image_1.jpg') }}" class="w-full rounded">
+				</a>
+				<a href="{{ asset('seeder/image_2.jpg') }}" class="magnific-popup">
+					<img src="{{ asset('seeder/image_2.jpg') }}" class="w-full rounded">
+				</a>
+				<a href="{{ asset('seeder/image_3.jpg') }}" class="magnific-popup">
+					<img src="{{ asset('seeder/image_3.jpg') }}" class="w-full rounded">
+				</a>
+				@endfor
+			@endif	
+		</div>
 	</div>
 </section>
 @endsection
@@ -305,6 +388,15 @@
 	    // settings: "unslick"
 	    // instead of a settings object
 	  ]
+	});
+
+	$('.slider').slick({
+		dots: false,
+		arrows : true,
+		infinite: true,
+		speed: 300,
+		slidesToShow: 1,
+		adaptiveHeight: true
 	});
 
 	$('.supported').slick({

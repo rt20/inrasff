@@ -65,7 +65,7 @@
                 <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false }">
                     <a href="{{ route('home') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Home</a>
                     <a href="{{ route('news') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>
-                    <a href="{{ route('kementrian') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementerian</a>
+                    {{-- <a href="{{ route('kementrian') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementerian</a> --}}
                     {{-- <a href="{{ route('aboutus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Tentang Kami</a> --}}
                     <div @click="showAbout = true; showBisnis = false" href="javascript:void(0)" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">
                         <span class="cursor-pointer relative" @click.away="showAbout = false">
@@ -104,7 +104,7 @@
             <div class="w-full text-primary mt-8 h-full">
                 <a href="{{ route('home') }}" class="block py-3 transition duration-300 uppercase font-bold">Home</a>
                 <a href="{{ route('news') }}" class="block py-3 transition duration-300 uppercase font-bold">Berita</a>
-                <a href="{{ route('kementrian') }}" class="block py-3 transition duration-300 uppercase font-bold">Kementerian</a>
+                {{-- <a href="{{ route('kementrian') }}" class="block py-3 transition duration-300 uppercase font-bold">Kementerian</a> --}}
                 <a href="{{ route('aboutus') }}" class="block py-3 transition duration-300 uppercase font-bold">Tentang Kami</a>
                 <a href="{{ route('baganalir') }}" class="block py-3 transition duration-300 uppercase font-bold">Bagan Alir Penerapan INRASFF</a>
                 <a href="{{ route('logical') }}" class="block py-3 transition duration-300 uppercase font-bold">Logical Framework INRASFF</a>
