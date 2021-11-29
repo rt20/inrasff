@@ -6,7 +6,7 @@
         <meta name="description" content="Inrasff">
         <meta name="keywords" content="bpom inrasff notifikasi bpom">
         <meta name="author" content="PENTACODE">
-        <title>{{ config('app.name') }} | {{ $title ?? 'Untitled' }}</title>
+        <title>{{ config('app.name') }} | {{ $title ?? 'Report Notifikasi' }}</title>
         <link rel="apple-touch-icon" href="{{ asset('backadmin/theme/images/ico/apple-icon-120.png') }}">
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backadmin/theme/images/ico/favicon.ico') }}">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
@@ -52,7 +52,7 @@
                                     </svg>
                                     <h3 class="text-primary font-weight-bold ml-1">Formulir Notifikasi</h3>
                                 </div>
-                                <p class="mb-25">Nomor Notifikasi</p>
+                                <p class="mb-25">{{$notification->number ?? '-'}}</p>
                             </div>
                         </div>
     
@@ -69,7 +69,71 @@
                                 <tbody>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25">01. Nomor Referensi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->number ?? '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">02. Status Notifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->notificationStatus->name ?? '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">03. Tipe Notifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->notificationType->name ?? '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">04. Judul Notifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->title ?? '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">05. Negara yang menotifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->country->name ?? '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">06. Dasar Notifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->baseNotification->name ?? '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">07. Sumber Informasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->source_notif && $notification->origin_source_notif ? ($notification->origin_source." (".$notification->source.")") : '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">08. Tanggal Notifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$notification->created_at ? \Carbon\Carbon::make($notification->created_at)->isoFormat('dddd, D MMMM Y') : '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">09. Instansi yang perlu menindaklanjuti</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -77,7 +141,7 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">10. Instansi lain yang terkait</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -97,20 +161,43 @@
                                 <tbody>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25">11. Nama Produk</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$notification->product_name?? '-'}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">12. Kategori Produk</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$notification->product_category ?? '-'}}</strong>
                                         </td>
                                     </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="3">
+                                            <p class="font-weight-semibold mb-25">13. Deskripsi Produk</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Merk Produk: {{$notification->brand_name?? '-'}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Kemasan Produk: {{$notification->package_product?? '-'}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Nomor Registrasi: {{$notification->registration_number?? '-'}}</p>
+                                        </td>
+                                    </tr>
+                                    {{-- <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Berat Unit:</p>
+                                        </td>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -124,9 +211,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($notification->dangerous as $i=>$item)
+                                    <tr>
+                                        <th colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Bahaya {{$i+1}}</th>
+                                    </tr>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25">14.{{$alphabet[$i]}}. Jenis Bahaya yang diidentifikasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->name ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">15.{{$alphabet[$i]}}. Kategori Bahaya</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->category->name ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">16.{{$alphabet[$i]}}. Hasil Uji</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->name_result ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" colspan="2">
+                                            <p class="font-weight-semibold mb-25">17.{{$alphabet[$i]}}. Sampling</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Tanggal</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -134,12 +254,72 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25 ml-4">Jumlah Sampel</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
                                         </td>
                                     </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Metode</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Tempat pengambilan</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" colspan="2">
+                                            <p class="font-weight-semibold mb-25">18.{{$alphabet[$i]}}. Analisis</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Laboratorium</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->laboratorium ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Matriks</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->matrix ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" colspan="2">
+                                            <p class="font-weight-semibold mb-25">19.{{$alphabet[$i]}}. Standar yang berlaku</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Scope</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->scope ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Maksimum batas yang diijinkan</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->max_tollerance ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -153,9 +333,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($notification->risks as $i=>$item)
+                                    <tr>
+                                        <th colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Resiko</th>
+                                    </tr>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25"> 20.{{$alphabet[$i]}}. Status distribusi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{ $item->distributionStatus->name ?? "-" }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">21.{{$alphabet[$i]}}. Resiko Serius</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{ $item->serious_risk ?? '-' }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">22.{{$alphabet[$i]}}. Jumlah korban</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{ $item->victim ?? '-' }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">23.{{$alphabet[$i]}}. Sakit yang di derita/gejala</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{ $item->symptom ?? '-' }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">24.{{$alphabet[$i]}}. Voluntary Measures</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -163,12 +379,21 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">25.{{$alphabet[$i]}}. Compulsory Measures</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
                                         </td>
                                     </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">26. {{$alphabet[$i]}}. Tanggal dikeluarkan</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$item->created_at ? \Carbon\Carbon::make($notification->created_at)->isoFormat('dddd, D MMMM Y') : '-'}}</strong>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -183,7 +408,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25">27. Negara Asal</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -191,10 +416,185 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">28. Nomor Batch/ Lot/ Consigment</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="3">
+                                            <p class="font-weight-semibold mb-25">29. Informasi Tanggal</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Used-by-date:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Best-before-date:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Sell-by-date:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="2">
+                                            <p class="font-weight-semibold mb-25">30. Deskripsi Lot</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">No of Units:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Total (net) weight / volume of lot:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="3">
+                                            <p class="font-weight-semibold mb-25">31. Sertifikat Kesehatan (Public Health Certificate)</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Number:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Date:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Organization / ministry:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="3">
+                                            <p class="font-weight-semibold mb-25">32. Sertifikat lainnya</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Number:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Date:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Organization / ministry:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">33. CVED/CED Number</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">-</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="5">
+                                            <p class="font-weight-semibold mb-25">34. Produsen</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Kota:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Negara:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Approval / reg.number:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="5">
+                                            <p class="font-weight-semibold mb-25">35. Importir</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Kota:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Negara:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Approval / reg.number:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="5">
+                                            <p class="font-weight-semibold mb-25">36. Wholesaler</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Kota:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Negara:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Approval / reg.number:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">37. Distribusi ke Negara ASEAN</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">-</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">38. Ekspor ke Negara Lainnya</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">-</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -211,7 +611,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25">39. Titik Keberangkatan</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -219,10 +619,60 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">40. Titik Masuk</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">41. Titik Pengawasan</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">42. Negara Tujuan</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="2">
+                                            <p class="font-weight-semibold mb-25">43. Consignee/ Penerima</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">44. Container / Seal Number</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="2">
+                                            <p class="font-weight-semibold mb-25">45. Alat Transportasi</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">-</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Informasi Lainnya:</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -237,9 +687,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
+                                            <p class="font-weight-semibold mb-25">46. Instansi</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -247,7 +697,15 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">47. Contact Person</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25">48. Informasi Lainnya</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>
@@ -267,15 +725,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 1</p>
-                                        </td>
-                                        <td class="py-1">
-                                            <strong>-</strong>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-bottom">
-                                        <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">01. Point 2</p>
+                                            <p class="font-weight-semibold mb-25">Berkas_Bagus.pdf</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>-</strong>

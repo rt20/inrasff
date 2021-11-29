@@ -137,8 +137,9 @@ class NotificationService{
         ];
     }
 
-    public static function productCategory(){
-        return [
+    public static function productCategory($id=null){
+
+        $data =  [
             [
                 'value' => 1,
                 'label' => 'Bahan Tambahan Pangan'
@@ -216,6 +217,23 @@ class NotificationService{
                 'label' => 'Telur dan produk-produk telur'
             ],
         ];
+        if($id!=null){
+            $found = null;
+            foreach ($data as $i => $d) {
+                if($d['value']==$id){
+                    $found = $d['value'];
+                    break;
+                }
+            }
+            
+            if($found!=null)
+            {
+                return $data[$found]['label'];
+            }
+            return '';
+        }
+
+        return $data;
     }
 
     public static function categoryDangerous(){

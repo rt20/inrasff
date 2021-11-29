@@ -40,7 +40,7 @@ Route::middleware('anti-script-middleware')->group(function() {
 
     Route::get('/mail', [Controller\TestController::class, 'mail']);
     Route::get('/send-mail', [Controller\TestController::class, 'sendMail']);
-    Route::get('/report', [Controller\TestController::class, 'report'])->name('test_report');
+    // Route::get('/report', [Controller\TestController::class, 'report'])->name('test_report');
 });
 
 // BACKEND
@@ -108,6 +108,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::put('/{downstream}/done', [BackAdmin\DownStreamNotificationController::class, 'done'])->name('done');
             Route::post('/add-attachment', [BackAdmin\DownStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
             Route::delete('/{id}/delete-attachment', [BackAdmin\DownStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            Route::get('{downstream}/report', [BackAdmin\DownStreamNotificationController::class, 'report'])->name('report');
             
         });
 
@@ -122,6 +123,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::put('/{upstream}/back-open', [BackAdmin\UpStreamNotificationController::class, 'backOpen'])->name('back-open');
             Route::post('/add-attachment', [BackAdmin\UpStreamNotificationController::class, 'addAttachment'])->name('add-attachment');
             Route::delete('/{id}/delete-attachment', [BackAdmin\UpStreamNotificationController::class, 'deleteAttachment'])->name('delete-attachment');
+            Route::get('{upstream}/report', [BackAdmin\UpStreamNotificationController::class, 'report'])->name('report');
         });
 
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {

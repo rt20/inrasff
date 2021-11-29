@@ -7,6 +7,7 @@ use App\Traits\HasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Services\NotificationService;
 
 class UpStreamNotification extends Model
 {
@@ -34,13 +35,58 @@ class UpStreamNotification extends Model
         'others'
     ];
 
-    protected $appends = [ 'status_label', 'status_class',];
+    protected $appends = [ 'status_label', 'status_class', 'origin_source', 'source', 'product_category'];
+
     private $states = [
         'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
         'open' => [ 'label' => 'Dibuka', 'class' => 'info' ],
         // 'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
         'done' => [ 'label' => 'Selesai', 'class' => 'success' ],
     ];
+
+    public function getProductCategoryAttribute(){
+        if($this->category_product_id==null){
+            return null;
+        }
+        $data = NotificationService::productCategory($this->category_product_id);
+        return $data;
+    }
+
+    public function getOriginSourceAttribute(){
+        switch ($this->origin_source_notif) {
+            case 'local':
+                $data = NotificationService::notificationSource();
+                return $data[$this->source_notif]['label'];
+                // return "Dalam Negeri";
+                break;
+
+            case 'interlocal':
+                $data = NotificationService::notificationSource(null);
+                return $data[$this->source_notif]['label'];
+                // return "Luar Negeri";
+                break;
+            
+            default:
+                return "";
+                break;
+        }
+    }
+
+    public function getSourceAttribute(){
+        switch ($this->origin_source_notif) {
+            case 'local':
+                return "Dalam Negeri";
+                break;
+
+            case 'interlocal':
+                return "Luar Negeri";
+                break;
+            
+            default:
+                return "";
+                break;
+        }
+    }
 
     public function notification()
     {
@@ -87,6 +133,46 @@ class UpStreamNotification extends Model
     public function upstreamUserAccess()
     {
         return $this->hasMany(UpStreamUserAccess::class, 'upstream_id', 'id');
+    }
+
+    /**
+     * Get the notificationStatus that owns the DownStreamNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function notificationStatus()
+    {
+        return $this->belongsTo(NotificationStatus::class, 'status_notif_id');
+    }
+
+    /**
+     * Get the notificationType that owns the DownStreamNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function notificationType()
+    {
+        return $this->belongsTo(NotificationType::class, 'type_notif_id');
+    }
+
+    /**
+     * Get the country that owns the DownStreamNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    /**
+     * Get the baseNotification that owns the DownStreamNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function baseNotification()
+    {
+        return $this->belongsTo(NotificationBase::class, 'based_notif_id');
     }
 
 }
