@@ -77,7 +77,7 @@
                                     name="number"
                                     v-model="notification.number" 
                                     class="form-control @error('number') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Judul" autocomplete="off">
+                                    placeholder="Masukkan Nomor" autocomplete="off">
                                 @error('number')
                                     <small class="text-danger">{{ $errors->first('number') }}</small>
                                 @enderror
