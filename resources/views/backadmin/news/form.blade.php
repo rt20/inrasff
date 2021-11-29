@@ -78,6 +78,7 @@
                                     placeholder="Pilih Status" autocomplete="off">
                                     <option value='draft' {{ $news->status == 'draft' ? 'selected' : '' }}>Draft</option>
                                     <option value='published' {{ $news->status == 'published' ? 'selected' : '' }}>Published</option>
+                                    <option value='rejected' {{ $news->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                 </select>
                                 @error('status')
                                     <small class="text-danger">{{ $errors->first('status') }}</small>

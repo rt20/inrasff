@@ -22,6 +22,7 @@
                         <th width="50">#</th>
                         <th>Judul</th>
                         <th>Slug</th>
+                        <th>Status</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>
@@ -55,6 +56,15 @@
                 { data: 'DT_RowIndex', className: 'text-center' },
                 { data: 'title' },
                 { data: 'slug' },
+                { 
+                    data: 'status' ,
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center',
+                    render: function(data,type,row,meta){
+                        return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                    }
+                },
                 {
                     data: 'id',
                     className: 'text-center',
