@@ -18,7 +18,7 @@ class FrontController extends Controller
 {
     public function home()
     {
-        $slider = News::published()->orderBy('published_at', 'DESC')->limit(6)->get();
+        $slider = Slider::where('location', 'home_page')->first();
         $firstNews = News::published()->orderBy('published_at', 'DESC')->first();
         if($firstNews) {
             $news = News::published()->orderBy('published_at', 'DESC')->where('id', '!=', $firstNews->id)->limit(6)->get();
@@ -65,7 +65,9 @@ class FrontController extends Controller
 
     public function aboutus()
     {
-    	return view('front.aboutus');
+        $kementrian = Kementrian::get();
+
+    	return view('front.aboutus', compact('kementrian'));
     }
 
     public function logical()

@@ -30,7 +30,6 @@
 		    right: 2%;
 		}
 	}
-</style
 </style>
 @endsection
 
