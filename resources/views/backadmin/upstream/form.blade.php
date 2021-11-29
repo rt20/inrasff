@@ -97,7 +97,7 @@
                 
                     @if($upstream->isStatus('open', false))
                     <li class="nav-item">
-                        <a class="nav-link " id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
+                        <a class="nav-link {{ $focus=== 'follow_up' ? 'active' : '' }}" id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
                     </li>
                     @endif
                 @endif
@@ -137,7 +137,7 @@
                         @include('backadmin.upstream.tab.attachment')
                     </div>
                     @if($upstream->isStatus('open', false))
-                    <div class="tab-pane " id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
+                    <div class="tab-pane {{ $focus=== 'follow_up' ? 'active' : '' }}" id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
                         @include('backadmin.upstream.tab.follow_ups')
                     </div>
                     @endif

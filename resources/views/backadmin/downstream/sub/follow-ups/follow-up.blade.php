@@ -39,8 +39,8 @@
             serverSide: true,
             processing: true,
             columns: [
-                { data: 'title' },
-                { data: 'title' },
+                { data: 'author.fullname' },
+                { data: 'author.institution.name' },
                 { 
                     data: 'created_at',
                     render: function(data, type, row, meta) {

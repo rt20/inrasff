@@ -32,6 +32,7 @@ class FollowUpNotificationController extends Controller
     {
         if($request->ajax()){
             $bci = FollowUpNotification::query();
+            $bci = $bci->with(['author.institution']);
             if($request->has('for_downstream')){
                 if($request->for_downstream==1){
                     $bci = $bci->where('fun_type', 'App\Models\DownStreamNotification');
@@ -303,13 +304,24 @@ class FollowUpNotificationController extends Controller
         try {
             DB::beginTransaction();
             // $follow_up = FollowUpNotification::find($id);
+            $number = $followUp->notification->number;
+            $id = $followUp->notification->id;
             $followUp->attachment()->delete();
             $followUp->delete();
             DB::commit();
-
-            return redirect()
-                ->route('backadmin.follow_ups.index')
-                ->withSuccess('Info Tindak Lanjut berhasil dihapus');
+            if(str_contains($number, "IN.DS")){
+                return redirect()
+                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'follow_up'])
+                ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            }else  if(str_contains($number, "IN.US")){
+                return redirect()
+                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'follow_up'])
+                ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            }else{
+                return redirect()
+                    ->route('backadmin.dashboard')
+                    ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            }
 
         } catch (Exception $e) {
             DB::rollBack();

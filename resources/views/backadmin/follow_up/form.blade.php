@@ -14,8 +14,8 @@
     <a 
     href="{{ 
         str_replace('App\\Models\\', '', $follow_up->fun_type) === 'DownStreamNotification' ?
-        route('backadmin.downstreams.edit', $follow_up->notification->id) :
-        route('backadmin.upstreams.edit', $follow_up->notification->id)
+        route('backadmin.downstreams.edit', ['downstream' => $follow_up->notification->id, 'focus' => 'follow_up']) :
+        route('backadmin.upstreams.edit', ['upstream' => $follow_up->notification->id, 'focus' => 'follow_up'])
     
     }}"
     
@@ -25,8 +25,8 @@
 <a 
 href="{{ 
     request()->input('notification_type') === 'downstream'?
-    route('backadmin.downstreams.edit', request()->input('notification_id')) :
-    route('backadmin.upstreams.edit', request()->input('notification_id'))
+    route('backadmin.downstreams.edit', ['downstream' =>  request()->input('notification_id'), 'focus' => 'follow_up']) :
+    route('backadmin.upstreams.edit', ['upstream' =>  request()->input('notification_id'), 'focus' => 'follow_up'])
 
 }}"
     
