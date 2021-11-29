@@ -23,8 +23,9 @@
                     <tr>
                         <th>#</th>
                         <th>Judul</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Tanggal Selesai</th>
                         <th>Status</th>
-                        <th>Tanggal Diterbitkan</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>
@@ -75,6 +76,22 @@
                     className: 'text-center',
                 },
                 { data: 'title' },
+                {   
+                    data: 'created_at' ,
+                    searchable: false,
+                    render: function(data, type, row, meta){
+                        return moment(data).format('D MMMM YYYY HH:mm:ss')
+                    }
+                },
+                {   
+                    data: 'finished_at' ,
+                    searchable: false,
+                    render: function(data, type, row, meta){
+                        if(data==null)
+                            return '-'
+                        return moment(data).format('D MMMM YYYY HH:mm:ss')
+                    }
+                },
                 { 
                     data: 'status' ,
                     orderable: false,
@@ -82,12 +99,6 @@
                     className: 'text-center',
                     render: function(data,type,row,meta){
                         return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
-                    }
-                },
-                {   
-                    data: 'created_at' ,
-                    render: function(data, type, row, meta){
-                        return moment(data).format('D MMMM YYYY HH:mm:ss')
                     }
                 },
                 {
