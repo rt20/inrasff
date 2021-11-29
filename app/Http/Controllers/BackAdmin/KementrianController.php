@@ -25,7 +25,7 @@ class KementrianController extends Controller
     {
         if($request->ajax()){
             $n = Kementrian::all();
-            return DataTables::of($n)->make();
+            return DataTables::of($n)->addIndexColumn()->make();
         }
 
         return view('backadmin.kementrian.index')->with([

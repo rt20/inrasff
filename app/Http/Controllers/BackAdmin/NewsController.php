@@ -25,7 +25,7 @@ class NewsController extends Controller
     {
         if($request->ajax()){
             $n = News::all();
-            return DataTables::of($n)->make();
+            return DataTables::of($n)->addIndexColumn()->make();
         }
 
         return view('backadmin.news.index')->with([

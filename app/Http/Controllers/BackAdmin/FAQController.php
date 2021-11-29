@@ -25,7 +25,7 @@ class FAQController extends Controller
     {
         if($request->ajax()){
             $n = FAQ::all();
-            return DataTables::of($n)->make();
+            return DataTables::of($n)->addIndexColumn()->make();
         }
 
         return view('backadmin.faq.index')->with([

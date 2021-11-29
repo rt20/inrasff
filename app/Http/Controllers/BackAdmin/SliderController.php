@@ -26,7 +26,7 @@ class SliderController extends Controller
     {
         if($request->ajax()){
             $s = Slider::all();
-            return DataTables::of($s)->make();
+            return DataTables::of($s)->addIndexColumn()->make();
         }
 
         return view('backadmin.slider.index')->with([
