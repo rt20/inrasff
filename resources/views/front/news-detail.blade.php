@@ -4,6 +4,7 @@
 @endsection
 
 @section('body')
+@if($news)
 <section class="px-3 lg:mx-auto mt-16 lg:mt-44">
 	<div class="container mx-auto py-8">
 		<div class="font-semibold text-2xl leading-normal">{{ $news->title }}</div>
@@ -14,8 +15,9 @@
 		</div>
 	</div>
 </section>
-<section class="container px-3 lg:mx-auto py-8">
-	<div class="text-xl font-bold uppercase pb-6">Related Articles</div>
+@endif
+<section class="@if($news) container px-3 lg:mx-auto py-8 @else container px-3 lg:mx-auto mt-16 lg:mt-44 @endif ">
+	<div class="text-xl font-bold uppercase pb-6 @if(!$news) pt-6 @endif">Related Articles</div>
 	<div class="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 w-full pb-8">
 		@if($relatedNews->count() > 0)
 			@foreach($relatedNews as $data)

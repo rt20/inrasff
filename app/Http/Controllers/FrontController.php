@@ -49,7 +49,9 @@ class FrontController extends Controller
     {
         $news = News::published()->where('slug', $slug)->first();
 
-        $relatedNews = News::published()->where('id', '!=', $news->id)->inRandomOrder()->limit(4)->get();
+        $relatedNews = News::published()->inRandomOrder()->limit(4)->get();
+        if($news)
+            $relatedNews = News::published()->where('id', '!=', $news->id)->inRandomOrder()->limit(4)->get();
 
     	return view('front.news-detail', compact('news', 'relatedNews'));
     }
