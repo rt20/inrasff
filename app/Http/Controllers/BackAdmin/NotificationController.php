@@ -56,6 +56,7 @@ class NotificationController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
+            'number' => ['required', 'max:255'],
         ]);
         try {
             DB::beginTransaction();
