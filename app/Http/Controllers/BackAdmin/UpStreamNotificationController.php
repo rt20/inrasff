@@ -443,4 +443,13 @@ class UpStreamNotificationController extends Controller
             ], 400);
         }
     }
+
+    public function report(Request $request, UpStreamNotification $upstream){
+        $alphabet = range('A', 'ZZ');
+        return view('report.notification')
+                ->with([
+                    'notification' => $upstream,
+                    'alphabet' => $alphabet
+                ]);
+    }
 }

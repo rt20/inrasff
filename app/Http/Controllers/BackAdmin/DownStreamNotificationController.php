@@ -450,4 +450,16 @@ class DownStreamNotificationController extends Controller
             ], 400);
         }
     }
+
+    public function report(Request $request, DownStreamNotification $downstream){
+        // return "hello";
+        // $downstream->notificationStatus;
+        // return $downstream->dangerous;
+        $alphabet = range('A', 'ZZ');
+        return view('report.notification')
+                ->with([
+                    'notification' => $downstream,
+                    'alphabet' => $alphabet
+                ]);
+    }
 }

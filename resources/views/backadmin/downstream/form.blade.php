@@ -43,7 +43,9 @@
             </button>    
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
                 <a href="{{route('backadmin.downstreams.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-                <a href="{{route('test_report')}}" class="dropdown-item" ><i class="mr-75" data-feather="printer"></i>Dokumen</a>
+                @if($downstream->status==='done')
+                <a target="_blank" href="{{route('backadmin.downstreams.report', $downstream->id)}}" class="dropdown-item" ><i class="mr-75" data-feather="printer"></i>Dokumen</a>
+                @endif
                 @if (!in_array($downstream->status, ['ccp process', 'done']))
                     @can('delete downstream')
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>

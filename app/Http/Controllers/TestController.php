@@ -22,6 +22,6 @@ class TestController extends Controller
     }
 
     public function report(){
-        return view('report.notification');
+        // return view('report.notification');
     }
 }
