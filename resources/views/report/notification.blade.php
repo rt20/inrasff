@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset(mix('css/core.css')) }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/app/css/style.css') }}">
     </head>
-    <body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
+    <body onload="window.print()" class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
         <!-- BEGIN: Content-->
         <div class="app-content content ">
             <div class="content-overlay"></div>
@@ -211,9 +211,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(sizeof($notification->dangerous)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Bahaya Tidak Tersedia</td>
+                                    </tr>
+                                    @endif
                                     @foreach ($notification->dangerous as $i=>$item)
                                     <tr>
-                                        <th colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Bahaya {{$i+1}}</th>
+                                        <td colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Bahaya</td>
                                     </tr>
                                     <tr>
                                         <td class="py-1 pl-4">
@@ -333,9 +338,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(sizeof($notification->risks)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Resiko Tidak Tersedia</td>
+                                    </tr>
+                                    @endif
                                     @foreach ($notification->risks as $i=>$item)
                                     <tr>
-                                        <th colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Resiko</th>
+                                        <td colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Resiko</td>
                                     </tr>
                                     <tr>
                                         <td class="py-1 pl-4">
@@ -406,92 +416,102 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    @if(sizeof($notification->traceabilityLot)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Keterlusuran Lot Tidak Tersedia</td>
+                                    </tr>
+                                    @endif
+                                @foreach ($notification->traceabilityLot as $i=>$item)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Keterlusuran Lot</td>
+                                    </tr>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">27. Negara Asal</p>
+                                            <p class="font-weight-semibold mb-25">27.{{$alphabet[$i]}}. Negara Asal</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{ $item->sourceCountry->name ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">28. Nomor Batch/ Lot/ Consigment</p>
+                                            <p class="font-weight-semibold mb-25">28.{{$alphabet[$i]}}. Nomor Batch/ Lot/ Consigment</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{ $item->number ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="3">
-                                            <p class="font-weight-semibold mb-25">29. Informasi Tanggal</p>
+                                            <p class="font-weight-semibold mb-25">29.{{$alphabet[$i]}}. Informasi Tanggal</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Used-by-date:</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-bottom">
-                                        <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Best-before-date:</p>
+                                            <p class="font-weight-semibold mb-25">Used-by-date: {{$item->used_by ? \Carbon\Carbon::make($item->used_by)->isoFormat('dddd, D MMMM Y') : '-'}}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Sell-by-date:</p>
+                                            <p class="font-weight-semibold mb-25">Best-before-date: {{$item->best_before ? \Carbon\Carbon::make($item->best_before)->isoFormat('dddd, D MMMM Y') : '-'}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Sell-by-date: {{$item->sell_by ? \Carbon\Carbon::make($item->sell_by)->isoFormat('dddd, D MMMM Y') : '-'}}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="2">
-                                            <p class="font-weight-semibold mb-25">30. Deskripsi Lot</p>
+                                            <p class="font-weight-semibold mb-25">30.{{$alphabet[$i]}}. Deskripsi Lot</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">No of Units:</p>
+                                            <p class="font-weight-semibold mb-25">No of Units: {{$item->number_unit ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Total (net) weight / volume of lot:</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-bottom">
-                                        <td class="py-1 pl-4" rowspan="3">
-                                            <p class="font-weight-semibold mb-25">31. Sertifikat Kesehatan (Public Health Certificate)</p>
-                                        </td>
-                                        <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Number:</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-bottom">
-                                        <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Date:</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-bottom">
-                                        <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Organization / ministry:</p>
+                                            <p class="font-weight-semibold mb-25">Total (net) weight / volume of lot: {{$item->net_weight ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="3">
-                                            <p class="font-weight-semibold mb-25">32. Sertifikat lainnya</p>
+                                            <p class="font-weight-semibold mb-25">31.{{$alphabet[$i]}}. Sertifikat Kesehatan (Public Health Certificate)</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Number:</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-bottom">
-                                        <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Date:</p>
+                                            <p class="font-weight-semibold mb-25">Number: {{$item->cert_number ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Organization / ministry:</p>
+                                            <p class="font-weight-semibold mb-25">Date: {{$item->cert_date ? \Carbon\Carbon::make($item->cert_date)->isoFormat('dddd, D MMMM Y') : '-'}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Organization / ministry: {{$item->cert_institution ?? "-" }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4" rowspan="3">
+                                            <p class="font-weight-semibold mb-25">32.{{$alphabet[$i]}}. Sertifikat lainnya</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Number: {{$item->add_cert_number ?? "-" }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Date: {{$item->add_cert_date ? \Carbon\Carbon::make($item->add_cert_date)->isoFormat('dddd, D MMMM Y') : '-'}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="font-weight-semibold mb-25">Organization / ministry: {{$item->add_cert_institution ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">33. CVED/CED Number</p>
+                                            <p class="font-weight-semibold mb-25">33.{{$alphabet[$i]}}. CVED/CED Number</p>
                                         </td>
                                         <td class="py-1">
                                             <p class="font-weight-semibold mb-25">-</p>
@@ -499,7 +519,7 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="5">
-                                            <p class="font-weight-semibold mb-25">34. Produsen</p>
+                                            <p class="font-weight-semibold mb-25">34.{{$alphabet[$i]}}. Produsen</p>
                                         </td>
                                         <td class="py-1">
                                             <p class="font-weight-semibold mb-25">Nama:</p>
@@ -527,7 +547,7 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="5">
-                                            <p class="font-weight-semibold mb-25">35. Importir</p>
+                                            <p class="font-weight-semibold mb-25">35.{{$alphabet[$i]}}. Importir</p>
                                         </td>
                                         <td class="py-1">
                                             <p class="font-weight-semibold mb-25">Nama:</p>
@@ -555,7 +575,7 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="5">
-                                            <p class="font-weight-semibold mb-25">36. Wholesaler</p>
+                                            <p class="font-weight-semibold mb-25">36.{{$alphabet[$i]}}. Wholesaler</p>
                                         </td>
                                         <td class="py-1">
                                             <p class="font-weight-semibold mb-25">Nama:</p>
@@ -583,7 +603,7 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">37. Distribusi ke Negara ASEAN</p>
+                                            <p class="font-weight-semibold mb-25">37.{{$alphabet[$i]}}. Distribusi ke Negara ASEAN</p>
                                         </td>
                                         <td class="py-1">
                                             <p class="font-weight-semibold mb-25">-</p>
@@ -591,12 +611,13 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">38. Ekspor ke Negara Lainnya</p>
+                                            <p class="font-weight-semibold mb-25">38.{{$alphabet[$i]}}. Ekspor ke Negara Lainnya</p>
                                         </td>
                                         <td class="py-1">
                                             <p class="font-weight-semibold mb-25">-</p>
                                         </td>
                                     </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -609,72 +630,83 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    @if(sizeof($notification->borderControl)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Border Control Tidak Tersedia</td>
+                                    </tr>
+                                    @endif
+                                    @foreach ($notification->borderControl as $i=>$item)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">{{$alphabet[$i]}}. Border Control</td>
+                                    </tr>
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">39. Titik Keberangkatan</p>
+                                            <p class="font-weight-semibold mb-25">39.{{$alphabet[$i]}}. Titik Keberangkatan</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$item->start_point ?? "-" }}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">40. Titik Masuk</p>
+                                            <p class="font-weight-semibold mb-25">40.{{$alphabet[$i]}}. Titik Masuk</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$item->entry_point ?? "-" }}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">41. Titik Pengawasan</p>
+                                            <p class="font-weight-semibold mb-25">41.{{$alphabet[$i]}}. Titik Pengawasan</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$item->supervision_point ?? "-" }}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">42. Negara Tujuan</p>
+                                            <p class="font-weight-semibold mb-25">42.{{$alphabet[$i]}}. Negara Tujuan</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$item->destinationCountry->name ?? "-" }}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="2">
-                                            <p class="font-weight-semibold mb-25">43. Consignee/ Penerima</p>
+                                            <p class="font-weight-semibold mb-25">43.{{$alphabet[$i]}}. Consignee/ Penerima</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                            <p class="font-weight-semibold mb-25">Nama: {{$item->consignee_name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                            <p class="font-weight-semibold mb-25">Alamat: {{$item->consignee_address ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">44. Container / Seal Number</p>
+                                            <p class="font-weight-semibold mb-25">44.{{$alphabet[$i]}}. Container / Seal Number</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$item->container_number ?? "-" }}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4" rowspan="2">
-                                            <p class="font-weight-semibold mb-25">45. Alat Transportasi</p>
+                                            <p class="font-weight-semibold mb-25">45.{{$alphabet[$i]}}. Alat Transportasi</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">-</p>
+                                            <p class="font-weight-semibold mb-25">{{$item->transport_name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Informasi Lainnya:</p>
+                                            <p class="font-weight-semibold mb-25">Informasi Lainnya: {{$item->transport_description ?? "-" }}</p>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -692,7 +724,7 @@
                                             <p class="font-weight-semibold mb-25">46. Instansi</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$notification->institution ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -700,7 +732,7 @@
                                             <p class="font-weight-semibold mb-25">47. Contact Person</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$notification->contact_person ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -708,7 +740,7 @@
                                             <p class="font-weight-semibold mb-25">48. Informasi Lainnya</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$notification->others ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -723,14 +755,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(sizeof($notification->attachment)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Lampiran Tidak Tersedia</td>
+                                    </tr>
+                                    @endif
+                                    @foreach($notification->attachment as $i => $attachment)
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">Berkas_Bagus.pdf</p>
-                                        </td>
-                                        <td class="py-1">
-                                            <strong>-</strong>
+                                            <p class="font-weight-semibold mb-25">{{$attachment->link}}</p>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

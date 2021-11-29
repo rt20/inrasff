@@ -16,7 +16,7 @@
     </div><!-- .col-md-6.form-group -->
 
     <div class="col-12 col-md-6 form-group">
-        <label for="contact_person" class="form-label required">Narahubung</label>
+        <label for="contact_person" class="form-label">Narahubung</label>
         <input type="text" 
             name="contact_person"
             v-model="downstream.contact_person" 
