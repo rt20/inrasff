@@ -90,7 +90,13 @@
 			<span>news</span>
 		</div>
 		<marquee direction="left" class="text-tertiary text-left">
-			{{ $firstNews ? $firstNews->title : 'Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?' }}
+			@if($runningText->count() > 0)
+				@foreach($runningText as $data)
+				<span>{{ $data->title }}</span> @if(!$loop->last) <span class="mx-5"> | </span> @endif
+				@endforeach
+			@else
+				Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?
+			@endif
 		</marquee>
 	</div>
 </section>
