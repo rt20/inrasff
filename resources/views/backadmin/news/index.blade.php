@@ -19,6 +19,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th width="50">#</th>
                         <th>Judul</th>
                         <th>Slug</th>
                         <th class="bi-table-col-action-1">Aksi</th>
@@ -51,6 +52,7 @@
             serverSide: true,
             processing: true,
             columns: [
+                { data: 'DT_RowIndex', className: 'text-center' },
                 { data: 'title' },
                 { data: 'slug' },
                 {

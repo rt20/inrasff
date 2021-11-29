@@ -25,7 +25,7 @@ class CategoryController extends Controller
     {
         if($request->ajax()){
             $n = Category::all();
-            return DataTables::of($n)->make();
+            return DataTables::of($n)->addIndexColumn()->make();
         }
 
         return view('backadmin.category.index')->with([

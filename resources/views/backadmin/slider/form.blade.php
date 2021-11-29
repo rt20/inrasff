@@ -41,10 +41,10 @@
                         <div class="row">
                             
                             <div class="col-12 col-md-12 form-group">
-                                <label for="name" class="form-label required">Nama</label>
+                                <label for="name" class="form-label">Nama</label>
                                 <input type="text" 
                                     name="name"
-                                    v-model="slider.name" 
+                                    v-model="slider.name" readonly="" 
                                     class="form-control @error('name') {{ 'is-invalid' }} @enderror" 
                                     placeholder="Masukkan nama" autocomplete="off">
                                 @error('name')
