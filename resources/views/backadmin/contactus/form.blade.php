@@ -103,7 +103,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah Anda yakin akan menghapus Kategori ini?</p>
+                        <p>Apakah Anda yakin akan menghapus Pesan ini?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-outline-primary">Ya, Hapus</button>

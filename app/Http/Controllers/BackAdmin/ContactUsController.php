@@ -25,7 +25,7 @@ class ContactUsController extends Controller
     {
         if($request->ajax()){
             $n = ContactUs::all();
-            return DataTables::of($n)->make();
+            return DataTables::of($n)->addIndexColumn()->make();
         }
 
         return view('backadmin.contactus.index')->with([
