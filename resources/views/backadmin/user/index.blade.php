@@ -19,6 +19,7 @@
             <table id="table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nama Lengkap</th>
                         <th>Lembaga</th>
                         <th>Penanggung Jawab</th>
@@ -71,6 +72,10 @@
             serverSide: true,
             processing: true,
             columns: [
+                { 
+                    data: 'DT_RowIndex',
+                    className: 'text-center',
+                },
                 { data: 'fullname' },
                 { 
                     data: 'institution.name',
