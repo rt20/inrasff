@@ -173,7 +173,7 @@ class NotificationController extends Controller
             
             $downstream = $notification->downstream()->make([
                 // 'number_ref' => $notification->number,
-                'title' => $notification->name,
+                'title' => $notification->title,
                 'number' => 'IN.DS.'.Carbon::now()->format('Hisv')
             ]);
             $downstream->author_id =  auth()->user()->id;
@@ -205,7 +205,7 @@ class NotificationController extends Controller
             
             $upstream = $notification->upstream()->make([
                 // 'number_ref' => $notification->number,
-                'title' => $notification->name,
+                'title' => $notification->title,
                 'number' => 'IN.US.'.Carbon::now()->format('Hisv')
             ]);
             $upstream->author_id =  auth()->user()->id;
