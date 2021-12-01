@@ -4,7 +4,11 @@
             return {
                 downstream_month : {{$downstream_month}},
                 downstream_graph: {!! json_encode(array_reverse($downstream_graph)) !!},
-                downstream_diff_last_month: {{$downstream_diff_last_month * 100}}
+                downstream_diff_last_month: {{$downstream_diff_last_month * 100}},
+
+                upstream_month : {{$upstream_month}},
+                upstream_graph: {!! json_encode(array_reverse($upstream_graph)) !!},
+                upstream_diff_last_month: {{$upstream_diff_last_month * 100}}
             }
         },
         created(){
@@ -32,17 +36,20 @@
         var $gainedChart = document.querySelector('#gained-chart');
         var $orderChart = document.querySelector('#order-chart');
         var $avgSessionsChart = document.querySelector('#avg-sessions-chart');
-        var $supportTrackerChart = document.querySelector('#support-trackers-chart');
+        var $avgSessionsChart2 = document.querySelector('#avg-sessions-chart-2');
+        // var $supportTrackerChart = document.querySelector('#support-trackers-chart');
 
         var gainedChartOptions;
         var orderChartOptions;
         var avgSessionsChartOptions;
-        var supportTrackerChartOptions;
+        var avgSessionsChart2Options;
+        // var supportTrackerChartOptions;
 
         var gainedChart;
         var orderChart;
         var avgSessionsChart;
-        var supportTrackerChart;
+        var avgSessionsChart2;
+        // var supportTrackerChart;
 
         var array_stats = []
         for (let j = 0; j < dashboard.downstream_graph.length; j++) {
@@ -174,8 +181,9 @@
             },
             series: [
             {
-                name: 'Orders',
-                data: [10, 15, 8, 15, 7, 12, 8]
+                name: 'Jumlah Kasus',
+                // data: [1,2,1]
+                data: dashboard.upstream_graph
             }
             ],
             xaxis: {
@@ -254,62 +262,115 @@
         avgSessionsChart = new ApexCharts($avgSessionsChart, avgSessionsChartOptions);
         avgSessionsChart.render();
 
-        // Support Tracker Chart
-        // -----------------------------
-        supportTrackerChartOptions = {
+        // Average Session Chart
+        // ----------------------------------
+        avgSessionsChart2Options = {
             chart: {
-            height: 270,
-            type: 'radialBar'
+            type: 'bar',
+            height: 200,
+            sparkline: { enabled: true },
+            toolbar: { show: false }
+            },
+            states: {
+            hover: {
+                filter: 'none'
+            }
+            },
+            // colors: [
+            //     $avgSessionStrokeColor2,
+            //     $avgSessionStrokeColor2,
+            //     window.colors.solid.primary,
+            //     $avgSessionStrokeColor2,
+            //     $avgSessionStrokeColor2,
+            //     $avgSessionStrokeColor2
+            // ],
+            colors: array_stats,
+            series: [
+            {
+                name: 'Jumlah Kasus',
+                data: dashboard.upstream_graph
+            }
+            ],
+            grid: {
+            show: false,
+            padding: {
+                left: 0,
+                right: 0
+            }
             },
             plotOptions: {
-            radialBar: {
-                size: 150,
-                offsetY: 20,
-                startAngle: -150,
-                endAngle: 150,
-                hollow: {
-                size: '65%'
-                },
-                track: {
-                background: $white,
-                strokeWidth: '100%'
-                },
-                dataLabels: {
-                name: {
-                    offsetY: -5,
-                    color: $textHeadingColor,
-                    fontSize: '1rem'
-                },
-                value: {
-                    offsetY: 15,
-                    color: $textHeadingColor,
-                    fontSize: '1.714rem'
-                }
-                }
+            bar: {
+                columnWidth: '45%',
+                distributed: true,
+                endingShape: 'rounded'
             }
             },
-            colors: [window.colors.solid.danger],
-            fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'dark',
-                type: 'horizontal',
-                shadeIntensity: 0.5,
-                gradientToColors: [window.colors.solid.primary],
-                inverseColors: true,
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [0, 100]
+            tooltip: {
+            x: { show: false }
+            },
+            xaxis: {
+            type: 'numeric'
             }
-            },
-            stroke: {
-            dashArray: 8
-            },
-            series: [47.23],
-            labels: ['Kasus Selesai']
         };
-        supportTrackerChart = new ApexCharts($supportTrackerChart, supportTrackerChartOptions);
-        supportTrackerChart.render();
+        avgSessionsChart2 = new ApexCharts($avgSessionsChart2, avgSessionsChart2Options);
+        avgSessionsChart2.render();
+
+        // Support Tracker Chart
+        // -----------------------------
+        // supportTrackerChartOptions = {
+        //     chart: {
+        //     height: 270,
+        //     type: 'radialBar'
+        //     },
+        //     plotOptions: {
+        //     radialBar: {
+        //         size: 150,
+        //         offsetY: 20,
+        //         startAngle: -150,
+        //         endAngle: 150,
+        //         hollow: {
+        //         size: '65%'
+        //         },
+        //         track: {
+        //         background: $white,
+        //         strokeWidth: '100%'
+        //         },
+        //         dataLabels: {
+        //         name: {
+        //             offsetY: -5,
+        //             color: $textHeadingColor,
+        //             fontSize: '1rem'
+        //         },
+        //         value: {
+        //             offsetY: 15,
+        //             color: $textHeadingColor,
+        //             fontSize: '1.714rem'
+        //         }
+        //         }
+        //     }
+        //     },
+        //     colors: [window.colors.solid.danger],
+        //     fill: {
+        //     type: 'gradient',
+        //     gradient: {
+        //         shade: 'dark',
+        //         type: 'horizontal',
+        //         shadeIntensity: 0.5,
+        //         gradientToColors: [window.colors.solid.primary],
+        //         inverseColors: true,
+        //         opacityFrom: 1,
+        //         opacityTo: 1,
+        //         stops: [0, 100]
+        //     }
+        //     },
+        //     stroke: {
+        //     dashArray: 8
+        //     },
+        //     series: [47.23],
+        //     labels: ['Kasus Selesai']
+        // };
+        // supportTrackerChart = new ApexCharts($supportTrackerChart, supportTrackerChartOptions);
+        // supportTrackerChart.render();
 
 
     })

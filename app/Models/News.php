@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasStatus;
 
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory, HasStatus;
     protected $fillable = [
         'title',
         'slug',
@@ -18,6 +19,14 @@ class News extends Model
         'status',
         'excerpt',
         'category_id'
+    ];
+
+    protected $appends = [ 'status_label', 'status_class'];
+    
+    private $states = [
+        'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
+        'published' => [ 'label' => 'Published', 'class' => 'success' ],
+        'rejected' => [ 'label' => 'Rejected', 'class' => 'danger' ],
     ];
 
     public function scopePublished($query)
