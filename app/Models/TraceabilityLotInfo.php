@@ -22,7 +22,34 @@ class TraceabilityLotInfo extends Model
         'cert_institution',
         'add_cert_number',
         'add_cert_date',
-        'add_cert_institution'
+        'add_cert_institution',
+        'cved_number',
+        /**
+         * Produsen
+         */
+        'producer_name',
+        'producer_address',
+        'producer_city',
+        'producer_country_id',
+        'producer_approval',
+
+        /**
+         * Importir
+         */
+        'importer_name',
+        'importer_address',
+        'importer_city',
+        'importer_country_id',
+        'importer_approval',
+
+        /**
+         * Wholesaler
+         */
+        'wholesaler_name',
+        'wholesaler_address',
+        'wholesaler_city',
+        'wholesaler_country_id',
+        'wholesaler_approval',
     ];
 
     public function notification(){
@@ -37,5 +64,30 @@ class TraceabilityLotInfo extends Model
     public function sourceCountry()
     {
         return $this->hasOne(Country::class, 'id', 'source_country_id');
+    }
+
+    public function producerCountry()
+    {
+        return $this->hasOne(Country::class, 'id', 'producer_country_id');
+    }
+
+    public function importerCountry()
+    {
+        return $this->hasOne(Country::class, 'id', 'importer_country_id');
+    }
+
+    public function wholesalerCountry()
+    {
+        return $this->hasOne(Country::class, 'id', 'wholesaler_country_id');
+    }
+
+    /**
+     * Get all of the distributions for the TraceabilityLotInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function distributions()
+    {
+        return $this->hasMany(TraceabilityLotDistribution::class, 'tl_id', 'id');
     }
 }

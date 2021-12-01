@@ -132,6 +132,12 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::put('/{followUp}/reject', [BackAdmin\FollowUpNotificationController::class, 'reject'])->name('reject');
         });
 
+        Route::prefix('traceability_lot_distributions')->name('traceability_lot_distributions.')->group(function(){
+            Route::get('/', [BackAdmin\TraceabilityLotDistributionController::class, 'index'])->name('index');
+            Route::post('/add', [BackAdmin\TraceabilityLotDistributionController::class, 'add'])->name('add');
+            Route::delete('{id}/delete', [BackAdmin\TraceabilityLotDistributionController::class, 'delete'])->name('delete');
+        });
+
         Route::resources([
             'border_control_infos' => BackAdmin\BorderControlInfoController::class,
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,
