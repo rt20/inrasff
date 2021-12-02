@@ -44,13 +44,49 @@
 @endsection
 
 @section('actions')
-    @can('store traceability')
+    {{-- @can('store traceability')
         @if(!$traceability_lot->id)
         <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
         @elseif(in_array($traceability_lot->notification->status, ['open', 'draft']))
         <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
         @endif
-    @endcan
+    @endcan --}}
+
+    {{-- For Update --}}
+    @if($traceability_lot->id != null)
+        {{-- If Dangerous Info for Downstream --}}
+        @if(str_replace('App\\Models\\', '', $traceability_lot->di_type) === 'DownStreamNotification')
+            @can('store d_traceability')
+                @if(in_array($traceability_lot->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        {{-- If Dangerous Info for Upstream --}}
+        @else
+            @can('store u_traceability')
+                @if(in_array($traceability_lot->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        @endif
+
+    {{-- For New Data --}}
+    @else
+        {{-- If Dangerous Info for Downstream --}}
+        @if(request()->input('notification_type') === 'downstream')
+            @can('store d_traceability')
+            <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        {{-- If Dangerous Info for Upstream --}}
+        @else
+            @can('store u_traceability')
+                <button type="submit" form="form-main" formaction="{{ $traceability_lot->id ? route('backadmin.traceability_lot_infos.update', $traceability_lot->id) : route('backadmin.traceability_lot_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        @endif
+
+
+    @endif
+
     @if ($traceability_lot->id)
     <div class="btn-group">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,15 +94,27 @@
         </button>    
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
             <a href="{{
-      str_replace('App\\Models\\', '', $traceability_lot->tli_type) === 'DownStreamNotification' ?
-route('backadmin.downstreams.edit', ['downstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots']) :
-route('backadmin.upstreams.edit', ['upstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots'])
-  }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-            @can('delete traceability')
+                    str_replace('App\\Models\\', '', $traceability_lot->tli_type) === 'DownStreamNotification' ?
+                    route('backadmin.downstreams.edit', ['downstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots']) :
+                    route('backadmin.upstreams.edit', ['upstream' => $traceability_lot->notification->id, 'focus' => 'traceability_lots'])
+                        }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+            {{-- @can('delete traceability')
             @if(in_array($traceability_lot->notification->status, ['open', 'draft']))
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
             @endif
-            @endcan  
+            @endcan   --}}
+
+            @if(in_array($traceability_lot->notification->status, ['open', 'draft']))
+                @if(str_replace('App\\Models\\', '', $traceability_lot->tli_type) === 'DownStreamNotification')
+                    @can('delete d_traceability')
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
+                @else
+                    @can('delete u_traceability')
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
+                @endif
+            @endif
         </div>
     </div>
         

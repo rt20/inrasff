@@ -60,9 +60,23 @@ class BorderControlInfoController extends Controller
      */
     public function create(Request $request)
     {
-        if (!Gate::allows('store border_control')) {
-            abort(401);
+        // if (!Gate::allows('store border_control')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                
+                if (!Gate::allows('store u_border_control')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_border_control')) {
+                abort(401);
+            }
         }
+
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -82,9 +96,23 @@ class BorderControlInfoController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('store border_control')) {
-            abort(401);
+        // if (!Gate::allows('store border_control')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                
+                if (!Gate::allows('store u_border_control')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_border_control')) {
+                abort(401);
+            }
         }
+
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -175,9 +203,20 @@ class BorderControlInfoController extends Controller
      */
     public function update(Request $request, BorderControlInfo $borderControlInfo)
     {
-        if (!Gate::allows('store border_control')) {
-            abort(401);
+        // if (!Gate::allows('store border_control')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $borderControlInfo->bci_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_border_control')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_border_control')) {
+                abort(401);
+            }
         }
+
         $request->validate([
             'start_point' => ['required', 'max:255'],
             'entry_point' => ['required', 'max:255'],
@@ -222,9 +261,20 @@ class BorderControlInfoController extends Controller
      */
     public function destroy(BorderControlInfo $borderControlInfo)
     {
-        if (!Gate::allows('delete border_control')) {
-            abort(401);
+        // if (!Gate::allows('delete border_control')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $borderControlInfo->bci_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_border_control')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_border_control')) {
+                abort(401);
+            }
         }
+        
         try {
             DB::beginTransaction();
             $number = $borderControlInfo->notification->number;

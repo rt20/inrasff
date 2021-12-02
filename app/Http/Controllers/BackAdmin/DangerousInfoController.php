@@ -71,10 +71,11 @@ class DangerousInfoController extends Controller
                 }
             }
         }else{
-            if (!Gate::allows('store dangerous')) {
+            if (!Gate::allows('store d_dangerous')) {
                 abort(401);
             }
         }
+        
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -107,7 +108,7 @@ class DangerousInfoController extends Controller
                 }
             }
         }else{
-            if (!Gate::allows('store u_dangerous')) {
+            if (!Gate::allows('store d_dangerous')) {
                 abort(401);
             }
         }
