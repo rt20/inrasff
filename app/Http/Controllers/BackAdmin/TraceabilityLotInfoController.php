@@ -126,7 +126,23 @@ class TraceabilityLotInfoController extends Controller
                 'cert_institution',
                 'add_cert_number',
                 'add_cert_date',
-                'add_cert_institution'
+                'add_cert_institution',
+                'cved_number',
+                'producer_name',
+                'producer_address',
+                'producer_city',
+                'producer_country_id',
+                'producer_approval',
+                'importer_name',
+                'importer_address',
+                'importer_city',
+                'importer_country_id',
+                'importer_approval',
+                'wholesaler_name',
+                'wholesaler_address',
+                'wholesaler_city',
+                'wholesaler_country_id',
+                'wholesaler_approval',
             ));
             $tli->save();
            
@@ -205,7 +221,23 @@ class TraceabilityLotInfoController extends Controller
                 'cert_institution',
                 'add_cert_number',
                 'add_cert_date',
-                'add_cert_institution'
+                'add_cert_institution',
+                'cved_number',
+                'producer_name',
+                'producer_address',
+                'producer_city',
+                'producer_country_id',
+                'producer_approval',
+                'importer_name',
+                'importer_address',
+                'importer_city',
+                'importer_country_id',
+                'importer_approval',
+                'wholesaler_name',
+                'wholesaler_address',
+                'wholesaler_city',
+                'wholesaler_country_id',
+                'wholesaler_approval',
             ));
             $traceabilityLotInfo->update();
            
