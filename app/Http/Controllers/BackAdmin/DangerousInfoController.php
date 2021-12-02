@@ -123,6 +123,10 @@ class DangerousInfoController extends Controller
             'cl1_id' => ['required_if:cl1_id_show,==,1'],
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
+        ],[
+            'cl1_id.required_if' => 'detail bahaya 1 perlu diisi',
+            'cl2_id.required_if' => 'detail bahaya 2 perlu diisi',
+            'cl3_id.required_if' => 'detail bahaya 3 perlu diisi',
         ]);
 
         try {

@@ -132,6 +132,7 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        
     ],
 
     /*
@@ -146,5 +147,31 @@ return [
     */
 
     'attributes' => [
+        'name' => 'nama',
+        'description' => 'deskripsi',
+        'title' => 'judul',
+        'number' => 'nomor',
+        'type' => 'tipe',
+        'fullname' => 'nama lengkap',
+        'password_confirmation' => 'konfirmasi password',
+        'responsible_name' => 'nama penanggung jawab',
+        'responsible_phone' => 'ponsel penanggung jawab',
+        'responsible_address' => 'alamat penanggung jawab',
+
+        'product_name' => 'nama produk',
+        'brand_name' => 'merk produk',
+        'status_notif_id' => 'status notifikasi',
+        'origin_source_notif' => 'sumber asal notifikasi',
+        'source_notif' => 'sumber notifikasi',
+        'category_id' => 'kategori',
+        'distribution_status_id' => 'status distribusi',
+        'source_country_id' => 'negara asal',
+
+        'start_point' => 'titik keberangkatan',
+        'entry_point' => 'titik masuk',
+        'supervision_point' => 'titik pengawasan',
+        'destination_country_id' => 'negara tujuan',
+
+        
     ],
 ];

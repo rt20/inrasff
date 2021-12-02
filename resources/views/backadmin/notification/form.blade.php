@@ -84,7 +84,7 @@
                             </div><!-- .col-md-6.form-group -->
 
                             <div class="col-12 col-md-12 form-group">
-                                <label for="description" class="form-label required">Dekripsi</label>
+                                <label for="description" class="form-label">Dekripsi</label>
                                 <textarea
                                     id="summernote"
                                     type="text" 
