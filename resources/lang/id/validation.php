@@ -172,6 +172,7 @@ return [
         'supervision_point' => 'titik pengawasan',
         'destination_country_id' => 'negara tujuan',
 
-        
+        'question' => 'pertanyaan',
+        'answer' => 'jawaban',
     ],
 ];
