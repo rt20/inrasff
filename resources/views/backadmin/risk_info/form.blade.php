@@ -35,13 +35,49 @@
 @endsection
 
 @section('actions')
-    @can('store risk')
+    {{-- @can('store risk')
         @if(!$risk->id)
         <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
         @elseif(in_array($risk->notification->status, ['open', 'draft']))
         <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
         @endif
-    @endcan
+    @endcan --}}
+
+    {{-- For Update --}}
+    @if($risk->id != null)
+        {{-- If Risk Info for Downstream --}}
+        @if(str_replace('App\\Models\\', '', $risk->ri_type) === 'DownStreamNotification')
+            @can('store d_risk')
+                @if(in_array($risk->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        {{-- If Risk Info for Upstream --}}
+        @else
+            @can('store u_risk')
+                @if(in_array($risk->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        @endif
+
+    {{-- For New Data --}}
+    @else
+        {{-- If Risk Info for Downstream --}}
+        @if(request()->input('notification_type') === 'downstream')
+            @can('store d_risk')
+            <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        {{-- If Risk Info for Upstream --}}
+        @else
+            @can('store u_risk')
+                <button type="submit" form="form-main" formaction="{{ $risk->id ? route('backadmin.risk_infos.update', $risk->id) : route('backadmin.risk_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        @endif
+
+
+    @endif
+
     @if ($risk->id)
     <div class="btn-group">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,11 +89,22 @@
                     route('backadmin.downstreams.edit', ['downstream' => $risk->notification->id, 'focus' => 'dangerous_risks']) :
                     route('backadmin.upstreams.edit', ['upstream' => $risk->notification->id, 'focus' => 'dangerous_risks'])
                 }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-            @can('delete risk')
+            {{-- @can('delete risk')
             @if(in_array($risk->notification->status, ['open', 'draft']))
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
             @endif
-            @endcan                
+            @endcan                 --}}
+            @if(in_array($risk->notification->status, ['open', 'draft']))
+                @if(str_replace('App\\Models\\', '', $risk->ri_type) === 'DownStreamNotification')
+                    @can('delete d_risk')
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
+                @else
+                    @can('delete u_risk')
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
+                @endif
+            @endif
         </div>
     </div>
     @endif

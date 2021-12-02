@@ -42,13 +42,42 @@
 @endsection
 
 @section('actions')
-    @can('store dangerous')
-        @if(!$dangerous->id)
-        <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
-        @elseif(in_array($dangerous->notification->status, ['open', 'draft']))
-        <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    {{-- For Update --}}
+    @if($dangerous->id != null)
+        {{-- If Dangerous Info for Downstream --}}
+        @if(str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification')
+            @can('store d_dangerous')
+                @if(in_array($dangerous->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        {{-- If Dangerous Info for Upstream --}}
+        @else
+            @can('store u_dangerous')
+                @if(in_array($dangerous->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
         @endif
-    @endcan
+
+    {{-- For New Data --}}
+    @else
+        {{-- If Dangerous Info for Downstream --}}
+        @if(request()->input('notification_type') === 'downstream')
+            @can('store d_dangerous')
+            <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        {{-- If Dangerous Info for Upstream --}}
+        @else
+            @can('store u_dangerous')
+                <button type="submit" form="form-main" formaction="{{ $dangerous->id ? route('backadmin.dangerous_infos.update', $dangerous->id) : route('backadmin.dangerous_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        @endif
+
+
+    @endif
+
+
     @if ($dangerous->id)
         <div class="btn-group">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,12 +89,22 @@
                         route('backadmin.downstreams.edit', ['downstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks']) :
                         route('backadmin.upstreams.edit', ['upstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks'])
                     }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-                @can('delete dangerous')
+                {{-- @can('delete dangerous')
                 @if(in_array($dangerous->notification->status, ['open', 'draft']))
                     <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif                
+                @endcan                 --}}
+                @if(in_array($dangerous->notification->status, ['open', 'draft']))
+                    @if(str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification')
+                        @can('delete d_dangerous')
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                        @endcan
+                    @else
+                        @can('delete u_dangerous')
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                        @endcan
+                    @endif
                 @endif
-                
-                @endcan                
             </div>
         </div>
     @endif

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DownStreamNotificationMail;
-use App\Models\DownStreamUserAccess;
+// use App\Models\DownStreamUserAccess;
 
 class SendDownStreamNotification implements ShouldQueue
 {

@@ -62,9 +62,22 @@ class RiskInfoController extends Controller
      */
     public function create(Request $request)
     {
-        if (!Gate::allows('store risk')) {
-            abort(401);
+        // if (!Gate::allows('store risk')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                if (!Gate::allows('store u_risk')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_risk')) {
+                abort(401);
+            }
         }
+
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -84,9 +97,22 @@ class RiskInfoController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('store risk')) {
-            abort(401);
+        // if (!Gate::allows('store risk')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                if (!Gate::allows('store u_risk')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_risk')) {
+                abort(401);
+            }
         }
+
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -174,9 +200,20 @@ class RiskInfoController extends Controller
     public function update(Request $request, RiskInfo $riskInfo)
     // public function update(Request $request, $id)
     {
-        if (!Gate::allows('store risk')) {
-            abort(401);
+        // if (!Gate::allows('store risk')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $riskInfo->ri_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_risk')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_risk')) {
+                abort(401);
+            }
         }
+
         $request->validate([
             'distribution_status_id' => ['required', 'max:255'],
         ]);
@@ -218,14 +255,27 @@ class RiskInfoController extends Controller
     public function destroy(RiskInfo $riskInfo)
     // public function destroy($id)
     {
-        if (!Gate::allows('delete risk')) {
-            abort(401);
+        // if (!Gate::allows('delete risk')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $riskInfo->ri_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_risk')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_risk')) {
+                abort(401);
+            }
         }
+
         try {
             DB::beginTransaction();
             $number = $riskInfo->notification->number;
             $id = $riskInfo->notification->id;
             $riskInfo->delete();
+
+            // dd("delete risk");
             DB::commit();
 
             if(str_contains($number, "IN.DS")){

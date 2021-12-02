@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UpStreamNotification;
 use App\Models\NotificationAttachment;
+use App\Events\UpStreamEmailNotification;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -134,23 +135,36 @@ class UpStreamNotificationController extends Controller
                 case 'ccp':
                     $upstream->upstreamInstitution()->create([
                         'institution_id' => $request->user->institution->id,
-                        'write' => true
+                        'write' => true,
+                        'status' => 'assigned',
                     ]);
                     break;
                 case 'lccp':
                     $upstream->upstreamInstitution()->create([
                         'institution_id' => $request->user->institution->id,
-                        'write' => true
+                        'write' => true,
+                        'status' => 'assigned',
                     ]);
                     $upstream->upstreamInstitution()->create([
                         'institution_id' => $request->user->institution->parent_id,
-                        'write' => true
+                        'write' => true,
+                        'status' => 'assigned',
                     ]);
                     # code...
                     break;
                 default:
                     # code...
                     break;
+            }
+
+            // dd($upstream->upstreamInstitution);
+            foreach ($upstream->upstreamInstitution as $i => $u_institution) {
+
+                $users = $u_institution->institution->users;
+                
+                foreach ($users as $j => $user) {
+                    event(new UpStreamEmailNotification($upstream, $user));
+                }
             }
             DB::commit();
             
@@ -242,13 +256,18 @@ class UpStreamNotificationController extends Controller
                     $upstream->setStatus('open', 'Diupdate dari draft');
                 }
                 $upstream->update();
-                // return $upstream->upstreamInstitution[0]->institution->users;
-                // $upstream->upstreamInstitution()->update([
-                //     'status' => 'assigned'
-                // ]);
-                // foreach ($upstream->upstreamInstitution as $i => $institution) {
-                //     //Send Email 
-                // }
+
+                foreach ($upstream->upstreamInstitution as $i => $u_institution) {
+                    if($u_institution->status==='draft'){
+                        $users = $u_institution->institution->users;
+                        foreach ($users as $j => $user) {
+                            event(new UpStreamEmailNotification($upstream, $user));
+                        }
+                        $u_institution->status = 'assigned';
+                        $u_institution->update();
+                    }
+                    
+                }
            
             DB::commit();
             

@@ -102,7 +102,7 @@
                         
                         <p style="margin: 24px 0;">
                           <span style="font-weight: 600;">Anda</span>
-                          telah ditunjuk untuk menindaklanjuti notifikasi <b>{{ $downstream->number }}</b> pada {{ \Carbon\Carbon::make($downstream->created_at)->isoFormat('dddd, D MMM Y') }}.
+                          telah ditunjuk untuk menindaklanjuti notifikasi <b>{{ $upstream->number }}</b> pada {{ \Carbon\Carbon::make($upstream->created_at)->isoFormat('dddd, D MMM Y') }}.
                         </p>
                         <p style="font-weight: 500; font-size: 16px; margin-bottom: 0;">Apa yang harus dilakukan sekarang?</p>
                         <ul style="margin-bottom: 24px;">
@@ -110,7 +110,7 @@
                             Silahkan mengunjungi 🚀 <a style="text-decoration: none" href="{{route('backadmin.dashboard')}}" target="_blank">Website Inrasff</a> .
                           </li>
                           <li>
-                            Buka Halaman Downstream lalu cari notifikasi dengan kode  <b>{{ $downstream->number }}</b>
+                            Buka Halaman Upstream lalu cari notifikasi dengan kode  <b>{{ $upstream->number }}</b>
                           </li>
                           <li>
                             Masuk ke menu 8. Tindak Lanjut. Lakukan Tindak Lanjut sesuai prosedur.
