@@ -179,7 +179,7 @@
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return `<a href="#" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                            return `<button type="button" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</button>`
                         } 
                     }
                     @endif

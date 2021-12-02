@@ -35,13 +35,49 @@
 @endsection
 
 @section('actions')
-    @can('store border_control')
+    {{-- @can('store border_control')
         @if(!$border_control->id)
         <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
         @elseif(in_array($border_control->notification->status, ['open', 'draft']))
         <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
         @endif
-    @endcan
+    @endcan --}}
+
+    {{-- For Update --}}
+    @if($border_control->id != null)
+        {{-- If Dangerous Info for Downstream --}}
+        @if(str_replace('App\\Models\\', '', $border_control->bci_type) === 'DownStreamNotification')
+            @can('store d_border_control')
+                @if(in_array($border_control->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        {{-- If Dangerous Info for Upstream --}}
+        @else
+            @can('store u_border_control')
+                @if(in_array($border_control->notification->status, ['open', 'draft']))
+                <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+                @endif
+            @endcan
+        @endif
+
+    {{-- For New Data --}}
+    @else
+        {{-- If Dangerous Info for Downstream --}}
+        @if(request()->input('notification_type') === 'downstream')
+            @can('store d_border_control')
+            <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        {{-- If Dangerous Info for Upstream --}}
+        @else
+            @can('store u_border_control')
+                <button type="submit" form="form-main" formaction="{{ $border_control->id ? route('backadmin.border_control_infos.update', $border_control->id) : route('backadmin.border_control_infos.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+            @endcan
+        @endif
+
+
+    @endif
+
     @if ($border_control->id)
     <div class="btn-group">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,11 +90,23 @@
                         route('backadmin.upstreams.edit', ['upstream' => $border_control->notification->id , 'focus' => 'border_controls'])
                     
                 }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-            @can('delete border_control')
+            {{-- @can('delete border_control')
                 @if(in_array($border_control->notification->status, ['open', 'draft']))
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
                 @endif
-            @endcan                
+            @endcan                 --}}
+
+            @if(in_array($border_control->notification->status, ['open', 'draft']))
+                @if(str_replace('App\\Models\\', '', $border_control->bci_type) === 'DownStreamNotification')
+                    @can('delete d_traceability')
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
+                @else
+                    @can('delete u_traceability')
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                    @endcan
+                @endif
+            @endif
         </div>
     </div>
     @endif

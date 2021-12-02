@@ -66,7 +66,7 @@
                 "Silahkan Pilih Status Distribusi",
                 ['name'],
                 function(e){
-                    form.risk.category_id = e.target.value
+                    form.risk.distribution_status_id = e.target.value
                 }
             )
 
