@@ -40,7 +40,15 @@
             processing: true,
             columns: [
                 { data: 'author.fullname' },
-                { data: 'author.institution.name' },
+                { 
+                    data: 'author.institution.name' ,
+                    render: function(d,t,r,m){
+                        if(d==null){
+                            return 'Administrator'
+                        }
+                        return d
+                    }
+                },
                 { 
                     data: 'created_at',
                     render: function(data, type, row, meta) {

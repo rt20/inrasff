@@ -17,9 +17,9 @@
                     <th>Tanggal Ditambahkan</th>
                     <th>Info Lampiran</th>
                     @if (in_array($upstream->status, ['open']))
-                    @can('delete attachment')
+                    {{-- @can('delete attachment') --}}
                     <th class="bi-table-col-action-1">Aksi</th>
-                    @endcan
+                    {{-- @endcan --}}
                     @endif
                 </tr>
             </thead>
@@ -171,7 +171,7 @@
                             }
                         },
                         @if (in_array($upstream->status, ['open']))
-                        @can('delete attachment')
+                        
                         {
                             data: 'id',
                             className: 'text-center',
@@ -181,7 +181,7 @@
                                 return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
                             } 
                         }
-                        @endcan
+                        
                         @endif
                     ],
                   

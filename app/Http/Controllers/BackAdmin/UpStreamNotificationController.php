@@ -378,7 +378,7 @@ class UpStreamNotificationController extends Controller
     }
 
     public function addAttachment(Request $request){
-        if (!Gate::allows('store attachment')) {
+        if (!Gate::allows('store u_attachment')) {
             abort(401);
         }
         $validator = Validator::make($request->all(), [
@@ -440,7 +440,7 @@ class UpStreamNotificationController extends Controller
     }
 
     public function deleteAttachment($id){
-        if (!Gate::allows('delete attachment')) {
+        if (!Gate::allows('delete u_attachment')) {
             abort(401);
         }
         try {
