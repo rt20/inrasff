@@ -95,7 +95,7 @@
                             </div><!-- .col-md-6.form-group -->
                             @endif
 
-                            <div class="col-12 col-md-4 form-group">
+                            <div class="col-12 @if(in_array(Auth::user()->type, ['ncp', 'superadmin'])) col-md-4 @else col-md-6 @endif form-group">
                                 <label for="published_at" class="form-label required">Tanggal Publish</label>
                                 <input type="text" 
                                     name="published_at"
@@ -107,7 +107,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
 
-                            <div class="col-12 col-md-4 form-group">
+                            <div class="col-12 @if(in_array(Auth::user()->type, ['ncp', 'superadmin'])) col-md-4 @else col-md-6 @endif form-group">
                                 <label for="category_id" class="form-label required">Kategori Berita</label>
                                 <select name="category_id" 
                                     v-model="news.category_id" 
@@ -120,7 +120,7 @@
                             </div><!-- .col-md-6.form-group -->
 
                             <div class="col-12 col-md-12 form-group">
-                                <label for="image" class="form-label">Gambar</label>
+                                <label for="image" class="form-label required">Gambar</label>
                                 <input 
                                     data-default-file="{{$news->getImage()}}"
                                     type="file" 

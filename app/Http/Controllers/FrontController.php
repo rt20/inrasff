@@ -97,6 +97,7 @@ class FrontController extends Controller
             'name' => ['required', 'max:255'],
             'email' => ['required', 'max:255'],
             'message' => ['required'],
+            'g-recaptcha-response' => ['required', 'captcha'],
         ]);
         try {
             DB::beginTransaction();
