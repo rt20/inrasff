@@ -104,6 +104,15 @@
                                     </div>
 
                                     <div class="form-group">
+                                        {!! NoCaptcha::display() !!}
+                                    </div>
+                                    @if($errors->has('g-recaptcha-response'))
+                                        <span style="margin-bottom: 20px;" role="alert">
+                                            <strong style="color:red;">{{ $errors->first('g-recaptcha-response') }}</strong>
+                                        </span>
+                                    @endif
+
+                                    <div class="form-group">
                                         <div class="custom-control custom-checkbox">
                                             <input class="custom-control-input" type="checkbox" id="remember" tabindex="3" />
                                             <label class="custom-control-label" for="remember"> Ingat Saya </label>
@@ -149,5 +158,6 @@
             }
         })
     </script>
+    {!! NoCaptcha::renderJs() !!}
 </body>
 </html>

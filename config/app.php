@@ -186,6 +186,8 @@ return [
         Monarobase\CountryList\CountryListServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+
 
     ],
 
@@ -249,6 +251,8 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
+
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         
     ],
 
