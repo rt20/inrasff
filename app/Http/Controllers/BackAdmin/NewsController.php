@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 
 use UploadFile;
 use Carbon\Carbon;
+use Auth;
 
 class NewsController extends Controller
 {
@@ -64,8 +65,12 @@ class NewsController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $n = News::make($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
-
+            if(in_array(Auth::user()->type, ['ncp', 'superadmin'])) {
+                $n = News::make($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
+            } else {
+                $n = News::make($request->only(['title', 'slug', 'content', 'published_at', 'excerpt',  'category_id']));
+            }
+            $n->author_id = Auth::user()->id;
             $n->save();
             if($request->has('image')){
                 $name = '';
@@ -143,7 +148,11 @@ class NewsController extends Controller
         try {
             DB::beginTransaction();
             $n = News::find($id);
-            $n->fill($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
+            if(in_array(Auth::user()->type, ['ncp', 'superadmin'])) {
+                $n->fill($request->only(['title', 'slug', 'content', 'status', 'published_at', 'excerpt',  'category_id']));
+            } else {
+                $n->fill($request->only(['title', 'slug', 'content', 'published_at', 'excerpt',  'category_id']));
+            }
 
             $n->save();
             if($request->has('image')){
