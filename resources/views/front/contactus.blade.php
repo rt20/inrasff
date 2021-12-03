@@ -71,6 +71,13 @@
                         <small class="text-red-500">{{ $errors->first('message') }}</small>
                     @enderror
 				</div>
+				<div class="py-4">
+                    {!! NoCaptcha::display() !!}
+                    @error('g-recaptcha-response')
+                        <small class="text-red-500">{{ $errors->first('g-recaptcha-response') }}</small>
+                    @endif
+
+				</div>
 				<div class="py-4 text-center lg:text-left">
 					<button type="submit" class="bg-secondary text-white text-xs lg:text-sm tracking-wide uppercase rounded px-8 py-4">Send Message</button>
 				</div>
@@ -224,6 +231,7 @@
 @section('script')
 <!-- Google Maps -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8pTfHmKIvNhLNS1hN0O0fERKxPIqhpnA&libraries=places&callback=initMap" async defer></script>
+{!! NoCaptcha::renderJs() !!}
 <script>
 	function initMap() {
 		let lati = -6.1885344;
