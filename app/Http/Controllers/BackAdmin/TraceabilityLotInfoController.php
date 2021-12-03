@@ -62,9 +62,23 @@ class TraceabilityLotInfoController extends Controller
      */
     public function create(Request $request)
     {
-        if (!Gate::allows('store traceability')) {
-            abort(401);
+        // if (!Gate::allows('store traceability')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                
+                if (!Gate::allows('store u_traceability')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_traceability')) {
+                abort(401);
+            }
         }
+        
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -84,9 +98,22 @@ class TraceabilityLotInfoController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('store traceability')) {
-            abort(401);
+        // if (!Gate::allows('store traceability')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                if (!Gate::allows('store u_traceability')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_traceability')) {
+                abort(401);
+            }
         }
+
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
@@ -126,7 +153,23 @@ class TraceabilityLotInfoController extends Controller
                 'cert_institution',
                 'add_cert_number',
                 'add_cert_date',
-                'add_cert_institution'
+                'add_cert_institution',
+                'cved_number',
+                'producer_name',
+                'producer_address',
+                'producer_city',
+                'producer_country_id',
+                'producer_approval',
+                'importer_name',
+                'importer_address',
+                'importer_city',
+                'importer_country_id',
+                'importer_approval',
+                'wholesaler_name',
+                'wholesaler_address',
+                'wholesaler_city',
+                'wholesaler_country_id',
+                'wholesaler_approval',
             ));
             $tli->save();
            
@@ -181,9 +224,20 @@ class TraceabilityLotInfoController extends Controller
     public function update(Request $request, TraceabilityLotInfo $traceabilityLotInfo)
     // public function update(Request $request, $id)
     {
-        if (!Gate::allows('store traceability')) {
-            abort(401);
+        // if (!Gate::allows('store traceability')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $traceabilityLotInfo->tli_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_traceability')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_traceability')) {
+                abort(401);
+            }
         }
+
         $request->validate([
             'source_country_id' => ['required'],
             'number' => ['required'],
@@ -205,7 +259,23 @@ class TraceabilityLotInfoController extends Controller
                 'cert_institution',
                 'add_cert_number',
                 'add_cert_date',
-                'add_cert_institution'
+                'add_cert_institution',
+                'cved_number',
+                'producer_name',
+                'producer_address',
+                'producer_city',
+                'producer_country_id',
+                'producer_approval',
+                'importer_name',
+                'importer_address',
+                'importer_city',
+                'importer_country_id',
+                'importer_approval',
+                'wholesaler_name',
+                'wholesaler_address',
+                'wholesaler_city',
+                'wholesaler_country_id',
+                'wholesaler_approval',
             ));
             $traceabilityLotInfo->update();
            
@@ -231,14 +301,27 @@ class TraceabilityLotInfoController extends Controller
     public function destroy(TraceabilityLotInfo $traceabilityLotInfo)
     // public function destroy($id)
     {
-        if (!Gate::allows('delete traceability')) {
-            abort(401);
+        // if (!Gate::allows('delete traceability')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $traceabilityLotInfo->tli_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_traceability')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_traceability')) {
+                abort(401);
+            }
         }
+
         try {
             DB::beginTransaction();
             $number = $traceabilityLotInfo->notification->number;
             $id = $traceabilityLotInfo->notification->id;
             $traceabilityLotInfo->delete();
+
+            // dd("delete traceability");
             DB::commit();
 
             if(str_contains($number, "IN.DS")){

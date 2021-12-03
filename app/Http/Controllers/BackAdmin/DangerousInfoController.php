@@ -71,10 +71,11 @@ class DangerousInfoController extends Controller
                 }
             }
         }else{
-            if (!Gate::allows('store dangerous')) {
+            if (!Gate::allows('store d_dangerous')) {
                 abort(401);
             }
         }
+        
         if(!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
         
@@ -94,9 +95,24 @@ class DangerousInfoController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('store dangerous')) {
-            abort(401);
+
+        // return $request->all();
+        // if (!Gate::allows('store dangerous')) {
+        //     abort(401);
+        // }
+
+        if($request->has('notification_type')){
+            if($request->notification_type === 'upstream'){
+                if (!Gate::allows('store u_dangerous')) {
+                    abort(401);
+                }
+            }
+        }else{
+            if (!Gate::allows('store d_dangerous')) {
+                abort(401);
+            }
         }
+
         // return $request->all();
         $request->validate([
             'notification_type' => ['required'], //downstream or upstream
@@ -107,6 +123,10 @@ class DangerousInfoController extends Controller
             'cl1_id' => ['required_if:cl1_id_show,==,1'],
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
+        ],[
+            'cl1_id.required_if' => 'detail bahaya 1 perlu diisi',
+            'cl2_id.required_if' => 'detail bahaya 2 perlu diisi',
+            'cl3_id.required_if' => 'detail bahaya 3 perlu diisi',
         ]);
 
         try {
@@ -193,9 +213,22 @@ class DangerousInfoController extends Controller
     public function update(Request $request, DangerousInfo $dangerousInfo)
     // public function update(Request $request, $id)
     {
-        if (!Gate::allows('store dangerous')) {
-            abort(401);
+
+        // return $dangerousInfo;
+        if(str_replace('App\\Models\\', '', $dangerousInfo->di_type)==='UpStreamNotification'){
+            if (!Gate::allows('store u_dangerous')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('store d_dangerous')) {
+                abort(401);
+            }
         }
+
+        // if (!Gate::allows('store dangerous')) {
+        //     abort(401);
+        // }
+
         $request->validate([
             'name' => ['required', 'max:255'],
             'category_id' => ['required', 'max:255'],
@@ -246,9 +279,20 @@ class DangerousInfoController extends Controller
     public function destroy(DangerousInfo $dangerousInfo)
     // public function destroy($id)
     {
-        if (!Gate::allows('delete dangerous')) {
-            abort(401);
+        // if (!Gate::allows('delete dangerous')) {
+        //     abort(401);
+        // }
+
+        if(str_replace('App\\Models\\', '', $dangerousInfo->di_type)==='UpStreamNotification'){
+            if (!Gate::allows('delete u_dangerous')) {
+                abort(401);
+            }
+        }else{
+            if (!Gate::allows('delete d_dangerous')) {
+                abort(401);
+            }
         }
+
         try {
             DB::beginTransaction();
             // return $dangerousInfo->notification->number;
@@ -256,6 +300,8 @@ class DangerousInfoController extends Controller
             $id = $dangerousInfo->notification->id;
 
             $dangerousInfo->delete();
+
+            // dd('success delete');
             DB::commit();
 
             if(str_contains($number, "IN.DS")){

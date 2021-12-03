@@ -22,6 +22,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Nomor</th>
                         <th>Judul</th>
                         <th>Tanggal Dibuat</th>
                         <th>Tanggal Selesai</th>
@@ -73,6 +74,10 @@
                 { 
                     data: 'DT_RowIndex',
                     className: 'text-center',
+                },
+                { 
+                    data: 'number',
+                    defaultContent:'-'
                 },
                 { data: 'title' },
                 {   

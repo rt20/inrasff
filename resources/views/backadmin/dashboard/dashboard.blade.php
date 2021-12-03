@@ -112,7 +112,7 @@
                                         <span>vs {{$last_month}}</span>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary">Selengkapnya</button>
+                                <a href="{{route('backadmin.downstreams.index')}}" class="btn btn-primary">Selengkapnya</a>
                             </div>
                             <div
                                 class="col-sm-6 col-12 d-flex justify-content-between flex-column text-right order-sm-2 order-1">
@@ -120,7 +120,7 @@
                                     <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button"
                                         id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        {{date('F Y')}}
+                                        {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
                                     </button>
                                 </div>
                                 <div id="avg-sessions-chart"></div>
@@ -173,11 +173,11 @@
                                     <h2 class="font-weight-bolder mb-25">Statistik</h2>
                                     <p class="card-text font-weight-bold mb-2">Notifikasi Upstream</p>
                                     <div class="font-medium-2">
-                                        <span v-bind:class="{ 'text-danger':downstream_diff_last_month<0, 'text-success':downstream_diff_last_month>0}" class="text-success mr-25">@{{upstream_diff_last_month}}%</span>
+                                        <span v-bind:class="{ 'text-danger':upstream_diff_last_month<0, 'text-success':upstream_diff_last_month>0}" class="text-success mr-25">@{{upstream_diff_last_month}}%</span>
                                         <span>vs {{$last_month}}</span>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary">Selengkapnya</button>
+                                <a href="{{route('backadmin.upstreams.index')}}" class="btn btn-primary">Selengkapnya</a>
                             </div>
                             <div
                                 class="col-sm-6 col-12 d-flex justify-content-between flex-column text-right order-sm-2 order-1">
@@ -185,7 +185,7 @@
                                     <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button"
                                         id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        {{date('F Y')}}
+                                        {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
                                     </button>
                                 </div>
                                 <div id="avg-sessions-chart-2"></div>
@@ -236,7 +236,7 @@
                             <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button"
                                 id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                {{date('F Y')}}
+                                {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem4">
                                 <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
