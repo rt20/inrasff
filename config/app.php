@@ -185,10 +185,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Monarobase\CountryList\CountryListServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-
-
     ],
 
     /*
