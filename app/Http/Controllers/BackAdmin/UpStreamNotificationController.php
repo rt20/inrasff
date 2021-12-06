@@ -362,6 +362,11 @@ class UpStreamNotificationController extends Controller
         }
         try {
             DB::beginTransaction();
+            $upstream->isStatusAny(['draft', 'open']);
+            if($upstream->notification!=null){
+                $upstream->notification->status = 'read';
+                $upstream->notification->update();
+            }
             $upstream->delete();
             DB::commit();
 
