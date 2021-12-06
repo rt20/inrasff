@@ -42,7 +42,7 @@
 	</div>
 </section>
 
-<section class="bg-gray-100">
+<section class="bg-gray-100" id="sendMessage">
 	<div class="container px-3 py-12 lg:mx-auto">
 		<div class="text-xl font-bold mb-5">Send us a message</div>
 		{!! Form::open(['route' => 'contactus.submit', 'method' => 'POST']) !!}
