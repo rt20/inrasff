@@ -44,7 +44,14 @@ class DashboardController extends Controller
                 ->groupBy(function($val){
                     return $val->status;
                 });
-        $downstream_month = isset($ds[0])? $ds[0]->total : 0;
+        // return $ds;
+        // dd($ds);
+        // $downstream_month = isset($ds[0])? $ds[0]->total : 0;
+        $downstream_month = DB::table('down_stream_notifications as ds')
+                                    ->whereNull('deleted_at')
+                                    ->where('created_at', '>=', Carbon::now()->format('Y-m-01'))
+                                    ->where('created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                                    ->count();
         $downstream_graph = [];
         if(isset($ds[0]) && isset($ds[1])){
             $downstream_diff_last_month = ($ds[0]->total - $ds[1]->total)/$ds[1]->total;
@@ -71,6 +78,7 @@ class DashboardController extends Controller
                 ->orderBy('month', 'DESC')
                 ->limit(2)
                 ->get();
+                
         $uss = DB::table('up_stream_notifications as us')
                 ->select(
                     'us.id',
@@ -88,7 +96,12 @@ class DashboardController extends Controller
                 ->groupBy(function($val){
                     return $val->status;
                 });
-        $upstream_month = isset($us[0])? $us[0]->total : 0;
+        // $upstream_month = isset($us[0])? $us[0]->total : 0;
+        $upstream_month = DB::table('up_stream_notifications as ds')
+                                    ->whereNull('deleted_at')
+                                    ->where('created_at', '>=', Carbon::now()->format('Y-m-01'))
+                                    ->where('created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                                    ->count();
         $upstream_graph = [];
         if(isset($us[0]) && isset($us[1])){
             $upstream_diff_last_month = ($us[0]->total - $us[1]->total)/$us[1]->total;
@@ -106,13 +119,15 @@ class DashboardController extends Controller
             'downstream_graph' => $downstream_graph,
             'downstream_month' => $downstream_month,
             'downstream_diff_last_month' => $downstream_diff_last_month,
-            'last_month' => $last_month,
+            
             'downstream_status' => $dss,
 
             'upstream_graph' => $upstream_graph,
             'upstream_month' => $upstream_month,
             'upstream_diff_last_month' => $upstream_diff_last_month,
             'upstream_status' => $uss,
+
+            'last_month' => $last_month,
         ]);
     }
 }

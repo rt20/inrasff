@@ -352,7 +352,16 @@ class DownStreamNotificationController extends Controller
         }
         try {
             DB::beginTransaction();
+            $downstream->isStatusAny(['draft', 'open']);
+            if($downstream->notification!=null){
+                $downstream->notification->status = 'read';
+                $downstream->notification->update();
+            }
+            // return $downstream->notification;
+            
             $downstream->delete();
+
+            
             DB::commit();
 
             return redirect()
