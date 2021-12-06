@@ -18,7 +18,8 @@ class News extends Model
         'published_at',
         'status',
         'excerpt',
-        'category_id'
+        'category_id',
+        'news_id'
     ];
 
     protected $appends = [ 'status_label', 'status_class'];

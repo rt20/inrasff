@@ -17,7 +17,13 @@
 @endsection
 
 @section('actions')
+    @if($news->id)
+        @if(in_array(Auth::user()->type, ['ncp', 'superadmin']) || $news->author_id == Auth::user()->id)
     <button type="submit" form="form-main" formaction="{{ $news->id ? route('backadmin.news.update', $news->id) : route('backadmin.news.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+        @endif
+    @else
+        <button type="submit" form="form-main" formaction="{{ $news->id ? route('backadmin.news.update', $news->id) : route('backadmin.news.store') }}" class="btn btn-primary" id="btn-save"><i class="mr-75" data-feather="save"></i>Simpan</button>
+    @endif
     <div class="btn-group">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
@@ -25,7 +31,9 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
             <a href="{{route('backadmin.news.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             @if ($news->id)
+                @if(in_array(Auth::user()->type, ['ncp', 'superadmin']) || $news->author_id == Auth::user()->id)
                 <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                @endif
             @endif
         </div>
     </div>
@@ -72,6 +80,7 @@
                                 @enderror
                             </div>
                             
+                            @if(in_array(Auth::user()->type, ['ncp', 'superadmin']))
                             <div class="col-12 col-md-4 form-group">
                                 <label for="status" class="form-label required">Status</label>
                                 <select name="status" class="form-control @error('status') {{ 'is-invalid' }} @enderror"
@@ -84,8 +93,9 @@
                                     <small class="text-danger">{{ $errors->first('status') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
+                            @endif
 
-                            <div class="col-12 col-md-4 form-group">
+                            <div class="col-12 @if(in_array(Auth::user()->type, ['ncp', 'superadmin'])) col-md-4 @else col-md-6 @endif form-group">
                                 <label for="published_at" class="form-label required">Tanggal Publish</label>
                                 <input type="text" 
                                     name="published_at"
@@ -97,7 +107,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
 
-                            <div class="col-12 col-md-4 form-group">
+                            <div class="col-12 @if(in_array(Auth::user()->type, ['ncp', 'superadmin'])) col-md-4 @else col-md-6 @endif form-group">
                                 <label for="category_id" class="form-label required">Kategori Berita</label>
                                 <select name="category_id" 
                                     v-model="news.category_id" 
@@ -110,7 +120,7 @@
                             </div><!-- .col-md-6.form-group -->
 
                             <div class="col-12 col-md-12 form-group">
-                                <label for="image" class="form-label">Gambar</label>
+                                <label for="image" class="form-label required">Gambar</label>
                                 <input 
                                     data-default-file="{{$news->getImage()}}"
                                     type="file" 

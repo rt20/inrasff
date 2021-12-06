@@ -13,6 +13,7 @@ use App\Models\ContactUs;
 use App\Models\Slider;
 
 use DB;
+use App\Events\NotificationContactUs;
 
 class FrontController extends Controller
 {
@@ -96,6 +97,7 @@ class FrontController extends Controller
             'name' => ['required', 'max:255'],
             'email' => ['required', 'max:255'],
             'message' => ['required'],
+            'g-recaptcha-response' => ['required', 'captcha'],
         ]);
         try {
             DB::beginTransaction();
@@ -103,6 +105,7 @@ class FrontController extends Controller
             $n->save();
             DB::commit();
             
+            event(new NotificationContactUs);
         } catch (Exception $e) {
             DB::rollback();
             report($e);
