@@ -93,7 +93,7 @@
     <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modalDelete" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{{ route('backadmin.categories.destroy', $contactus->id) }}" method="POST">
+                <form action="{{ route('backadmin.contactus.destroy', $contactus->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="modal-header">
