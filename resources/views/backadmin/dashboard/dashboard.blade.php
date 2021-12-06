@@ -108,7 +108,9 @@
                                     <h2 class="font-weight-bolder mb-25">Statistik</h2>
                                     <p class="card-text font-weight-bold mb-2">Notifikasi Downstream</p>
                                     <div class="font-medium-2">
-                                        <span v-bind:class="{ 'text-danger':downstream_diff_last_month<0, 'text-success':downstream_diff_last_month>0}" class="text-success mr-25">@{{downstream_diff_last_month}}%</span>
+                                        <span 
+                                            v-bind:class="{ 'text-danger':downstream_diff_last_month<0, 'text-success':downstream_diff_last_month>0}" 
+                                            class="text-success mr-25">@{{downstream_diff_last_month}}%</span>
                                         <span>vs {{$last_month}}</span>
                                     </div>
                                 </div>
@@ -205,13 +207,6 @@
                                 <div class="progress progress-bar-info" style="height: 6px">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="60"
                                         aria-valuemin="60" aria-valuemax="100" style="width: {{ isset($upstream_status['open']) ? 100* $upstream_status['open'][0]->total / $upstream_month : 0 }}%"></div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <p class="mb-50">Proses CCP: {{ isset($upstream_status['ccp process']) ? $upstream_status['ccp process'][0]->total : 0 }}</p>
-                                <div class="progress progress-bar-warning" style="height: 6px">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                                        aria-valuemin="70" aria-valuemax="100" style="width: {{ isset($upstream_status['ccp process']) ? 100* $upstream_status['ccp process'][0]->total / $upstream_month : 0 }}%"></div>
                                 </div>
                             </div>
                             <div class="col-6">
