@@ -56,7 +56,7 @@ class GalleryController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
-            'image' => ['required'],
+            'image' => ['required', 'mimes: jpeg,jpg,png', 'max:10240'],
         ]);
         try {
             DB::beginTransaction();
@@ -129,6 +129,7 @@ class GalleryController extends Controller
     {
         $request->validate([
             'title' => ['required', 'max:255'],
+            'image' => ['mimes: jpeg,jpg,png', 'max:10240'],
         ]);
         try {
             DB::beginTransaction();
