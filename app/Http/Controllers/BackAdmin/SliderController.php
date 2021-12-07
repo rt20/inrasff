@@ -110,7 +110,7 @@ class SliderController extends Controller
     public function uploadImage(Request $request){
         $validator = Validator::make($request->all(), [
             'slider_id' => ['bail', 'required'],
-            'image' => ['bail','image','required','mimes:png,jpg,jpeg', 'max:2048'],
+            'image' => ['bail','image','required','mimes:png,jpg,jpeg', 'max:10240'],
         ]);
 
         try {

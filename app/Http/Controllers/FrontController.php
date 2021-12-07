@@ -112,6 +112,9 @@ class FrontController extends Controller
             return redirect()->back()->withInput()->withError($e->getMessage());
 
         }
-        return redirect()->route('contactus')->withSuccess('Pesan berhasil dikirim!');
+
+        $faq = FAQ::get();
+
+        return redirect('contactus#sendMessage')->with('faq', $faq)->withSuccess('Pesan berhasil dikirim!');
     }
 }
