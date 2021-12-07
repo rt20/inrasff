@@ -75,12 +75,12 @@
                                     <input name="link" id="link" class="form-control f-image" autocomplete="off" type="text">
                                 </div>
                             </div>
-                        </div>
-                        <div v-show="imageModal.state === 'delete'">
-                            <p class="mb-0">Apakah Anda yakin akan menghapus Slider ini?</p>
+                            <div v-show="imageModal.state === 'delete'">
+                                <p class="mb-0">Apakah Anda yakin akan menghapus Slider ini?</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" v-if="imageModal.loading == 0">
                         <button v-show="imageModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
                         
                         
