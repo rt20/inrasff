@@ -144,7 +144,8 @@
                         id:null,
                         name:'',
                     },
-                    error: ''
+                    error: '',
+                    loading: 0
                 },
                 validatorImage : [
                     {
@@ -219,6 +220,7 @@
                 this.imageModal.state = state;
                 this.imageModal.index = index;
                 this.imageModal.error = '';
+                this.imageModal.loading = 0
                 
                 switch (this.imageModal.state) {
                     case 'add':
@@ -244,6 +246,7 @@
                 // return
                 
                 $('.text-danger').remove();
+                this.imageModal.loading = 1
                 let invalid;
                 
                 switch (this.imageModal.state) {
@@ -259,6 +262,7 @@
                             }
                         });
                         if(invalid){
+                            this.imageModal.loading = 0
                             return;
                         }
                         var url = `{{ route('backadmin.sliders.slider_image.store') }}`
@@ -300,8 +304,11 @@
                          this.slider.slider_image.splice(this.imageModal.index, 1);
 
                         if(resp.data.status.localeCompare('ok')==0){
-                            $('#modal-image').modal('hide')
+                            $('#modal-image').modal('hide').on('hidden.bs.modal', function(){
+                                form.imageModal.loading = 0    
+                            })
                         }else{
+                            this.imageModal.loading = 0
                             alert(resp.data.message)
                         }          
                                       
