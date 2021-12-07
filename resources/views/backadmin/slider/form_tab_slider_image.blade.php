@@ -44,26 +44,36 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div v-show="imageModal.state !== 'delete'">
-                            <div class="alert alert-danger mb-50" v-if="imageModal.error != ''">
-                                <div class="alert-body">@{{ imageModal.error }}</div>
+                        <div class="d-flex justify-content-center mt-2" v-if="imageModal.loading==1">
+                            <div class="spinner-border text-success" style="width: 10rem; height: 10rem"  role="status">
+                                <span class="sr-only">Loading...</span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label required" for="image">Gambar</label>
-                                {{-- <select name="province" id="f_province" class="form-control"></select> --}}
-                                <input name="image" id="image" class="form-control f-image" type="file">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="title">Judul</label>
-                                <input name="title" id="title" class="form-control f-image" autocomplete="off" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="subtitle">Sub Judul</label>
-                                <input name="subtitle" id="subtitle" class="form-control f-image" autocomplete="off" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="link">Tautan</label>
-                                <input name="link" id="link" class="form-control f-image" autocomplete="off" type="text">
+                        </div>
+                        <div class="d-flex justify-content-center mt-1" v-if="imageModal.loading==1">
+                            <h2>Memproses</h2>
+                        </div>
+                        <div v-if="imageModal.loading == 0">
+                            <div v-show="imageModal.state !== 'delete'">
+                                <div class="alert alert-danger mb-50" v-if="imageModal.error != ''">
+                                    <div class="alert-body">@{{ imageModal.error }}</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label required" for="image">Gambar</label>
+                                    {{-- <select name="province" id="f_province" class="form-control"></select> --}}
+                                    <input name="image" id="image" class="form-control f-image" type="file">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="title">Judul</label>
+                                    <input name="title" id="title" class="form-control f-image" autocomplete="off" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="subtitle">Sub Judul</label>
+                                    <input name="subtitle" id="subtitle" class="form-control f-image" autocomplete="off" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="link">Tautan</label>
+                                    <input name="link" id="link" class="form-control f-image" autocomplete="off" type="text">
+                                </div>
                             </div>
                         </div>
                         <div v-show="imageModal.state === 'delete'">
