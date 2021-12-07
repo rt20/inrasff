@@ -48,8 +48,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
     
     Route::middleware('guest')->group(function () {
         Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
-        Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
-        
+        Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login'); 
     });
 
     Route::middleware('auth', 'admin')->group(function () {
