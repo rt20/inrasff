@@ -16,6 +16,25 @@ const sassOptions = {
   includePaths: ['node_modules', 'resources/assets/']
 }
 
+
+// plugins Core stylesheets
+mixAssetsDir('sass/base/plugins/**/!(_)*.scss', (src, dest) =>
+  mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), { sassOptions })
+)
+
+// pages Core stylesheets
+mixAssetsDir('sass/base/pages/**/!(_)*.scss', (src, dest) =>
+  mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), { sassOptions })
+)
+
+// Core stylesheets
+mixAssetsDir('sass/base/core/**/!(_)*.scss', (src, dest) =>
+  mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), { sassOptions })
+)
+
+// script js
+mixAssetsDir('js/scripts/**/*.js', (src, dest) => mix.scripts(src, dest))
+
 mix
   .js('resources/js/app.js', 'public/js')
   .postCss('resources/css/app.css', 'public/css', [

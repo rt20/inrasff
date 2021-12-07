@@ -20,7 +20,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nama Lengkap</th>
+                        <th>Nama</th>
                         <th>Lembaga</th>
                         <th>Penanggung Jawab</th>
                         <th>Username</th>
