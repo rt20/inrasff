@@ -48,6 +48,7 @@ class DownStreamNotification extends Model
         if($this->category_product_id==null){
             return null;
         }
+        
         $data = NotificationService::productCategory($this->category_product_id);
         return $data;
     }

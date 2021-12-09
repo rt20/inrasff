@@ -62,99 +62,81 @@
 @endsection
 
 @section('content')
-{{-- <div class="card">
-    <div class="card-body"> --}}
-        <div class="d-flex justify-content-between align-items-end pb-1">
-            <h1></h1>
-            <span class="badge badge-pill badge-light-{{ $upstream->status_class }} px-2 py-50">{{ $upstream->status_label }}</span>
-        </div>
-        <div class="nav-vertical">
+    <div class="d-flex justify-content-between align-items-end pb-1">
+        <h1></h1>
+        <span class="badge badge-pill badge-light-{{ $upstream->status_class }} px-2 py-50">{{ $upstream->status_label }}</span>
+    </div>
+    <div class="nav-vertical">
+        
+        <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link  {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Umum</a>
+            </li>
             
-            <ul class="nav nav-tabs nav-left flex-column" id="myTab2" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link  {{ $focus==null? 'active' : '' }}" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab" aria-controls="home-just" aria-selected="true">1. Informasi Umum</a>
-                </li>
+            @if($upstream->id != null && !$upstream->isStatus('draft', false))
+            <li class="nav-item">
+                <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">2. Info Penindak</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true">7. Lampiran</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $focus=== 'follow_up' ? 'active' : '' }}" id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
+            </li>
                 
-                @if($upstream->id != null && !$upstream->isStatus('draft', false))
-                <li class="nav-item">
-                    <a class="nav-link " id="institution-tab-justified" data-toggle="tab" href="#institution" role="tab" aria-controls="institution" aria-selected="true">2. Info Penindak</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk-tab-justified" data-toggle="tab" href="#dangerous-risk" role="tab" aria-controls="dangerous-risk" aria-selected="true">3. Bahaya & Resiko</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="dangerous-traceability-lot-tab-justified" data-toggle="tab" href="#traceability-lot" role="tab" aria-controls="traceability-lot" aria-selected="true">4. Keterlusuran</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control-tab-justified" data-toggle="tab" href="#border-control" role="tab" aria-controls="border-control" aria-selected="true">5. Kontrol Perbatasan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " id="additional-tab-justified" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="true">6. Informasi Tambahan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " id="attachment-tab-justified" data-toggle="tab" href="#attachment" role="tab" aria-controls="border-control" aria-selected="true">7. Lampiran</a>
-                    
-                </li>
-                
-                    @if($upstream->isStatus('open', false))
-                    <li class="nav-item">
-                        <a class="nav-link {{ $focus=== 'follow_up' ? 'active' : '' }}" id="follow-up-tab-justified" data-toggle="tab" href="#follow-up" role="tab" aria-controls="border-control" aria-selected="true">8. Tindak Lanjut</a>
-                    </li>
-                    @endif
-                @endif
-            </ul>
-            
-            <!-- Vertical Wizard -->
-            <form method="post" id="form-main"> 
-                {{-- <input hidden readonly name="section_form" id="section-form" value="general"> --}}
-                @csrf
-                @if ($upstream->id)
-                    @method('PUT')
-                @endif
-                <div class="tab-content">
-                    <div class="tab-pane {{ $focus== null ? 'active' : '' }}" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.general')
-                    </div>
-
-                    @if($upstream->id != null)
-                    
-                    <div class="tab-pane " id="institution" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.institution')
-                    </div>
-                    <div class="tab-pane {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
-                        {{-- @include('backadmin.upstream.dangerous_risk') --}}
-                        @include('backadmin.upstream.tab.dangerous_risks')
-                    </div>
-                    <div class="tab-pane {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.traceability_lots')
-                    </div>
-                    <div class="tab-pane {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.border_controls')
-                    </div>
-                    <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.additional')
-                    </div>
-                    <div class="tab-pane " id="attachment" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.attachment')
-                    </div>
-                    @if($upstream->isStatus('open', false))
-                    <div class="tab-pane {{ $focus=== 'follow_up' ? 'active' : '' }}" id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
-                        @include('backadmin.upstream.tab.follow_ups')
-                    </div>
-                    @endif
-                    @endif
-
-                    {{-- <div class="tab-pane " id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
-                        @include('backadmin.upstream.follow_up')
-                    </div> --}}
-
+            @endif
+        </ul>
+        
+        <!-- Vertical Wizard -->
+        <form method="post" id="form-main"> 
+            @csrf
+            @if ($upstream->id)
+                @method('PUT')
+            @endif
+            <div class="tab-content">
+                <div class="tab-pane {{ $focus== null ? 'active' : '' }}" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.general')
                 </div>
-            </form>
-        </div>
-        <!-- /Vertical Wizard -->
-    {{-- </div>
-</div> --}}
+                @if($upstream->id != null)                
+                <div class="tab-pane " id="institution" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.institution')
+                </div>
+                <div class="tab-pane {{ $focus=== 'dangerous_risks' ? 'active' : '' }}" id="dangerous-risk" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.dangerous_risks')
+                </div>
+                <div class="tab-pane {{ $focus=== 'traceability_lots' ? 'active' : '' }}" id="traceability-lot" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.traceability_lots')
+                </div>
+                <div class="tab-pane {{ $focus=== 'border_controls' ? 'active' : '' }}" id="border-control" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.border_controls')
+                </div>
+                <div class="tab-pane " id="additional" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.additional')
+                </div>
+                <div class="tab-pane " id="attachment" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.attachment')
+                </div>
+                <div class="tab-pane {{ $focus=== 'follow_up' ? 'active' : '' }}" id="follow-up" role="tabpanel" aria-labelledby="home-tab-justified">
+                    @include('backadmin.upstream.tab.follow_ups')
+                </div>
+                @endif
+
+            </div>
+        </form>
+    </div>
 @endsection
 
 @push('modal')
