@@ -97,14 +97,14 @@
                   <table style="font-family: &#39;Montserrat&#39;,Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tbody><tr>
                       <td class="sm-px-24" style="--bg-opacity: 1; background-color: #ffffff; background-color: rgba(255, 255, 255, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, &#39;Segoe UI&#39;, sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262; color: rgba(98, 98, 98, var(--text-opacity));" bgcolor="rgba(255, 255, 255, var(--bg-opacity))" align="left">
-                        <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Halo</p>
-                        {{-- <p style="font-weight: 700; font-size: 20px; margin-top: 0; --text-opacity: 1; color: #ff5850; color: rgba(255, 88, 80, var(--text-opacity));">{{ $user->responsible_name }}!</p> --}}
+                        <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Halo
+                        <span style="font-weight: 700; font-size: 20px; margin-top: 0; --text-opacity: 1; color: #ff5850; color: rgba(255, 88, 80, var(--text-opacity));">Admin INRASFF!</span></p>
                         
-                        {{-- <p style="margin: 24px 0;">
-                          <span style="font-weight: 600;">Anda</span>
-                          telah ditunjuk untuk menindaklanjuti notifikasi <b>{{ $downstream->number }}</b> pada {{ \Carbon\Carbon::make($downstream->created_at)->isoFormat('dddd, D MMM Y') }}.
-                        </p> --}}
-                        <p style="font-weight: 500; font-size: 16px; margin-bottom: 0;">Apa yang harus dilakukan sekarang?</p>
+                        <p style="margin-bottom: 24px;">
+                          <span style="font-weight: 600;">Ada Pesan Baru,</span>
+                          pada menu hubungi kami, segera di cek pada Halaman Backend Website INSRAFF.
+                        </p>
+                        {{-- <p style="font-weight: 500; font-size: 16px; margin-bottom: 0;">Apa yang harus dilakukan sekarang?</p> --}}
                         {{-- <ul style="margin-bottom: 24px;">
                           <li>
                             Silahkan mengunjungi 🚀 <a style="text-decoration: none" href="{{route('backadmin.dashboard')}}" target="_blank">Website Inrasff</a> .

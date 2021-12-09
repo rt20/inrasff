@@ -92,7 +92,7 @@
 		<marquee direction="left" class="text-tertiary text-left">
 			@if($runningText->count() > 0)
 				@foreach($runningText as $data)
-				<span>{{ $data->title }}</span> @if(!$loop->last) <span class="mx-5"> | </span> @endif
+				<a href="{{ route('news_detail', $data->slug) }}">{{ $data->title }}</a> @if(!$loop->last) <span class="mx-5"> | </span> @endif
 				@endforeach
 			@else
 				Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?
@@ -107,7 +107,7 @@
 		@if($slider)
 			@if($slider->sliderImage->count() > 0)
 				@foreach($slider->sliderImage as $data)
-					<img src="{{ $data->getRefAttribute() }}" class="w-full h-96 object-cover">
+					<img src="{{ $data->getRefAttribute() }}" class="w-full h-96 object-cover object-center">
 				@endforeach
 			@else
 				<img src="{{ asset('seeder/slider_3.jpg') }}" class="w-full">
@@ -232,47 +232,63 @@
 			<div class="supported">
 				@if($kementrian->count() > 0)
 					@foreach($kementrian as $data)
+					<div class="p-2">
 						<div class="bg-gray-100 p-3 rounded">
 							<a href="{{ $data->link }}">
 								<img src="{{ $data->getImage() }}" class="w-full">
 							</a>
 						</div>
+					</div>
 					@endforeach
 				@else
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="http://www.pom.go.id/">
-						<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="http://www.pom.go.id/">
+							<img src="{{ asset('images/logo_bpom.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="https://www.kemenkeu.go.id/">
-						<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="https://www.kemenkeu.go.id/">
+							<img src="{{ asset('images/logo_kemenkeu.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="http://www.kemendag.go.id/">
-						<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="http://www.kemendag.go.id/">
+							<img src="{{ asset('images/logo_kemendag.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="http://www.pertanian.go.id/">
-						<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="http://www.pertanian.go.id/">
+							<img src="{{ asset('images/logo_kemen_pertanian.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="http://www.kemenperin.go.id/">
-						<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="http://www.kemenperin.go.id/">
+							<img src="{{ asset('images/logo_kemenperin.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="http://www.kkp.go.id/">
-						<img src="{{ asset('images/logo_kkp.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="http://www.kkp.go.id/">
+							<img src="{{ asset('images/logo_kkp.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
-				<div class="bg-gray-100 p-3 rounded">
-					<a href="http://www.depkes.go.id/">
-						<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
-					</a>
+				<div class="p-2">
+					<div class="bg-gray-100 p-3 rounded">
+						<a href="http://www.depkes.go.id/">
+							<img src="{{ asset('images/logo_kemenkes.png') }}" class="w-full">
+						</a>
+					</div>
 				</div>
 				@endif
 			</div>

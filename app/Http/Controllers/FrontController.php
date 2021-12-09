@@ -19,7 +19,7 @@ class FrontController extends Controller
 {
     public function home()
     {
-        $runningText = News::published()->orderBy('published_at', 'DESC')->limit(3)->get('title');
+        $runningText = News::published()->orderBy('published_at', 'DESC')->limit(3)->get(['title', 'slug']);
         $slider = Slider::where('location', 'home_page')->first();
         $firstNews = News::published()->orderBy('published_at', 'DESC')->first();
         if($firstNews) {
