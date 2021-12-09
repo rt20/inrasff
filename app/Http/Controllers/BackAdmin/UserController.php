@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -19,6 +20,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view user')) {
+            abort(401);
+        }
+
         if($request->ajax()){
             $user = User::query()->with('institution');
             $user = $user->where('username', '!=', 'superadmin');
@@ -55,6 +60,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store user')) {
+            abort(401);
+        }
         return view('backadmin.user.form', [
             'title' => 'Tambah Pengguna',
             'user' => new User,
@@ -70,8 +78,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-        // return $request->all();
+        if (!Gate::allows('store user')) {
+            abort(401);
+        }
         $request->validate([
             'fullname' => ['required', 'max:255'],
             'username' => ['required', 'max:255', 'unique:users'],
@@ -134,6 +143,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (!Gate::allows('view user')) {
+            abort(401);
+        }
         $user->institution = $user->institution;
         return view('backadmin.user.form', [
             'title' => $user->fullname,
@@ -151,7 +163,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // dd($user);
+        if (!Gate::allows('store user')) {
+            abort(401);
+        }
         $request->validate([
             'fullname' => ['required', 'max:255'],
             'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],
@@ -202,6 +216,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if (!Gate::allows('delete user')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $user->delete();

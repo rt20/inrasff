@@ -11,7 +11,7 @@ use App\Models\UpStreamNotification;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-
+use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 
 class InstitutionController extends Controller
@@ -23,7 +23,9 @@ class InstitutionController extends Controller
      */
     public function index(Request $request)
     {
-        
+        if (!Gate::allows('view institution')) {
+            abort(401);
+        }
         if($request->ajax()){
             $institution = Institution::query();
             if(auth()->user()->type!=='superadmin'){
@@ -56,6 +58,9 @@ class InstitutionController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store institution')) {
+            abort(401);
+        }
         return view('backadmin.institution.form', [
             'title' => 'Tambah Lembaga',
             'institution' => new Institution,
@@ -70,6 +75,9 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store institution')) {
+            abort(401);
+        }
         $request->validate([
             'name' => ['required', 'max:255', 'unique:institutions'],
             'type' => ['required'],
@@ -114,7 +122,10 @@ class InstitutionController extends Controller
      */
     public function edit(Institution $institution)
     {
-        // $institution = Institution::find($id);
+        if (!Gate::allows('view institution')) {
+            abort(401);
+        }
+
         return view('backadmin.institution.form', [
             'title' => $institution->name,
             'institution' => $institution,
@@ -130,7 +141,10 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, Institution $institution)
     {
-        // dd($institution);
+        if (!Gate::allows('store institution')) {
+            abort(401);
+        }
+
         $request->validate([
             'name' => ['required', 'max:255', 'unique:institutions,id,'.$institution->id],
             'type' => ['required'],
@@ -171,6 +185,9 @@ class InstitutionController extends Controller
      */
     public function destroy(Institution $institution)
     {
+        if (!Gate::allows('delete institution')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();            
             $institution->delete();
