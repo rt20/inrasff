@@ -34,7 +34,7 @@ class CreateTraceabilityLotInfosTable extends Migration
              * Description about lot
              */
             $table->string('number_unit')->nullable();
-            $table->double('net_weight')->nullable();
+            $table->string('net_weight')->nullable();
 
             /**
              * Health Certificate

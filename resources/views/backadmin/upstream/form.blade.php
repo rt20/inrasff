@@ -4,6 +4,7 @@
 @include('backadmin.layouts.style_datatables')
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/wizard/bs-stepper.min.css') }}">    
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
+<link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
 <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 @endsection
 
@@ -247,6 +248,7 @@
     <script src="{{ asset('backadmin/theme/vendors/js/forms/wizard/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
+    <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
     <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>

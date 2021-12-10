@@ -120,6 +120,11 @@ class BorderControlInfoController extends Controller
             'entry_point' => ['required', 'max:255'],
             'supervision_point' => ['required', 'max:255'],
             'destination_country_id' => ['required'],
+            'consignee_name' => ['max:255'],
+            // 'consignee_address',
+            'container_number' => ['max:255'],
+            'transport_name' => ['max:255'],
+            'transport_description' => ['max:255'],
         ]);
 
         try {
@@ -222,6 +227,11 @@ class BorderControlInfoController extends Controller
             'entry_point' => ['required', 'max:255'],
             'supervision_point' => ['required', 'max:255'],
             'destination_country_id' => ['required'],
+            'consignee_name' => ['max:255'],
+            // 'consignee_address',
+            'container_number' => ['max:255'],
+            'transport_name' => ['max:255'],
+            'transport_description' => ['max:255'],
         ]);
 
         try {

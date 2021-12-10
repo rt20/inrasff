@@ -19,6 +19,7 @@ class CreateInstitutionsTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('type'); //ccp, lccp
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

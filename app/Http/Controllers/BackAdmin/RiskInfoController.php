@@ -117,6 +117,14 @@ class RiskInfoController extends Controller
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
             'distribution_status_id' => ['required', 'max:255'],
+            'serious_risk' => ['max:255'],
+            'victim' => ['max:255'],
+            'symptom' => ['max:255'],
+            'voluntary_measures' => ['max:255'],
+            'add_voluntary_measures' => ['max:255'],
+            'compulsory_measures' => ['max:255'],
+            'add_compulsory_measures' => ['max:255']
+
         ]);
 
         try {

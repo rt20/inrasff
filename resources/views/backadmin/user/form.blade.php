@@ -183,6 +183,7 @@
                             <div class="col-12 col-md-12 form-group">
                                 <label for="responsible_address" class="form-label required">Alamat</label>
                                 <textarea
+                                    autocomplete="off"
                                     placeholder="Masukan Alamat"
                                     name="responsible_address"
                                     v-model="user.responsible_address" 

@@ -229,6 +229,8 @@ class UpStreamNotificationController extends Controller
             'source_notif' => ['required', 'max:255'],
             'product_name' => ['required', 'max:255'],
             'brand_name' => ['required', 'max:255'],
+            'institution'  => ['max:255'],
+            'contact_person'  => ['max:255'],
         ]);
         
         try {

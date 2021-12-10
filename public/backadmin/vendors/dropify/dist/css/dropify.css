@@ -103,8 +103,10 @@
       font-size: 50px;
       color: #CCC; }
     .dropify-wrapper .dropify-message p {
+      font-size: 1rem!important;
       margin: 5px 0 0 0; }
       .dropify-wrapper .dropify-message p.dropify-error {
+        font-size: 1rem!important;
         color: #F34141;
         font-weight: bold;
         display: none; }

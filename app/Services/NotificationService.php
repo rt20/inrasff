@@ -22,7 +22,7 @@ class NotificationService{
                 ],
                 'pengaduan konsumen' => [
                     'value' => 'pengaduan konsumen',
-                    'label' => 'Pengaudan Konsumen'
+                    'label' => 'Pengaduan Konsumen'
                 ],
                 'program surveilan' => [
                     'value' => 'program surveilan',

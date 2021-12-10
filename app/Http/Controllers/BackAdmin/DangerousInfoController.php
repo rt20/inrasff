@@ -118,11 +118,16 @@ class DangerousInfoController extends Controller
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
             'name' => ['required', 'max:255'],
-            // 'category' => ['required', 'max:255'],
-            'category_id' => ['required', 'max:255'],
+            'category_id' => ['required'],
             'cl1_id' => ['required_if:cl1_id_show,==,1'],
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
+
+            'name_result' => ['max:255'],
+            'laboratorium' => ['max:255'],
+            'matrix' => ['max:255'],
+            'scope' => ['max:255'],
+            'max_tollerance' => ['max:255'],
         ],[
             'cl1_id.required_if' => 'detail bahaya 1 perlu diisi',
             'cl2_id.required_if' => 'detail bahaya 2 perlu diisi',
@@ -235,6 +240,12 @@ class DangerousInfoController extends Controller
             'cl1_id' => ['required_if:cl1_id_show,==,1'],
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
+
+            'name_result' => ['max:255'],
+            'laboratorium' => ['max:255'],
+            'matrix' => ['max:255'],
+            'scope' => ['max:255'],
+            'max_tollerance' => ['max:255'],
         ]);
 
         try {

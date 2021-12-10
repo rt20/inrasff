@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label required" for="title_attachment">Judul</label>
-                                        <input placeholder="Silahkan Masukan Judul" name="title_attachment" id="title_attachment" class="form-control" type="text" value="">
+                                        <input autocomplete="off" placeholder="Silahkan Masukan Judul" name="title_attachment" id="title_attachment" class="form-control" type="text" value="">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label required" for="title">Info Lampiran</label>
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label required" for="attachment">Lampiran</label>
-                                        <input name="attachment" id="attachment" class="form-control f-attachment" type="file">
+                                        <input name="attachment" id="attachment" class="form-control f-attachment dropify" data-max-file-size="10M" type="file">
                                         <small>*format: pdf, excel, jpg, jpeg, png. Max:10MB</small>
                                     </div>
                                 </div>
@@ -141,6 +141,7 @@
 
         },
         mounted() {
+            $('.dropify').dropify();
             $('.select2-dr').select2();
             let icon = feather.icons['trash'].toSvg();
             this.table_attachment = $('#table-attachment').DataTable({

@@ -43,7 +43,7 @@ class DangerousCategorySeeder extends Seeder
             ],
             [
                 'name' => "Label",
-                'has_child' => false
+                'has_child' => true
             ],
         ]);
         Schema::enableForeignKeyConstraints();

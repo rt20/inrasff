@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Institution extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
     private $types = [
         'ccp' => [

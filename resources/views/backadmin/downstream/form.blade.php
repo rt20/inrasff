@@ -3,6 +3,7 @@
 @section('vendor-css')
 @include('backadmin.layouts.style_datatables')
 <link rel="stylesheet" href="{{ asset('backadmin/theme/vendors/css/forms/select/select2.min.css') }}">    
+<link rel="stylesheet" href="{{ asset('backadmin/vendors/dropify/dist/css/dropify.css') }}"> 
 <link rel="stylesheet" type="text/css" href="{{ asset('backadmin/theme/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 @endsection
 
@@ -12,6 +13,9 @@
     <style>
         .read-only-white{
             background-color: #fff !important
+        }
+        .dropify-message{
+            font-size: 1rem!important;
         }
     </style>
 @endsection
@@ -276,6 +280,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/id.min.js" integrity="sha512-he8U4ic6kf3kustvJfiERUpojM8barHoz0WYpAUDWQVn61efpm3aVAD8RWL8OloaDDzMZ1gZiubF9OSdYBqHfQ==" crossorigin="anonymous"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/wizard/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('backadmin/vendors/dropify/dist/js/dropify.js') }}"></script>
     <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
     <script src="{{ asset('backadmin/theme/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>

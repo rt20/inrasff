@@ -205,7 +205,7 @@
                                     name="name_result"
                                     v-model="dangerous.name_result" 
                                     class="form-control @error('name_result') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Jenis Bahaya" autocomplete="off">
+                                    placeholder="Masukkan Hasil Uji" autocomplete="off">
                                 @error('name_result')
                                     <small class="text-danger">{{ $errors->first('name_result') }}</small>
                                 @enderror

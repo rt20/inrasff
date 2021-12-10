@@ -118,7 +118,32 @@ class TraceabilityLotInfoController extends Controller
             'notification_type' => ['required'], //downstream or upstream
             'notification_id' => ['required'], //id for downstream or upstream
             'source_country_id' => ['required'],
-            'number' => ['required'],
+            'number' => ['required', 'max:255' ],
+            
+            'number_unit' => ['max:255'],
+            'net_weight' => ['max:255', 'numeric'],
+            'cert_number' => ['max:255'],
+            'cert_institution' => ['max:255'],
+            
+            'add_cert_number' => ['max:255'],
+            'add_cert_institution' => ['max:255'],
+            
+            'cved_number' => ['max:255'],
+            
+            'producer_name' => ['max:255'],
+            // 'producer_address' => ['max:255'],
+            'producer_city' => ['max:255'],
+            'producer_approval' => ['max:255'],
+            
+            'importer_name' => ['max:255'],
+            // 'importer_address' => ['max:255'],
+            'importer_city' => ['max:255'],
+            'importer_approval' => ['max:255'],
+            
+            'wholesaler_name' => ['max:255'],
+            // 'wholesaler_address' => ['max:255'],
+            'wholesaler_city' => ['max:255'],
+            'wholesaler_approval' => ['max:255'],
         ]);
 
 
@@ -240,7 +265,32 @@ class TraceabilityLotInfoController extends Controller
 
         $request->validate([
             'source_country_id' => ['required'],
-            'number' => ['required'],
+            'number' => ['required', 'max:255' ],
+            
+            'number_unit' => ['max:255'],
+            'net_weight' => ['max:255', 'numeric'],
+            'cert_number' => ['max:255'],
+            'cert_institution' => ['max:255'],
+            
+            'add_cert_number' => ['max:255'],
+            'add_cert_institution' => ['max:255'],
+            
+            'cved_number' => ['max:255'],
+            
+            'producer_name' => ['max:255'],
+            // 'producer_address' => ['max:255'],
+            'producer_city' => ['max:255'],
+            'producer_approval' => ['max:255'],
+            
+            'importer_name' => ['max:255'],
+            // 'importer_address' => ['max:255'],
+            'importer_city' => ['max:255'],
+            'importer_approval' => ['max:255'],
+            
+            'wholesaler_name' => ['max:255'],
+            // 'wholesaler_address' => ['max:255'],
+            'wholesaler_city' => ['max:255'],
+            'wholesaler_approval' => ['max:255'],
         ]);
 
         try {

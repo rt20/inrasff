@@ -174,5 +174,12 @@ return [
 
         'question' => 'pertanyaan',
         'answer' => 'jawaban',
+
+        'name_result' => 'hasil uji',
+
+        'serious_risk' => 'resiko serius',
+        'symptom' => 'gejala',
+        'add_voluntary_measures' => 'info voluntary tambahan',
+        'add_compulsory_measures' => 'info compulsory tambahan'
     ],
 ];

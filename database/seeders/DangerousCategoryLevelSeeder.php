@@ -159,6 +159,96 @@ class DangerousCategoryLevelSeeder extends Seeder
             ],
         ]);
 
+
+    
+        // Insert Label 
+        DCL::insert([
+            [
+                'name' => 'Informasi Nilai Gizi',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Keterangan Alergen',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Logo atau Gambar Identitas Lembaga',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Keterangan Pangan Iradiasi',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Keterangan Pangan GMO',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Klaim menyesatkan',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Klaim berlebih',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Klaim kesehatan',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Peringatan bahan non halal',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Peringatan terkait minuman alkohol',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Peringatan pemanis buatan',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+            [
+                'name' => 'Peringatan produk susu',
+                'level' => 1,
+                'has_child' => false,
+                'dc_id' => $label,
+                'parent_id' => null
+            ],
+        ]);
+
         /** 
          * End of Level 1
          */
