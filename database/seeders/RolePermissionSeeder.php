@@ -281,6 +281,7 @@ class RolePermissionSeeder extends Seeder
             $roles['ccp'],
             $labelSubPermission,
             [
+                'front_end',
                 'data',
                 'bussiness_process',
                 'master_data'
