@@ -52,6 +52,15 @@ class TraceabilityLotInfo extends Model
         'wholesaler_approval',
     ];
 
+    protected $casts = [
+        'used_by' => 'date:Y-m-d',
+        'best_before' => 'date:Y-m-d',
+        'sell_by' => 'date:Y-m-d',
+        'cert_date'  => 'date:Y-m-d',
+        'add_cert_date' => 'date:Y-m-d',
+
+    ];
+
     public function notification(){
         return $this->morphTo(__FUNCTION__, 'tli_type', 'tli_id');
     }

@@ -243,7 +243,13 @@ class FollowUpNotificationController extends Controller
         } catch (Exception $e) {
             DB::rollback();
             report($e);
-            return redirect()->back()->withInput()->withError($e->getMessage());
+            return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors([
+                        'institution_list' => $e->getMessage() === "Lembaga Notifikasi Terkait belum ditambahkan" ? $e->getMessage(): null
+                    ])
+                    ->withError($e->getMessage());
 
         }
         return redirect()

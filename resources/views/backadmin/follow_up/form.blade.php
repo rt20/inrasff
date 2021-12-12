@@ -177,6 +177,9 @@ href="{{
                                     <tbody>
                                     </tbody>
                                 </table>
+                                @error('institution_list')
+                                    <small class="text-danger">{{ $errors->first('institution_list') }}</small>
+                                @enderror
                             </div><!-- .col-md-6.form-group -->
                             @endif
                             <div class="col-12 col-md-12 form-group">

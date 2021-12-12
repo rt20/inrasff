@@ -514,7 +514,7 @@
                                             <p class="font-weight-semibold mb-25">33.{{$alphabet[$i]}}. CVED/CED Number</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">-</p>
+                                            <p class="font-weight-semibold mb-25">{{$item->cved_number ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -522,27 +522,27 @@
                                             <p class="font-weight-semibold mb-25">34.{{$alphabet[$i]}}. Produsen</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                            <p class="font-weight-semibold mb-25">Nama: {{$item->producer_name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                            <p class="font-weight-semibold mb-25">Alamat: {{$item->producer_address ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Kota:</p>
+                                            <p class="font-weight-semibold mb-25">Kota: {{$item->producer_city ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Negara:</p>
+                                            <p class="font-weight-semibold mb-25">Negara: {{$item->producerCountry->name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Approval / reg.number:</p>
+                                            <p class="font-weight-semibold mb-25">Approval / reg.number: {{$item->producer_approval ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -550,27 +550,27 @@
                                             <p class="font-weight-semibold mb-25">35.{{$alphabet[$i]}}. Importir</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                            <p class="font-weight-semibold mb-25">Nama: {{$item->importer_name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                            <p class="font-weight-semibold mb-25">Alamat: {{$item->importer_address ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Kota:</p>
+                                            <p class="font-weight-semibold mb-25">Kota: {{$item->importer_city ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Negara:</p>
+                                            <p class="font-weight-semibold mb-25">Negara: {{$item->importerCountry->name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Approval / reg.number:</p>
+                                            <p class="font-weight-semibold mb-25">Approval / reg.number: {{$item->importer_approval ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -578,35 +578,42 @@
                                             <p class="font-weight-semibold mb-25">36.{{$alphabet[$i]}}. Wholesaler</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Nama:</p>
+                                            <p class="font-weight-semibold mb-25">Nama: {{$item->wholesaler_name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Alamat:</p>
+                                            <p class="font-weight-semibold mb-25">Alamat: {{$item->wholesaler_address ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Kota:</p>
+                                            <p class="font-weight-semibold mb-25">Kota: {{$item->wholesaler_city ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Negara:</p>
+                                            <p class="font-weight-semibold mb-25">Negara: {{$item->wholesalerCountry->name ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">Approval / reg.number:</p>
+                                            <p class="font-weight-semibold mb-25">Approval / reg.number: {{$item->wholesaler_approval ?? "-" }}</p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
                                             <p class="font-weight-semibold mb-25">37.{{$alphabet[$i]}}. Distribusi ke Negara ASEAN</p>
                                         </td>
+                                        
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">-</p>
+                                            <p class="font-weight-semibold mb-25">                                                
+                                                @foreach ($item->distributions as $i => $c)
+                                                    @if($c->country->is_asean)
+                                                        {{$c->country->name." "}}
+                                                    @endif
+                                                @endforeach
+                                            </p>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -614,7 +621,13 @@
                                             <p class="font-weight-semibold mb-25">38.{{$alphabet[$i]}}. Ekspor ke Negara Lainnya</p>
                                         </td>
                                         <td class="py-1">
-                                            <p class="font-weight-semibold mb-25">-</p>
+                                            <p class="font-weight-semibold mb-25">
+                                                @foreach ($item->distributions as $i => $c)
+                                                    @if(!$c->country->is_asean)
+                                                        {{$c->country->name." "}}
+                                                    @endif
+                                                @endforeach
+                                            </p>
                                         </td>
                                     </tr>
                                 @endforeach
