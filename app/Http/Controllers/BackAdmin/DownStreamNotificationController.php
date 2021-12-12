@@ -466,9 +466,12 @@ class DownStreamNotificationController extends Controller
         // return "hello";
         // $downstream->notificationStatus;
         // return $downstream->dangerous;
+        $url = route('backadmin.downstreams.edit', $downstream->id);
         $alphabet = range('A', 'ZZ');
         return view('report.notification')
                 ->with([
+                    'title' => $downstream->number,
+                    'url' => $url,
                     'notification' => $downstream,
                     'alphabet' => $alphabet
                 ]);

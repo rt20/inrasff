@@ -472,8 +472,11 @@ class UpStreamNotificationController extends Controller
 
     public function report(Request $request, UpStreamNotification $upstream){
         $alphabet = range('A', 'ZZ');
+        $url = route('backadmin.upstreams.edit', $upstream->id);
         return view('report.notification')
                 ->with([
+                    'title' => $upstream->number,
+                    'url' => $url,
                     'notification' => $upstream,
                     'alphabet' => $alphabet
                 ]);

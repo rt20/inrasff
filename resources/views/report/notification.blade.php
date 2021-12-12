@@ -26,8 +26,9 @@
                     <div class="invoice-print p-3">
                         <div class="d-flex justify-content-between flex-md-row flex-column">
                             <div>
-                                <div class="d-flex mb-1">
-                                    <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
+                                <div class="d-flex mb-1 bg-primary p-1 w-100">
+                                    <img src="{{asset('images/inrasff.png')}}" style="width: 70%!important">
+                                    {{-- <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                         <defs>
                                             <linearGradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
                                                 <stop stop-color="#000000" offset="0%"></stop>
@@ -49,9 +50,10 @@
                                                 </g>
                                             </g>
                                         </g>
-                                    </svg>
-                                    <h3 class="text-primary font-weight-bold ml-1">Formulir Notifikasi</h3>
+                                    </svg> --}}
+                                    {{-- <h3 class="text-primary font-weight-bold ml-1">Formulir Notifikasi</h3> --}}
                                 </div>
+                                <p class="mb-25"><b>Notification Link: </b><a href="{{$url ?? '#'}}" target="_blank">{{$url ?? '-'}}</a></p>
                                 <p class="mb-25">{{$notification->number ?? '-'}}</p>
                             </div>
                         </div>
@@ -776,7 +778,7 @@
                                     @foreach($notification->attachment as $i => $attachment)
                                     <tr>
                                         <td class="py-1 pl-4">
-                                            <p class="font-weight-semibold mb-25">{{$attachment->link}}</p>
+                                            <p class="font-weight-semibold mb-25"><a href="{{$attachment->origin?? "#"}}" target="_blank">{{$attachment->link}}</a></p>
                                         </td>
                                     </tr>
                                     @endforeach
