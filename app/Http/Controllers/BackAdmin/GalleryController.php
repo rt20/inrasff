@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Gate;
 use UploadFile;
 use Carbon\Carbon;
 
@@ -23,6 +23,9 @@ class GalleryController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view gallery')) {
+            abort(401);
+        }
         if($request->ajax()){
             $n = Gallery::all();
             return DataTables::of($n)->addIndexColumn()->make();
@@ -40,6 +43,9 @@ class GalleryController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store gallery')) {
+            abort(401);
+        }
         return view('backadmin.gallery.form', [
             'title' => 'Tambah Galeri',
             'gallery' => new Gallery,
@@ -54,6 +60,9 @@ class GalleryController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store gallery')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'image' => ['required', 'mimes: jpeg,jpg,png', 'max:10240'],
@@ -111,6 +120,9 @@ class GalleryController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('view gallery')) {
+            abort(401);
+        }
         $c = Gallery::find($id);
         return view('backadmin.gallery.form', [
             'title' => 'Edit Galeri',
@@ -127,6 +139,9 @@ class GalleryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Gate::allows('store gallery')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'image' => ['mimes: jpeg,jpg,png', 'max:10240'],
@@ -177,6 +192,9 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
+        if (!Gate::allows('delete gallery')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $n = Gallery::find($id);

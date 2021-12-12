@@ -35,24 +35,28 @@ class RolePermissionSeeder extends Seeder
 
         $masterDataPermissions = $this->createPermissions([
             'notification',
-            'news',
-            'slider',
+            // 'news',
+            // 'slider',
             'user',
             'institution'
         ]);
 
         $frontPermissions = $this->createPermissions([
-            'categories',
+            // 'categories',
+            'news_categories',
+            'news',
             'faq',
             'kementrian',
+            'contact_us',
+            'gallery',
+            'slider'
         ]);
 
         $labelSubPermission = $this->createPermissions([
-
             'data',
             'bussiness_process',
             'front_end',
-            'master_data'
+            'master_data',
         ],[
             'view'
         ]
@@ -141,8 +145,8 @@ class RolePermissionSeeder extends Seeder
             [
                 // 'notification',
                 'institution',
-                'news',
-                'slider',
+                // 'news',
+                // 'slider',
                 'user'
             ]
         );
@@ -213,6 +217,20 @@ class RolePermissionSeeder extends Seeder
                 'u_attachment'
             ]
         );
+
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $frontPermissions,
+            [
+                'news_categories',
+                'news',
+                'faq',
+                'kementrian',
+                'contact_us',
+                'gallery',
+                'slider'
+            ]
+        );
         
 
         /**CCP Roles */
@@ -229,7 +247,7 @@ class RolePermissionSeeder extends Seeder
             $masterDataPermissions,
             [
                 'institution',
-                'news',
+                // 'news',
                 'user'
             ]
         );
@@ -309,6 +327,14 @@ class RolePermissionSeeder extends Seeder
                 'u_traceability',
                 'u_border_control',
                 'u_attachment'
+            ]
+        );
+
+        $this->assignEntityPermissions(
+            $roles['ccp'],
+            $frontPermissions,
+            [
+                'news',
             ]
         );
 

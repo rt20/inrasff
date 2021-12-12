@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class SliderController extends Controller
 {
@@ -24,6 +25,9 @@ class SliderController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view slider')) {
+            abort(401);
+        }
         if($request->ajax()){
             $s = Slider::all();
             return DataTables::of($s)->addIndexColumn()->make();
@@ -74,6 +78,9 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('view slider')) {
+            abort(401);
+        }
         $s = Slider::where('id', $id)  
             ->with('sliderImage')
             ->first();

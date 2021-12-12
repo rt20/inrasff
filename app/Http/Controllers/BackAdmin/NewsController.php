@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 use UploadFile;
 use Carbon\Carbon;
@@ -24,6 +25,9 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view news')) {
+            abort(401);
+        }
         if($request->ajax()){
             $n = News::all();
             return DataTables::of($n)->addIndexColumn()->make();
@@ -41,6 +45,9 @@ class NewsController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store news')) {
+            abort(401);
+        }
         return view('backadmin.news.form', [
             'title' => 'Tambah Berita',
             'news' => new News,
@@ -55,6 +62,9 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store news')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'slug' => ['required', 'max:255', 'unique:news'],
@@ -121,6 +131,9 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('view news')) {
+            abort(401);
+        }
         $n = News::find($id);
         return view('backadmin.news.form', [
             'title' => 'Edit Berita',
@@ -137,6 +150,9 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Gate::allows('store news')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'slug' => ['required', 'max:255', 'unique:news,id,'.$id],
@@ -196,6 +212,9 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
+        if (!Gate::allows('delete news')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $n = News::find($id);

@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Gate;
 use UploadFile;
 use Carbon\Carbon;
 
@@ -23,6 +23,9 @@ class FAQController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view faq')) {
+            abort(401);
+        }
         if($request->ajax()){
             $n = FAQ::all();
             return DataTables::of($n)->addIndexColumn()->make();
@@ -40,6 +43,9 @@ class FAQController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store faq')) {
+            abort(401);
+        }
         return view('backadmin.faq.form', [
             'title' => 'Tambah FAQ',
             'faq' => new FAQ,
@@ -54,6 +60,9 @@ class FAQController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store faq')) {
+            abort(401);
+        }
         $request->validate([
             'question' => ['required', 'max:255'],
             'answer' => ['required'],
@@ -94,6 +103,9 @@ class FAQController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('view faq')) {
+            abort(401);
+        }
         $c = FAQ::find($id);
         return view('backadmin.faq.form', [
             'title' => 'Edit FAQ',
@@ -110,6 +122,9 @@ class FAQController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Gate::allows('store faq')) {
+            abort(401);
+        }
         $request->validate([
             'question' => ['required', 'max:255'],
             'answer' => ['required'],
@@ -140,6 +155,9 @@ class FAQController extends Controller
      */
     public function destroy($id)
     {
+        if (!Gate::allows('delete faq')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $n = FAQ::find($id);

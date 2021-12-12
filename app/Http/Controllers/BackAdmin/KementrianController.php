@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Gate;
 use UploadFile;
 use Carbon\Carbon;
 
@@ -23,6 +23,9 @@ class KementrianController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view kementrian')) {
+            abort(401);
+        }
         if($request->ajax()){
             $n = Kementrian::all();
             return DataTables::of($n)->addIndexColumn()->make();
@@ -40,6 +43,9 @@ class KementrianController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store kementrian')) {
+            abort(401);
+        }
         return view('backadmin.kementrian.form', [
             'title' => 'Tambah Kementerian',
             'kementrian' => new Kementrian,
@@ -54,6 +60,9 @@ class KementrianController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store kementrian')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'content' => ['required', 'max:255'],
@@ -114,6 +123,9 @@ class KementrianController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('view kementrian')) {
+            abort(401);
+        }
         $n = Kementrian::find($id);
         return view('backadmin.kementrian.form', [
             'title' => 'Edit Kementerian',
@@ -130,6 +142,9 @@ class KementrianController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Gate::allows('store kementrian')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'content' => ['required', 'max:255'],
@@ -183,6 +198,9 @@ class KementrianController extends Controller
      */
     public function destroy($id)
     {
+        if (!Gate::allows('delete kementrian')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $n = Kementrian::find($id);

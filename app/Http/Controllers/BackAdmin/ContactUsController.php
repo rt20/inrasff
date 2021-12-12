@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Gate;
 use UploadFile;
 use Carbon\Carbon;
 
@@ -23,6 +23,9 @@ class ContactUsController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view contact_us')) {
+            abort(401);
+        }
         if($request->ajax()){
             $n = ContactUs::all();
             return DataTables::of($n)->addIndexColumn()->make();
@@ -73,6 +76,9 @@ class ContactUsController extends Controller
      */
     public function edit($id)
     {
+        if (!Gate::allows('view contact_us')) {
+            abort(401);
+        }
         $c = ContactUs::find($id);
         return view('backadmin.contactus.form', [
             'title' => 'Lihat Hubungi Kami',
@@ -89,6 +95,9 @@ class ContactUsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Gate::allows('store contact_us')) {
+            abort(401);
+        }
         $request->validate([
             'status' => ['required'],
         ]);
@@ -118,6 +127,9 @@ class ContactUsController extends Controller
      */
     public function destroy($id)
     {
+        if (!Gate::allows('delete contact_us')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $n = ContactUs::find($id);
