@@ -22,6 +22,7 @@
                         <th>#</th>
                         <th>Nama</th>
                         <th>Tipe</th>
+                        <th>Status</th>
                         <th class="bi-table-col-action-1">Aksi</th>
                     </tr>
                 </thead>
@@ -60,6 +61,15 @@
                     data: 'type' ,
                     render: function(data, type, row, meta){
                         return row?.type_label;
+                    }
+                },
+                {
+                    data: 'status_label',
+                    className: 'text-center',
+                    orderable: false,
+                    searchable: false, 
+                    render: function(data, type, row, meta) {
+                        return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-2 py-50">' + row.status_label + '</span>'
                     }
                 },
                 {

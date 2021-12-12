@@ -236,6 +236,18 @@ class UserController extends Controller
         }
     }
 
+    public function toggleActive(User $user)
+    {
+        try {
+            $user->is_active = !$user->is_active;
+            $user->save();
+            return redirect()->route('backadmin.users.edit', $user->id)
+                ->withSuccess('User berhasil ' . (($user->is_active) ? 'diaktifkan': 'dinonaktifkan'));
+        } catch (Exception $e) {
+            return redirect()->back()->withError($e->getMessage());
+        }
+    }
+
     /**
      * Get select2 options
      */

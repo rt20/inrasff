@@ -17,7 +17,8 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
             <a href="{{route('backadmin.institutions.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             @if ($institution->id)
-                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#modal-activate"><i class="mr-75" data-feather="power"></i>{{ $institution->is_active ? 'Non Aktifkan' : 'Aktifkan'}}</a>
+                {{-- <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a> --}}
             @endif
         </div>
     </div>
@@ -40,6 +41,7 @@
                     <section class="bi-form-main">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h4>Informasi Umum</h4>
+                            <span class="badge badge-pill badge-light-{{ $institution->status_class }} px-2 py-50">{{ $institution->status_label }}</span>
                         </div>
     
                         <div class="row">
@@ -128,6 +130,27 @@
 
 @push('modal')
     @if ($institution->id)
+
+    <div class="modal fade" id="modal-activate" tabindex="-1" role="dialog" aria-labelledby="modalActivate" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalActivate">Konfirmasi</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin akan {{ $institution->is_active ? 'menon-aktifkan' : 'mengaktifkan'}} Lembaga ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{route('backadmin.institutions.toggle_active', $institution->id)}}" class="btn btn-outline-primary">Ya, {{ $institution->is_active ? 'Non-aktifkan' : 'Aktifkan'}}</a>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="modalDelete" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

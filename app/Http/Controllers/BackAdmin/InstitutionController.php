@@ -221,6 +221,7 @@ class InstitutionController extends Controller
         if($request->user->institution_id!==null){
             $query = $query->where('parent_id', $request->user->institution_id);
         }
+        $query = $query->where('is_active', true);
         return $query->get();
     }
 
@@ -278,6 +279,18 @@ class InstitutionController extends Controller
         } catch (Exception $e) {
             return $e->getMessage();
             return [];
+        }
+    }
+
+    public function toggleActive(Institution $institution)
+    {
+        try {
+            $institution->is_active = !$institution->is_active;
+            $institution->save();
+            return redirect()->route('backadmin.institutions.edit', $institution->id)
+                ->withSuccess('Lembaga berhasil ' . (($institution->is_active) ? 'diaktifkan': 'dinonaktifkan'));
+        } catch (Exception $e) {
+            return redirect()->back()->withError($e->getMessage());
         }
     }
 }

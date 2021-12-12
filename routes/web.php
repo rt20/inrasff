@@ -139,6 +139,9 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::delete('{id}/delete', [BackAdmin\TraceabilityLotDistributionController::class, 'delete'])->name('delete');
         });
 
+        Route::get('users/{user}/toggle_active', [BackAdmin\UserController::class, 'toggleActive'])->name('users.toggle_active');
+        Route::get('institutions/{institution}/toggle_active', [BackAdmin\InstitutionController::class, 'toggleActive'])->name('institutions.toggle_active');
+
         Route::resources([
             'border_control_infos' => BackAdmin\BorderControlInfoController::class,
             'dangerous_infos' => BackAdmin\DangerousInfoController::class,

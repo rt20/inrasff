@@ -25,7 +25,9 @@ class Institution extends Model
     ];
     
     protected $appends = [
-        'type_label'
+        'type_label',
+        'status_label', 
+        'status_class' 
     ];
 
     public function getTypeLabelAttribute(){
@@ -39,6 +41,22 @@ class Institution extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'institution_id', 'id');
+    }
+
+    /**
+     * Get status class
+     */
+    public function getStatusClassAttribute()
+    {
+        return $this->is_active ? 'success' : 'secondary';
+    }
+
+    /**
+     * Get status label
+     */
+    public function getStatusLabelAttribute()
+    {
+        return $this->is_active ? 'Aktif' : 'Non-Aktif';
     }
 
 }
