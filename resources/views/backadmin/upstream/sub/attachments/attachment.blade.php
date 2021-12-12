@@ -14,8 +14,8 @@
             <thead>
                 <tr>
                     <th>Judul</th>
-                    <th>Tanggal Ditambahkan</th>
                     <th>Info Lampiran</th>
+                    <th>Tanggal Ditambahkan</th>
                     @if (in_array($upstream->status, ['open']))
                     {{-- @can('delete attachment') --}}
                     <th class="bi-table-col-action-1">Aksi</th>

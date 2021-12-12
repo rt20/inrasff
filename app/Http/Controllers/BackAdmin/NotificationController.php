@@ -204,6 +204,16 @@ class NotificationController extends Controller
             $notification->setStatus('processed', 'Diproses untuk Downstream '.$downstream->number);
             $notification->update();
 
+            foreach ($notification->attachment as $i => $attachment) {
+                $a = $downstream->attachment()->make();
+                $a->link = $attachment->link;
+                $a->title = $attachment->title;
+                $a->info = $attachment->info;
+                $a->save();
+            }
+            
+
+
             DB::commit();
 
             return redirect()
@@ -257,6 +267,15 @@ class NotificationController extends Controller
                 default:
                     # code...
                     break;
+            }
+
+
+            foreach ($notification->attachment as $i => $attachment) {
+                $a = $upstream->attachment()->make();
+                $a->link = $attachment->link;
+                $a->title = $attachment->title;
+                $a->info = $attachment->info;
+                $a->save();
             }
 
             DB::commit();

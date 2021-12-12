@@ -111,8 +111,8 @@
                                     <thead>
                                         <tr>
                                             <th>Judul</th>
-                                            <th>Tanggal Ditambahkan</th>
                                             <th>Info Lampiran</th>
+                                            <th>Tanggal Ditambahkan</th>
                                             @if (in_array($notification->status, ['read']))
                                             {{-- @can('delete attachment') --}}
                                             <th class="bi-table-col-action-1">Aksi</th>
@@ -408,6 +408,8 @@
             @if (in_array($notification->status, ['processed']))
                 $('.bi-form-main input, .bi-form-main select').prop('disabled', true);
                 $('#summernote').summernote('disable');
+                $('.read-only-white').removeClass('read-only-white')
+                $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
             @endif
         },
         computed: {
