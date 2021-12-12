@@ -145,50 +145,50 @@
             $('.select2-dr').select2();
             let icon = feather.icons['trash'].toSvg();
             this.table_attachment = $('#table-attachment').DataTable({
-                    ajax:{
-                        url:"{{route('backadmin.dt.attachment_n_upstreams')}}",
-                        data: function(data) {
-                            data.na_id = '{{$upstream->id}}'
+                ajax:{
+                    url:"{{route('backadmin.dt.attachment_n_upstreams')}}",
+                    data: function(data) {
+                        data.na_id = '{{$upstream->id}}'
+                    }
+                },
+                serverSide: true,
+                processing: true,
+                columns: [
+                    { 
+                        data: 'title' ,
+                        render: function(data, type, row, meta){
+                            return `<a href="`+row.origin+`" target="_blank">` + data + `</a>`
                         }
                     },
-                    serverSide: true,
-                    processing: true,
-                    columns: [
-                        { 
-                            data: 'title' ,
-                            render: function(data, type, row, meta){
-                                return `<a href="`+row.origin+`" target="_blank">` + data + `</a>`
-                            }
-                        },
-                        {
-                            data: 'info_label',
-                            searchable:false,
-                            orderable:false,
-                        },
-                        { 
-                            data: 'created_at' ,
-                            render: function(data, type, row, meta){
-                                return moment(data).format('D MMMM YYYY HH:mm:ss')
-                            }
-                        },
-                        @if (in_array($upstream->status, ['open']))
-                        
-                        {
-                            data: 'id',
-                            className: 'text-center',
-                            orderable: false,
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
-                            } 
+                    {
+                        data: 'info_label',
+                        searchable:false,
+                        orderable:false,
+                    },
+                    { 
+                        data: 'created_at' ,
+                        render: function(data, type, row, meta){
+                            return moment(data).format('D MMMM YYYY HH:mm:ss')
                         }
-                        
-                        @endif
-                    ],
-                  
-                    order: [[0, 'desc']],
-                    language: dtLangId
-                })
+                    },
+                    @if (in_array($upstream->status, ['open']))
+                    
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false, 
+                        render: function(data, type, row, meta) {
+                            return `<a href="#" onclick="openAttachmentModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                        } 
+                    }
+                    
+                    @endif
+                ],
+                
+                order: [[0, 'desc']],
+                language: dtLangId
+            })
         },
         computed: {
 

@@ -91,6 +91,8 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
         Route::prefix('notifications')->name('notifications.')->group(function() {
             Route::put('/{notification}/process-downstream', [BackAdmin\NotificationController::class, 'processDownstream'])->name('process-downstream');
             Route::put('/{notification}/process-upstream', [BackAdmin\NotificationController::class, 'processUpstream'])->name('process-upstream');
+            Route::post('/add-attachment', [BackAdmin\NotificationController::class, 'addAttachment'])->name('add-attachment');
+            Route::delete('/{id}/delete-attachment', [BackAdmin\NotificationController::class, 'deleteAttachment'])->name('delete-attachment');
         });
 
         Route::prefix('follow_ups')->name('follow_ups.')->group(function() {
@@ -192,6 +194,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::get('user-fu', [BackAdmin\FollowUpNotificationController::class, 'institutionFuDataTable'])->name('user_fu');
             Route::get('attachment-n-downstreams', [BackAdmin\DownStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_downstreams');
             Route::get('attachment-n-upstreams', [BackAdmin\UpStreamNotificationController::class, 'attachmentDataTable'])->name('attachment_n_upstreams');
+            Route::get('attachment-n-notifications', [BackAdmin\NotificationController::class, 'attachmentDataTable'])->name('attachment_n_notifications');
         });
     });
 });

@@ -42,5 +42,8 @@ class Notification extends Model
         return $this->hasOne(UpStreamNotification::class, 'notif_id', 'id');
     }
 
+    public function attachment(){
+        return $this->morphMany(NotificationAttachment::class, 'na');
+    }
 
 }
