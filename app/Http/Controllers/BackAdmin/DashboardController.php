@@ -28,7 +28,7 @@ class DashboardController extends Controller
                 ->join('institutions', 'institutions.id', '=', 'usi.institution_id')
                 ->where('institutions.type', 'ccp')
                 ->whereNotNull('institutions.name')
-                ->groupBy('institutions.id')
+                ->groupBy('institutions.id', 'institutions.name')
                 ->get();
 
         $di = DB::table('down_stream_institutions as dsi')
@@ -40,7 +40,7 @@ class DashboardController extends Controller
                 ->join('institutions', 'institutions.id', '=', 'dsi.institution_id')
                 ->where('institutions.type', 'ccp')
                 ->whereNotNull('institutions.name')
-                ->groupBy('institutions.id')
+                ->groupBy('institutions.id', 'institutions.name')
                 ->get();        
         $stats = [];
 
