@@ -21,24 +21,24 @@ class DashboardController extends Controller
         $ui = DB::table('up_stream_institutions as usi')
                 ->select(
                     // 'usi.id',
-                    'institutions.id',
+                    'institutions.id as id',
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
                 ->join('institutions', 'institutions.id', '=', 'usi.institution_id')
                 ->where('institutions.type', 'ccp')
-                ->groupBy('institutions.id')
+                ->groupBy('id')
                 ->get();
 
         $di = DB::table('down_stream_institutions as dsi')
                 ->select(
-                    'institutions.id',
+                    'institutions.id as id',
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
                 ->join('institutions', 'institutions.id', '=', 'dsi.institution_id')
                 ->where('institutions.type', 'ccp')
-                ->groupBy('institutions.id')
+                ->groupBy('id')
                 ->get();        
         $stats = [];
 
