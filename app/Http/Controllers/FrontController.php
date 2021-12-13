@@ -25,7 +25,7 @@ class FrontController extends Controller
         if($firstNews) {
             $news = News::published()->orderBy('published_at', 'DESC')->where('id', '!=', $firstNews->id)->limit(6)->get();
         } else {
-            $news = News::limit(6)->get();
+            $news = News::published()->limit(6)->get();
         }
         $category = Category::get();
         $gallery = Gallery::orderBy('created_at', 'DESC')->limit(12)->get();
