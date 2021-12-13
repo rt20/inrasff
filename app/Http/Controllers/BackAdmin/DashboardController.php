@@ -27,6 +27,7 @@ class DashboardController extends Controller
                 )
                 ->join('institutions', 'institutions.id', '=', 'usi.institution_id')
                 ->where('institutions.type', 'ccp')
+                ->whereNotNull('institutions.name')
                 ->groupBy('institutions.id')
                 ->get();
 
@@ -38,6 +39,7 @@ class DashboardController extends Controller
                 )
                 ->join('institutions', 'institutions.id', '=', 'dsi.institution_id')
                 ->where('institutions.type', 'ccp')
+                ->whereNotNull('institutions.name')
                 ->groupBy('institutions.id')
                 ->get();        
         $stats = [];
