@@ -50,6 +50,54 @@
                         required: false,
                         parse: null
                     },
+
+                    {
+                        title: 'name_result',
+                        name : 'name_result',
+                        input: 'input',
+                        required: false,
+                        parse: null
+                    },
+
+                    {
+                        title: 'uom_result_id',
+                        name : 'uom_result_id',
+                        input: 'select',
+                        required: false,
+                        parse: null
+                    },
+
+                    {
+                        title: 'laboratorium',
+                        name : 'laboratorium',
+                        input: 'input',
+                        required: false,
+                        parse: null
+                    },
+
+                    {
+                        title: 'matrix',
+                        name : 'matrix',
+                        input: 'input',
+                        required: false,
+                        parse: null
+                    },
+
+                    {
+                        title: 'scope',
+                        name : 'scope',
+                        input: 'input',
+                        required: false,
+                        parse: null
+                    },
+
+                    {
+                        title: 'max_tollerance',
+                        name : 'max_tollerance',
+                        input: 'input',
+                        required: false,
+                        parse: null
+                    },
                 ],
             }
         },
@@ -59,12 +107,12 @@
             this.dangerous = {
                 name: old.name ?? dangerous.name ?? '',
                 category_id: old.category_id ?? dangerous.category_id ?? '',
-                name_result: old.name_result ?? dangerous.name_result ?? '',
-                uom_result_id: old.uom_result_id ?? dangerous.uom_result_id ?? '',
-                laboratorium: old.laboratorium ?? dangerous.laboratorium ?? '',
-                matrix: old.matrix ?? dangerous.matrix ?? '',
-                scope: old.scope ?? dangerous.scope ?? '',
-                max_tollerance: old.max_tollerance ?? dangerous.max_tollerance ?? '',                
+                // name_result: old.name_result ?? dangerous.name_result ?? '',
+                // uom_result_id: old.uom_result_id ?? dangerous.uom_result_id ?? '',
+                // laboratorium: old.laboratorium ?? dangerous.laboratorium ?? '',
+                // matrix: old.matrix ?? dangerous.matrix ?? '',
+                // scope: old.scope ?? dangerous.scope ?? '',
+                // max_tollerance: old.max_tollerance ?? dangerous.max_tollerance ?? '',                
                 cl1_id: old.cl1_id ?? dangerous.cl1_id ?? '',
                 cl2_id: old.cl2_id ?? dangerous.cl2_id ?? '',
                 cl3_id: old.cl3_id ?? dangerous.cl3_id ?? '',
@@ -126,14 +174,14 @@
                 )
             }
 
-            if(this.dangerous.uom_result_id !== ''){
-                initS2FieldWithAjax(
-                    '#uom_result_id',
-                    '{{route("backadmin.s2Init.uom_result")}}',
-                    {id:this.dangerous.uom_result_id},
-                    ['name']
-                )
-            }
+            // if(this.dangerous.uom_result_id !== ''){
+            //     initS2FieldWithAjax(
+            //         '#uom_result_id',
+            //         '{{route("backadmin.s2Init.uom_result")}}',
+            //         {id:this.dangerous.uom_result_id},
+            //         ['name']
+            //     )
+            // }
 
             
         },
@@ -146,6 +194,7 @@
                     e.target.value = e.target.value.replace(/[^0-9]+/, '');
             })
             let icon = feather.icons['trash'].toSvg();
+            let icon1 = feather.icons['eye'].toSvg();
             this.table_sampling = $('#table-sampling').DataTable({
                 ajax:{
                     url:"{{route('backadmin.dangerous_samplings.index')}}",
@@ -179,7 +228,10 @@
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return `<button type="button" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</button>`
+                            return `
+                            <button type="button" onclick="openSamplingModal('edit', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon1 + `</button>
+                            <button type="button" onclick="openSamplingModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</button>
+                            `
                         } 
                     }
                     @endif
@@ -317,7 +369,7 @@
                     paramsCallback 
                 ) 
             },
-            openSamplingModal(state, id=null, item = {id:null}){
+            async openSamplingModal(state, id=null, item = {id:null}){
                 // console.log("Halo")
 
                 $('#sampling-modal-form').trigger('reset')
@@ -326,7 +378,31 @@
                 this.samplingModal.state = state;
                 switch (this.samplingModal.state) {
                     case 'add':                    
-                        this.samplingModal.item = item;                        
+                        this.samplingModal.item = item;      
+                        $('#uom_result_id').val(null).trigger('change')                  
+                        break;
+                    case 'edit':
+                        var url = `{{ route('backadmin.dangerous_samplings.show', ':id')}}`
+                        url = url.replace(':id', id)
+                        var resp = await get(url)
+                        // console.log(resp)
+                        if(resp?.data?.status?.localeCompare('ok')==0){
+                            this.samplingModal.item = resp.data.data
+                            this.validatorSampling.forEach(el => {
+                                if(el.input === 'select'){
+                                    initS2FieldWithAjax(
+                                        '#'+el.title,
+                                        '{{route("backadmin.s2Init.uom_result")}}',
+                                        {id: this.samplingModal.item[el.title]},
+                                        ['name']
+                                    )
+                                }else{
+                                    $(el.input+'[name="'+el.title+'"]').val(this.samplingModal.item[el.title])
+                                }
+                            });
+                        }else{
+                            alert(resp?.data?.message)
+                        }  
                         break;
                     case 'delete':
                         // this.samplingModal.item = Object.assign({}, this.slider.slider_image[index]);
@@ -374,14 +450,48 @@
                             if(resp?.data?.status?.localeCompare('ok')==0){
                                 $('#sampling-modal').modal('hide')
                                     this.table_sampling.ajax.reload()
-                                
-
                             }else{
+                                console.log(resp)
                                 alert(resp?.data?.message)
                             }    
                         
                         break;
-                
+                    case 'edit':
+                        this.validatorSampling.forEach(el => {
+                            if(el.required==true)
+                            {
+                                if(!$(el.input+'[name="'+el.title+'"]').val() ){
+                                    $(el.input+'[name="'+el.title+'"]').parent().append(`
+                                        <small class="text-danger text-warn">Field ini harus diisi</small>
+                                    `);
+                                    invalid = true;
+                                }
+                            }
+                        });
+
+                        if(invalid)
+                            return;
+
+                        var url = `{{ route('backadmin.dangerous_samplings.update', ':id') }}`
+                        url = url.replace(':id', this.samplingModal.item.id)
+                        // var formData = new FormData()
+                        var formData = {}
+                        this.validatorSampling.forEach(el => {
+                            var value = $(el.input+'[name="'+el.title+'"]').val()
+                            // formData.append(el.name, value)
+                            formData[el.name] = value
+                        });
+                        // console.log(formData)
+                        var resp = await put(url,formData)
+                        if(resp?.data?.status?.localeCompare('ok')==0){
+                            $('#sampling-modal').modal('hide')
+                                this.table_sampling.ajax.reload()
+                        }else{
+                            // console.log(resp)
+                            alert(resp?.data?.message)
+                        }    
+
+                        break;
                     case 'delete': 
                         var url = `{{ route('backadmin.dangerous_samplings.delete', '__id') }}`
                         url = url.replace("__id", this.samplingModal?.item?.id)
@@ -389,9 +499,10 @@
                         // console.log(resp)
                         if(resp?.data?.status?.localeCompare('ok')==0){
                             $('#sampling-modal').modal('hide')
-                                this.table_sampling.ajax.reload()
+                            this.table_sampling.ajax.reload()
 
                         }else{
+                            // console.log(resp)
                             alert(resp?.data?.message)
                         }   
                         break;

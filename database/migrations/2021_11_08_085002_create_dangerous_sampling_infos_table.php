@@ -17,9 +17,20 @@ class CreateDangerousSamplingInfosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('di_id');
             $table->dateTime('sampling_date')->nullable();
-            $table->double('sampling_count')->nullable();
+            // $table->double('sampling_count')->nullable();
+            $table->string('sampling_count')->nullable();
             $table->string('sampling_method')->nullable();
             $table->string('sampling_place')->nullable();
+
+            $table->string('name_result')->nullable();
+            $table->unsignedBigInteger('uom_result_id')->nullable();
+
+            $table->string('laboratorium')->nullable();
+            $table->string('matrix')->nullable();
+
+            $table->string('scope')->nullable();
+            $table->string('max_tollerance')->nullable();
+
             $table->timestamps();
 
             $table->foreign('di_id')->references('id')->on('dangerous_infos')->onDelete('cascade');

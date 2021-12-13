@@ -11,15 +11,15 @@ class DangerousInfo extends Model
 
     protected $fillable = [
         'name',
-        // 'category',
         'category_id',
-        'name_result',
-        // 'uom_result',
-        'uom_result_id',
-        'laboratorium',
-        'matrix',
-        'scope',
-        'max_tollerance',
+        
+        // 'name_result',
+        // 'uom_result_id',
+        // 'laboratorium',
+        // 'matrix',
+        // 'scope',
+        // 'max_tollerance',
+        
         'cl1_id',
         'cl2_id',
         'cl3_id'
@@ -35,10 +35,10 @@ class DangerousInfo extends Model
      *
      * @return \IlluminaDangerousCategory\Database\Eloquent\Relations\HasOne
      */
-    public function category()
-    {
-        return $this->hasOne(DangerousCategory::class, 'id', 'category_id');
-    }
+    // public function category()
+    // {
+    //     return $this->hasOne(DangerousCategory::class, 'id', 'category_id');
+    // }
 
     /**
      * Get all of the sampling for the DangerousInfo

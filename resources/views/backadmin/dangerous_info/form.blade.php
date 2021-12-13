@@ -89,11 +89,6 @@
                         route('backadmin.downstreams.edit', ['downstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks']) :
                         route('backadmin.upstreams.edit', ['upstream' => $dangerous->notification->id, 'focus' => 'dangerous_risks'])
                     }}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
-                {{-- @can('delete dangerous')
-                @if(in_array($dangerous->notification->status, ['open', 'draft']))
-                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a>
-                @endif                
-                @endcan                 --}}
                 @if(in_array($dangerous->notification->status, ['open', 'draft']))
                     @if(str_replace('App\\Models\\', '', $dangerous->di_type) === 'DownStreamNotification')
                         @can('delete d_dangerous')
@@ -198,7 +193,7 @@
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
                             
-                            <div class="col-12 col-md-6 form-group">
+                            {{-- <div class="col-12 col-md-6 form-group">
                                 <label for="name_result" class="form-label">Hasil Uji <small>(Kosongkan apabila negatif)</small></label>
                                 <input type="text" 
                                     autocomplete="disabled"
@@ -223,7 +218,7 @@
                                     <small class="text-danger">{{ $errors->first('uom_result_id') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-                        
+                         --}}
                             @if($dangerous->id)
                             <div class="col-12 col-md-12 form-group">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -250,7 +245,7 @@
                             </div><!-- .col-md-6.form-group -->
                             @endif
                         
-                            <div class="divider divider-left col-12">
+                            {{-- <div class="divider divider-left col-12">
                                 <div class="divider-text">Analisis</div>
                             </div>
                         
@@ -276,9 +271,9 @@
                                 @error('matrix')
                                     <small class="text-danger">{{ $errors->first('matrix') }}</small>
                                 @enderror
-                            </div><!-- .col-md-6.form-group -->
+                            </div><!-- .col-md-6.form-group --> --}}
                             
-                            <div class="divider divider-left col-12">
+                            {{-- <div class="divider divider-left col-12">
                                 <div class="divider-text">Standar yang Berlaku</div>
                             </div>
                             <div class="col-12 col-md-6 form-group">    
@@ -304,18 +299,19 @@
                                     <small class="text-danger">{{ $errors->first('max_tollerance') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
-                            
+                             --}}
                             
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
                 </form>
 
                 <div class="modal fade" id="sampling-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddsampling" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <form id="sampling-modal-form" action="#" method="GET">                    
                                 <div class="modal-header">
-                                    <h4 v-show="samplingModal.state !== 'delete'" class="modal-title" id="modalAddsampling">Tambah Sampling</h4>
+                                    <h4 v-show="samplingModal.state === 'add'" class="modal-title" id="modalAddsampling">Tambah Sampling</h4>
+                                    <h4 v-show="samplingModal.state === 'edit'" class="modal-title" id="modalAddsampling">Edit Sampling</h4>
                                     <h4 v-show="samplingModal.state === 'delete'" class="modal-title" id="modalAddsampling">Konfirmasi</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -339,6 +335,65 @@
                                             <label class="form-label">Tempat Pengambilan Sampling</label>
                                             <input placeholder="Masukan Tempat Pengambilan Sampling" id="sampling_place" name="sampling_place" class="form-control" autocomplete="off"/>
                                         </div>
+
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label for="name_result" class="form-label">Hasil Uji <small>(Kosongkan apabila negatif)</small></label>
+                                            <input type="text" 
+                                                autocomplete="off"
+                                                name="name_result"
+                                                class="form-control" 
+                                                placeholder="Masukkan Hasil Uji" autocomplete="off">
+                                        </div><!-- .col-md-6.form-group -->
+                                    
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label for="uom_result_id" class="form-label">Satuan Hasil Uji <small>(Kosongkan apabila negatif)</small></label>
+                                                <select
+                                                    id="uom_result_id" 
+                                                    name="uom_result_id"
+                                                    class="form-control">                        
+                                                </select>
+                                        </div><!-- .col-md-6.form-group -->
+                                        
+                                        <div class="divider divider-left col-12">
+                                            <div class="divider-text">Analisis</div>
+                                        </div>
+                                    
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label for="laboratorium" class="form-label ">Laboratorium</label>
+                                            <input type="text" 
+                                                name="laboratorium"
+                                                class="form-control" 
+                                                placeholder="Masukkan Analisis Laboratorium" autocomplete="off">
+                                        </div><!-- .col-md-6.form-group -->
+                                    
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label for="matrix" class="form-label ">Matriks</label>
+                                            <input type="text" 
+                                                name="matrix"
+                                                class="form-control" 
+                                                placeholder="Masukkan Matriks" autocomplete="off">
+                                        </div><!-- .col-md-6.form-group -->
+
+                                        <div class="divider divider-left col-12">
+                                            <div class="divider-text">Standar yang Berlaku</div>
+                                        </div>
+                                        <div class="col-12 col-md-6 form-group">    
+                                            <label for="scope" class="form-label ">Scope</label>
+                                            <input type="text" 
+                                                name="scope"
+                                                class="form-control" 
+                                                placeholder="Masukkan Scope" autocomplete="off">
+                                        </div><!-- .col-md-6.form-group -->
+                                    
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label for="max_tollerance" class="form-label ">Maksimum Batas yang Diijinkan</label>
+                                            <input type="text" 
+                                                name="max_tollerance"
+                                                class="form-control" 
+                                                placeholder="Masukkan Maksimum Batas yang Diijinkan" autocomplete="off">
+                                        </div><!-- .col-md-6.form-group -->
+                                        
+
                                     </div>
                 
                                     <div v-show="samplingModal.state === 'delete'">
@@ -347,7 +402,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button v-if="samplingModal.state !== 'delete'" type="button" class="btn btn-outline-primary" data-dismiss="modal">Tutup</button>
-                                    <button v-if="samplingModal.state !== 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
+                                    <button v-if="samplingModal.state === 'add'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Tambahkan</button>
+                                    <button v-if="samplingModal.state === 'edit'" type="button" v-on:click="submitItem($event)" class="btn btn-primary">Simpan</button>
                                     <button v-if="samplingModal.state === 'delete'" type="button" v-on:click="submitItem($event)" class="btn btn-outline-primary">Ya, Hapus</button>
                                     <button v-if="samplingModal.state === 'delete'"  type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                                 </div>

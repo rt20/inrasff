@@ -14,7 +14,18 @@ class DangerousSamplingInfo extends Model
         'sampling_count',
         'sampling_method',
         'sampling_place',
-        'di_id'
+        'di_id',
+
+        'name_result',
+        'uom_result_id',
+        'laboratorium',
+        'matrix',
+        'scope',
+        'max_tollerance'
+    ];
+
+    protected $casts = [
+        'sampling_date' => 'date:Y-m-d',
     ];
 
     /**

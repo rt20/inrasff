@@ -96,11 +96,6 @@ class DangerousInfoController extends Controller
     public function store(Request $request)
     {
 
-        // return $request->all();
-        // if (!Gate::allows('store dangerous')) {
-        //     abort(401);
-        // }
-
         if($request->has('notification_type')){
             if($request->notification_type === 'upstream'){
                 if (!Gate::allows('store u_dangerous')) {
@@ -123,11 +118,11 @@ class DangerousInfoController extends Controller
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
 
-            'name_result' => ['max:255'],
-            'laboratorium' => ['max:255'],
-            'matrix' => ['max:255'],
-            'scope' => ['max:255'],
-            'max_tollerance' => ['max:255'],
+            // 'name_result' => ['max:255'],
+            // 'laboratorium' => ['max:255'],
+            // 'matrix' => ['max:255'],
+            // 'scope' => ['max:255'],
+            // 'max_tollerance' => ['max:255'],
         ],[
             'cl1_id.required_if' => 'detail bahaya 1 perlu diisi',
             'cl2_id.required_if' => 'detail bahaya 2 perlu diisi',
@@ -155,12 +150,14 @@ class DangerousInfoController extends Controller
             $dangerous = $notification->dangerous()->make($request->only(
                 'name',
                 'category_id',
-                'name_result',
-                'uom_result_id',
-                'laboratorium',
-                'matrix',
-                'scope',
-                'max_tollerance',
+                
+                // 'name_result',
+                // 'uom_result_id',
+                // 'laboratorium',
+                // 'matrix',
+                // 'scope',
+                // 'max_tollerance',
+
                 'cl1_id',
                 'cl2_id',
                 'cl3_id'
@@ -230,10 +227,6 @@ class DangerousInfoController extends Controller
             }
         }
 
-        // if (!Gate::allows('store dangerous')) {
-        //     abort(401);
-        // }
-
         $request->validate([
             'name' => ['required', 'max:255'],
             'category_id' => ['required', 'max:255'],
@@ -241,11 +234,11 @@ class DangerousInfoController extends Controller
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
 
-            'name_result' => ['max:255'],
-            'laboratorium' => ['max:255'],
-            'matrix' => ['max:255'],
-            'scope' => ['max:255'],
-            'max_tollerance' => ['max:255'],
+            // 'name_result' => ['max:255'],
+            // 'laboratorium' => ['max:255'],
+            // 'matrix' => ['max:255'],
+            // 'scope' => ['max:255'],
+            // 'max_tollerance' => ['max:255'],
         ]);
 
         try {
@@ -253,15 +246,14 @@ class DangerousInfoController extends Controller
             // $dangerous = DangerousInfo::find($id);
             $dangerousInfo->fill($request->only(
                 'name',
-                // 'category',
                 'category_id',
-                'name_result',
-                // 'uom_result',
-                'uom_result_id',
-                'laboratorium',
-                'matrix',
-                'scope',
-                'max_tollerance',
+
+                // 'name_result',
+                // 'uom_result_id',
+                // 'laboratorium',
+                // 'matrix',
+                // 'scope',
+                // 'max_tollerance',
             ));
             $dangerousInfo->cl1_id = $request->cl1_id;
             $dangerousInfo->cl2_id = $request->cl2_id;

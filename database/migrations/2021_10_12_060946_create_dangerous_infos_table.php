@@ -23,14 +23,15 @@ class CreateDangerousInfosTable extends Migration
 
             $table->string('name')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->string('name_result')->nullable();
-            $table->unsignedBigInteger('uom_result_id')->nullable();
+            
+            // $table->string('name_result')->nullable();
+            // $table->unsignedBigInteger('uom_result_id')->nullable();
 
-            $table->string('laboratorium')->nullable();
-            $table->string('matrix')->nullable();
+            // $table->string('laboratorium')->nullable();
+            // $table->string('matrix')->nullable();
 
-            $table->string('scope')->nullable();
-            $table->string('max_tollerance')->nullable();
+            // $table->string('scope')->nullable();
+            // $table->string('max_tollerance')->nullable();
 
             $table->timestamps();
 

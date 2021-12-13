@@ -42,7 +42,69 @@ class DangerousSamplingInfoController extends Controller
                 'sampling_count',
                 'sampling_method',
                 'sampling_place',
+
+                'name_result',
+                'uom_result_id',
+                'laboratorium',
+                'matrix',
+                'scope',
+                'max_tollerance'
             ]));
+
+            DB::commit();                
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 400);     
+        }
+        return response()->json([
+            'status' => 'ok',
+            'message' => ''
+        ], 200);
+    }
+
+    public function show($id){
+        return response()->json([
+            'status' => 'ok',
+            'message' => '',
+            'data' => DangerousSamplingInfo::find($id)
+        ], 200);
+    }
+
+    public function update(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'sampling_date' => ['required'],
+            'sampling_count' => ['required']
+        ]);
+
+        try {
+            DB::beginTransaction();
+            if($validator->fails()){
+                $errors = $validator->errors();
+                // $errors = implode(", ", $errors);
+                throw new Exception($errors, 1);
+                
+                // throw new Exception("Input validasi bermasalah, cek kembali inputan!", 1);
+            }
+                
+                
+
+            $s = DangerousSamplingInfo::find($id);
+            $s = $s->fill($request->only([
+                'sampling_date',
+                'sampling_count',
+                'sampling_method',
+                'sampling_place',
+
+                'name_result',
+                'uom_result_id',
+                'laboratorium',
+                'matrix',
+                'scope',
+                'max_tollerance'
+            ]))->update();
 
             DB::commit();                
         } catch (Exception $e) {

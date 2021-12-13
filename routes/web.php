@@ -62,7 +62,9 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
         Route::prefix('dangerous_samplings')->name('dangerous_samplings.')->group(function(){
             Route::get('/', [BackAdmin\DangerousSamplingInfoController::class, 'index'])->name('index');
             Route::post('/add', [BackAdmin\DangerousSamplingInfoController::class, 'add'])->name('add');
+            Route::put('{id}/update', [BackAdmin\DangerousSamplingInfoController::class, 'update'])->name('update');
             Route::delete('{id}/delete', [BackAdmin\DangerousSamplingInfoController::class, 'delete'])->name('delete');
+            Route::get('/{id}', [BackAdmin\DangerousSamplingInfoController::class, 'show'])->name('show');
         });
         Route::prefix('down_stream_institutions')->name('down_stream_institutions.')->group(function(){
             Route::get('/', [BackAdmin\DownStreamInstitutionController::class, 'index'])->name('index');
