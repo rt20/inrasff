@@ -169,6 +169,20 @@ class DownStreamNotificationController extends Controller
         if (!Gate::allows('view downstream')) {
             abort(401);
         }
+
+        //Filter Access
+        $institution_access =  $downstream->downstreamInstitution()->pluck('institution_id')->toArray();
+        // return $institution_access;
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+
+            if(!in_array($downstream->status, ['ccp process', 'done'])){
+                return redirect()->route('backadmin.downstreams.index');
+            }
+        }
+
         return view('backadmin.downstream.form', [
             'title' => $downstream->number,
             'downstream' => $downstream,

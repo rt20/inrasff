@@ -202,6 +202,15 @@ class UpStreamNotificationController extends Controller
         if (!Gate::allows('view upstream')) {
             abort(401);
         }
+
+        //Filter Access
+        $institution_access =  $upstream->upstreamInstitution()->pluck('institution_id')->toArray();
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
+
         return view('backadmin.upstream.form', [
             'title' => $upstream->number,
             'upstream' => $upstream,
