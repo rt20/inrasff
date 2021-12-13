@@ -259,11 +259,11 @@
                                             <strong>-</strong>
                                         </td>
                                     </tr>
-                                    <tr class="border-bottom">
+                                    {{-- <tr class="border-bottom">
                                         <td class="py-1 pl-4" colspan="2">
                                             <p class="font-weight-semibold mb-25">18.{{$alphabet[$i]}}. Analisis</p>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
                                             <p class="font-weight-semibold mb-25 ml-4">Laboratorium</p>
@@ -280,11 +280,11 @@
                                             <strong>{{$item->matrix ?? "-"}}</strong>
                                         </td>
                                     </tr>
-                                    <tr class="border-bottom">
+                                    {{-- <tr class="border-bottom">
                                         <td class="py-1 pl-4" colspan="2">
                                             <p class="font-weight-semibold mb-25">19.{{$alphabet[$i]}}. Standar yang berlaku</p>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
                                             <p class="font-weight-semibold mb-25 ml-4">Scope</p>
