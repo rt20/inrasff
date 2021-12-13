@@ -61,7 +61,8 @@ class NotificationController extends Controller
     {
         return view('backadmin.notification.form', [
             'title' => 'Tambah Informasi Awal',
-            'notification' => new Notification,
+            'type_infos' => NotificationAttachment::INFOS,
+            'notification' => new Notification
         ]);
     }
 
