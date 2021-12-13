@@ -315,63 +315,105 @@
         avgSessionsChart2 = new ApexCharts($avgSessionsChart2, avgSessionsChart2Options);
         avgSessionsChart2.render();
 
-        // Support Tracker Chart
-        // -----------------------------
-        // supportTrackerChartOptions = {
-        //     chart: {
-        //     height: 270,
-        //     type: 'radialBar'
-        //     },
-        //     plotOptions: {
-        //     radialBar: {
-        //         size: 150,
-        //         offsetY: 20,
-        //         startAngle: -150,
-        //         endAngle: 150,
-        //         hollow: {
-        //         size: '65%'
-        //         },
-        //         track: {
-        //         background: $white,
-        //         strokeWidth: '100%'
-        //         },
-        //         dataLabels: {
-        //         name: {
-        //             offsetY: -5,
-        //             color: $textHeadingColor,
-        //             fontSize: '1rem'
-        //         },
-        //         value: {
-        //             offsetY: 15,
-        //             color: $textHeadingColor,
-        //             fontSize: '1.714rem'
-        //         }
-        //         }
-        //     }
-        //     },
-        //     colors: [window.colors.solid.danger],
-        //     fill: {
-        //     type: 'gradient',
-        //     gradient: {
-        //         shade: 'dark',
-        //         type: 'horizontal',
-        //         shadeIntensity: 0.5,
-        //         gradientToColors: [window.colors.solid.primary],
-        //         inverseColors: true,
-        //         opacityFrom: 1,
-        //         opacityTo: 1,
-        //         stops: [0, 100]
-        //     }
-        //     },
-        //     stroke: {
-        //     dashArray: 8
-        //     },
-        //     series: [47.23],
-        //     labels: ['Kasus Selesai']
-        // };
-        // supportTrackerChart = new ApexCharts($supportTrackerChart, supportTrackerChartOptions);
-        // supportTrackerChart.render();
-
+        var chartColors = {
+        column: {
+            series1: '#826af9',
+            series2: '#d2b0ff',
+            bg: '#f8d3ff'
+        },
+        success: {
+            shade_100: '#7eefc7',
+            shade_200: '#06774f'
+        },
+        donut: {
+            series1: '#ffe700',
+            series2: '#00d4bd',
+            series3: '#826bf8',
+            series4: '#2b9bf4',
+            series5: '#FFA1A1'
+        },
+        area: {
+            series3: '#a4f8cd',
+            series2: '#60f2ca',
+            series1: '#2bdac7'
+        }
+        };
+        
+        // Column Chart
+        // --------------------------------------------------------------------
+        var columnChartEl = document.querySelector('#column-chart'),
+            columnChartConfig = {
+            chart: {
+                height: 400,
+                type: 'bar',
+                stacked: true,
+                // parentHeightOffset: 0,
+                toolbar: {
+                    show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '15%',
+                    colors: {
+                        // backgroundBarColors: [
+                        //     chartColors.column.bg,
+                        //     chartColors.column.bg,
+                        //     chartColors.column.bg,
+                        //     chartColors.column.bg,
+                        //     chartColors.column.bg
+                        // ],
+                        backgroundBarRadius: 10
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            legend: {
+                show: true,
+                position: 'top',
+                horizontalAlign: 'start'
+            },
+            colors: [chartColors.column.series1, chartColors.column.series2],
+            stroke: {
+                show: true,
+                colors: ['transparent']
+            },
+            grid: {
+                xaxis: {
+                lines: {
+                    show: true
+                }
+                }
+            },
+            series: [
+                {
+                name: 'Downstream',
+                // data: [90, 120, 55, 100, 80]
+                data: {!! json_encode($axis_downstream) !!}
+                },
+                {
+                name: 'Upstream',
+                // data: [85, 100, 30, 40, 95]
+                data: {!! json_encode($axis_upstream) !!}
+                }
+            ],
+            xaxis: {
+                // categories: ['7/12', '8/12', '9/12', '10/12', '11/12']
+                categories: {!! json_encode($axis_institution) !!}
+            },
+            fill: {
+                opacity: 1
+            },
+            yaxis: {
+                // opposite: isRtl
+            }
+            };
+        if (typeof columnChartEl !== undefined && columnChartEl !== null) {
+            var columnChart = new ApexCharts(columnChartEl, columnChartConfig);
+            columnChart.render();
+        }
 
     })
 </script>

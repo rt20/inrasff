@@ -222,52 +222,22 @@
             </div>
             <!-- Avg Sessions Chart Card ends -->
 
-            <!-- Support Tracker Chart Card starts -->
-            {{-- <div class="col-lg-6 col-12">
+            
+        </div>
+        <div class="row match-height">
+            <div class="col-xl-12 col-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between pb-0">
-                        <h4 class="card-title">Statistik Kasus</h4>
-                        <div class="dropdown chart-dropdown">
-                            <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button"
-                                id="dropdownItem4" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem4">
-                                <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                            </div>
+                    <div class="card-header d-flex flex-md-row flex-column justify-content-md-between justify-content-start align-items-md-center align-items-start">
+                        <h4 class="card-title">Sebaran Notifikasi CCP</h4>
+                        <div class="d-flex align-items-center mt-md-0 mt-1">
+                            {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
-                                <h1 class="font-large-2 font-weight-bolder mt-2 mb-0">163</h1>
-                                <p class="card-text">Total Kasus</p>
-                            </div>
-                            <div class="col-sm-10 col-12 d-flex justify-content-center">
-                                <div id="support-trackers-chart"></div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between mt-1">
-                            <div class="text-center">
-                                <p class="card-text mb-50">Kasus Baru</p>
-                                <span class="font-large-1 font-weight-bold">29</span>
-                            </div>
-                            <div class="text-center">
-                                <p class="card-text mb-50">Kasus Ditindak Lanjut</p>
-                                <span class="font-large-1 font-weight-bold">63</span>
-                            </div>
-                            <div class="text-center">
-                                <p class="card-text mb-50">Kasus Selesai</p>
-                                <span class="font-large-1 font-weight-bold">72</span>
-                            </div>
-                        </div>
+                        <div id="column-chart"></div>
                     </div>
                 </div>
-            </div> --}}
-            <!-- Support Tracker Chart Card ends -->
+            </div>
         </div>
 
     </section>    
@@ -275,6 +245,7 @@
 
 @section('vendor-js')
 <script src="{{ asset('backadmin/vendors/vue/vue.global.js') }}"></script>
+<script src="{{ asset(mix('vendors/js/charts/chart.min.js')) }}"></script>
 <script src="{{ asset('backadmin/theme/vendors/js/charts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('backadmin/app/js/helper.js') }}"></script>
 @endsection

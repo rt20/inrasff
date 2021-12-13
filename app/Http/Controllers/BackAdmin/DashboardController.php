@@ -7,12 +7,66 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\DownStreamNotification as Downstream;
 use App\Models\UpStreamNotification as Upstream;
+
 use Carbon\Carbon;
 use DateTime;
 
 class DashboardController extends Controller
 {
     public function index(Request $request){
+
+        /**
+         * Statistic CCP Grap
+         */
+        $ui = DB::table('up_stream_institutions as usi')
+                ->select(
+                    // 'usi.id',
+                    'institutions.name',
+                    DB::raw('count(*) as total')
+                )
+                ->join('institutions', 'institutions.id', '=', 'usi.institution_id')
+                ->where('institutions.type', 'ccp')
+                ->groupBy('institutions.id')
+                ->get();
+
+        $di = DB::table('down_stream_institutions as dsi')
+                ->select(
+                    // 'usi.id',
+                    'institutions.name',
+                    DB::raw('count(*) as total')
+                )
+                ->join('institutions', 'institutions.id', '=', 'dsi.institution_id')
+                ->where('institutions.type', 'ccp')
+                ->groupBy('institutions.id')
+                ->get();        
+        $stats = [];
+
+        foreach ($di as $i => $d) {
+            $stats[$d->name] = [
+                'downstream' => $d->total,
+                'upstream' => 0
+            ];
+        }
+        foreach ($ui as $i => $u) {
+            $stats[$u->name]['upstream'] = $u->total;
+            if(!isset($stats[$u->name]['downstream'])){
+                $stats[$u->name]['downstream'] = 0;
+            }
+        }
+        $axis_institution = [];
+        $axis_downstream = [];
+        $axis_upstream = [];
+        foreach ($stats as $key => $stat) {
+            array_push($axis_institution, $key);
+            array_push($axis_downstream, $stat['downstream']);
+            array_push($axis_upstream, $stat['upstream']);
+        }
+        /**
+         * End of Statistic Graph
+         */
+
+        
+
         $user = auth()->user();
         
         $ds =  DB::table('down_stream_notifications as ds')
@@ -27,6 +81,7 @@ class DashboardController extends Controller
                 ->groupBy('month')
                 ->orderBy('month', 'DESC')
                 ->limit(2);
+
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $ds = $ds->join('down_stream_institutions', 'ds.id', '=', 'down_stream_institutions.ds_id')
                         ->where('down_stream_institutions.institution_id', $user->institution_id);
@@ -156,6 +211,10 @@ class DashboardController extends Controller
             'upstream_status' => $uss,
 
             'last_month' => $last_month,
+
+            'axis_institution' =>$axis_institution,
+            'axis_downstream' =>$axis_downstream,
+            'axis_upstream' =>$axis_upstream
         ]);
     }
 }
