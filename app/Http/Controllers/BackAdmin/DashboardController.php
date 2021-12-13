@@ -118,8 +118,10 @@ class DashboardController extends Controller
         
         $downstream_month = DB::table('down_stream_notifications as ds')
                                     ->whereNull('ds.deleted_at')
-                                    ->where('ds.created_at', '>=', Carbon::now()->format('Y-m-01'))
-                                    ->where('ds.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )));
+                                    // ->where('ds.created_at', '>=', Carbon::now()->format('Y-m-01'))
+                                    // ->where('ds.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )));
+                                    ->where('ds.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                                    ->where('ds.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'));
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $downstream_month = $downstream_month->join('down_stream_institutions', 'ds.id', '=', 'down_stream_institutions.ds_id')
                         ->where('down_stream_institutions.institution_id', $user->institution_id);
@@ -181,8 +183,10 @@ class DashboardController extends Controller
         // $upstream_month = isset($us[0])? $us[0]->total : 0;
         $upstream_month = DB::table('up_stream_notifications as us')
                                     ->whereNull('deleted_at')
-                                    ->where('us.created_at', '>=', Carbon::now()->format('Y-m-01'))
-                                    ->where('us.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )));
+                                    // ->where('us.created_at', '>=', Carbon::now()->format('Y-m-01'))
+                                    // ->where('us.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )));
+                                    ->where('us.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                                    ->where('us.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'));
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $upstream_month = $upstream_month->join('up_stream_institutions', 'us.id', '=', 'up_stream_institutions.us_id')
                         ->where('up_stream_institutions.institution_id', $user->institution_id);
