@@ -224,6 +224,7 @@
 
             
         </div>
+        @can('view ccp_stats')
         <div class="row match-height">
             <div class="col-xl-12 col-12">
                 <div class="card">
@@ -239,7 +240,7 @@
                 </div>
             </div>
         </div>
-
+        @endcan
     </section>    
 @endsection
 

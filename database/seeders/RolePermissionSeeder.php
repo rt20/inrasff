@@ -62,6 +62,12 @@ class RolePermissionSeeder extends Seeder
         ]
         );
 
+        $dashboardPermission = $this->createPermissions([
+            'ccp_stats'
+        ],[
+            'view'
+        ]);
+
         $sideDataPermissions = $this->createPermissions([
             'dangerous',
             'risk',
@@ -232,6 +238,13 @@ class RolePermissionSeeder extends Seeder
             ]
         );
         
+        $this->assignEntityPermissions(
+            $roles['ncp'],
+            $dashboardPermission,
+            [
+                'ccp_stats',
+            ]
+        );
 
         /**CCP Roles */
         $this->assignEntityActionPermissions(
