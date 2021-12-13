@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $ui = DB::table('up_stream_institutions as usi')
                 ->select(
                     // 'usi.id',
+                    'institutions.id',
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
@@ -31,7 +32,7 @@ class DashboardController extends Controller
 
         $di = DB::table('down_stream_institutions as dsi')
                 ->select(
-                    // 'usi.id',
+                    'institutions.id',
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
