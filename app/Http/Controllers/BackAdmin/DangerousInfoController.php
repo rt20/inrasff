@@ -26,7 +26,7 @@ class DangerousInfoController extends Controller
         if (!Gate::allows('view dangerous')) {
             abort(401);
         }
-        if($request->ajax()){
+        // if($request->ajax()){
             $di = DangerousInfo::query();
             if($request->has('for_downstream')){
                 $di = $di->with(['category']);
@@ -52,7 +52,7 @@ class DangerousInfoController extends Controller
 
             
             return DataTables::of($di->get())->make();
-        }
+        // }
 
         return ;
     }

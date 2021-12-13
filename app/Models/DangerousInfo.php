@@ -35,10 +35,10 @@ class DangerousInfo extends Model
      *
      * @return \IlluminaDangerousCategory\Database\Eloquent\Relations\HasOne
      */
-    // public function category()
-    // {
-    //     return $this->hasOne(DangerousCategory::class, 'id', 'category_id');
-    // }
+    public function category()
+    {
+        return $this->hasOne(DangerousCategory::class, 'id', 'category_id');
+    }
 
     /**
      * Get all of the sampling for the DangerousInfo
