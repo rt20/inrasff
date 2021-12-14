@@ -25,9 +25,12 @@ class DashboardController extends Controller
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
-                ->join('institutions', 'institutions.id', '=', 'usi.institution_id')
+                ->leftJoin('institutions', 'institutions.id', '=', 'usi.institution_id')
+                ->leftJoin('up_stream_notifications AS us', 'us.id', '=', 'usi.us_id')
                 ->where('institutions.type', 'ccp')
                 ->whereNotNull('institutions.name')
+                ->where('us.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('us.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('institutions.id', 'institutions.name')
                 ->get();
 
@@ -37,9 +40,12 @@ class DashboardController extends Controller
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
-                ->join('institutions', 'institutions.id', '=', 'dsi.institution_id')
+                ->leftJoin('institutions', 'institutions.id', '=', 'dsi.institution_id')
+                ->leftJoin('down_stream_notifications AS ds', 'ds.id', '=', 'dsi.ds_id')
                 ->where('institutions.type', 'ccp')
                 ->whereNotNull('institutions.name')
+                ->where('ds.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('ds.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('institutions.id', 'institutions.name')
                 ->get();        
         $stats = [];
@@ -107,8 +113,10 @@ class DashboardController extends Controller
                         ->where('down_stream_institutions.institution_id', $user->institution_id);
         }
         $dss = $dss->whereNull('deleted_at')
-                ->where('ds.created_at', '>=', Carbon::now()->format('Y-m-01'))
-                ->where('ds.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                // ->where('ds.created_at', '>=', Carbon::now()->format('Y-m-01'))
+                // ->where('ds.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                ->where('ds.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('ds.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('ds.status');
                 
         $dss = $dss->get()
@@ -173,8 +181,10 @@ class DashboardController extends Controller
                         ->where('up_stream_institutions.institution_id', $user->institution_id);
         }
         $uss = $uss->whereNull('us.deleted_at')
-                ->where('us.created_at', '>=', Carbon::now()->format('Y-m-01'))
-                ->where('us.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                // ->where('us.created_at', '>=', Carbon::now()->format('Y-m-01'))
+                // ->where('us.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                ->where('us.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('us.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('us.status')
                 ->get()
                 ->groupBy(function($val){
@@ -199,7 +209,7 @@ class DashboardController extends Controller
             $upstream_diff_last_month = 0;
         }
 
-        $last_month = Carbon::now()->subMonth()->isoFormat('MMMM Y');
+        $last_month = 'Tahun ' .Carbon::now()->subYear()->isoFormat('Y');
         
         foreach ($us as $i => $d) {
             array_push($upstream_graph, $d->total);

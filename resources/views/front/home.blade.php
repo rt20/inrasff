@@ -298,7 +298,7 @@
 
 			<?php $array = ['World', 'Technology', 'Entertaintment', 'Sports', 'Media', 'Politics', 'Business', 'Lifestyle', 'Travel', 'Cricket', 'Football', 'Education', 'Photography', 'Nature']; ?>
 
-			<div class="text-base font-semibold mb-5">Categories</div>
+			<div class="text-base font-semibold mb-5">Kategori Berita</div>
 			<ul class="list-disc list-inside space-y-3 mb-8" style="column-count: 2;">
 				@if($category->count() > 0)
 					@foreach($category as $data)
