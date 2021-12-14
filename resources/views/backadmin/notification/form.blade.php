@@ -66,7 +66,8 @@
                                     name="title"
                                     v-model="notification.title" 
                                     class="form-control @error('title') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Judul" autocomplete="off">
+                                    placeholder="Masukkan Judul" autocomplete="off"
+                                    @if(in_array(Auth::user()->type, ['ncp'])) readonly="" @endif>
                                 @error('title')
                                     <small class="text-danger">{{ $errors->first('title') }}</small>
                                 @enderror
@@ -78,7 +79,8 @@
                                     name="number"
                                     v-model="notification.number" 
                                     class="form-control @error('number') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Nomor" autocomplete="off">
+                                    placeholder="Masukkan Nomor" autocomplete="off"
+                                    @if(in_array(Auth::user()->type, ['ncp'])) readonly="" @endif>
                                 @error('number')
                                     <small class="text-danger">{{ $errors->first('number') }}</small>
                                 @enderror
@@ -91,7 +93,8 @@
                                     type="text" 
                                     name="description"
                                     class="form-control @error('description') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Deskripsi" autocomplete="off">{{old()? old('description') : ($notification->description??'')}}</textarea>
+                                    placeholder="Masukkan Deskripsi" autocomplete="off"
+                                    @if(in_array(Auth::user()->type, ['ncp'])) readonly="" @endif>{{old()? old('description') : ($notification->description??'')}}</textarea>
                                 @error('description')
                                     <small class="text-danger">{{ $errors->first('description') }}</small>
                                 @enderror
@@ -100,11 +103,13 @@
         
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h4>Lampiran</h4>
+                                    @can('edit notification')
                                     @if (in_array($notification->status, ['read']))
                                         @can('store u_attachment')
                                         <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
                                         @endcan
                                     @endif
+                                    @endcan
                                     {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
                                 </div>
                                 <table id="table-attachment" class="table table-striped table-bordered">
@@ -356,7 +361,15 @@
                 ],
                 height: 300
             };
+            
             $('#summernote').summernote(summernote_config);
+
+            @can('edit notification') 
+                $('#summernote').summernote('enable');
+            @else
+                $('#summernote').summernote('disable');
+            @endcan
+            
 
             let icon = feather.icons['trash'].toSvg();
             this.table_attachment = $('#table-attachment').DataTable({
