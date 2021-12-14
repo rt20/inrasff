@@ -404,7 +404,7 @@ class RolePermissionSeeder extends Seeder
             $roles['lccp'],
             $labelSubPermission,
             [
-                'data',
+                // 'data',
                 'bussiness_process',
             ]
         );
