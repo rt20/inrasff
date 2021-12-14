@@ -14,6 +14,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use UploadFile;
+use Illuminate\Support\Facades\Gate;
 
 class NotificationController extends Controller
 {
@@ -24,6 +25,9 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('view notification')) {
+            abort(401);
+        }
         if($request->ajax()){
             $n = Notification::query();
             if ($request->has('filter_status') && $request->filter_status != 'all') {
@@ -59,6 +63,9 @@ class NotificationController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('store notification')) {
+            abort(401);
+        }
         return view('backadmin.notification.form', [
             'title' => 'Tambah Informasi Awal',
             'type_infos' => NotificationAttachment::INFOS,
@@ -74,6 +81,9 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('store notification')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
             'number' => ['required', 'max:255'],
@@ -119,6 +129,9 @@ class NotificationController extends Controller
      */
     public function edit(Notification $notification)
     {
+        if (!Gate::allows('view notification')) {
+            abort(401);
+        }
         // $notification = Notification::find($id);
         if($notification->isStatus('unread', false)){
             $notification->setStatus('read', 'Dibaca ');
@@ -140,6 +153,9 @@ class NotificationController extends Controller
      */
     public function update(Request $request, Notification $notification)
     {
+        if (!Gate::allows('store notification')) {
+            abort(401);
+        }
         $request->validate([
             'title' => ['required', 'max:255'],
         ]);
@@ -170,6 +186,9 @@ class NotificationController extends Controller
      */
     public function destroy(Notification $notification)
     {
+        if (!Gate::allows('delete notification')) {
+            abort(401);
+        }
         try {
             DB::beginTransaction();
             $notification->delete();

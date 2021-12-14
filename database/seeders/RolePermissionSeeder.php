@@ -247,13 +247,13 @@ class RolePermissionSeeder extends Seeder
         );
 
         /**CCP Roles */
-        $this->assignEntityActionPermissions(
-            $roles['ccp'],
-            $masterDataPermissions,
-            [
-                'notification' => ['view'],
-            ]
-        );
+        // $this->assignEntityActionPermissions(
+        //     $roles['ccp'],
+        //     $masterDataPermissions,
+        //     [
+        //         'notification' => ['view'],
+        //     ]
+        // );
 
         $this->assignEntityPermissions(
             $roles['ccp'],
@@ -302,9 +302,9 @@ class RolePermissionSeeder extends Seeder
                     'view',
                     'accept'
                 ],
-                'notification' => [
-                    'process_upstream'
-                ]
+                // 'notification' => [
+                //     'process_upstream'
+                // ]
             ]
         );
 
@@ -313,7 +313,7 @@ class RolePermissionSeeder extends Seeder
             $labelSubPermission,
             [
                 'front_end',
-                'data',
+                // 'data',
                 'bussiness_process',
                 'master_data'
             ]
@@ -354,13 +354,13 @@ class RolePermissionSeeder extends Seeder
         /**
          * LCCP Role
          */
-        $this->assignEntityActionPermissions(
-            $roles['lccp'],
-            $masterDataPermissions,
-            [
-                'notification' => ['view'],
-            ]
-        );
+        // $this->assignEntityActionPermissions(
+        //     $roles['lccp'],
+        //     $masterDataPermissions,
+        //     [
+        //         'notification' => ['view'],
+        //     ]
+        // );
         
 
         $this->assignEntityActionPermissions(
@@ -394,9 +394,9 @@ class RolePermissionSeeder extends Seeder
                     'view all',
                     'view',
                 ],
-                'notification' => [
-                    'process_upstream'
-                ]
+                // 'notification' => [
+                //     'process_upstream'
+                // ]
             ]
         );
 
