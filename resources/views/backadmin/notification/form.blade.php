@@ -119,9 +119,9 @@
                                             <th>Info Lampiran</th>
                                             <th>Tanggal Ditambahkan</th>
                                             @if (in_array($notification->status, ['read']))
-                                            {{-- @can('delete attachment') --}}
+                                            @can('delete notification')
                                             <th class="bi-table-col-action-1">Aksi</th>
-                                            {{-- @endcan --}}
+                                            @endcan
                                             @endif
                                         </tr>
                                     </thead>
@@ -399,7 +399,7 @@
                             return moment(data).format('D MMMM YYYY HH:mm:ss')
                         }
                     },
-                    @if (in_array($notification->status, ['read']))
+                    @can('delete notification')
                     
                     {
                         data: 'id',
@@ -411,7 +411,7 @@
                         } 
                     }
                     
-                    @endif
+                    @endcan
                 ],
                 
                 order: [[0, 'desc']],
