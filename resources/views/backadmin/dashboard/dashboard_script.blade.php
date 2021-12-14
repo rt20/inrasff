@@ -4,10 +4,12 @@
             return {
                 downstream_month : {{$downstream_month}},
                 downstream_graph: {!! json_encode(array_reverse($downstream_graph)) !!},
+                downstream_graph_year: {!! json_encode(array_reverse($downstream_graph_year)) !!},
                 downstream_diff_last_month: {{$downstream_diff_last_month * 100}},
 
                 upstream_month : {{$upstream_month}},
                 upstream_graph: {!! json_encode(array_reverse($upstream_graph)) !!},
+                upstream_graph_year: {!! json_encode(array_reverse($upstream_graph_year)) !!},
                 upstream_diff_last_month: {{$upstream_diff_last_month * 100}}
             }
         },
@@ -253,10 +255,11 @@
             }
             },
             tooltip: {
-            x: { show: false }
+            x: { show: true }
             },
             xaxis: {
-            type: 'numeric'
+                // type: 'numeric'
+                categories: dashboard.downstream_graph_year,
             }
         };
         avgSessionsChart = new ApexCharts($avgSessionsChart, avgSessionsChartOptions);
@@ -306,10 +309,11 @@
             }
             },
             tooltip: {
-            x: { show: false }
+            x: { show: true }
             },
             xaxis: {
-            type: 'numeric'
+                // type: 'numeric',
+                categories: dashboard.upstream_graph_year,
             }
         };
         avgSessionsChart2 = new ApexCharts($avgSessionsChart2, avgSessionsChart2Options);
