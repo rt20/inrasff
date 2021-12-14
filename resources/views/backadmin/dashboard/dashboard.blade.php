@@ -122,7 +122,7 @@
                                     <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button"
                                         id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
+                                        Tahun {{\Carbon\Carbon::now()->isoFormat('Y')}}
                                     </button>
                                 </div>
                                 <div id="avg-sessions-chart"></div>
@@ -187,7 +187,7 @@
                                     <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button"
                                         id="dropdownItem5" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
+                                        Tahun {{\Carbon\Carbon::now()->isoFormat('Y')}}
                                     </button>
                                 </div>
                                 <div id="avg-sessions-chart-2"></div>
@@ -231,7 +231,7 @@
                     <div class="card-header d-flex flex-md-row flex-column justify-content-md-between justify-content-start align-items-md-center align-items-start">
                         <h4 class="card-title">Sebaran Notifikasi CCP</h4>
                         <div class="d-flex align-items-center mt-md-0 mt-1">
-                            {{\Carbon\Carbon::now()->isoFormat('MMMM Y')}}
+                            Tahun {{\Carbon\Carbon::now()->isoFormat('Y')}}
                         </div>
                     </div>
                     <div class="card-body">

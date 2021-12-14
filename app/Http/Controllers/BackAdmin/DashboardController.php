@@ -25,9 +25,12 @@ class DashboardController extends Controller
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
-                ->join('institutions', 'institutions.id', '=', 'usi.institution_id')
+                ->leftJoin('institutions', 'institutions.id', '=', 'usi.institution_id')
+                ->leftJoin('up_stream_notifications AS us', 'us.id', '=', 'usi.us_id')
                 ->where('institutions.type', 'ccp')
                 ->whereNotNull('institutions.name')
+                ->where('us.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('us.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('institutions.id', 'institutions.name')
                 ->get();
 
@@ -37,9 +40,12 @@ class DashboardController extends Controller
                     'institutions.name',
                     DB::raw('count(*) as total')
                 )
-                ->join('institutions', 'institutions.id', '=', 'dsi.institution_id')
+                ->leftJoin('institutions', 'institutions.id', '=', 'dsi.institution_id')
+                ->leftJoin('down_stream_notifications AS ds', 'ds.id', '=', 'dsi.ds_id')
                 ->where('institutions.type', 'ccp')
                 ->whereNotNull('institutions.name')
+                ->where('ds.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('ds.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('institutions.id', 'institutions.name')
                 ->get();        
         $stats = [];
@@ -78,12 +84,13 @@ class DashboardController extends Controller
                 )
                 ->select(
                     DB::raw('count(ds.id) as total'),
-                    DB::raw("DATE_FORMAT(ds.created_at, '%Y-%m-01') month")
+                    // DB::raw("DATE_FORMAT(ds.created_at, '%Y-%m-01') month")
+                    DB::raw("DATE_FORMAT(ds.created_at, '%Y') month")
                 )
                 ->whereNull('deleted_at')
                 ->groupBy('month')
                 ->orderBy('month', 'DESC')
-                ->limit(2);
+                ->limit(3);
 
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $ds = $ds->join('down_stream_institutions', 'ds.id', '=', 'down_stream_institutions.ds_id')
@@ -107,8 +114,10 @@ class DashboardController extends Controller
                         ->where('down_stream_institutions.institution_id', $user->institution_id);
         }
         $dss = $dss->whereNull('deleted_at')
-                ->where('ds.created_at', '>=', Carbon::now()->format('Y-m-01'))
-                ->where('ds.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                // ->where('ds.created_at', '>=', Carbon::now()->format('Y-m-01'))
+                // ->where('ds.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                ->where('ds.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('ds.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('ds.status');
                 
         $dss = $dss->get()
@@ -129,16 +138,18 @@ class DashboardController extends Controller
         $downstream_month = $downstream_month->count();
 
         $downstream_graph = [];
+        $downstream_graph_year = [];
         if(isset($ds[0]) && isset($ds[1])){
             $downstream_diff_last_month = ($ds[0]->total - $ds[1]->total)/$ds[1]->total;
         }else{
-            $downstream_diff_last_month = 0;
+            $downstream_diff_last_month = $ds[0]->total;
         }
 
         $last_month = Carbon::now()->subMonth()->isoFormat('MMMM Y');
         
         foreach ($ds as $i => $d) {
             array_push($downstream_graph, $d->total);
+            array_push($downstream_graph_year, 'Tahun ' .$d->month);
         }
         
         $us =  DB::table('up_stream_notifications as us')
@@ -147,12 +158,13 @@ class DashboardController extends Controller
                 )
                 ->select(
                     DB::raw('count(us.id) as total'),
-                    DB::raw("DATE_FORMAT(us.created_at, '%Y-%m-01') month")
+                    DB::raw("DATE_FORMAT(us.created_at, '%Y') month")
+                    // DB::raw("DATE_FORMAT(us.created_at, '%Y-%m-01') month")
                 )
                 ->whereNull('deleted_at')
                 ->groupBy('month')
                 ->orderBy('month', 'DESC')
-                ->limit(2);
+                ->limit(3);
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $us = $us->join('up_stream_institutions', 'us.id', '=', 'up_stream_institutions.us_id')
                         ->where('up_stream_institutions.institution_id', $user->institution_id);
@@ -173,8 +185,10 @@ class DashboardController extends Controller
                         ->where('up_stream_institutions.institution_id', $user->institution_id);
         }
         $uss = $uss->whereNull('us.deleted_at')
-                ->where('us.created_at', '>=', Carbon::now()->format('Y-m-01'))
-                ->where('us.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                // ->where('us.created_at', '>=', Carbon::now()->format('Y-m-01'))
+                // ->where('us.created_at', '<=', Carbon::make((new DateTime())->format( 'Y-m-t' )))
+                ->where('us.created_at', '>=', Carbon::now()->startOfYear()->format('Y-m-d'))
+                ->where('us.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'))
                 ->groupBy('us.status')
                 ->get()
                 ->groupBy(function($val){
@@ -193,26 +207,31 @@ class DashboardController extends Controller
         }
         $upstream_month = $upstream_month->count();
         $upstream_graph = [];
+        $upstream_graph_year = [];
         if(isset($us[0]) && isset($us[1])){
             $upstream_diff_last_month = ($us[0]->total - $us[1]->total)/$us[1]->total;
         }else{
-            $upstream_diff_last_month = 0;
+            $upstream_diff_last_month = $us[0]->total;
         }
 
-        $last_month = Carbon::now()->subMonth()->isoFormat('MMMM Y');
+        $last_month = 'Tahun ' .Carbon::now()->subYear()->isoFormat('Y');
         
-        foreach ($us as $i => $d) {
+        foreach ($us as $i => $d) { 
             array_push($upstream_graph, $d->total);
+            array_push($upstream_graph_year, 'Tahun ' .$d->month);
         }
+
         return view('backadmin.dashboard.dashboard',[
             'title' => null,
             'downstream_graph' => $downstream_graph,
+            'downstream_graph_year' => $downstream_graph_year,
             'downstream_month' => $downstream_month,
             'downstream_diff_last_month' => $downstream_diff_last_month,
             
             'downstream_status' => $dss,
 
             'upstream_graph' => $upstream_graph,
+            'upstream_graph_year' => $upstream_graph_year,
             'upstream_month' => $upstream_month,
             'upstream_diff_last_month' => $upstream_diff_last_month,
             'upstream_status' => $uss,
