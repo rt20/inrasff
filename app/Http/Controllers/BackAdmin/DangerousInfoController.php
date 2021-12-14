@@ -196,9 +196,30 @@ class DangerousInfoController extends Controller
      */
     public function edit(DangerousInfo $dangerousInfo)
     {
+
         if (!Gate::allows('view dangerous')) {
             abort(401);
         }
+
+
+        if(str_replace('App\\Models\\', '', $dangerousInfo->di_type)==='UpStreamNotification'){
+            $institution_access =  $dangerousInfo->notification->upstreamInstitution()->pluck('institution_id')->toArray();
+        }else{
+            $institution_access =  $dangerousInfo->notification->downstreamInstitution()->pluck('institution_id')->toArray();
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array($dangerousInfo->notification->status, ['ccp process', 'done'])){
+                    // return redirect()->route('backadmin.downstreams.index');
+                    abort(401);
+                }
+            }
+        }
+
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
+
         return view('backadmin.dangerous_info.form', [
             'title' => $dangerousInfo->name,
             'dangerous' => $dangerousInfo,

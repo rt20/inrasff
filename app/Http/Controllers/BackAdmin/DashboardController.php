@@ -139,10 +139,14 @@ class DashboardController extends Controller
 
         $downstream_graph = [];
         $downstream_graph_year = [];
+        
         if(isset($ds[0]) && isset($ds[1])){
             $downstream_diff_last_month = ($ds[0]->total - $ds[1]->total)/$ds[1]->total;
         }else{
-            $downstream_diff_last_month = $ds[0]->total;
+            if(isset($ds[0]))
+                $downstream_diff_last_month = $ds[0]->total;
+            else
+                $downstream_diff_last_month = 0;
         }
 
         $last_month = Carbon::now()->subMonth()->isoFormat('MMMM Y');
@@ -211,7 +215,10 @@ class DashboardController extends Controller
         if(isset($us[0]) && isset($us[1])){
             $upstream_diff_last_month = ($us[0]->total - $us[1]->total)/$us[1]->total;
         }else{
-            $upstream_diff_last_month = $us[0]->total;
+            if(isset($us[0]))
+                $upstream_diff_last_month = $us[0]->total;
+            else
+                $upstream_diff_last_month = 0;
         }
 
         $last_month = 'Tahun ' .Carbon::now()->subYear()->isoFormat('Y');

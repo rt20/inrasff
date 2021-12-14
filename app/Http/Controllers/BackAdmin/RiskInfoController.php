@@ -192,6 +192,25 @@ class RiskInfoController extends Controller
         if (!Gate::allows('view risk')) {
             abort(401);
         }
+
+        if(str_replace('App\\Models\\', '', $riskInfo->ri_type)==='UpStreamNotification'){
+            $institution_access =  $riskInfo->notification->upstreamInstitution()->pluck('institution_id')->toArray();
+        }else{
+            $institution_access =  $riskInfo->notification->downstreamInstitution()->pluck('institution_id')->toArray();
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array($riskInfo->notification->status, ['ccp process', 'done'])){
+                    // return redirect()->route('backadmin.downstreams.index');
+                    abort(401);
+                }
+            }
+        }
+
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
+        
         return view('backadmin.risk_info.form', [
             'title' => "Edit Resiko",
             'risk' => $riskInfo,

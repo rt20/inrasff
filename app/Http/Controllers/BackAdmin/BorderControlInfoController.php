@@ -193,6 +193,25 @@ class BorderControlInfoController extends Controller
         if (!Gate::allows('view border_control')) {
             abort(401);
         }
+
+        if(str_replace('App\\Models\\', '', $borderControlInfo->bci_type)==='UpStreamNotification'){
+            $institution_access =  $borderControlInfo->notification->upstreamInstitution()->pluck('institution_id')->toArray();
+        }else{
+            $institution_access =  $borderControlInfo->notification->downstreamInstitution()->pluck('institution_id')->toArray();
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array($borderControlInfo->notification->status, ['ccp process', 'done'])){
+                    // return redirect()->route('backadmin.downstreams.index');
+                    abort(401);
+                }
+            }
+        }
+
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
+        
         return view('backadmin.border_control_info.form', [
             'title' => "Edit Kontrol Perbatasan",
             'border_control' => $borderControlInfo,
