@@ -179,7 +179,8 @@ class DownStreamNotificationController extends Controller
             }
 
             if(!in_array($downstream->status, ['ccp process', 'done'])){
-                return redirect()->route('backadmin.downstreams.index');
+                // return redirect()->route('backadmin.downstreams.index');
+                abort(401);
             }
         }
 
