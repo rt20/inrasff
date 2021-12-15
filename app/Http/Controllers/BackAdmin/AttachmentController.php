@@ -12,10 +12,16 @@ use App\Models\FollowUpNotificationAttachment;
 class AttachmentController extends Controller
 {
     public function viewNotificationAttachment($id){
+        
         $na = NotificationAttachment::find($id);
         if($na==null)
             abort(404);
         // return $na;
+        
+        if (!Gate::allows('view notification')) {
+            abort(401);
+        }
+        
         if(str_replace('App\\Models\\', '', $na->na_type)==='UpStreamNotification'){
             $institution_access =  $na->notification->upstreamInstitution()->pluck('institution_id')->toArray();
         }elseif(str_replace('App\\Models\\', '', $na->na_type)==='DownStreamNotification'){
