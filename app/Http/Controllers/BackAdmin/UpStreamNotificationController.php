@@ -480,6 +480,14 @@ class UpStreamNotificationController extends Controller
     }
 
     public function report(Request $request, UpStreamNotification $upstream){
+        //Filter Access
+        $institution_access =  $upstream->upstreamInstitution()->pluck('institution_id')->toArray();
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
+        
         $alphabet = range('A', 'ZZ');
         $url = route('backadmin.upstreams.edit', $upstream->id);
         return view('report.notification')

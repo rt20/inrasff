@@ -478,9 +478,21 @@ class DownStreamNotificationController extends Controller
     }
 
     public function report(Request $request, DownStreamNotification $downstream){
-        // return "hello";
-        // $downstream->notificationStatus;
-        // return $downstream->dangerous;
+        
+        //Filter Access
+        $institution_access =  $downstream->downstreamInstitution()->pluck('institution_id')->toArray();
+        // return $institution_access;
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+
+            if(!in_array($downstream->status, ['ccp process', 'done'])){
+                // return redirect()->route('backadmin.downstreams.index');
+                abort(401);
+            }
+        }
+        
         $url = route('backadmin.downstreams.edit', $downstream->id);
         $alphabet = range('A', 'ZZ');
         return view('report.notification')
