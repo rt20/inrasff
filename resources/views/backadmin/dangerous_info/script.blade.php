@@ -441,10 +441,13 @@
                         this.validatorSampling.forEach(el => {
                             var value = $(el.input+'[name="'+el.title+'"]').val()
                             // console.log(value)
-                            formData.append(el.name, value)
+                            formData.append(el.name, value??'')
+                            // console.log(el.name);
+                            // console.log(value??'');
                         });
                         formData.append('di_id', {{$dangerous->id}})
                         
+                        // return
                         var resp = await post(url,formData)
                         // console.log(resp)
                             if(resp?.data?.status?.localeCompare('ok')==0){
