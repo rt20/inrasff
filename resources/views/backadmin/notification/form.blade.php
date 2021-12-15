@@ -99,6 +99,7 @@
                                     <small class="text-danger">{{ $errors->first('description') }}</small>
                                 @enderror
                             </div><!-- .col-md-6.form-group -->
+                            @if($notification->id)
                             <div class="col-12 col-md-12 form-group">
         
                                 <div class="d-flex justify-content-between align-items-center">
@@ -129,6 +130,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @endif
                             
                         </div><!-- .row -->
                     </section><!-- .bi-form-main -->
