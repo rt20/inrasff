@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\NotificationAttachment;
 use App\Models\FollowUpNotificationAttachment;
+use Illuminate\Support\Facades\Gate;
 
 class AttachmentController extends Controller
 {
@@ -21,7 +22,7 @@ class AttachmentController extends Controller
         if (!Gate::allows('view notification')) {
             abort(401);
         }
-        
+
         if(str_replace('App\\Models\\', '', $na->na_type)==='UpStreamNotification'){
             $institution_access =  $na->notification->upstreamInstitution()->pluck('institution_id')->toArray();
         }elseif(str_replace('App\\Models\\', '', $na->na_type)==='DownStreamNotification'){
