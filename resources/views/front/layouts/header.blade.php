@@ -83,10 +83,10 @@
 
                 <a href="{{ route('backadmin.auth.index') }}" target="_blank" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary rounded"
                     x-show="showTopHeader === false"
-                    x-transition:enter="transition ease-out duration-500"
+                    {{-- x-transition:enter="transition ease-out duration-500" --}}
                     x-transition:enter-start="opacity-100"
                     x-transition:enter-end="opacity-0"
-                    x-transition:leave="transition ease-in duration-100"
+                    {{-- x-transition:leave="transition ease-in duration-100" --}}
                     x-transition:leave-start="opacity-0"
                     x-transition:leave-end="opacity-100">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill h-4 mr-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
