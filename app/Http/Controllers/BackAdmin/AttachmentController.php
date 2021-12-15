@@ -45,7 +45,7 @@ class AttachmentController extends Controller
             if($na==null)
             abort(404);
         
-        if(str_replace('App\\Models\\', '', $na->followUp->na_type)==='UpStreamNotification'){
+        if(str_replace('App\\Models\\', '', $na->followUp->fun_type)==='UpStreamNotification'){
             $institution_access =  $na->followUp->notification->upstreamInstitution()->pluck('institution_id')->toArray();
         }else{
             $institution_access =  $na->followUp->notification->downstreamInstitution()->pluck('institution_id')->toArray();

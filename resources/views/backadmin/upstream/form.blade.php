@@ -271,6 +271,7 @@
                 $('.bi-form-main input, .bi-form-main select, .bi-form-main textarea').prop('disabled', true);
                 $('.read-only-white').removeClass('read-only-white')
                 $('.dataTables_wrapper input, .dataTables_wrapper select').prop('disabled', false)
+                $('.upstream-attachment-modal input, .upstream-attachment-modal select, .upstream-attachment-modal textarea').prop('disabled', false);
             @endif
         @endif
     })

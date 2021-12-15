@@ -38,7 +38,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body upstream-attachment-modal">
                             <div class="d-flex justify-content-center mt-2" v-if="attachmentModal.loading==1">
                                 <div class="spinner-border text-success" style="width: 10rem; height: 10rem"  role="status">
                                     <span class="sr-only">Loading...</span>
