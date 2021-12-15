@@ -182,7 +182,8 @@ class FollowUpNotificationController extends Controller
     public function edit(FollowUpNotification $followUp)
     // public function edit($id)
     {
-        if(str_replace('App\\Models\\', '', $followUp->fun_id)==='UpStreamNotification'){
+        // return $followUp;
+        if(str_replace('App\\Models\\', '', $followUp->fun_type)==='UpStreamNotification'){
             $institution_access =  $followUp->notification->upstreamInstitution()->pluck('institution_id')->toArray();
         }else{
             $institution_access =  $followUp->notification->downstreamInstitution()->pluck('institution_id')->toArray();
