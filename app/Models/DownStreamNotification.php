@@ -183,11 +183,12 @@ class DownStreamNotification extends Model
     
 
     /**
-     * @override save function for DownStreamNotification
+     * Get the author that owns the UpStreamNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-
-    // public function save(array $options = []){
-        
-    //     parent::save();
-    // }
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
 }
