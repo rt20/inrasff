@@ -19,9 +19,10 @@ class AttachmentController extends Controller
             abort(404);
         // return $na;
         
-        if (!Gate::allows('view notification')) {
-            abort(401);
-        }
+        // if (!Gate::allows('view notification')) {
+        //     abort(401);
+        // }
+
 
         if(str_replace('App\\Models\\', '', $na->na_type)==='UpStreamNotification'){
             $institution_access =  $na->notification->upstreamInstitution()->pluck('institution_id')->toArray();
@@ -29,9 +30,14 @@ class AttachmentController extends Controller
             $institution_access =  $na->notification->downstreamInstitution()->pluck('institution_id')->toArray();
             if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
                 if(!in_array($na->notification->status, ['ccp process', 'done'])){
-                    // return redirect()->route('backadmin.downstreams.index');
                     abort(401);
                 }
+            }
+        }
+
+        if(str_replace('App\\Models\\', '', $na->na_type)==='Notification'){
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp', 'notifier'])){
+                abort(401);
             }
         }
 
