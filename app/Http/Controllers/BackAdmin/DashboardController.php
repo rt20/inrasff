@@ -174,7 +174,7 @@ class DashboardController extends Controller
                         ->where('up_stream_institutions.institution_id', $user->institution_id);
         }
         $us = $us->get();
-                
+        // return $us; 
         $uss = DB::table('up_stream_notifications as us')
                 ->select(
                     'us.id',
@@ -212,6 +212,7 @@ class DashboardController extends Controller
         $upstream_month = $upstream_month->count();
         $upstream_graph = [];
         $upstream_graph_year = [];
+        
         if(isset($us[0]) && isset($us[1])){
             $upstream_diff_last_month = ($us[0]->total - $us[1]->total)/$us[1]->total;
         }else{

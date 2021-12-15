@@ -103,11 +103,11 @@
         
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h4>Lampiran</h4>
-                                    @can('edit notification')
+                                    @can('store notification')
                                     @if (in_array($notification->status, ['read']))
-                                        @can('store u_attachment')
+                                        {{-- @can('store u_attachment') --}}
                                         <button type="button" v-on:click="openAttachmentModal('add', null , null)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
-                                        @endcan
+                                        {{-- @endcan --}}
                                     @endif
                                     @endcan
                                     {{-- <label for="table-risk" class="form-label ">Daftar Resiko</label> --}}
@@ -364,7 +364,7 @@
             
             $('#summernote').summernote(summernote_config);
 
-            @can('edit notification') 
+            @can('store notification') 
                 $('#summernote').summernote('enable');
             @else
                 $('#summernote').summernote('disable');
