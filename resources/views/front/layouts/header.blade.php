@@ -122,10 +122,16 @@
                 <a href="{{ route('logical') }}" class="block py-3 transition duration-300 uppercase font-bold">Logical Framework INRASFF</a>
                 <a href="{{ route('contactus') }}" class="block py-3 transition duration-300 uppercase font-bold">Hubungi Kami</a>
             </div>
-            <div class="bg-secondary_dark py-3 text-center fixed inset-x-0 bottom-0 w-full">
-                <div class="container text-center lg:flex mx-auto px-6 px-0 lg:justify-between lg:items-center">
-                    <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Copyrights © {{ date('Y') }} All Rights Reserved INRASFF</span>
-                    {{-- <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Badan Pengawasan Obat dan Makanan Republik Indonesia</span> --}}
+            <div class="text-center fixed inset-x-0 bottom-0 w-full">
+                <a href="{{ route('backadmin.auth.index') }}" target="_blank" class="inline-block p-3 flex items-center bg-gray-100 text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill h-4 mr-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                    <span class="text-xs font-semibold">Login to your account</span>
+                </a>
+                <div class="bg-secondary_dark w-full py-3">
+                    <div class="container text-center lg:flex mx-auto px-6 px-0 lg:justify-between lg:items-center">
+                        <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Copyrights © {{ date('Y') }} All Rights Reserved INRASFF</span>
+                        {{-- <span class="block mt-2 lg:mt-0 lg:inline-block flex-shrink-0 text-xs text-white">Badan Pengawasan Obat dan Makanan Republik Indonesia</span> --}}
+                    </div>
                 </div>
             </div>
         </div>
