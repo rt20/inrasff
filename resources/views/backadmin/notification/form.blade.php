@@ -401,6 +401,7 @@
                             return moment(data).format('D MMMM YYYY HH:mm:ss')
                         }
                     },
+                    @if (in_array($notification->status, ['read']))
                     @can('delete notification')
                     
                     {
@@ -414,6 +415,7 @@
                     }
                     
                     @endcan
+                    @endif
                 ],
                 
                 order: [[0, 'desc']],
