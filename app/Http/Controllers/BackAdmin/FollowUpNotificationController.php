@@ -182,6 +182,24 @@ class FollowUpNotificationController extends Controller
     public function edit(FollowUpNotification $followUp)
     // public function edit($id)
     {
+        if(str_replace('App\\Models\\', '', $followUp->fun_id)==='UpStreamNotification'){
+            $institution_access =  $followUp->notification->upstreamInstitution()->pluck('institution_id')->toArray();
+        }else{
+            $institution_access =  $followUp->notification->downstreamInstitution()->pluck('institution_id')->toArray();
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array($followUp->notification->status, ['ccp process', 'done'])){
+                    // return redirect()->route('backadmin.downstreams.index');
+                    abort(401);
+                }
+            }
+        }
+
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
+
         return view('backadmin.follow_up.form', [
             'title' => "Edit Tindak Lanjut",
             'follow_up' => $followUp,
