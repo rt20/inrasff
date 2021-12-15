@@ -146,6 +146,19 @@ class UserController extends Controller
         if (!Gate::allows('view user')) {
             abort(401);
         }
+        
+        if(in_array(auth()->user()->type, ['ccp'])){
+            if($user->type!=='lccp'){
+                abort(401);    
+            }
+            if($user->institution->parent_id != auth()->user()->institution->id){
+                abort(401);
+            }
+        }elseif(in_array(auth()->user()->type, ['ncp'])){
+            if($user->type!=='ccp'){
+                abort(401);    
+            }
+        }
         $user->institution = $user->institution;
         return view('backadmin.user.form', [
             'title' => $user->fullname,
