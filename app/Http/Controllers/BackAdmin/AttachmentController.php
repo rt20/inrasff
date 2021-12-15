@@ -41,7 +41,27 @@ class AttachmentController extends Controller
         $na = FollowUpNotificationAttachment::find($id);
         if($na==null)
             abort(404);        
-            
+        
+            if($na==null)
+            abort(404);
+        
+        if(str_replace('App\\Models\\', '', $na->followUp->na_type)==='UpStreamNotification'){
+            $institution_access =  $na->followUp->notification->upstreamInstitution()->pluck('institution_id')->toArray();
+        }else{
+            $institution_access =  $na->followUp->notification->downstreamInstitution()->pluck('institution_id')->toArray();
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array($na->followUp->notification->status, ['ccp process', 'done'])){
+                    // return redirect()->route('backadmin.downstreams.index');
+                    abort(401);
+                }
+            }
+        }
+
+        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+            if(!in_array(auth()->user()->institution_id, $institution_access)){
+                abort(401);
+            }
+        }
         return Storage::disk('local')->response('follow_up/attachment/'.$na->link, $na->link);
     }
 }
