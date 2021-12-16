@@ -243,6 +243,13 @@ class RiskInfoController extends Controller
 
         $request->validate([
             'distribution_status_id' => ['required', 'max:255'],
+            'serious_risk' => ['max:255'],
+            'victim' => ['max:255'],
+            'symptom' => ['max:255'],
+            'voluntary_measures' => ['max:255'],
+            'add_voluntary_measures' => ['max:255'],
+            'compulsory_measures' => ['max:255'],
+            'add_compulsory_measures' => ['max:255']
         ]);
 
         try {
