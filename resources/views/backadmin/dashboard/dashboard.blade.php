@@ -130,6 +130,7 @@
                         </div>
                         <hr />
                         <div class="row avg-sessions pt-50">
+                            @if(in_array(auth()->user()->type, ['superadmin', 'ncp']))
                             <div class="col-6 mb-2">
                                 <p class="mb-50">Draft: {{ isset($downstream_status['draft']) ? $downstream_status['draft'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-info" style="height: 6px">
@@ -137,7 +138,7 @@
                                         aria-valuemin="50" aria-valuemax="100" style="width: {{ isset($downstream_status['draft']) ? 100* $downstream_status['draft'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
-                            @if(in_array(auth()->user()->type, ['superadmin', 'ncp']))
+                            
                             <div class="col-6 mb-2">
                                 <p class="mb-50">Dibuka: {{ isset($downstream_status['open']) ? $downstream_status['open'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-info" style="height: 6px">
