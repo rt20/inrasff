@@ -26,10 +26,20 @@ class AttachmentController extends Controller
 
         if(str_replace('App\\Models\\', '', $na->na_type)==='UpStreamNotification'){
             $institution_access =  $na->notification->upstreamInstitution()->pluck('institution_id')->toArray();
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array(auth()->user()->institution_id, $institution_access)){
+                    abort(401);
+                }
+            }
         }elseif(str_replace('App\\Models\\', '', $na->na_type)==='DownStreamNotification'){
             $institution_access =  $na->notification->downstreamInstitution()->pluck('institution_id')->toArray();
             if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
                 if(!in_array($na->notification->status, ['ccp process', 'done'])){
+                    abort(401);
+                }
+            }
+            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
+                if(!in_array(auth()->user()->institution_id, $institution_access)){
                     abort(401);
                 }
             }
@@ -41,11 +51,7 @@ class AttachmentController extends Controller
             }
         }
 
-        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-            if(!in_array(auth()->user()->institution_id, $institution_access)){
-                abort(401);
-            }
-        }
+        
             
         return Storage::disk('local')->response('notification/attachment/'.$na->link, $na->link);
     }
