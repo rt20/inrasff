@@ -40,8 +40,10 @@
     <label>
         <select name="f_filter_status" class="custom-select w-100 filter_status">
             <option value="all" selected>Semua Status</option>
+            @if(in_array(auth()->user()->type, ['ncp', 'superadmin']))
             <option value="draft">Draft</option>
             <option value="open">Dibuka</option>
+            @endif
             <option value="ccp process">Proses CCP</option>
             <option value="done">Selesai</option>
         </select>

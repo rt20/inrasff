@@ -94,7 +94,9 @@ class DashboardController extends Controller
 
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $ds = $ds->join('down_stream_institutions', 'ds.id', '=', 'down_stream_institutions.ds_id')
-                        ->where('down_stream_institutions.institution_id', $user->institution_id);
+                        ->where('down_stream_institutions.institution_id', $user->institution_id)
+                        ->whereIn('ds.status', ['ccp process', 'done'])
+                        ;
         }
 
         $ds = $ds->get();
@@ -133,7 +135,8 @@ class DashboardController extends Controller
                                     ->where('ds.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'));
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $downstream_month = $downstream_month->join('down_stream_institutions', 'ds.id', '=', 'down_stream_institutions.ds_id')
-                        ->where('down_stream_institutions.institution_id', $user->institution_id);
+                        ->where('down_stream_institutions.institution_id', $user->institution_id)
+                        ->whereIn('ds.status', ['ccp process', 'done']);
         }
         $downstream_month = $downstream_month->count();
 
@@ -171,7 +174,8 @@ class DashboardController extends Controller
                 ->limit(3);
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $us = $us->join('up_stream_institutions', 'us.id', '=', 'up_stream_institutions.us_id')
-                        ->where('up_stream_institutions.institution_id', $user->institution_id);
+                        ->where('up_stream_institutions.institution_id', $user->institution_id)
+                        ->whereIn('us.status', ['open', 'done']);
         }
         $us = $us->get();
         // return $us; 
@@ -207,7 +211,8 @@ class DashboardController extends Controller
                                     ->where('us.created_at', '<=', Carbon::now()->endOfYear()->format('Y-m-d'));
         if(!in_array($user->type, ['ncp', 'superadmin'])){
             $upstream_month = $upstream_month->join('up_stream_institutions', 'us.id', '=', 'up_stream_institutions.us_id')
-                        ->where('up_stream_institutions.institution_id', $user->institution_id);
+                        ->where('up_stream_institutions.institution_id', $user->institution_id)
+                        ->whereIn('us.status', ['open', 'done']);
         }
         $upstream_month = $upstream_month->count();
         $upstream_graph = [];

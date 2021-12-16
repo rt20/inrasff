@@ -126,6 +126,19 @@ class InstitutionController extends Controller
             abort(401);
         }
 
+        if(in_array(auth()->user()->type, ['ccp'])){
+            if($institution->type!=='lccp'){
+                abort(401);    
+            }
+            if($institution->parent_id != auth()->user()->institution->id){
+                abort(401);
+            }
+        }elseif(in_array(auth()->user()->type, ['ncp'])){
+            if($institution->type!=='ccp'){
+                abort(401);    
+            }
+        }
+
         return view('backadmin.institution.form', [
             'title' => $institution->name,
             'institution' => $institution,

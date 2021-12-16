@@ -248,14 +248,31 @@ class FollowUpNotificationController extends Controller
         
         try {
             DB::beginTransaction();
-                if($followUp->followUpInstitution()->count() < 1){
-                    throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);
-                    
+                $author_notification =  $followUp->notification->author;
+                /**
+                 * If author of notification not superadmin or ncp
+                 */
+                if(!in_array($author_notification->type, [
+                    'superadmin',
+                    'ncp'
+                ])){
+                    if($followUp->followUpInstitution()->count() < 1){
+                        throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);                    
+                    }
+                }else{
+                    if(str_replace('App\\Models\\', '', $followUp->fun_type)==='DownStreamNotification'){
+                        if($followUp->followUpInstitution()->count() < 1){
+                            throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);                    
+                        }   
+                    }
                 }
+
                 $followUp->isStatus('draft');
                 $followUp->setStatus('on process', 'Diajukan ');
-                if(auth()->user()->type !== 'lccp')
+                if(auth()->user()->type !== 'lccp'){
                     $followUp->setStatus('accepted', 'Disetujui ');
+                }
+                    
                 $followUp->update();
             DB::commit();
             

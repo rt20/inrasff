@@ -37,4 +37,14 @@ class DangerousSamplingInfo extends Model
     {
         return $this->belongsTo(DangerousInfo::class, 'di_id');
     }
+
+    /**
+     * Get the uom that owns the DangerousSamplingInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function uom()
+    {
+        return $this->belongsTo(UomResult::class, 'uom_result_id');
+    }
 }

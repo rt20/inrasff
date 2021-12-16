@@ -130,6 +130,7 @@
                         </div>
                         <hr />
                         <div class="row avg-sessions pt-50">
+                            @if(in_array(auth()->user()->type, ['superadmin', 'ncp']))
                             <div class="col-6 mb-2">
                                 <p class="mb-50">Draft: {{ isset($downstream_status['draft']) ? $downstream_status['draft'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-info" style="height: 6px">
@@ -137,6 +138,7 @@
                                         aria-valuemin="50" aria-valuemax="100" style="width: {{ isset($downstream_status['draft']) ? 100* $downstream_status['draft'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
+                            
                             <div class="col-6 mb-2">
                                 <p class="mb-50">Dibuka: {{ isset($downstream_status['open']) ? $downstream_status['open'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-info" style="height: 6px">
@@ -144,6 +146,7 @@
                                         aria-valuemin="60" aria-valuemax="100" style="width: {{ isset($downstream_status['open']) ? 100* $downstream_status['open'][0]->total / $downstream_month : 0 }}%"></div>
                                 </div>
                             </div>
+                            @endif
                             <div class="col-6">
                                 <p class="mb-50">Proses CCP: {{ isset($downstream_status['ccp process']) ? $downstream_status['ccp process'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-warning" style="height: 6px">
@@ -195,6 +198,7 @@
                         </div>
                         <hr />
                         <div class="row avg-sessions pt-50">
+                            @if(in_array(auth()->user()->type, ['superadmin', 'ncp']))
                             <div class="col-6 mb-2">
                                 <p class="mb-50">Draft: {{ isset($upstream_status['draft']) ? $upstream_status['draft'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-info" style="height: 6px">
@@ -202,6 +206,7 @@
                                         aria-valuemin="50" aria-valuemax="100" style="width: {{ isset($upstream_status['draft']) ? 100* $upstream_status['draft'][0]->total / $upstream_month : 0 }}%"></div>
                                 </div>
                             </div>
+                            @endif
                             <div class="col-6 mb-2">
                                 <p class="mb-50">Dibuka: {{ isset($upstream_status['open']) ? $upstream_status['open'][0]->total : 0 }}</p>
                                 <div class="progress progress-bar-info" style="height: 6px">

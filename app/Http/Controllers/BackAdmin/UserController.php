@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -36,7 +37,10 @@ class UserController extends Controller
                         $user = $user->where('type', 'ccp');
                         break;
                     case 'ccp':
-                        $user = $user->where('type', 'lccp');
+                        $user = $user->where('type', 'lccp')
+                                        ->whereHas('institution', function($q){
+                                            $q->where('parent_id', auth()->user()->institution_id);
+                                        });
                             
                         # code...
                         break;
@@ -86,8 +90,8 @@ class UserController extends Controller
             'username' => ['required', 'max:255', 'unique:users'],
             'type' => ['required', 'max:255'],
             'email' => ['required', 'email','max:255', 'unique:users'],
-            'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required|same:password|min:6',
+            'password' => 'required|confirmed|min:6|max:25',
+            'password_confirmation' => 'required|same:password|min:6|max:25',
 
             'type' => ['required'],
             'institution_id' => ['required_if:type,ccp,lccp'],
@@ -99,6 +103,7 @@ class UserController extends Controller
 
         try {
             DB::beginTransaction();
+            $roles = Role::all()->keyBy('name');
             $user = User::make($request->only([
                 'username',
                 'fullname',
@@ -111,6 +116,7 @@ class UserController extends Controller
             ]));
             $user->password = bcrypt($request->password);
             $user->save();
+            $user->assignRole($roles[$user['type']]);
             DB::commit();
             
         } catch (Exception $e) {
@@ -145,6 +151,19 @@ class UserController extends Controller
     {
         if (!Gate::allows('view user')) {
             abort(401);
+        }
+        
+        if(in_array(auth()->user()->type, ['ccp'])){
+            if($user->type!=='lccp'){
+                abort(401);    
+            }
+            if($user->institution->parent_id != auth()->user()->institution->id){
+                abort(401);
+            }
+        }elseif(in_array(auth()->user()->type, ['ncp'])){
+            if($user->type!=='ccp'){
+                abort(401);    
+            }
         }
         $user->institution = $user->institution;
         return view('backadmin.user.form', [
@@ -182,6 +201,7 @@ class UserController extends Controller
         // dd("s");
         try {
             DB::beginTransaction();
+            $roles = Role::all()->keyBy('name');
             $user->fill($request->only([
                 'username',
                 'fullname',
@@ -194,7 +214,9 @@ class UserController extends Controller
             ]));
             if($user->type === 'ncp')
                 $user->institution_id = null;
+            
             $user->save();
+            $user->assignRole($roles[$user['type']]);
             DB::commit();
             
         } catch (Exception $e) {

@@ -214,25 +214,32 @@
                                             <strong>{{$item->category->name ?? "-"}}</strong>
                                         </td>
                                     </tr>
-                                    <tr class="border-bottom">
+                                    {{-- <tr class="border-bottom">
                                         <td class="py-1 pl-4">
                                             <p class="font-weight-semibold mb-25">16.{{$alphabet[$i]}}. Hasil Uji</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>{{$item->name_result ?? "-"}}</strong>
                                         </td>
+                                    </tr> --}}
+                                    @if(sizeof($item->sampling)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Sampling Tidak Tersedia</td>
                                     </tr>
+                                    @endif
+                                    @foreach ($item->sampling as $k=>$sampling)
+                                        
                                     <tr class="border-bottom">
-                                        <td class="py-1 pl-4" colspan="2">
-                                            <p class="font-weight-semibold mb-25">17.{{$alphabet[$i]}}. Sampling</p>
-                                        </td>
+                                        <tr>
+                                            <td colspan="2" class="py-1 pl-4 text-center">Sampling {{$k+1}}</td>
+                                        </tr>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="py-1 pl-4">
                                             <p class="font-weight-semibold mb-25 ml-4">Tanggal</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$sampling->sampling_date ? \Carbon\Carbon::make($sampling->sampling_date)->isoFormat('dddd, D MMMM Y') : '-'}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -240,7 +247,7 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Jumlah Sampel</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$sampling->sampling_count ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -248,7 +255,7 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Metode</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$sampling->sampling_method ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -256,9 +263,28 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Tempat pengambilan</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>-</strong>
+                                            <strong>{{$sampling->sampling_place ?? "-"}}</strong>
                                         </td>
                                     </tr>
+
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Hasil Uji</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$sampling->name_result ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Satuan Hasil Uji</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$sampling->uom_result_id ? $sampling->uom->name : "-"}}</strong>
+                                        </td>
+                                    </tr>
+                                    
                                     {{-- <tr class="border-bottom">
                                         <td class="py-1 pl-4" colspan="2">
                                             <p class="font-weight-semibold mb-25">18.{{$alphabet[$i]}}. Analisis</p>
@@ -269,7 +295,7 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Laboratorium</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>{{$item->laboratorium ?? "-"}}</strong>
+                                            <strong>{{$sampling->laboratorium ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -277,7 +303,7 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Matriks</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>{{$item->matrix ?? "-"}}</strong>
+                                            <strong>{{$sampling->matrix ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     {{-- <tr class="border-bottom">
@@ -290,7 +316,7 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Scope</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>{{$item->scope ?? "-"}}</strong>
+                                            <strong>{{$sampling->scope ?? "-"}}</strong>
                                         </td>
                                     </tr>
                                     <tr class="border-bottom">
@@ -298,10 +324,10 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Maksimum batas yang diijinkan</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>{{$item->max_tollerance ?? "-"}}</strong>
+                                            <strong>{{$sampling->max_tollerance ?? "-"}}</strong>
                                         </td>
                                     </tr>
-
+                                    @endforeach
                                     @endforeach
                                 </tbody>
                             </table>

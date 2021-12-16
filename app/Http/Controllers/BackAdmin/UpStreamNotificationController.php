@@ -402,7 +402,7 @@ class UpStreamNotificationController extends Controller
             'notification_id' => ['required'], //id for upstream or upstream
             'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
             'info' => ['required'],
-            'title_attachment' => ['required'],
+            'title_attachment' => ['required', 'max:30'],
         ]);
 
         try {

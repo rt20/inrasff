@@ -175,4 +175,14 @@ class UpStreamNotification extends Model
         return $this->belongsTo(NotificationBase::class, 'based_notif_id');
     }
 
+    /**
+     * Get the author that owns the UpStreamNotification
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
 }
