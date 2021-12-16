@@ -79,11 +79,14 @@
                             
                             <div class="col-12 col-md-6 form-group">
                                 <label for="link" class="form-label required">Website Link</label>
-                                <input type="text" 
-                                    name="link"
-                                    v-model="kementrian.link" 
-                                    class="form-control @error('link') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Link Website" autocomplete="off">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">https://</span>
+                                    <input type="text" 
+                                        name="link"
+                                        v-model="kementrian.link" 
+                                        class="form-control @error('link') {{ 'is-invalid' }} @enderror" 
+                                        placeholder="Masukkan Link Website" autocomplete="off">
+                                </div>
                                 @error('link')
                                     <small class="text-danger">{{ $errors->first('link') }}</small>
                                 @enderror
@@ -91,11 +94,14 @@
                             
                             <div class="col-12 col-md-6 form-group">
                                 <label for="facebook" class="form-label">Facebook</label>
-                                <input type="text" 
-                                    name="facebook"
-                                    v-model="kementrian.facebook" 
-                                    class="form-control @error('facebook') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Link Facebook" autocomplete="off">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">https://</span>
+                                    <input type="text" 
+                                        name="facebook"
+                                        v-model="kementrian.facebook" 
+                                        class="form-control @error('facebook') {{ 'is-invalid' }} @enderror" 
+                                        placeholder="Masukkan Link Facebook" autocomplete="off">
+                                </div>
                                 @error('facebook')
                                     <small class="text-danger">{{ $errors->first('facebook') }}</small>
                                 @enderror
@@ -103,11 +109,14 @@
                             
                             <div class="col-12 col-md-6 form-group">
                                 <label for="instagram" class="form-label">Instagram</label>
-                                <input type="text" 
-                                    name="instagram"
-                                    v-model="kementrian.instagram" 
-                                    class="form-control @error('instagram') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Link Instagram" autocomplete="off">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">https://</span>
+                                    <input type="text" 
+                                        name="instagram"
+                                        v-model="kementrian.instagram" 
+                                        class="form-control @error('instagram') {{ 'is-invalid' }} @enderror" 
+                                        placeholder="Masukkan Link Instagram" autocomplete="off">
+                                </div>
                                 @error('instagram')
                                     <small class="text-danger">{{ $errors->first('instagram') }}</small>
                                 @enderror
@@ -115,11 +124,14 @@
                             
                             <div class="col-12 col-md-6 form-group">
                                 <label for="instagram" class="form-label">Twitter</label>
-                                <input type="text" 
-                                    name="twitter"
-                                    v-model="kementrian.twitter" 
-                                    class="form-control @error('twitter') {{ 'is-invalid' }} @enderror" 
-                                    placeholder="Masukkan Link Twitter" autocomplete="off">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">https://</span>
+                                    <input type="text" 
+                                        name="twitter"
+                                        v-model="kementrian.twitter" 
+                                        class="form-control @error('twitter') {{ 'is-invalid' }} @enderror" 
+                                        placeholder="Masukkan Link Twitter" autocomplete="off">
+                                </div>
                                 @error('twitter')
                                     <small class="text-danger">{{ $errors->first('twitter') }}</small>
                                 @enderror
