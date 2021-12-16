@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -102,6 +103,7 @@ class UserController extends Controller
 
         try {
             DB::beginTransaction();
+            $roles = Role::all()->keyBy('name');
             $user = User::make($request->only([
                 'username',
                 'fullname',
@@ -114,6 +116,7 @@ class UserController extends Controller
             ]));
             $user->password = bcrypt($request->password);
             $user->save();
+            $user->assignRole($roles[$user['type']]);
             DB::commit();
             
         } catch (Exception $e) {
@@ -198,6 +201,7 @@ class UserController extends Controller
         // dd("s");
         try {
             DB::beginTransaction();
+            $roles = Role::all()->keyBy('name');
             $user->fill($request->only([
                 'username',
                 'fullname',
@@ -210,7 +214,9 @@ class UserController extends Controller
             ]));
             if($user->type === 'ncp')
                 $user->institution_id = null;
+            
             $user->save();
+            $user->assignRole($roles[$user['type']]);
             DB::commit();
             
         } catch (Exception $e) {
