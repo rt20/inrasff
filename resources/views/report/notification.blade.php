@@ -214,14 +214,19 @@
                                             <strong>{{$item->category->name ?? "-"}}</strong>
                                         </td>
                                     </tr>
-                                    <tr class="border-bottom">
+                                    {{-- <tr class="border-bottom">
                                         <td class="py-1 pl-4">
                                             <p class="font-weight-semibold mb-25">16.{{$alphabet[$i]}}. Hasil Uji</p>
                                         </td>
                                         <td class="py-1">
                                             <strong>{{$item->name_result ?? "-"}}</strong>
                                         </td>
+                                    </tr> --}}
+                                    @if(sizeof($item->sampling)<1)
+                                    <tr>
+                                        <td colspan="2" class="py-1 pl-4 text-center">Sampling Tidak Tersedia</td>
                                     </tr>
+                                    @endif
                                     @foreach ($item->sampling as $k=>$sampling)
                                         
                                     <tr class="border-bottom">
@@ -259,6 +264,24 @@
                                         </td>
                                         <td class="py-1">
                                             <strong>{{$sampling->sampling_place ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Hasil Uji</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$sampling->name_result ?? "-"}}</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="border-bottom">
+                                        <td class="py-1 pl-4">
+                                            <p class="font-weight-semibold mb-25 ml-4">Satuan Hasil Uji</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <strong>{{$sampling->uom_result_id ? $sampling->uom->name "-"}}</strong>
                                         </td>
                                     </tr>
                                     
