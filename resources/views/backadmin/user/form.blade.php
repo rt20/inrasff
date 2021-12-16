@@ -373,7 +373,7 @@
 
             }).on('select2:select', function(e){
                 // selected = e.params.data
-                form.institution.institution_id = e.target.value
+                form.user.institution_id = e.target.value
                 
             })
         },

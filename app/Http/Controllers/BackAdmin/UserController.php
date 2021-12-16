@@ -89,8 +89,8 @@ class UserController extends Controller
             'username' => ['required', 'max:255', 'unique:users'],
             'type' => ['required', 'max:255'],
             'email' => ['required', 'email','max:255', 'unique:users'],
-            'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required|same:password|min:6',
+            'password' => 'required|confirmed|min:6|max:25',
+            'password_confirmation' => 'required|same:password|min:6|max:25',
 
             'type' => ['required'],
             'institution_id' => ['required_if:type,ccp,lccp'],
