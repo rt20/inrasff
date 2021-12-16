@@ -281,7 +281,7 @@
                                             <p class="font-weight-semibold mb-25 ml-4">Satuan Hasil Uji</p>
                                         </td>
                                         <td class="py-1">
-                                            <strong>{{$sampling->uom_result_id ? $sampling->uom->name "-"}}</strong>
+                                            <strong>{{$sampling->uom_result_id ? $sampling->uom->name : "-"}}</strong>
                                         </td>
                                     </tr>
                                     
