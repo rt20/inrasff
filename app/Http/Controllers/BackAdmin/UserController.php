@@ -36,7 +36,10 @@ class UserController extends Controller
                         $user = $user->where('type', 'ccp');
                         break;
                     case 'ccp':
-                        $user = $user->where('type', 'lccp');
+                        $user = $user->where('type', 'lccp')
+                                        ->whereHas('institution', function($q){
+                                            $q->where('parent_id', auth()->user()->institution_id);
+                                        });
                             
                         # code...
                         break;
