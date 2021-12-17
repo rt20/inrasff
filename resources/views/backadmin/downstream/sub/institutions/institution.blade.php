@@ -61,40 +61,6 @@
     </div>
 </section>
 
-{{-- <hr>
-
-<section class="bi-form-main">
-    <div class="d-flex justify-content-between align-items-center mb-1">
-        <h4>Informasi Pengguna yang Menindaklanjuti</h4>
-    </div>
-
-    <div class="row">    
-        <div class="col-12 col-md-12 form-group">
-            <div class="d-flex justify-content-between align-items-center">
-                <label for="title" class="form-label">Pengguna yang perlu menindaklanjuti</label>
-                @if($downstream->id !== null && !in_array($downstream->status, ['done']))
-                    <button type="button" v-on:click="openInstitutionModal('add', null , null, true)" class="btn btn-icon btn-primary"><i data-feather="plus"></i></button>
-                @endif
-            </div>
-            
-            <table v-cloak  id="table-user" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Nama Akun</th>
-                        <th>Lembaga</th>
-                        <th>Penanggung Jawab</th>
-                        <th>Tipe</th>
-                        @if($downstream->id !== null && !in_array($downstream->status, ['done']))
-                        <th>Aksi</th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section> --}}
 
 
 @push('page-js')
@@ -198,7 +164,10 @@
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                            if(row.institution.type!=='ncp')
+                                return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)"  class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                            
+                            return ''
                         } 
                     }
                     @endcan
@@ -238,7 +207,10 @@
                         orderable: false,
                         searchable: false, 
                         render: function(data, type, row, meta) {
-                            return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                            if(row.institution.type!=='ncp')
+                                return `<a href="#" onclick="openInstitutionModal('delete', `+data+`)" class="btn btn-primary btn-sm btn-icon rounded-circle">` + icon + `</a>`
+                            
+                            return ''
                         } 
                     }
                     @endcan

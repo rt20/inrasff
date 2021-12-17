@@ -43,6 +43,9 @@ class InstitutionController extends Controller
                         break;
                 }
             }
+            if(!$request->has('is_not_institution')){
+                $institution = $institution->where('is_not_institution', false);
+            }
             return DataTables::of($institution->get())->addIndexColumn()->make();
         }
 
@@ -234,7 +237,13 @@ class InstitutionController extends Controller
         if($request->user->institution_id!==null){
             $query = $query->where('parent_id', $request->user->institution_id);
         }
+
+        if(!$request->has('is_not_institution')){
+            $query = $query->where('is_not_institution', false);
+        }
+
         $query = $query->where('is_active', true);
+
         return $query->get();
     }
 

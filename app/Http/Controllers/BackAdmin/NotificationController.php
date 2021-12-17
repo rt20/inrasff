@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
+use App\Models\Institution;
 use App\Models\NotificationAttachment;
 
 use Exception;
@@ -232,7 +233,14 @@ class NotificationController extends Controller
                 $a->save();
             }
             
+            /**
+             * Default for NCP
+             */
 
+            $downstream->downstreamInstitution()->create([
+                'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                'write' => true,
+            ]);
 
             DB::commit();
 
@@ -265,6 +273,15 @@ class NotificationController extends Controller
             $upstream->save();
             $notification->setStatus('processed', 'Diproses untuk Upstream '.$upstream->number);
             $notification->update();
+
+            /**
+             * Default for NCP
+             */
+
+            $upstream->upstreamInstitution()->create([
+                'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                'write' => true,
+            ]);
 
             switch ($request->user->type) {
                 case 'ccp':

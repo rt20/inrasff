@@ -14,7 +14,8 @@ class DownStreamInstitution extends Model
         'ds_id',
         'institution_id',
         'read',
-        'write'
+        'write',
+        'status'
     ];
 
     protected $appends = [ 'status_label', 'status_class',];

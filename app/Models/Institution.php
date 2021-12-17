@@ -11,6 +11,9 @@ class Institution extends Model
     use HasFactory, SoftDeletes;
     
     private $types = [
+        'ncp' => [
+            'label' => 'National Contact Point'
+        ],
         'ccp' => [
             'label' => 'Competent Contact Point'
         ],
@@ -21,7 +24,8 @@ class Institution extends Model
     protected $fillable = [
         'name',
         'parent_id',
-        'type'
+        'type',
+        'is_not_institution'
     ];
     
     protected $appends = [

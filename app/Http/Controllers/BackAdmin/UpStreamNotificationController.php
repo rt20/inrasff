@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\UpStreamNotification;
 use App\Models\NotificationAttachment;
 use App\Events\UpStreamEmailNotification;
+use App\Models\Institution;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -130,6 +131,12 @@ class UpStreamNotificationController extends Controller
             $upstream->author_id = auth()->user()->id;
             $upstream->setStatus('open', 'Dibuat ');
             $upstream->save();
+            
+            $upstream->upstreamInstitution()->create([
+                'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                'write' => true,
+                'status' => 'assigned',
+            ]);
             
             switch ($request->user->type) {
                 case 'ccp':

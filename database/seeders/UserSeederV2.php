@@ -64,6 +64,7 @@ class UserSeederV2 extends Seeder
             'responsible_name' => $faker->name,
             'responsible_phone' => $faker->phoneNumber,
             'responsible_address' => $faker->address,
+            'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 0,
         ]);
         $u->save();
         $u->assignRole('ncp');

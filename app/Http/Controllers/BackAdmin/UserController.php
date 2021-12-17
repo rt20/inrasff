@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Institution;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -115,6 +116,9 @@ class UserController extends Controller
                 'responsible_address',
             ]));
             $user->password = bcrypt($request->password);
+            if($user->type==='ncp'){
+                $user->institution_id = Institution::where('type', 'ncp')->first()->id ?? 0;
+            }
             $user->save();
             $user->assignRole($roles[$user['type']]);
             DB::commit();

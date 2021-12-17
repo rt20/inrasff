@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\DownStreamNotification;
 use App\Models\UpStreamNotification;
 use App\Models\NotificationAttachment;
+use App\Models\Institution;
 
+use App\Events\DownStreamEmailNotification;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -135,6 +137,23 @@ class DownStreamNotificationController extends Controller
             $downstream->author_id = auth()->user()->id;
             $downstream->setStatus('open', 'Dibuat ');
             $downstream->save();
+
+            /**
+             * Add default NCP Institution 
+             */
+            $downstream->downstreamInstitution()->create([
+                'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                'write' => true,
+                'status' => 'assigned',
+            ]);
+
+            foreach ($downstream->downstreamInstitution as $i => $d_institution) {
+                $users = $d_institution->institution->users;
+                foreach ($users as $j => $user) {
+                    event(new DownStreamEmailNotification($downstream, $user));
+                }
+            }
+
             DB::commit();
             
         } catch (Exception $e) {
@@ -239,17 +258,28 @@ class DownStreamNotificationController extends Controller
                 ]));
                 if ($downstream->isStatus('draft', false)) {
                     $downstream->setStatus('open', 'Diupdate dari draft');
+                    foreach ($downstream->downstreamInstitution as $i => $d_institution) {
+                        if($d_institution->status==='draft'){
+                            $users = $d_institution->institution->users;
+                            foreach ($users as $j => $user) {
+                                event(new DownStreamEmailNotification($downstream, $user));
+                            }
+                            $d_institution->status = 'assigned';
+                            $d_institution->update();
+                        }
+                        
+                    }
                 }
                 if($request->country_id==null){
                     $downstream->country_id = null;
                 }
                 $downstream->update();
 
-                $draft_institutions =  $downstream->downstreamInstitution()
-                            ->where('status', 'draft')
-                            ->get();
+                // $draft_institutions =  $downstream->downstreamInstitution()
+                //             ->where('status', 'draft')
+                //             ->get();
                 
-
+                
             DB::commit();
             
         } catch (Exception $e) {

@@ -31,6 +31,15 @@ class InstitutionSeeder extends Seeder
                 'name' => 'Direktorat Jenderal Bea dan Cukai',
                 'type' => 'ccp'
             ],
+            
+        ]);
+
+        Institution::insert([
+            [
+                'name' => 'National Contact Point',
+                'type' => 'ncp',
+                'is_not_institution' => true
+            ],
         ]);
 
         $lccps = [
