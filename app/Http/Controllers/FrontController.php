@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 use App\Models\News;
@@ -93,12 +94,17 @@ class FrontController extends Controller
 
     public function contactusSubmit(Request $request)
     {
-        $request->validate([
+         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:255'],
             'email' => ['required', 'max:255'],
             'message' => ['required'],
             'g-recaptcha-response' => ['required', 'captcha'],
         ]);
+
+        if($validator->fails()) {
+            return redirect('contactus#sendMessage')->withErrors($validator)->withInput();
+        }
+
         try {
             DB::beginTransaction();
             $n = ContactUs::make($request->only(['name', 'email', 'message']));

@@ -50,14 +50,14 @@
 			<div>
 				<div class="py-4">
 					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your Name</div>
-					<input type="text" name="name" class="w-full h-12 border border-gray-200 rounded p-4 @error('name') {{ 'is-invalid border-red-500' }} @enderror">
+					<input type="text" name="name" value="{{ old('name') }}" class="w-full h-12 border border-gray-200 rounded p-4 @error('name') {{ 'is-invalid border-red-500' }} @enderror">
                     @error('name')
                         <small class="text-red-500">{{ $errors->first('name') }}</small>
                     @enderror
 				</div>
 				<div class="py-4">
 					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your E-mail</div>
-					<input type="email" name="email" class="w-full h-12 border border-gray-200 rounded p-4 @error('email') {{ 'is-invalid border-red-500' }} @enderror">
+					<input type="email" name="email" value="{{ old('email') }}" class="w-full h-12 border border-gray-200 rounded p-4 @error('email') {{ 'is-invalid border-red-500' }} @enderror">
                     @error('email')
                         <small class="text-red-500">{{ $errors->first('email') }}</small>
                     @enderror
@@ -66,7 +66,7 @@
 			<div>
 				<div class="py-4">
 					<div class="text-sm lg:text-base font-regular text-gray-400 mb-3">Your Message</div>
-					<textarea type="text" name="message" class="w-full h-36 border border-gray-200 rounded p-4 @error('message') {{ 'is-invalid border-red-500' }} @enderror"></textarea>
+					<textarea type="text" name="message" class="w-full h-36 border border-gray-200 rounded p-4 @error('message') {{ 'is-invalid border-red-500' }} @enderror">{{ old('message') }}</textarea>
                     @error('message')
                         <small class="text-red-500">{{ $errors->first('message') }}</small>
                     @enderror

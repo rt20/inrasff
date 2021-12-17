@@ -234,7 +234,7 @@
 					@foreach($kementrian as $data)
 					<div class="p-2">
 						<div class="bg-gray-100 p-3 rounded">
-							<a href="{{ $data->link }}">
+							<a href="https://{{ $data->link }}">
 								<img src="{{ $data->getImage() }}" class="w-full">
 							</a>
 						</div>
