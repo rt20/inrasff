@@ -231,6 +231,7 @@ class UpStreamNotificationController extends Controller
         if (!Gate::allows('store upstream')) {
             abort(401);
         }  
+
         $request->validate([
             'title' => ['required', 'max:255'],
             'status_notif_id' => ['required', 'max:255'],
@@ -244,6 +245,7 @@ class UpStreamNotificationController extends Controller
         
         try {
             DB::beginTransaction();
+                
                 $upstream->fill($request->only([
                     'notif_id',
                     'title',
@@ -265,6 +267,9 @@ class UpStreamNotificationController extends Controller
                 ]));
                 if ($upstream->isStatus('draft', false)) {
                     $upstream->setStatus('open', 'Diupdate dari draft');
+                }
+                if($request->country_id==null){
+                    $upstream->country_id = null;
                 }
                 $upstream->update();
 

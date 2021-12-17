@@ -8,7 +8,7 @@
                 downstream: {},
                 availableTabs: [],
                 activeTab: null,
-                
+                local_id:`{{ Helper::localCountry() }}`,                
             }
         },
         created() {
@@ -82,18 +82,20 @@
                     /*
                     Auto Select Indonesia for Local Case
                     */
-                    
                     initS2FieldWithAjax(
                         '#country_id',
                         '{{route("backadmin.s2Init.countries")}}',
-                        {id:76},
+                        // {id:76},
+                        {id: form.local_id},
                         ['code', 'name'],
                         function(res){
-                            form.upstream.country_id = 76
+                            // form.downstream.country_id = 76
+                            form.downstream.country_id = form.local_id
+                            console.log(form.downstream)
                         }
                     )
                 }
-                console.log(form.downstream)
+                // console.log(form.downstream)
             })
 
             $('select[name="source_notif"]').on('change', function(e){
@@ -110,6 +112,7 @@
                     data: function(params){
                         let req = {
                             q:params.term,
+                            local: $('select[name="origin_source_notif"]').val() === 'local' ? 1 :0
                         };
                         return req;
                     },

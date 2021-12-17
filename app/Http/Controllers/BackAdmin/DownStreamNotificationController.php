@@ -8,6 +8,7 @@ use App\Models\DownStreamNotification;
 use App\Models\UpStreamNotification;
 use App\Models\NotificationAttachment;
 
+
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
@@ -239,17 +240,14 @@ class DownStreamNotificationController extends Controller
                 if ($downstream->isStatus('draft', false)) {
                     $downstream->setStatus('open', 'Diupdate dari draft');
                 }
+                if($request->country_id==null){
+                    $downstream->country_id = null;
+                }
                 $downstream->update();
 
-                // dd($downstream->downstreamInstitution()->where('status', 'draft')->get());
                 $draft_institutions =  $downstream->downstreamInstitution()
                             ->where('status', 'draft')
                             ->get();
-                // foreach ($draft_institutions as $i => $dsi) {
-                //     $dsi->status = 'assigned';
-                //     $dsi->update();
-                //     event(new DownStreamInstitutionMailNotification($downstream, $dsi));    
-                // }
                 
 
             DB::commit();

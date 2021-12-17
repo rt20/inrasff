@@ -8,7 +8,7 @@
                 upstream: {},
                 availableTabs: [],
                 activeTab: null,
-                
+                local_id:`{{ Helper::localCountry() }}`,  
             }
         },
         created() {
@@ -87,10 +87,12 @@
                     initS2FieldWithAjax(
                         '#country_id',
                         '{{route("backadmin.s2Init.countries")}}',
-                        {id:76},
+                        // {id:76},
+                        {id: form.local_id},
                         ['code', 'name'],
                         function(res){
-                            form.upstream.country_id = 76
+                            // form.upstream.country_id = 76
+                            form.upstream.country_id = form.local_id
                         }
                     )
                 }
@@ -111,6 +113,7 @@
                     data: function(params){
                         let req = {
                             q:params.term,
+                            local: $('select[name="origin_source_notif"]').val() === 'local' ? 1 : 0
                         };
                         return req;
                     },

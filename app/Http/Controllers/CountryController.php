@@ -18,6 +18,12 @@ class CountryController extends Controller
                     ->orWhere('code', 'like', '%' . $term . '%');
             });
 
+        if($request->has('local')){
+            if($request->local==1){
+                $query->where('name', 'like', 'Indonesia');
+            }
+        }
+
         return $query->get();
     }
 

@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Storage;
+use App\Models\Country;
 
 class Helper{
     public static function initPath($path){
@@ -23,5 +24,10 @@ class Helper{
 	public static function displayDateFormat(string $dateString, string $format = "Y-m-d H:i:s")
 	{
 		return \Carbon\Carbon::createFromFormat($format, $dateString);
+	}
+
+	public static function localCountry(){
+		return Country::where('name', 'like', 'Indonesia')
+				->first()->id ?? 76;
 	}
 }
