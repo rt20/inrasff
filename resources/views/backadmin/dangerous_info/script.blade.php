@@ -390,12 +390,17 @@
                             this.samplingModal.item = resp.data.data
                             this.validatorSampling.forEach(el => {
                                 if(el.input === 'select'){
-                                    initS2FieldWithAjax(
-                                        '#'+el.title,
-                                        '{{route("backadmin.s2Init.uom_result")}}',
-                                        {id: this.samplingModal.item[el.title]},
-                                        ['name']
-                                    )
+                                    console.log(this.samplingModal.item[el.title])
+                                    if(this.samplingModal.item[el.title]!=null){
+                                        initS2FieldWithAjax(
+                                            '#'+el.title,
+                                            '{{route("backadmin.s2Init.uom_result")}}',
+                                            {id: this.samplingModal.item[el.title]},
+                                            ['name']
+                                        )
+                                    }else{
+                                        $(el.input+'[name="'+el.title+'"]').val(null).trigger('change')    
+                                    }
                                 }else{
                                     $(el.input+'[name="'+el.title+'"]').val(this.samplingModal.item[el.title])
                                 }

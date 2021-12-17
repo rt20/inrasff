@@ -121,7 +121,8 @@ class TraceabilityLotInfoController extends Controller
             'number' => ['required', 'max:255' ],
             
             'number_unit' => ['max:255'],
-            'net_weight' => ['max:255', 'numeric'],
+            // 'net_weight' => ['max:255', 'numeric'],
+            'net_weight' => ['numeric'],
             'cert_number' => ['max:255'],
             'cert_institution' => ['max:255'],
             
@@ -286,7 +287,8 @@ class TraceabilityLotInfoController extends Controller
             'number' => ['required', 'max:255' ],
             
             'number_unit' => ['max:255'],
-            'net_weight' => ['max:255', 'numeric'],
+            // 'net_weight' => ['max:255', 'numeric'],
+            'net_weight' => ['numeric'],
             'cert_number' => ['max:255'],
             'cert_institution' => ['max:255'],
             
