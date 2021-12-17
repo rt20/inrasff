@@ -102,7 +102,7 @@ class FrontController extends Controller
         ]);
 
         if($validator->fails()) {
-            return redirect('contactus#sendMessage')->withErrors($validator);
+            return redirect('contactus#sendMessage')->withErrors($validator)->withInput();
         }
 
         try {
