@@ -82,6 +82,7 @@
                     /*
                     Auto Select Indonesia for Local Case
                     */
+                    
                     initS2FieldWithAjax(
                         '#country_id',
                         '{{route("backadmin.s2Init.countries")}}',

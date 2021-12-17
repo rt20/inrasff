@@ -30,5 +30,9 @@ class CountrySeeder2 extends Seeder
         Country::whereIn('id', $ids)->update([
             'is_asean' =>true
         ]);
+
+        $indonesia = Country::where('name', 'like', 'Indonesia')->first();
+        $indonesia->is_local = true;
+        $indonesia->update();
     }
 }

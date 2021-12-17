@@ -15,6 +15,7 @@ class AddCountryTable extends Migration
     {
         Schema::table('countries', function(Blueprint $table){
             $table->boolean('is_asean')->default(false);
+            $table->boolean('is_local')->default(false);
         });
     }
 
