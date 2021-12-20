@@ -17,7 +17,9 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
             <a href="{{route('backadmin.users.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
             @if ($user->id)
+                @if(!$profile)    
                 <a class="dropdown-item" data-toggle="modal" data-target="#modal-activate"><i class="mr-75" data-feather="power"></i>{{ $user->is_active ? 'Non Aktifkan' : 'Aktifkan'}}</a>
+                @endif
                 {{-- <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a> --}}
             @endif
         </div>
@@ -108,50 +110,54 @@
                         </div>
                         @endif
                     </section><!-- .bi-form-main -->
-                    
-                    <section class="bi-form-main mt-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h4>Informasi Lembaga Terkait</h4>
-                        </div>
-                        
-                        <input hidden id="only_ccp" v-model="only_ccp" class="only_class" >
-                        <input hidden id="only_lccp" v-model="only_lccp" class="only_class" >
+                    @if(isset($profile))
+                        @if(!$profile)    
+                        <section class="bi-form-main mt-1">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h4>Informasi Lembaga Terkait</h4>
+                            </div>
+                            
+                            <input hidden id="only_ccp" v-model="only_ccp" class="only_class" >
+                            <input hidden id="only_lccp" v-model="only_lccp" class="only_class" >
 
-                        <div class="row">
-                            <div class="col-12 col-md-6 form-group">
-                                <label for="type" class="form-label required">Tipe</label>
-                                <select 
-                                    id="f_type"
-                                    name="type"
-                                    v-model="user.type" 
-                                    class="form-control @error('type') {{ 'is-invalid' }} @enderror">
-                                    <option value="" disabled selected>Pilih Tipe Pengguna</option>
-                                    @foreach ($user_types as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </select>
-                                @error('type')
-                                    <small class="text-danger">{{ $errors->first('type') }}</small>
-                                @enderror
-                            </div><!-- .col-md-6.form-group -->
+                            <div class="row">
+                                <div class="col-12 col-md-6 form-group">
+                                    <label for="type" class="form-label required">Tipe</label>
+                                    <select 
+                                        id="f_type"
+                                        name="type"
+                                        v-model="user.type" 
+                                        class="form-control @error('type') {{ 'is-invalid' }} @enderror">
+                                        <option value="" disabled selected>Pilih Tipe Pengguna</option>
+                                        @foreach ($user_types as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('type')
+                                        <small class="text-danger">{{ $errors->first('type') }}</small>
+                                    @enderror
+                                </div><!-- .col-md-6.form-group -->
 
-                            <div v-show="user.type !== 'ncp' && user.type !==''" class="col-12 col-md-6 form-group">
-                                <label for="institution_id" class="form-label required">Lembaga Terkait</label>
-                                <select 
-                                    id="f_institution_id"
-                                    name="institution_id"
-                                    v-model="user.institution_id" 
-                                    class="form-control @error('institution_id') {{ 'is-invalid' }} @enderror">
-                                    <option value="" disabled selected>Pilih Lembaga Terkait</option>
-                                </select>
-                                @error('institution_id')
-                                    <small class="text-danger">{{ $errors->first('institution_id') }}</small>
-                                @enderror
-                            </div><!-- .col-md-6.form-group -->
+                                <div v-show="user.type !== 'ncp' && user.type !==''" class="col-12 col-md-6 form-group">
+                                    <label for="institution_id" class="form-label required">Lembaga Terkait</label>
+                                    <select 
+                                        id="f_institution_id"
+                                        name="institution_id"
+                                        v-model="user.institution_id" 
+                                        class="form-control @error('institution_id') {{ 'is-invalid' }} @enderror">
+                                        <option value="" disabled selected>Pilih Lembaga Terkait</option>
+                                    </select>
+                                    @error('institution_id')
+                                        <small class="text-danger">{{ $errors->first('institution_id') }}</small>
+                                    @enderror
+                                </div><!-- .col-md-6.form-group -->
 
-                        </div><!-- .row -->
-                    </section><!-- .bi-form-main -->
-
+                            </div><!-- .row -->
+                        </section><!-- .bi-form-main -->
+                        @else
+                        <input name="profile" hidden value="true">
+                        @endif
+                    @endif
                     <section class="bi-form-main mt-1">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h4>Informasi Penanggung Jawab</h4>

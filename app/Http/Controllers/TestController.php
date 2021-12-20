@@ -11,7 +11,7 @@ class TestController extends Controller
 {
 
     public function mail(){
-        return view('mail.notification');
+        return view('mail.follow_up_notification');
     }
 
     public function sendMail(){

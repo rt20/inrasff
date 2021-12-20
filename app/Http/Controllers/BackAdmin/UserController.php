@@ -72,6 +72,7 @@ class UserController extends Controller
             'title' => 'Tambah Pengguna',
             'user' => new User,
             'user_types' => User::getCreateableUserTypes(),
+            'profile' => false,
         ]);
     }
 
@@ -174,6 +175,21 @@ class UserController extends Controller
             'title' => $user->fullname,
             'user' => $user,
             'user_types' => User::getCreateableUserTypes(),
+            'profile' => false,
+        ]);
+    }
+
+    public function editOwnUser(User $user)
+    {
+        if($user->id !== auth()->user()->id){
+            abort(401);
+        }
+        $user->institution = $user->institution;
+        return view('backadmin.user.form', [
+            'title' => $user->fullname,
+            'user' => $user,
+            'user_types' => User::getCreateableUserTypes(),
+            'profile' => true
         ]);
     }
 
@@ -186,22 +202,33 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if (!Gate::allows('store user')) {
-            abort(401);
+        // return $request->all();
+        if($request->profile!=='true'){
+            if (!Gate::allows('store user')) {
+                abort(401);
+            }
+            $request->validate([
+                'fullname' => ['required', 'max:255'],
+                'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],
+                'type' => ['required', 'max:255'],
+                
+                'institution_id' => ['required_if:type,ccp,lccp'],
+    
+                'responsible_name' => ['required', 'max:255'],
+                'responsible_phone' => ['required', 'max:15'],
+                'responsible_address' => ['required'],
+            ]);
+        }else{
+            $request->validate([
+                'fullname' => ['required', 'max:255'],
+                'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],
+                
+                'responsible_name' => ['required', 'max:255'],
+                'responsible_phone' => ['required', 'max:15'],
+                'responsible_address' => ['required'],
+            ]);
         }
-        $request->validate([
-            'fullname' => ['required', 'max:255'],
-            'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],
-            'type' => ['required', 'max:255'],
-            'username' => ['required', 'max:255', 'unique:users,id,'.$user->id],          
-
-            'type' => ['required'],
-            'institution_id' => ['required_if:type,ccp,lccp'],
-
-            'responsible_name' => ['required', 'max:255'],
-            'responsible_phone' => ['required', 'max:15'],
-            'responsible_address' => ['required'],
-        ]);
+        
         // dd("s");
         try {
             DB::beginTransaction();
@@ -228,6 +255,13 @@ class UserController extends Controller
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
 
+        }
+        if($request->has('profile')){
+            if($request->profile==='true'){
+                return redirect()
+                    ->route('backadmin.users.edit_profile', $user->id)
+                    ->withSuccess('Pengguna berhasil diubah');
+            }
         }
         return redirect()
             ->route('backadmin.users.edit', $user->id)

@@ -11,6 +11,7 @@ use App\Models\FollowUpNotificationAttachment;
 // use App\Models\FollowUpUser;
 use App\Models\FollowUpInstitution;
 use App\Models\Institution;
+use App\Services\FollowUpNotificationService;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -271,6 +272,8 @@ class FollowUpNotificationController extends Controller
                 $followUp->setStatus('on process', 'Diajukan ');
                 if(auth()->user()->type !== 'lccp'){
                     $followUp->setStatus('accepted', 'Disetujui ');
+                    FollowUpNotificationService::sendMailNotification($followUp);
+                    // return;
                 }
                     
                 $followUp->update();
@@ -300,6 +303,8 @@ class FollowUpNotificationController extends Controller
             DB::beginTransaction();
                 $followUp->isStatus('on process');
                 $followUp->setStatus('accepted', 'Disetujui ');
+                FollowUpNotificationService::sendMailNotification($followUp);
+                // return;
                 $followUp->update();
             DB::commit();
             

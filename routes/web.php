@@ -142,6 +142,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
         });
 
         Route::get('users/{user}/toggle_active', [BackAdmin\UserController::class, 'toggleActive'])->name('users.toggle_active');
+        Route::get('users/{user}/edit-profile', [BackAdmin\UserController::class, 'editOwnUser'])->name('users.edit_profile');
         Route::get('institutions/{institution}/toggle_active', [BackAdmin\InstitutionController::class, 'toggleActive'])->name('institutions.toggle_active');
 
         Route::resources([
