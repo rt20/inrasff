@@ -6,12 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\DownStreamUserAccess;
 use App\Events\DownStreamEmailNotification;
 use Carbon\Carbon;
+use App\Events\TestEmail;
 
 class TestController extends Controller
 {
 
-    public function mail(){
-        return view('mail.follow_up_notification');
+    public function mail(Request $request){
+        if($request->has('password')){
+            if($request->password==='ujuGex4q$Ynv'){
+                event(new TestEmail("hermansigue@gmail.com"));
+            }
+        }else{
+            return "invalid";
+        }
+        
+        // return view('mail.follow_up_notification');
     }
 
     public function sendMail(){

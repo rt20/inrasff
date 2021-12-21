@@ -37,6 +37,10 @@ class EventServiceProvider extends ServiceProvider
             Listeners\SendFollowUpNotification::class,
         ],
 
+        Events\TestEmail::class => [
+            Listeners\SendTestEmail::class,
+        ],
+
         // Events\DownStreamInstitutionMailNotification::class => [
         //     Listeners\SendDownStreamNotification::class,
         // ],
