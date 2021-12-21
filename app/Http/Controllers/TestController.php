@@ -17,6 +17,7 @@ class TestController extends Controller
                 event(new TestEmail("hermansigue@gmail.com"));
             }
         }else{
+            return redirect()->route('home');
             return "invalid";
         }
         
