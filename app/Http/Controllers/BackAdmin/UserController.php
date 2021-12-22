@@ -41,8 +41,7 @@ class UserController extends Controller
                         $user = $user->where('type', 'lccp')
                                         ->whereHas('institution', function($q){
                                             $q->where('parent_id', auth()->user()->institution_id);
-                                        });
-                            
+                                        });                            
                         # code...
                         break;
                     default:
@@ -191,6 +190,46 @@ class UserController extends Controller
             'user_types' => User::getCreateableUserTypes(),
             'profile' => true
         ]);
+    }
+
+    public function editPassword(User $user){
+        if (!Gate::allows('change_password user')) {
+            abort(401);
+        }
+        return view('backadmin.user.change_password', [
+            'title' => $user->fullname,
+            'user' => $user,
+            'profile' => false
+        ]);
+    }
+
+    public function editOwnPassword(User $user){
+        return view('backadmin.user.change_password', [
+            'title' => 'Ubah Password',
+            'user' => $user,
+            'profile' => true
+        ]);
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        // dd($request);
+        $request->validate([
+            'password' => 'required|alpha_num|min:8|confirmed',
+            'password_confirmation' => 'required|same:password'
+        ]);
+        try {
+            $user->password = bcrypt($request->password);
+            $user->update();
+            if ($request->has('profile')) {
+                if($request->profile==true){
+                    return redirect()->route('backadmin.users.edit_profile', $user->id)->withSuccess('Password berhasil diubah');
+                }
+            }
+            return redirect()->route('backadmin.users.edit', $user->id)->withSuccess('Password berhasil diubah');
+        } catch (Exception $e) {
+            return redirect()->back()->withError($e->getMessage());
+        }
     }
 
     /**

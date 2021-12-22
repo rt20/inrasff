@@ -74,6 +74,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
                         {{-- <a class="dropdown-item" href="{{ route('backadmin.users.edit_password') }}"><i class="mr-50" data-feather="key"></i> Ubah Password</a> --}}
                         <a class="dropdown-item" href="{{ route('backadmin.users.edit_profile', auth()->user()->id) }}"><i class="mr-50" data-feather="user"></i> Edit Profile</a>
+                        <a class="dropdown-item" href="{{ route('backadmin.users.change_password', auth()->user()->id) }}"><i class="mr-50" data-feather="key"></i> Edit Password</a>
                         <a class="dropdown-item" href="{{ route('backadmin.auth.logout') }}"><i class="mr-50" data-feather="power"></i> Logout</a>
                     </div>
                 </li>

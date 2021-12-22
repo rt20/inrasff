@@ -141,8 +141,16 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             Route::delete('{id}/delete', [BackAdmin\TraceabilityLotDistributionController::class, 'delete'])->name('delete');
         });
 
-        Route::get('users/{user}/toggle_active', [BackAdmin\UserController::class, 'toggleActive'])->name('users.toggle_active');
-        Route::get('users/{user}/edit-profile', [BackAdmin\UserController::class, 'editOwnUser'])->name('users.edit_profile');
+        Route::prefix('users')->name('users.')->group(function(){
+            Route::get('{user}/password', [BackAdmin\UserController::class, 'editPassword'])->name('password');
+            Route::get('{user}/change-password', [BackAdmin\UserController::class, 'editOwnPassword'])->name('change_password');
+            Route::put('{user}/password-update', [BackAdmin\UserController::class, 'updatePassword'])->name('update_password');
+            Route::get('{user}/toggle_active', [BackAdmin\UserController::class, 'toggleActive'])->name('toggle_active');
+            Route::get('{user}/edit-profile', [BackAdmin\UserController::class, 'editOwnUser'])->name('edit_profile');
+        });
+
+        // Route::get('users/{user}/toggle_active', [BackAdmin\UserController::class, 'toggleActive'])->name('users.toggle_active');
+        // Route::get('users/{user}/edit-profile', [BackAdmin\UserController::class, 'editOwnUser'])->name('users.edit_profile');
         Route::get('institutions/{institution}/toggle_active', [BackAdmin\InstitutionController::class, 'toggleActive'])->name('institutions.toggle_active');
 
         Route::resources([
