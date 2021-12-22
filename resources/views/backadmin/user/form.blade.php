@@ -5,7 +5,11 @@
 @endsection
 
 @section('breadcrumb')
+@if(!$profile)    
 <li class="breadcrumb-item"><a href="{{ route('backadmin.users.index') }}">Pengguna</a></li>
+@else
+<li class="breadcrumb-item"><a href="{{ route('backadmin.dashboard') }}">Dashboard</a></li>
+@endif
 @endsection
 
 @section('actions')
@@ -15,7 +19,11 @@
             Aksi Lain <i class="ml-75" data-feather="chevron-down"></i>
         </button>    
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+            @if(!$profile)    
             <a href="{{route('backadmin.users.index')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+            @else
+            <a href="{{route('backadmin.dashboard')}}" class="dropdown-item" ><i class="mr-75" data-feather="arrow-left"></i>Kembali</a>
+            @endif
             @if ($user->id)
                 @if(!$profile)    
                 <a class="dropdown-item" data-toggle="modal" data-target="#modal-activate"><i class="mr-75" data-feather="power"></i>{{ $user->is_active ? 'Non Aktifkan' : 'Aktifkan'}}</a>
