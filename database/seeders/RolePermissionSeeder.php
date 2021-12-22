@@ -154,7 +154,7 @@ class RolePermissionSeeder extends Seeder
                 'institution',
                 // 'news',
                 // 'slider',
-                'user'
+                // 'user'
             ]
         );
 
@@ -163,6 +163,11 @@ class RolePermissionSeeder extends Seeder
             $masterDataPermissions,
             [
                 'notification' => ['view'],
+                'user' => [
+                    'view',
+                    'store',
+                    'delete',
+                ]
             ]
         );
 
@@ -262,7 +267,19 @@ class RolePermissionSeeder extends Seeder
             [
                 'institution',
                 // 'news',
-                'user'
+                // 'user'
+            ]
+        );
+
+        $this->assignEntityActionPermissions(
+            $roles['ccp'],
+            $masterDataPermissions,
+            [
+                'user' => [
+                    'view',
+                    'store',
+                    'delete',
+                ]
             ]
         );
 

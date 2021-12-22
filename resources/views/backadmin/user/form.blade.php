@@ -19,7 +19,9 @@
             @if ($user->id)
                 @if(!$profile)    
                 <a class="dropdown-item" data-toggle="modal" data-target="#modal-activate"><i class="mr-75" data-feather="power"></i>{{ $user->is_active ? 'Non Aktifkan' : 'Aktifkan'}}</a>
+                @can('change_password user')
                 <a class="dropdown-item" href="{{ route('backadmin.users.password', $user->id) }}"><i class="mr-50" data-feather="key"></i> Edit Password</a>
+                @endcan
                 @endif
                 {{-- <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-delete"><i class="mr-75" data-feather="trash"></i>Hapus</a> --}}
             @endif

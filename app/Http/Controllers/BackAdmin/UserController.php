@@ -204,6 +204,9 @@ class UserController extends Controller
     }
 
     public function editOwnPassword(User $user){
+        if($user->id !== auth()->user()->id){
+            abort(401);
+        }
         return view('backadmin.user.change_password', [
             'title' => 'Ubah Password',
             'user' => $user,
