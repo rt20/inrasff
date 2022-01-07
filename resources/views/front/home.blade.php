@@ -360,7 +360,7 @@
 <section class="bg-gray-100 py-8">
 	<div class="container px-3 lg:mx-auto">
 		<div class="text-xl font-bold uppercase pb-6">pictures</div>
-		<div class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-5 mb-8">
+		<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5 mb-8">
 			@if($gallery->count() > 0)
 				@foreach($gallery as $data)
 					<a href="{{ $data->getImage() }}" class="magnific-popup" title="{{ $data->title }}">
