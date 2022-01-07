@@ -22,10 +22,10 @@ class LoginController extends Controller
     public function login(Request $req)
     {
         $req->validate([
-            // 'g-recaptcha-response' => 'required|captcha',
-        ]);        
+            'g-recaptcha-response' => 'required|captcha',
+        ]);
 
-        if (Auth::attempt(['username' => $req->username, 'password' => $req->password, 'is_active' => 1] , $req->remember)) {
+        if (Auth::attempt(['username' => $req->username, 'password' => $req->password, 'is_active' => 1], $req->remember)) {
             $req->session()->regenerate();
             return redirect()->intended('backadmin/dashboard');
         }
@@ -43,9 +43,9 @@ class LoginController extends Controller
         Auth::logout();
 
         $req->session()->invalidate();
-    
+
         $req->session()->regenerateToken();
-    
-        return redirect()->route('backadmin.auth.login');    
+
+        return redirect()->route('backadmin.auth.login');
     }
 }

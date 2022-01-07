@@ -35,25 +35,29 @@ class DownStreamNotification extends Model
         'others'
     ];
 
-    protected $appends = [ 'status_label', 'status_class', 'origin_source', 'source', 'product_category'];
+    protected $appends = ['status_label', 'status_class', 'origin_source', 'source', 'product_category'];
     private $states = [
-        'draft' => [ 'label' => 'Draft', 'class' => 'info' ],
-        'open' => [ 'label' => 'Dibuka', 'class' => 'info' ],
-        'ccp process' => [ 'label' => 'Proses CCP', 'class' => 'warning' ],
+        'draft' => ['label' => 'Draft', 'class' => 'info'],
+        'open' => ['label' => 'Dibuka', 'class' => 'info'],
+        'ccp process' => ['label' => 'Proses CCP', 'class' => 'warning'],
         // 'ext process' => [ 'label' => 'Proses Eksternal', 'class' => 'warning' ],
-        'done' => [ 'label' => 'Selesai', 'class' => 'success' ],
+        'done' => ['label' => 'Selesai', 'class' => 'success'],
     ];
 
-    public function getProductCategoryAttribute(){
-        if($this->category_product_id==null){
+    public function getProductCategoryAttribute()
+    {
+        if ($this->category_product_id == null) {
             return null;
         }
-        
+
         $data = NotificationService::productCategory($this->category_product_id);
         return $data;
     }
-    
-    public function getOriginSourceAttribute(){
+
+    public function getOriginSourceAttribute()
+    {
+        if ($this->source_notif == null)
+            return "";
         switch ($this->origin_source_notif) {
             case 'local':
                 $data = NotificationService::notificationSource();
@@ -66,14 +70,15 @@ class DownStreamNotification extends Model
                 return $data[$this->source_notif]['label'];
                 // return "Luar Negeri";
                 break;
-            
+
             default:
                 return "";
                 break;
         }
     }
 
-    public function getSourceAttribute(){
+    public function getSourceAttribute()
+    {
         switch ($this->origin_source_notif) {
             case 'local':
                 return "Dalam Negeri";
@@ -82,7 +87,7 @@ class DownStreamNotification extends Model
             case 'interlocal':
                 return "Luar Negeri";
                 break;
-            
+
             default:
                 return "";
                 break;
@@ -99,38 +104,45 @@ class DownStreamNotification extends Model
         return $this->belongsTo(Notification::class, 'notif_id');
     }
 
-    public function dangerousRisk(){
+    public function dangerousRisk()
+    {
         return $this->morphOne(DangerousRiskInfo::class, 'dri');
     }
 
-    public function dangerous(){
+    public function dangerous()
+    {
         return $this->morphMany(DangerousInfo::class, 'di');
     }
 
-    public function risks(){
+    public function risks()
+    {
         return $this->morphMany(RiskInfo::class, 'ri');
     }
 
-    public function traceabilityLot(){
+    public function traceabilityLot()
+    {
         return $this->morphMany(TraceabilityLotInfo::class, 'tli');
     }
 
-    public function borderControl(){
+    public function borderControl()
+    {
         return $this->morphMany(BorderControlInfo::class, 'bci');
     }
 
-    public function followUp(){
+    public function followUp()
+    {
         return $this->morphMany(FollowUpNotification::class, 'fun');
     }
 
-    public function attachment(){
+    public function attachment()
+    {
         return $this->morphMany(NotificationAttachment::class, 'na');
     }
 
     /**
      * Access Permission of Institution and User Access
      */
-    
+
     public function downstreamInstitution()
     {
         return $this->hasMany(DownStreamInstitution::class, 'ds_id', 'id');
@@ -180,7 +192,7 @@ class DownStreamNotification extends Model
     {
         return $this->belongsTo(NotificationBase::class, 'based_notif_id');
     }
-    
+
 
     /**
      * Get the author that owns the UpStreamNotification
