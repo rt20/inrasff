@@ -9,9 +9,27 @@ use Carbon\Carbon;
 use App\Events\TestEmail;
 use Illuminate\Support\Facades\DB;
 use App\Models\DownStreamNotification as DownStream;
+use App\Models\Country;
+use Countries;
+use Illuminate\Support\Str;
 
 class TestController extends Controller
 {
+    public function countryTest()
+    {
+        $en_country = Countries::getList('en', 'php');
+        // return $en_country;
+        $search = "GERMANY";
+        foreach ($en_country as $key => $country) {
+            if (Str::lower($country) === Str::lower($search)) {
+                $id = Country::where('code', $key)->first()->id ?? null;
+                return $id;
+                break;
+            }
+        }
+
+        return null;
+    }
     public function importTest(Request $request)
     {
         return DownStream::all();

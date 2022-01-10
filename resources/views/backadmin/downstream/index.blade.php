@@ -87,6 +87,8 @@
                     data: 'created_at' ,
                     searchable: false,
                     render: function(data, type, row, meta){
+                        if(data==null)
+                        return '-'
                         return moment(data).format('D MMMM YYYY HH:mm:ss')
                     }
                 },
@@ -118,7 +120,7 @@
                     } 
                 }
             ],
-            order: [[0, 'asc']],
+            order: [[3, 'desc']],
             language: dtLangId
         });
 

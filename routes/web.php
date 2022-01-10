@@ -40,6 +40,7 @@ Route::middleware('anti-script-middleware')->group(function () {
 
     Route::get('/import-test', [Controller\TestController::class, 'importTest']);
     Route::get('/mail', [Controller\TestController::class, 'mail']);
+    Route::get('/country', [Controller\TestController::class, 'countryTest']);
 });
 
 // BACKEND
