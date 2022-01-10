@@ -11,7 +11,7 @@ use App\Models\NotificationBase;
 use App\Models\UpStreamNotification as UpStream;
 use App\Services\NotificationService;
 use DateTime;
-use App\Models\Country;
+use App\Models\{Country, Institution};
 use Monarobase\CountryList\CountryListFacade as Countries;
 use Illuminate\Support\Str;
 
@@ -47,14 +47,14 @@ class MigrationOldSeeder extends Seeder
             Schema::disableForeignKeyConstraints();
             DB::table('down_stream_notifications')->truncate();
             DB::table('up_stream_notifications')->truncate();
+            DB::table('down_stream_institutions')->truncate();
+            DB::table('up_stream_institutions')->truncate();
             Schema::enableForeignKeyConstraints();
             DB::beginTransaction();
             $run = true;
             $upstreams = [];
             $downstreams = [];
             $count = 0;
-
-
             $datas = DB::connection('mysql_old')
                 ->table('notifikasi')
                 ->get();
@@ -65,7 +65,6 @@ class MigrationOldSeeder extends Seeder
                     ->table('prm_negara')
                     ->where('kode', 'like', $n->id_negara_notifying)
                     ->first()->nama;
-                // echo "Country: " . $search . " ";
                 $id_country = $this->searchCountry($search);
                 if (str_contains($n->nomor_referensi, "IN.UP")) {
                 }
@@ -104,8 +103,6 @@ class MigrationOldSeeder extends Seeder
                     }
                     $downstream->setStatus('open', 'Dibuat ');
 
-
-
                     if (DateTime::createFromFormat('Y-m-d H:i:s', $n->tgl_notifikasi) == true) {
                         $downstream->created_at = $downstream->date_notif;
                         $downstream->updated_at = $downstream->date_notif;
@@ -126,6 +123,11 @@ class MigrationOldSeeder extends Seeder
                     array_push($downstreams, $downstream);
                     echo "ID: " . $n->id . " " . $n->tgl_notifikasi;
                     $downstream->save();
+                    $downstream->downstreamInstitution()->create([
+                        'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                        'write' => true,
+                        'status' => 'assigned',
+                    ]);
                     echo "\n";
                     // echo "Data Downstream: " . (sizeof($downstreams)) . " of " . $count . " data \n";
                 }
