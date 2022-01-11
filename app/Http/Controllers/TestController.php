@@ -32,11 +32,12 @@ class TestController extends Controller
     }
     public function importTest(Request $request)
     {
-        return DownStream::all();
+        // return DownStream::all();
         return DB::connection('mysql_old')
-            ->table('notifikasi')
-            ->where('id', 489)
-            ->first();
+            // ->table('notifikasi')
+            ->table('notifikasi_bahaya')
+            ->where('id', 64)
+            ->first()->sampling_tgl;
         // ->take(10)
         // ->get();
     }

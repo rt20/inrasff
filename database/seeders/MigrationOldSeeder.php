@@ -50,6 +50,7 @@ class MigrationOldSeeder extends Seeder
             DB::table('down_stream_institutions')->truncate();
             DB::table('up_stream_institutions')->truncate();
             DB::table('dangerous_infos')->truncate();
+            DB::table('dangerous_sampling_infos')->truncate();
             Schema::enableForeignKeyConstraints();
             DB::beginTransaction();
             $run = true;
@@ -193,6 +194,20 @@ class MigrationOldSeeder extends Seeder
                             'cl3_id' => $cl3_id,
                         ]);
                         $dangerous->save();
+                        // echo "Sampling Date: " . $danger->sampling_tgl . " ";
+                        $dangerous->sampling()->create([
+                            'sampling_date' => $danger->sampling_tgl !== "" ? $danger->sampling_tgl : null,
+                            'sampling_count' => $danger->sampling_jml,
+                            'sampling_method' => $danger->sampling_metode,
+                            'sampling_place' => $danger->sampling_tempat,
+
+                            // 'name_result',
+                            // 'uom_result_id',
+                            'laboratorium' => $danger->analysis_lab,
+                            'matrix' => $danger->analysis_metode,
+                            // 'scope',
+                            'max_tollerance' => $danger->batas_maks
+                        ]);
                     }
                 }
             }
