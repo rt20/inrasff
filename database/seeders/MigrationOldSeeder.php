@@ -11,7 +11,7 @@ use App\Models\NotificationBase;
 use App\Models\UpStreamNotification as UpStream;
 use App\Services\NotificationService;
 use DateTime;
-use App\Models\{Country, Institution};
+use App\Models\{Country, DangerousCategory, DangerousCategoryLevel, Institution};
 use Monarobase\CountryList\CountryListFacade as Countries;
 use Illuminate\Support\Str;
 
@@ -49,6 +49,7 @@ class MigrationOldSeeder extends Seeder
             DB::table('up_stream_notifications')->truncate();
             DB::table('down_stream_institutions')->truncate();
             DB::table('up_stream_institutions')->truncate();
+            DB::table('dangerous_infos')->truncate();
             Schema::enableForeignKeyConstraints();
             DB::beginTransaction();
             $run = true;
@@ -66,18 +67,25 @@ class MigrationOldSeeder extends Seeder
                     ->where('kode', 'like', $n->id_negara_notifying)
                     ->first()->nama;
                 $id_country = $this->searchCountry($search);
+
+                $produk = DB::connection('mysql_old')
+                    ->table('notifikasi_produk')
+                    ->where('id', $n->id)
+                    ->first();
+                $based = DB::connection('mysql_old')
+                    ->table('prm_kat_notifikasi')
+                    ->where('id', $n->id_kat_notifikasi)
+                    ->first();
+                $danger = DB::connection('mysql_old')
+                    ->table('notifikasi_bahaya')
+                    ->where('id', $n->id)
+                    ->first();
                 if (str_contains($n->nomor_referensi, "IN.UP")) {
+                    $upstream = UpStream::make();
+                    $notif = $upstream;
                 }
                 // else if (str_contains($n->nomor_referensi, "IN.DS")) {
                 else {
-                    $produk = DB::connection('mysql_old')
-                        ->table('notifikasi_produk')
-                        ->where('id', $n->id)
-                        ->first();
-                    $based = DB::connection('mysql_old')
-                        ->table('prm_kat_notifikasi')
-                        ->where('id', $n->id_kat_notifikasi)
-                        ->first();
                     $downstream = DownStream::make(
                         [
                             'title' => $n->judul,
@@ -128,8 +136,64 @@ class MigrationOldSeeder extends Seeder
                         'write' => true,
                         'status' => 'assigned',
                     ]);
+                    $notif = $downstream;
+                    echo "NEW ID: " . $downstream->id . " ";
                     echo "\n";
                     // echo "Data Downstream: " . (sizeof($downstreams)) . " of " . $count . " data \n";
+                }
+
+                if ($notif != null) {
+                    if ($danger != null) {
+                        $old_kat_bahaya = DB::connection('mysql_old')
+                            ->table('prm_kat_bahaya')
+                            ->where('id', $danger->id_bahaya)
+                            ->first() ?? null;
+
+                        if ($old_kat_bahaya != null) {
+                            // Check in main category
+                            $dangerous_category = DangerousCategory::where('name', $old_kat_bahaya->nama)
+                                ->first();
+                            $category_id = null;
+                            $cl1_id = null;
+                            $cl2_id = null;
+                            $cl3_id = null;
+                            // If not in MC check in Level Category
+                            if ($dangerous_category == null) {
+                                $dcl = DangerousCategoryLevel::where('name', $old_kat_bahaya->nama)
+                                    ->first();
+                                if ($dcl != null) {
+                                    if ($dcl->parent() != null) {
+                                        $dcl1 = $dcl->parent();
+                                        if ($dcl1->parent() != null) {
+                                            $dcl2 = $dcl1->parent();
+                                            echo "DCL 2: " . $dcl2->id . " \n";
+                                            $category_id = $dcl2->dangerousCategory->id;
+                                            $cl1_id = $dcl2->id;
+                                            $cl2_id = $dcl1->id;
+                                            $cl3_id = $dcl->id;
+                                        } else {
+                                            $category_id = $dcl1->dangerousCategory->id;
+                                            $cl1_id = $dcl1->id;
+                                            $cl2_id = $dcl->id;
+                                        }
+                                    } else {
+                                        $cl1_id = $dcl->id;
+                                    }
+                                }
+                            } else {
+                                $category_id = $dangerous_category->id;
+                            }
+                        }
+
+                        $dangerous = $notif->dangerous()->make([
+                            'name' => $danger->jenis,
+                            'category_id' => $category_id,
+                            'cl1_id' => $cl1_id,
+                            'cl2_id' => $cl2_id,
+                            'cl3_id' => $cl3_id,
+                        ]);
+                        $dangerous->save();
+                    }
                 }
             }
 

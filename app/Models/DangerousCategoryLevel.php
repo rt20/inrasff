@@ -18,4 +18,12 @@ class DangerousCategoryLevel extends Model
     {
         return $this->hasOne(DangerousCategory::class, 'id', 'dc_id');
     }
+
+    public function parent()
+    {
+        if ($this->parent_id != null) {
+            return DangerousCategoryLevel::where('id', $this->parent_id)->first();
+        }
+        return null;
+    }
 }
