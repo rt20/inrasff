@@ -10,7 +10,7 @@ use App\Events\TestEmail;
 use Illuminate\Support\Facades\DB;
 use App\Models\DownStreamNotification as DownStream;
 use App\Models\Country;
-use Countries;
+use Monarobase\CountryList\CountryList as Countries;
 use Illuminate\Support\Str;
 
 class TestController extends Controller
@@ -37,7 +37,7 @@ class TestController extends Controller
             // ->table('notifikasi')
             ->table('notifikasi_bahaya')
             ->where('id', 64)
-            ->first()->sampling_tgl;
+            ->first();
         // ->take(10)
         // ->get();
     }

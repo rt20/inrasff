@@ -11,7 +11,7 @@ use App\Models\NotificationBase;
 use App\Models\UpStreamNotification as UpStream;
 use App\Services\NotificationService;
 use DateTime;
-use App\Models\{Country, DangerousCategory, DangerousCategoryLevel, Institution};
+use App\Models\{Country, DangerousCategory, DangerousCategoryLevel, Institution, UomResult};
 use Monarobase\CountryList\CountryListFacade as Countries;
 use Illuminate\Support\Str;
 
@@ -195,17 +195,20 @@ class MigrationOldSeeder extends Seeder
                         ]);
                         $dangerous->save();
                         // echo "Sampling Date: " . $danger->sampling_tgl . " ";
+                        $uom_danger = DB::connection('mysql_old')
+                            ->table('prm_konsentrasi')
+                            ->where('id', $danger->id_konsentrasi)
+                            ->first() ?? null;
                         $dangerous->sampling()->create([
                             'sampling_date' => $danger->sampling_tgl !== "" ? $danger->sampling_tgl : null,
                             'sampling_count' => $danger->sampling_jml,
                             'sampling_method' => $danger->sampling_metode,
                             'sampling_place' => $danger->sampling_tempat,
-
-                            // 'name_result',
-                            // 'uom_result_id',
+                            'name_result' => $danger->nilai_konsentrasi,
+                            'uom_result_id' => $uom_danger != null ? (UomResult::where('name', $uom_danger->nama)->first()->id ?? null) : null,
                             'laboratorium' => $danger->analysis_lab,
                             'matrix' => $danger->analysis_metode,
-                            // 'scope',
+                            'scope' => $danger->batas_referensi,
                             'max_tollerance' => $danger->batas_maks
                         ]);
                     }

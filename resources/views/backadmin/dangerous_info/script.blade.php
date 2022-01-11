@@ -208,6 +208,8 @@
                     { 
                         data: 'sampling_date' ,
                         render: function(data, type, row, meta){
+                            if(data==null)
+                            return "-"
                             return moment(data).format('D MMMM YYYY')
                         }
                     },
