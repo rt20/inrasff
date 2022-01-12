@@ -64,6 +64,7 @@ class MigrationOldSeeder extends Seeder
                 ->table('notifikasi')
                 ->get();
             $count += sizeof($datas);
+            $notification_type = null;
             echo "Data Loaded :" . $count . "\n";
             foreach ($datas as $i => $n) {
                 $search = DB::connection('mysql_old')
@@ -99,9 +100,11 @@ class MigrationOldSeeder extends Seeder
                 if (str_contains($n->nomor_referensi, "IN.UP")) {
                     $upstream = UpStream::make();
                     $notif = $upstream;
+                    $notification_type = "upstream";
                 }
                 // else if (str_contains($n->nomor_referensi, "IN.DS")) {
                 else {
+                    $notification_type = "downstream";
                     $downstream = DownStream::make(
                         [
                             'title' => $n->judul,
@@ -208,6 +211,7 @@ class MigrationOldSeeder extends Seeder
                             'cl1_id' => $cl1_id,
                             'cl2_id' => $cl2_id,
                             'cl3_id' => $cl3_id,
+                            'notification_type' => $notification_type
                         ]);
                         $dangerous->save();
                         // echo "Sampling Date: " . $danger->sampling_tgl . " ";
@@ -242,6 +246,7 @@ class MigrationOldSeeder extends Seeder
                             'serious_risk' => $risk->person_ill,
                             // 'victim' => ,
                             'symptom' => $risk->tipe_penyakit,
+                            'notification_type' => $notification_type
                         ]);
                         $risks->save();
                     }
@@ -308,6 +313,7 @@ class MigrationOldSeeder extends Seeder
                             'wholesaler_city' => $trace->wholesaler_kota,
                             'wholesaler_country_id' => $id_wholesaler_country,
                             'wholesaler_approval' => $trace->wholesaler_reg,
+                            'notification_type' => $notification_type
                         ]);
                         // echo "Traceablity before convert : " . $trace->tgl_bestbefore;
                         // echo "Traceability best before date: " . $traceability->best_before . "\n";
@@ -330,6 +336,7 @@ class MigrationOldSeeder extends Seeder
                             'container_number' => $border->container,
                             'transport_name' => $border->transport,
                             'transport_description' => $border->transport_other_info,
+                            'notification_type' => $notification_type
                         ]);
                         $border_control->save();
                     }
