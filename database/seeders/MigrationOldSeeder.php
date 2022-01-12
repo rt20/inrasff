@@ -11,7 +11,7 @@ use App\Models\NotificationBase;
 use App\Models\UpStreamNotification as UpStream;
 use App\Services\NotificationService;
 use DateTime;
-use App\Models\{Country, DangerousCategory, DangerousCategoryLevel, Institution, UomResult};
+use App\Models\{Country, DangerousCategory, DangerousCategoryLevel, DistributionStatus, Institution, UomResult};
 use Monarobase\CountryList\CountryListFacade as Countries;
 use Illuminate\Support\Str;
 
@@ -51,6 +51,9 @@ class MigrationOldSeeder extends Seeder
             DB::table('up_stream_institutions')->truncate();
             DB::table('dangerous_infos')->truncate();
             DB::table('dangerous_sampling_infos')->truncate();
+            DB::table('risk_infos')->truncate();
+            DB::table('traceability_lot_infos')->truncate();
+            DB::table('border_control_infos')->truncate();
             Schema::enableForeignKeyConstraints();
             DB::beginTransaction();
             $run = true;
@@ -79,6 +82,18 @@ class MigrationOldSeeder extends Seeder
                     ->first();
                 $danger = DB::connection('mysql_old')
                     ->table('notifikasi_bahaya')
+                    ->where('id', $n->id)
+                    ->first();
+                $risk = DB::connection('mysql_old')
+                    ->table('notifikasi_lain')
+                    ->where('id', $n->id)
+                    ->first();
+                $trace = DB::connection('mysql_old')
+                    ->table('notifikasi_keterlusuran')
+                    ->where('id', $n->id)
+                    ->first();
+                $border = DB::connection('mysql_old')
+                    ->table('notifikasi_border')
                     ->where('id', $n->id)
                     ->first();
                 if (str_contains($n->nomor_referensi, "IN.UP")) {
@@ -111,6 +126,7 @@ class MigrationOldSeeder extends Seeder
                         $downstream->source_notif = isset($mapping_source_id[$n->id_sumber]) ? $mapping_source_id[$n->id_sumber] : 'arasff';
                     }
                     $downstream->setStatus('open', 'Dibuat ');
+                    $downstream->setStatus('ccp process', 'Diproses ');
 
                     if (DateTime::createFromFormat('Y-m-d H:i:s', $n->tgl_notifikasi) == true) {
                         $downstream->created_at = $downstream->date_notif;
@@ -212,6 +228,111 @@ class MigrationOldSeeder extends Seeder
                             'max_tollerance' => $danger->batas_maks
                         ]);
                     }
+
+                    if ($risk != null) {
+                        $old_risk = DB::connection('mysql_old')
+                            ->table('prm_distribusi')
+                            ->where('id', $risk->id_distribusi ?? null)
+                            ->first();
+
+                        $risks = $notif->risks()->make([
+                            'distribution_status_id' => $old_risk != null ?
+                                (DistributionStatus::where('name', $old_risk->nama)->first()->id ?? null) :
+                                null,
+                            'serious_risk' => $risk->person_ill,
+                            // 'victim' => ,
+                            'symptom' => $risk->tipe_penyakit,
+                        ]);
+                        $risks->save();
+                    }
+
+                    if ($trace != null) {
+                        $search_trace_country = DB::connection('mysql_old')
+                            ->table('prm_negara')
+                            ->where('kode', 'like', $trace->id_negara_asal)
+                            ->first()->nama;
+                        $id_produser_country = null;
+                        $id_importer_country = null;
+                        $id_wholesaler_country = null;
+                        $id_trace_country = null;
+                        if ($trace->produsen_negara != null) {
+                            $search_produser_country = DB::connection('mysql_old')
+                                ->table('prm_negara')
+                                ->where('kode', 'like', $trace->produsen_negara)
+                                ->first()->nama;
+                            $id_produser_country = $this->searchCountry($search_produser_country);
+                        }
+                        if ($trace->importir_negara != null) {
+                            $search_importer_country = DB::connection('mysql_old')
+                                ->table('prm_negara')
+                                ->where('kode', 'like', $trace->importir_negara)
+                                ->first()->nama;
+                            $id_importer_country = $this->searchCountry($search_importer_country);
+                        }
+                        if ($trace->wholesaler_negara != null) {
+                            $search_wholesaler_country = DB::connection('mysql_old')
+                                ->table('prm_negara')
+                                ->where('kode', 'like', $trace->wholesaler_negara)
+                                ->first()->nama;
+                            $id_wholesaler_country = $this->searchCountry($search_wholesaler_country);
+                        }
+                        $id_trace_country = $this->searchCountry($search_trace_country);
+
+                        $traceability = $notif->traceabilityLot()->make([
+                            'source_country_id' => $id_trace_country,
+                            'number' => $trace->nomor_batch,
+                            'used_by' => $this->mappingDate($trace->tgl_usedbydate),
+                            'best_before' => $this->mappingDate($trace->tgl_bestbefore),
+                            'sell_by' => $this->mappingDate($trace->tgl_sellbydate),
+                            'number_unit' => $trace->ket_nounits,
+                            'net_weight' => $trace->ket_total,
+                            'cert_number' => $trace->sertifikat_nomor,
+                            'cert_date'  => $this->mappingDate($trace->sertifikat_tgl),
+                            'cert_institution'  => $trace->sertifikat_instansi,
+                            'add_cert_number' => $trace->sertifikat_lain_nomor,
+                            'add_cert_date' => $this->mappingDate($trace->sertifikat_lain_tgl),
+                            'add_cert_institution' => $trace->sertifikat_lain_instansi,
+                            'cved_number' => $trace->cved_nomor,
+                            'producer_name' => $trace->produsen_nama,
+                            'producer_address' => $trace->produsen_alamat,
+                            'producer_city' => $trace->produsen_kota,
+                            'producer_country_id' => $id_produser_country,
+                            'producer_approval' => $trace->produsen_reg,
+                            'importer_name' => $trace->importir_nama,
+                            'importer_address' => $trace->importir_alamat,
+                            'importer_city' => $trace->importir_kota,
+                            'importer_country_id' => $id_importer_country,
+                            'importer_approval' => $trace->importir_reg,
+                            'wholesaler_name' => $trace->wholesaler_nama,
+                            'wholesaler_address' => $trace->wholesaler_alamat,
+                            'wholesaler_city' => $trace->wholesaler_kota,
+                            'wholesaler_country_id' => $id_wholesaler_country,
+                            'wholesaler_approval' => $trace->wholesaler_reg,
+                        ]);
+                        // echo "Traceablity before convert : " . $trace->tgl_bestbefore;
+                        // echo "Traceability best before date: " . $traceability->best_before . "\n";
+                        $traceability->save();
+                    }
+
+                    if ($border != null) {
+                        $search_border_country = DB::connection('mysql_old')
+                            ->table('prm_negara')
+                            ->where('kode', 'like', $border->negara_tujuan)
+                            ->first()->nama;
+                        $id_border_country = $this->searchCountry($search_border_country);
+                        $border_control = $notif->borderControl()->make([
+                            'start_point' => $border->titik_berangkat,
+                            'entry_point' => $border->titik_masuk,
+                            'supervision_point' => $border->titik_pengawas,
+                            'destination_country_id' => $id_border_country,
+                            'consignee_name' => $border->penerima_nama,
+                            'consignee_address' => $border->penerima_alamat,
+                            'container_number' => $border->container,
+                            'transport_name' => $border->transport,
+                            'transport_description' => $border->transport_other_info,
+                        ]);
+                        $border_control->save();
+                    }
                 }
             }
 
@@ -235,5 +356,27 @@ class MigrationOldSeeder extends Seeder
         }
 
         return null;
+    }
+
+    private function mappingDate($date)
+    {
+        if ($date === "" || $date === "-")
+            return null;
+
+        if (DateTime::createFromFormat('Y-m-d H:i:s', $date) == true) {
+            return DateTime::createFromFormat('Y-m-d H:i:s', $date);
+        } else if (DateTime::createFromFormat('Y-m-d H:i', $date) == true) {
+            return DateTime::createFromFormat('Y-m-d H:i', $date);
+        } else if (DateTime::createFromFormat('Y-m-d H.i', $date) == true) {
+            return DateTime::createFromFormat('Y-m-d H.i', $date);
+        } else if (DateTime::createFromFormat('Y-m', $date) == true) {
+            return DateTime::createFromFormat('Y-m', $date);
+        } else if (DateTime::createFromFormat('d-m-Y', $date) == true) {
+            return DateTime::createFromFormat('d-m-Y', $date);
+        } else if (DateTime::createFromFormat('Y-m-d', $date) == true) {
+            return DateTime::createFromFormat('Y-m-d', $date);
+        } else {
+            return null;
+        }
     }
 }

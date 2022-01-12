@@ -39,7 +39,14 @@
             serverSide: true,
             processing: true,
             columns: [
-                { data: 'distribution_status.name' },
+                { 
+                    data: 'distribution_status.name' ,
+                    render: function(data, type, row, meta){
+                        if(data!=null)
+                            return data
+                        return "-"
+                    }
+                },
                 {
                     defaultContent: '-' , 
                     data: 'serious_risk' 

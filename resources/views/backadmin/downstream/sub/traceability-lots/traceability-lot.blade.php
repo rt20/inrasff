@@ -39,7 +39,14 @@
             processing: true,
             columns: [
                 { data: 'number' },
-                { data: 'source_country.name' },
+                { 
+                    data: 'source_country.name' ,
+                    render: function(data, type, row, meta){
+                        if(data!=null)
+                        return data
+                        return "-"
+                    }
+                },
                 {
                     data: 'id',
                     className: 'text-center',

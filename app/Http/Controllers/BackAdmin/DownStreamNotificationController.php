@@ -454,6 +454,7 @@ class DownStreamNotificationController extends Controller
             $attachment->link = $name;
             $attachment->title = $request->title_attachment;
             $attachment->info = $request->info;
+            $attachment->notification_type = $request->notification_type;
             $attachment->save();
 
             DB::commit();

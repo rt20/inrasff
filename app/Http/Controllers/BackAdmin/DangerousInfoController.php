@@ -27,34 +27,34 @@ class DangerousInfoController extends Controller
             abort(401);
         }
         // if($request->ajax()){
-            $di = DangerousInfo::query();
-            if($request->has('for_downstream')){
-                $di = $di->with(['category']);
-                if($request->for_downstream==1){
-                    $di = $di->where('di_type', 'App\Models\DownStreamNotification');
-                }
-
-                if($request->has('di_id')){
-                    $di = $di->where('di_id', $request->di_id);
-                }
+        $di = DangerousInfo::query();
+        if ($request->has('for_downstream')) {
+            $di = $di->with(['category']);
+            if ($request->for_downstream == 1) {
+                $di = $di->where('di_type', 'App\Models\DownStreamNotification');
             }
 
-            if($request->has('for_upstream')){
-                $di = $di->with(['category']);
-                if($request->for_upstream==1){
-                    $di = $di->where('di_type', 'App\Models\UpStreamNotification');
-                }
+            if ($request->has('di_id')) {
+                $di = $di->where('di_id', $request->di_id);
+            }
+        }
 
-                if($request->has('di_id')){
-                    $di = $di->where('di_id', $request->di_id);
-                }
+        if ($request->has('for_upstream')) {
+            $di = $di->with(['category']);
+            if ($request->for_upstream == 1) {
+                $di = $di->where('di_type', 'App\Models\UpStreamNotification');
             }
 
-            
-            return DataTables::of($di->get())->make();
+            if ($request->has('di_id')) {
+                $di = $di->where('di_id', $request->di_id);
+            }
+        }
+
+
+        return DataTables::of($di->get())->make();
         // }
 
-        return ;
+        return;
     }
 
     /**
@@ -64,22 +64,22 @@ class DangerousInfoController extends Controller
      */
     public function create(Request $request)
     {
-        if($request->has('notification_type')){
-            if($request->notification_type === 'upstream'){
+        if ($request->has('notification_type')) {
+            if ($request->notification_type === 'upstream') {
                 if (!Gate::allows('store u_dangerous')) {
                     abort(401);
                 }
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_dangerous')) {
                 abort(401);
             }
         }
-        
-        if(!$request->has('notification_type') || !$request->has('notification_id'))
+
+        if (!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
-        
-        
+
+
         $dangerous = new DangerousInfo;
         return view('backadmin.dangerous_info.form', [
             'title' => 'Tambah Info Bahaya',
@@ -96,13 +96,13 @@ class DangerousInfoController extends Controller
     public function store(Request $request)
     {
 
-        if($request->has('notification_type')){
-            if($request->notification_type === 'upstream'){
+        if ($request->has('notification_type')) {
+            if ($request->notification_type === 'upstream') {
                 if (!Gate::allows('store u_dangerous')) {
                     abort(401);
                 }
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_dangerous')) {
                 abort(401);
             }
@@ -117,13 +117,7 @@ class DangerousInfoController extends Controller
             'cl1_id' => ['required_if:cl1_id_show,==,1'],
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
-
-            // 'name_result' => ['max:255'],
-            // 'laboratorium' => ['max:255'],
-            // 'matrix' => ['max:255'],
-            // 'scope' => ['max:255'],
-            // 'max_tollerance' => ['max:255'],
-        ],[
+        ], [
             'cl1_id.required_if' => 'detail bahaya 1 perlu diisi',
             'cl2_id.required_if' => 'detail bahaya 2 perlu diisi',
             'cl3_id.required_if' => 'detail bahaya 3 perlu diisi',
@@ -135,7 +129,7 @@ class DangerousInfoController extends Controller
                 case 'downstream':
                     $notification = DownStreamNotification::find($request->notification_id);
                     break;
-                
+
                 case 'upstream':
                     $notification = UpStreamNotification::find($request->notification_id);
                     break;
@@ -150,27 +144,18 @@ class DangerousInfoController extends Controller
             $dangerous = $notification->dangerous()->make($request->only(
                 'name',
                 'category_id',
-                
-                // 'name_result',
-                // 'uom_result_id',
-                // 'laboratorium',
-                // 'matrix',
-                // 'scope',
-                // 'max_tollerance',
-
                 'cl1_id',
                 'cl2_id',
                 'cl3_id'
             ));
+            $dangerous->notification_type = $request->notification_type;
             $dangerous->save();
-           
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.dangerous_infos.edit', $dangerous->id)
@@ -202,20 +187,20 @@ class DangerousInfoController extends Controller
         }
 
 
-        if(str_replace('App\\Models\\', '', $dangerousInfo->di_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $dangerousInfo->di_type) === 'UpStreamNotification') {
             $institution_access =  $dangerousInfo->notification->upstreamInstitution()->pluck('institution_id')->toArray();
-        }else{
+        } else {
             $institution_access =  $dangerousInfo->notification->downstreamInstitution()->pluck('institution_id')->toArray();
-            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-                if(!in_array($dangerousInfo->notification->status, ['ccp process', 'done'])){
+            if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+                if (!in_array($dangerousInfo->notification->status, ['ccp process', 'done'])) {
                     // return redirect()->route('backadmin.downstreams.index');
                     abort(401);
                 }
             }
         }
 
-        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-            if(!in_array(auth()->user()->institution_id, $institution_access)){
+        if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+            if (!in_array(auth()->user()->institution_id, $institution_access)) {
                 abort(401);
             }
         }
@@ -238,11 +223,11 @@ class DangerousInfoController extends Controller
     {
 
         // return $dangerousInfo;
-        if(str_replace('App\\Models\\', '', $dangerousInfo->di_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $dangerousInfo->di_type) === 'UpStreamNotification') {
             if (!Gate::allows('store u_dangerous')) {
                 abort(401);
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_dangerous')) {
                 abort(401);
             }
@@ -254,12 +239,6 @@ class DangerousInfoController extends Controller
             'cl1_id' => ['required_if:cl1_id_show,==,1'],
             'cl2_id' => ['required_if:cl2_id_show,==,1'],
             'cl3_id' => ['required_if:cl3_id_show,==,1'],
-
-            // 'name_result' => ['max:255'],
-            // 'laboratorium' => ['max:255'],
-            // 'matrix' => ['max:255'],
-            // 'scope' => ['max:255'],
-            // 'max_tollerance' => ['max:255'],
         ]);
 
         try {
@@ -268,26 +247,18 @@ class DangerousInfoController extends Controller
             $dangerousInfo->fill($request->only(
                 'name',
                 'category_id',
-
-                // 'name_result',
-                // 'uom_result_id',
-                // 'laboratorium',
-                // 'matrix',
-                // 'scope',
-                // 'max_tollerance',
             ));
             $dangerousInfo->cl1_id = $request->cl1_id;
             $dangerousInfo->cl2_id = $request->cl2_id;
             $dangerousInfo->cl3_id = $request->cl3_id;
+
             $dangerousInfo->update();
-           
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.dangerous_infos.edit', $dangerousInfo->id)
@@ -307,11 +278,11 @@ class DangerousInfoController extends Controller
         //     abort(401);
         // }
 
-        if(str_replace('App\\Models\\', '', $dangerousInfo->di_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $dangerousInfo->di_type) === 'UpStreamNotification') {
             if (!Gate::allows('delete u_dangerous')) {
                 abort(401);
             }
-        }else{
+        } else {
             if (!Gate::allows('delete d_dangerous')) {
                 abort(401);
             }
@@ -320,7 +291,8 @@ class DangerousInfoController extends Controller
         try {
             DB::beginTransaction();
             // return $dangerousInfo->notification->number;
-            $number = $dangerousInfo->notification->number;
+            // $number = $dangerousInfo->notification->number;
+            $notification_type = $dangerousInfo->notification_type;
             $id = $dangerousInfo->notification->id;
 
             $dangerousInfo->delete();
@@ -328,20 +300,21 @@ class DangerousInfoController extends Controller
             // dd('success delete');
             DB::commit();
 
-            if(str_contains($number, "IN.DS")){
+            // if (str_contains($number, "IN.DS")) {
+            if ($notification_type === "downstream") {
                 return redirect()
-                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'dangerous_risks'])
-                ->withSuccess('Info Bahaya berhasil dihapus');
-            }else  if(str_contains($number, "IN.US")){
+                    ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'dangerous_risks'])
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            } else if ($notification_type === "upstream") {
+                // } else  if (str_contains($number, "IN.US")) {
                 return redirect()
-                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'dangerous_risks'])
-                ->withSuccess('Info Bahaya berhasil dihapus');
-            }else{
+                    ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'dangerous_risks'])
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            } else {
                 return redirect()
                     ->route('backadmin.dashboard')
                     ->withSuccess('Info Bahaya berhasil dihapus');
             }
-
         } catch (Exception $e) {
             DB::rollBack();
             report($e);

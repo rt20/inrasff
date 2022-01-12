@@ -31,42 +31,43 @@ class FollowUpNotificationController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             $bci = FollowUpNotification::query();
             $bci = $bci->with(['author.institution']);
-            if($request->has('for_downstream')){
-                if($request->for_downstream==1){
+            if ($request->has('for_downstream')) {
+                if ($request->for_downstream == 1) {
                     $bci = $bci->where('fun_type', 'App\Models\DownStreamNotification');
                 }
 
-                if($request->has('fun_id')){
+                if ($request->has('fun_id')) {
                     $bci = $bci->where('fun_id', $request->fun_id);
                 }
             }
-            if($request->has('for_upstream')){
-                if($request->for_upstream==1){
+            if ($request->has('for_upstream')) {
+                if ($request->for_upstream == 1) {
                     $bci = $bci->where('fun_type', 'App\Models\UpStreamNotification');
                 }
 
-                if($request->has('fun_id')){
+                if ($request->has('fun_id')) {
                     $bci = $bci->where('fun_id', $request->fun_id);
                 }
             }
             return DataTables::of($bci->get())->make();
         }
 
-        return ;
+        return;
     }
 
-    public function attachmentDataTable(Request $request){
-        if($request->ajax()){
+    public function attachmentDataTable(Request $request)
+    {
+        if ($request->ajax()) {
             $a = FollowUpNotificationAttachment::query();
-            if($request->has('fun_id')){
+            if ($request->has('fun_id')) {
                 $a = $a->where('fun_id', $request->fun_id);
             }
             return DataTables::of($a)->make();
         }
-        return ;
+        return;
     }
 
     // public function userFuDataTable(Request $request){
@@ -81,16 +82,17 @@ class FollowUpNotificationController extends Controller
     //     return ;
     // }
 
-    public function institutionFuDataTable(Request $request){
-        if($request->ajax()){
+    public function institutionFuDataTable(Request $request)
+    {
+        if ($request->ajax()) {
             $a = FollowUpInstitution::query();
             $a = $a->with('institution');
-            if($request->has('fun_id')){
+            if ($request->has('fun_id')) {
                 $a = $a->where('fun_id', $request->fun_id);
             }
             return DataTables::of($a->get())->make();
         }
-        return ;
+        return;
     }
 
     /**
@@ -100,10 +102,10 @@ class FollowUpNotificationController extends Controller
      */
     public function create(Request $request)
     {
-        if(!$request->has('notification_type') || !$request->has('notification_id'))
+        if (!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
-        
-        
+
+
         $follow_up = new FollowUpNotification;
         return view('backadmin.follow_up.form', [
             'title' => 'Tambah Tindak Lanjut',
@@ -132,7 +134,7 @@ class FollowUpNotificationController extends Controller
                 case 'downstream':
                     $notification = DownStreamNotification::find($request->notification_id);
                     break;
-                
+
                 case 'upstream':
                     $notification = UpStreamNotification::find($request->notification_id);
                     break;
@@ -147,16 +149,15 @@ class FollowUpNotificationController extends Controller
                 'title',
                 'description',
             ));
+            $follow_up->notification_type = $request->notification_type;
             $follow_up->author_id = auth()->user()->id;
             $follow_up->save();
-           
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.follow_ups.edit', $follow_up->id)
@@ -184,20 +185,20 @@ class FollowUpNotificationController extends Controller
     // public function edit($id)
     {
         // return $followUp;
-        if(str_replace('App\\Models\\', '', $followUp->fun_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $followUp->fun_type) === 'UpStreamNotification') {
             $institution_access =  $followUp->notification->upstreamInstitution()->pluck('institution_id')->toArray();
-        }else{
+        } else {
             $institution_access =  $followUp->notification->downstreamInstitution()->pluck('institution_id')->toArray();
-            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-                if(!in_array($followUp->notification->status, ['ccp process', 'done'])){
+            if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+                if (!in_array($followUp->notification->status, ['ccp process', 'done'])) {
                     // return redirect()->route('backadmin.downstreams.index');
                     abort(401);
                 }
             }
         }
 
-        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-            if(!in_array(auth()->user()->institution_id, $institution_access)){
+        if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+            if (!in_array(auth()->user()->institution_id, $institution_access)) {
                 abort(401);
             }
         }
@@ -230,14 +231,12 @@ class FollowUpNotificationController extends Controller
                 'description',
             ));
             $followUp->update();
-           
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.follow_ups.edit', $followUp->id)
@@ -246,50 +245,48 @@ class FollowUpNotificationController extends Controller
 
     public function process(Request $request, FollowUpNotification $followUp)
     {
-        
+
         try {
             DB::beginTransaction();
-                $author_notification =  $followUp->notification->author;
-                /**
-                 * If author of notification not superadmin or ncp
-                 */
-                if(!in_array($author_notification->type, [
-                    'superadmin',
-                    'ncp'
-                ])){
-                    if($followUp->followUpInstitution()->count() < 1){
-                        throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);                    
-                    }
-                }else{
-                    if(str_replace('App\\Models\\', '', $followUp->fun_type)==='DownStreamNotification'){
-                        if($followUp->followUpInstitution()->count() < 1){
-                            throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);                    
-                        }   
+            $author_notification =  $followUp->notification->author;
+            /**
+             * If author of notification not superadmin or ncp
+             */
+            if (!in_array($author_notification->type, [
+                'superadmin',
+                'ncp'
+            ])) {
+                if ($followUp->followUpInstitution()->count() < 1) {
+                    throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);
+                }
+            } else {
+                if (str_replace('App\\Models\\', '', $followUp->fun_type) === 'DownStreamNotification') {
+                    if ($followUp->followUpInstitution()->count() < 1) {
+                        throw new Exception("Lembaga Notifikasi Terkait belum ditambahkan", 1);
                     }
                 }
+            }
 
-                $followUp->isStatus('draft');
-                $followUp->setStatus('on process', 'Diajukan ');
-                if(auth()->user()->type !== 'lccp'){
-                    $followUp->setStatus('accepted', 'Disetujui ');
-                    FollowUpNotificationService::sendMailNotification($followUp);
-                    // return;
-                }
-                    
-                $followUp->update();
+            $followUp->isStatus('draft');
+            $followUp->setStatus('on process', 'Diajukan ');
+            if (auth()->user()->type !== 'lccp') {
+                $followUp->setStatus('accepted', 'Disetujui ');
+                FollowUpNotificationService::sendMailNotification($followUp);
+                // return;
+            }
+
+            $followUp->update();
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()
-                    ->back()
-                    ->withInput()
-                    ->withErrors([
-                        'institution_list' => $e->getMessage() === "Lembaga Notifikasi Terkait belum ditambahkan" ? $e->getMessage(): null
-                    ])
-                    ->withError($e->getMessage());
-
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    'institution_list' => $e->getMessage() === "Lembaga Notifikasi Terkait belum ditambahkan" ? $e->getMessage() : null
+                ])
+                ->withError($e->getMessage());
         }
         return redirect()
             ->route('backadmin.follow_ups.edit', $followUp->id)
@@ -298,21 +295,19 @@ class FollowUpNotificationController extends Controller
 
     public function accept(Request $request, FollowUpNotification $followUp)
     {
-        
+
         try {
             DB::beginTransaction();
-                $followUp->isStatus('on process');
-                $followUp->setStatus('accepted', 'Disetujui ');
-                FollowUpNotificationService::sendMailNotification($followUp);
-                // return;
-                $followUp->update();
+            $followUp->isStatus('on process');
+            $followUp->setStatus('accepted', 'Disetujui ');
+            FollowUpNotificationService::sendMailNotification($followUp);
+            // return;
+            $followUp->update();
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.follow_ups.edit', $followUp->id)
@@ -321,19 +316,17 @@ class FollowUpNotificationController extends Controller
 
     public function reject(Request $request, FollowUpNotification $followUp)
     {
-        
+
         try {
             DB::beginTransaction();
-                $followUp->isStatus('on process');
-                $followUp->setStatus('rejected', 'Ditolak ');
-                $followUp->update();
+            $followUp->isStatus('on process');
+            $followUp->setStatus('rejected', 'Ditolak ');
+            $followUp->update();
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.follow_ups.edit', $followUp->id)
@@ -351,25 +344,27 @@ class FollowUpNotificationController extends Controller
         try {
             DB::beginTransaction();
             // $follow_up = FollowUpNotification::find($id);
-            $number = $followUp->notification->number;
+            // $number = $followUp->notification->number;
+            $notification_type = $followUp->notification_type;
             $id = $followUp->notification->id;
             $followUp->attachment()->delete();
             $followUp->delete();
             DB::commit();
-            if(str_contains($number, "IN.DS")){
+            // if (str_contains($number, "IN.DS")) {
+            if ($notification_type === "downstream") {
                 return redirect()
-                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'follow_up'])
-                ->withSuccess('Tindak Lanjut  berhasil dihapus');
-            }else  if(str_contains($number, "IN.US")){
+                    ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'follow_up'])
+                    ->withSuccess('Tindak Lanjut  berhasil dihapus');
+                // } else  if (str_contains($number, "IN.US")) {
+            } else if ($notification_type === "upstream") {
                 return redirect()
-                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'follow_up'])
-                ->withSuccess('Tindak Lanjut  berhasil dihapus');
-            }else{
+                    ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'follow_up'])
+                    ->withSuccess('Tindak Lanjut  berhasil dihapus');
+            } else {
                 return redirect()
                     ->route('backadmin.dashboard')
                     ->withSuccess('Tindak Lanjut  berhasil dihapus');
             }
-
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
@@ -378,17 +373,18 @@ class FollowUpNotificationController extends Controller
         }
     }
 
-    public function addAttachment(Request $request){
+    public function addAttachment(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'fun_id' => ['required'],
-            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
+            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx', 'max:10240'],
             'info' => ['required'],
             'title_attachment' => ['required'],
         ]);
 
         try {
             DB::beginTransaction();
-            if($validator->fails())
+            if ($validator->fails())
                 throw new Exception(implode($validator->messages()->all()));
             $attachment = FollowUpNotificationAttachment::make($request->only([
                 'fun_id'
@@ -397,12 +393,12 @@ class FollowUpNotificationController extends Controller
             $res = UploadFile::uploadFile(
                 $request->file('attachment'),
                 'follow_up/attachment/',
-                'FU-'.Carbon::now()->format('Hisv'),
-                function($new_name) use (&$name){
-                    $name = $new_name;                    
+                'FU-' . Carbon::now()->format('Hisv'),
+                function ($new_name) use (&$name) {
+                    $name = $new_name;
                 }
             );
-            if($res !== "All Process success"){
+            if ($res !== "All Process success") {
                 throw new Exception($res);
             }
             $attachment->link = $name;
@@ -416,7 +412,7 @@ class FollowUpNotificationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], 400);    
+            ], 400);
         }
         return response()->json([
             'status' => 'ok',
@@ -424,7 +420,8 @@ class FollowUpNotificationController extends Controller
         ], 200);
     }
 
-    public function addInstitutionFu(Request $request){
+    public function addInstitutionFu(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'fun_id' => ['required'],
             'institution_id' => ['required'],
@@ -432,18 +429,18 @@ class FollowUpNotificationController extends Controller
 
         try {
             DB::beginTransaction();
-            if($validator->fails())
+            if ($validator->fails())
                 throw new Exception(implode($validator->messages()->all()));
             $institution = Institution::find($request->institution_id);
-            if($institution==null)
+            if ($institution == null)
                 throw new Exception("Institution not found", 1);
             $fui = FollowUpInstitution::where('fun_id', $request->fun_id)
-                        ->where('institution_id', $request->institution_id)
-                        ->first();
-            if($fui!=null)
+                ->where('institution_id', $request->institution_id)
+                ->first();
+            if ($fui != null)
                 throw new Exception("Lembaga sudah ditambahkan untuk tindak lanjut ini", 1);
-                
-            
+
+
             FollowUpInstitution::create([
                 'fun_id' => $request->fun_id,
                 'institution_id' => $request->institution_id
@@ -465,7 +462,7 @@ class FollowUpNotificationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], 400);    
+            ], 400);
         }
         return response()->json([
             'status' => 'ok',
@@ -473,12 +470,13 @@ class FollowUpNotificationController extends Controller
         ], 200);
     }
 
-    public function deleteAttachment($id){
+    public function deleteAttachment($id)
+    {
         try {
             DB::beginTransaction();
             $a = FollowUpNotificationAttachment::find($id);
             // if($a->title != null){
-                // File::delete(storage_path('app/public/follow_up/attachment/'.$a->title));
+            // File::delete(storage_path('app/public/follow_up/attachment/'.$a->title));
             // }
             $a->delete();
             DB::commit();
@@ -492,12 +490,13 @@ class FollowUpNotificationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                
+
             ], 400);
         }
     }
 
-    public function deleteInstitutionFu($id){
+    public function deleteInstitutionFu($id)
+    {
         try {
             DB::beginTransaction();
             // $a = FollowUpUser::find($id);
@@ -514,10 +513,8 @@ class FollowUpNotificationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                
+
             ], 400);
         }
     }
-
-    
 }

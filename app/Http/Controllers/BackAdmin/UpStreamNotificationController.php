@@ -31,11 +31,11 @@ class UpStreamNotificationController extends Controller
         if (!Gate::allows('view upstream')) {
             abort(401);
         }
-        if($request->ajax()){
+        if ($request->ajax()) {
             $d = UpStreamNotification::query();
-            if($request->user->institution_id!=null){
+            if ($request->user->institution_id != null) {
                 $institution_id = $request->user->institution_id;
-                $d = $d->whereHas('upstreamInstitution', function($q) use($institution_id){
+                $d = $d->whereHas('upstreamInstitution', function ($q) use ($institution_id) {
                     $q->where('institution_id', $institution_id);
                 });
             }
@@ -52,19 +52,20 @@ class UpStreamNotificationController extends Controller
         ]);
     }
 
-    public function attachmentDataTable(Request $request){
+    public function attachmentDataTable(Request $request)
+    {
         if (!Gate::allows('view attachment')) {
             abort(401);
         }
-        if($request->ajax()){
+        if ($request->ajax()) {
             $na = NotificationAttachment::query();
             $na = $na->where('na_type', 'App\Models\UpStreamNotification');
-            if($request->has('na_id')){
+            if ($request->has('na_id')) {
                 $na = $na->where('na_id', $request->na_id);
             }
             return DataTables::of($na)->make();
         }
-        return ;
+        return;
     }
     /**
      * Show the form for creating a new resource.
@@ -78,7 +79,7 @@ class UpStreamNotificationController extends Controller
         }
         $upstream = new UpStreamNotification;
         $upstream->status = 'draft';
-        if($request->has('notif_id')){
+        if ($request->has('notif_id')) {
             $upstream->notif_id = $request->notif_id;
         }
         return view('backadmin.upstream.form', [
@@ -101,7 +102,7 @@ class UpStreamNotificationController extends Controller
         }
         $request->validate([
             'title' => ['required', 'max:255'],
-            
+
             'status_notif_id' => ['required', 'max:255'],
             'origin_source_notif' => ['required', 'max:255'],
             'source_notif' => ['required', 'max:255'],
@@ -113,7 +114,7 @@ class UpStreamNotificationController extends Controller
             $upstream = UpStreamNotification::make($request->only([
                 'notif_id',
                 'title',
-                
+
                 'status_notif_id',
                 'type_notif_id',
                 'country_id',
@@ -127,17 +128,17 @@ class UpStreamNotificationController extends Controller
                 'registration_number',
                 'package_product'
             ]));
-            $upstream->number = 'IN.US.'.Carbon::now()->format('Hisv');
+            $upstream->number = 'IN.US.' . Carbon::now()->format('Hisv');
             $upstream->author_id = auth()->user()->id;
             $upstream->setStatus('open', 'Dibuat ');
             $upstream->save();
-            
+
             $upstream->upstreamInstitution()->create([
                 'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
                 'write' => true,
                 'status' => 'assigned',
             ]);
-            
+
             switch ($request->user->type) {
                 case 'ccp':
                     $upstream->upstreamInstitution()->create([
@@ -168,19 +169,16 @@ class UpStreamNotificationController extends Controller
             foreach ($upstream->upstreamInstitution as $i => $u_institution) {
 
                 $users = $u_institution->institution->users;
-                
+
                 foreach ($users as $j => $user) {
                     event(new UpStreamEmailNotification($upstream, $user));
                 }
             }
             DB::commit();
-            
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.upstreams.edit', $upstream->id)
@@ -212,8 +210,8 @@ class UpStreamNotificationController extends Controller
 
         //Filter Access
         $institution_access =  $upstream->upstreamInstitution()->pluck('institution_id')->toArray();
-        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-            if(!in_array(auth()->user()->institution_id, $institution_access)){
+        if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+            if (!in_array(auth()->user()->institution_id, $institution_access)) {
                 abort(401);
             }
         }
@@ -237,7 +235,7 @@ class UpStreamNotificationController extends Controller
     {
         if (!Gate::allows('store upstream')) {
             abort(401);
-        }  
+        }
 
         $request->validate([
             'title' => ['required', 'max:255'],
@@ -249,76 +247,72 @@ class UpStreamNotificationController extends Controller
             'institution'  => ['max:255'],
             'contact_person'  => ['max:255'],
         ]);
-        
+
         try {
             DB::beginTransaction();
-                
-                $upstream->fill($request->only([
-                    'notif_id',
-                    'title',
-                    'status_notif_id',
-                    'type_notif_id',
-                    'country_id',
-                    'based_notif_id',
-                    'origin_source_notif',
-                    'source_notif',
-                    'date_notif',
-                    'product_name',
-                    'category_product_id',
-                    'brand_name',
-                    'registration_number',
-                    'package_product',
-                    'institution',
-                    'contact_person',
-                    'others'
-                ]));
-                if ($upstream->isStatus('draft', false)) {
-                    $upstream->setStatus('open', 'Diupdate dari draft');
-                }
-                if($request->country_id==null){
-                    $upstream->country_id = null;
-                }
-                $upstream->update();
 
-                foreach ($upstream->upstreamInstitution as $i => $u_institution) {
-                    if($u_institution->status==='draft'){
-                        $users = $u_institution->institution->users;
-                        foreach ($users as $j => $user) {
-                            event(new UpStreamEmailNotification($upstream, $user));
-                        }
-                        $u_institution->status = 'assigned';
-                        $u_institution->update();
+            $upstream->fill($request->only([
+                'notif_id',
+                'title',
+                'status_notif_id',
+                'type_notif_id',
+                'country_id',
+                'based_notif_id',
+                'origin_source_notif',
+                'source_notif',
+                'date_notif',
+                'product_name',
+                'category_product_id',
+                'brand_name',
+                'registration_number',
+                'package_product',
+                'institution',
+                'contact_person',
+                'others'
+            ]));
+            if ($upstream->isStatus('draft', false)) {
+                $upstream->setStatus('open', 'Diupdate dari draft');
+            }
+            if ($request->country_id == null) {
+                $upstream->country_id = null;
+            }
+            $upstream->update();
+
+            foreach ($upstream->upstreamInstitution as $i => $u_institution) {
+                if ($u_institution->status === 'draft') {
+                    $users = $u_institution->institution->users;
+                    foreach ($users as $j => $user) {
+                        event(new UpStreamEmailNotification($upstream, $user));
                     }
-                    
+                    $u_institution->status = 'assigned';
+                    $u_institution->update();
                 }
-           
+            }
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.upstreams.edit', $upstream->id)
             ->withSuccess('Upstream berhasil dibuat');
     }
 
-    public function backOpen(Request $request, UpStreamNotification $upstream){
+    public function backOpen(Request $request, UpStreamNotification $upstream)
+    {
         try {
             DB::beginTransaction();
-            
-                $upstream->isStatus('ext process');
-                $upstream->setStatus('open', 'Dikembalikan untuk edit ');
-                $upstream->update();
+
+            $upstream->isStatus('ext process');
+            $upstream->setStatus('open', 'Dikembalikan untuk edit ');
+            $upstream->update();
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.upstreams.edit', $upstream->id)
@@ -327,20 +321,18 @@ class UpStreamNotificationController extends Controller
 
     public function processExt(Request $request, UpStreamNotification $upstream)
     {
-        
+
         try {
             DB::beginTransaction();
-                // dd($upstream);
-                $upstream->isStatus('open');
-                $upstream->setStatus('ext process', 'Diproses untuk CCP ');
-                $upstream->update();
+            // dd($upstream);
+            $upstream->isStatus('open');
+            $upstream->setStatus('ext process', 'Diproses untuk CCP ');
+            $upstream->update();
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.upstreams.edit', $upstream->id)
@@ -354,18 +346,16 @@ class UpStreamNotificationController extends Controller
         }
         try {
             DB::beginTransaction();
-                // dd($upstream);
-                // $upstream->isStatus('ext process');
-                $upstream->isStatus('open');
-                $upstream->setStatus('done', 'Diselesaikan ', 'finished_at');
-                $upstream->update();
+            // dd($upstream);
+            // $upstream->isStatus('ext process');
+            $upstream->isStatus('open');
+            $upstream->setStatus('done', 'Diselesaikan ', 'finished_at');
+            $upstream->update();
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.upstreams.edit', $upstream->id)
@@ -386,7 +376,7 @@ class UpStreamNotificationController extends Controller
         try {
             DB::beginTransaction();
             $upstream->isStatusAny(['draft', 'open']);
-            if($upstream->notification!=null){
+            if ($upstream->notification != null) {
                 $upstream->notification->status = 'read';
                 $upstream->notification->update();
             }
@@ -396,7 +386,6 @@ class UpStreamNotificationController extends Controller
             return redirect()
                 ->route('backadmin.upstreams.index')
                 ->withSuccess('Upstream berhasil dihapus');
-
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
@@ -405,23 +394,24 @@ class UpStreamNotificationController extends Controller
         }
     }
 
-    public function addAttachment(Request $request){
+    public function addAttachment(Request $request)
+    {
         if (!Gate::allows('store u_attachment')) {
             abort(401);
         }
         $validator = Validator::make($request->all(), [
             'notification_type' => ['required'], //upstream or upstream
             'notification_id' => ['required'], //id for upstream or upstream
-            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx','max:10240'],
+            'attachment' => ['required', 'mimes:jpg,jpeg,png,pdf,xls,xlsx', 'max:10240'],
             'info' => ['required'],
             'title_attachment' => ['required', 'max:30'],
         ]);
 
         try {
             DB::beginTransaction();
-            if($validator->fails())
+            if ($validator->fails())
                 throw new Exception(implode($validator->messages()->all()));
-            
+
             switch ($request->notification_type) {
                 case 'upstream':
                     $notification = UpStreamNotification::find($request->notification_id);
@@ -431,7 +421,7 @@ class UpStreamNotificationController extends Controller
                     # code...
                     break;
             }
-            
+
             $attachment = $notification->attachment()->make();
             $name = '';
 
@@ -439,18 +429,18 @@ class UpStreamNotificationController extends Controller
             $res = UploadFile::uploadFile(
                 $request->file('attachment'),
                 'notification/attachment/',
-                '[NA-'.Carbon::now()->format('Hisv').']'.$new_title,
-                function($new_name) use (&$name){
-                    $name = $new_name;                    
+                '[NA-' . Carbon::now()->format('Hisv') . ']' . $new_title,
+                function ($new_name) use (&$name) {
+                    $name = $new_name;
                 }
             );
-            if($res !== "All Process success"){
+            if ($res !== "All Process success") {
                 throw new Exception($res);
             }
             $attachment->link = $name;
             $attachment->title = $request->title_attachment;
             $attachment->info = $request->info;
-
+            $attachment->notification_type = $request->notification_type;
             $attachment->save();
 
             DB::commit();
@@ -459,7 +449,7 @@ class UpStreamNotificationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], 400);    
+            ], 400);
         }
         return response()->json([
             'status' => 'ok',
@@ -467,7 +457,8 @@ class UpStreamNotificationController extends Controller
         ], 200);
     }
 
-    public function deleteAttachment($id){
+    public function deleteAttachment($id)
+    {
         if (!Gate::allows('delete u_attachment')) {
             abort(401);
         }
@@ -486,28 +477,29 @@ class UpStreamNotificationController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                
+
             ], 400);
         }
     }
 
-    public function report(Request $request, UpStreamNotification $upstream){
+    public function report(Request $request, UpStreamNotification $upstream)
+    {
         //Filter Access
         $institution_access =  $upstream->upstreamInstitution()->pluck('institution_id')->toArray();
-        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-            if(!in_array(auth()->user()->institution_id, $institution_access)){
+        if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+            if (!in_array(auth()->user()->institution_id, $institution_access)) {
                 abort(401);
             }
         }
-        
+
         $alphabet = range('A', 'ZZ');
         $url = route('backadmin.upstreams.edit', $upstream->id);
         return view('report.notification')
-                ->with([
-                    'title' => $upstream->number,
-                    'url' => $url,
-                    'notification' => $upstream,
-                    'alphabet' => $alphabet
-                ]);
+            ->with([
+                'title' => $upstream->number,
+                'url' => $url,
+                'notification' => $upstream,
+                'alphabet' => $alphabet
+            ]);
     }
 }

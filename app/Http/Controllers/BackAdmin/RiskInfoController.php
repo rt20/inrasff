@@ -26,33 +26,33 @@ class RiskInfoController extends Controller
         if (!Gate::allows('view risk')) {
             abort(401);
         }
-        if($request->ajax()){
+        if ($request->ajax()) {
             $ri = RiskInfo::query();
-            if($request->has('for_downstream')){
+            if ($request->has('for_downstream')) {
                 $ri = $ri->with(['distributionStatus']);
-                if($request->for_downstream==1){
+                if ($request->for_downstream == 1) {
                     $ri = $ri->where('ri_type', 'App\Models\DownStreamNotification');
                 }
 
-                if($request->has('ri_id')){
+                if ($request->has('ri_id')) {
                     $ri = $ri->where('ri_id', $request->ri_id);
                 }
             }
 
-            if($request->has('for_upstream')){
+            if ($request->has('for_upstream')) {
                 $ri = $ri->with(['distributionStatus']);
-                if($request->for_upstream==1){
+                if ($request->for_upstream == 1) {
                     $ri = $ri->where('ri_type', 'App\Models\UpStreamNotification');
                 }
 
-                if($request->has('ri_id')){
+                if ($request->has('ri_id')) {
                     $ri = $ri->where('ri_id', $request->ri_id);
                 }
             }
             return DataTables::of($ri->get())->make();
         }
 
-        return ;
+        return;
     }
 
     /**
@@ -66,22 +66,22 @@ class RiskInfoController extends Controller
         //     abort(401);
         // }
 
-        if($request->has('notification_type')){
-            if($request->notification_type === 'upstream'){
+        if ($request->has('notification_type')) {
+            if ($request->notification_type === 'upstream') {
                 if (!Gate::allows('store u_risk')) {
                     abort(401);
                 }
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_risk')) {
                 abort(401);
             }
         }
 
-        if(!$request->has('notification_type') || !$request->has('notification_id'))
+        if (!$request->has('notification_type') || !$request->has('notification_id'))
             return redirect()->back()->withInput()->withError('Notifikasi tidak terdefinisi');
-        
-        
+
+
         $risk = new RiskInfo;
         return view('backadmin.risk_info.form', [
             'title' => 'Tambah Info Resiko',
@@ -101,13 +101,13 @@ class RiskInfoController extends Controller
         //     abort(401);
         // }
 
-        if($request->has('notification_type')){
-            if($request->notification_type === 'upstream'){
+        if ($request->has('notification_type')) {
+            if ($request->notification_type === 'upstream') {
                 if (!Gate::allows('store u_risk')) {
                     abort(401);
                 }
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_risk')) {
                 abort(401);
             }
@@ -133,7 +133,7 @@ class RiskInfoController extends Controller
                 case 'downstream':
                     $notification = DownStreamNotification::find($request->notification_id);
                     break;
-                
+
                 case 'upstream':
                     $notification = UpStreamNotification::find($request->notification_id);
                     break;
@@ -154,15 +154,14 @@ class RiskInfoController extends Controller
                 'compulsory_measures',
                 'add_compulsory_measures'
             ));
+            $risk->notification_type = $request->notification_type;
             $risk->save();
-           
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.risk_infos.edit', $risk->id)
@@ -193,24 +192,24 @@ class RiskInfoController extends Controller
             abort(401);
         }
 
-        if(str_replace('App\\Models\\', '', $riskInfo->ri_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $riskInfo->ri_type) === 'UpStreamNotification') {
             $institution_access =  $riskInfo->notification->upstreamInstitution()->pluck('institution_id')->toArray();
-        }else{
+        } else {
             $institution_access =  $riskInfo->notification->downstreamInstitution()->pluck('institution_id')->toArray();
-            if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-                if(!in_array($riskInfo->notification->status, ['ccp process', 'done'])){
+            if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+                if (!in_array($riskInfo->notification->status, ['ccp process', 'done'])) {
                     // return redirect()->route('backadmin.downstreams.index');
                     abort(401);
                 }
             }
         }
 
-        if(!in_array(auth()->user()->type, ['superadmin', 'ncp'])){
-            if(!in_array(auth()->user()->institution_id, $institution_access)){
+        if (!in_array(auth()->user()->type, ['superadmin', 'ncp'])) {
+            if (!in_array(auth()->user()->institution_id, $institution_access)) {
                 abort(401);
             }
         }
-        
+
         return view('backadmin.risk_info.form', [
             'title' => "Edit Resiko",
             'risk' => $riskInfo,
@@ -231,11 +230,11 @@ class RiskInfoController extends Controller
         //     abort(401);
         // }
 
-        if(str_replace('App\\Models\\', '', $riskInfo->ri_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $riskInfo->ri_type) === 'UpStreamNotification') {
             if (!Gate::allows('store u_risk')) {
                 abort(401);
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_risk')) {
                 abort(401);
             }
@@ -266,14 +265,12 @@ class RiskInfoController extends Controller
                 'add_compulsory_measures'
             ));
             $riskInfo->update();
-           
+
             DB::commit();
-            
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return redirect()->back()->withInput()->withError($e->getMessage());
-
         }
         return redirect()
             ->route('backadmin.risk_infos.edit', $riskInfo->id)
@@ -293,11 +290,11 @@ class RiskInfoController extends Controller
         //     abort(401);
         // }
 
-        if(str_replace('App\\Models\\', '', $riskInfo->ri_type)==='UpStreamNotification'){
+        if (str_replace('App\\Models\\', '', $riskInfo->ri_type) === 'UpStreamNotification') {
             if (!Gate::allows('store u_risk')) {
                 abort(401);
             }
-        }else{
+        } else {
             if (!Gate::allows('store d_risk')) {
                 abort(401);
             }
@@ -305,27 +302,29 @@ class RiskInfoController extends Controller
 
         try {
             DB::beginTransaction();
-            $number = $riskInfo->notification->number;
+            // $number = $riskInfo->notification->number;
+            $notification_type = $riskInfo->notification_type;
             $id = $riskInfo->notification->id;
             $riskInfo->delete();
 
             // dd("delete risk");
             DB::commit();
 
-            if(str_contains($number, "IN.DS")){
+            // if (str_contains($number, "IN.DS")) {
+            if ($notification_type === "downstream") {
                 return redirect()
-                ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'dangerous_risks'])
-                ->withSuccess('Info Bahaya berhasil dihapus');
-            }else  if(str_contains($number, "IN.US")){
+                    ->route('backadmin.downstreams.edit', ['downstream' => $id, 'focus' => 'dangerous_risks'])
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+                // } else  if (str_contains($number, "IN.US")) {
+            } else if ($notification_type === "upstream") {
                 return redirect()
-                ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'dangerous_risks'])
-                ->withSuccess('Info Bahaya berhasil dihapus');
-            }else{
+                    ->route('backadmin.upstreams.edit', ['upstream' => $id, 'focus' => 'dangerous_risks'])
+                    ->withSuccess('Info Bahaya berhasil dihapus');
+            } else {
                 return redirect()
                     ->route('backadmin.dashboard')
                     ->withSuccess('Info Bahaya berhasil dihapus');
             }
-
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
