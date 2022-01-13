@@ -165,7 +165,9 @@
                             orderable: false,
                             searchable: false, 
                             render: function(data, type, row, meta) {
-                                return data
+                                if(data!=null)
+                                    return data
+                                return '-'
                             } 
                         },
                         { 

@@ -11,7 +11,7 @@ use App\Models\NotificationBase;
 use App\Models\UpStreamNotification as UpStream;
 use App\Services\NotificationService;
 use DateTime;
-use App\Models\{Country, DangerousCategory, DangerousCategoryLevel, DistributionStatus, Institution, UomResult};
+use App\Models\{AttachmentType, Country, DangerousCategory, DangerousCategoryLevel, DistributionStatus, Institution, NotificationAttachment, UomResult};
 use Monarobase\CountryList\CountryListFacade as Countries;
 use Illuminate\Support\Str;
 
@@ -54,6 +54,9 @@ class MigrationOldSeeder extends Seeder
             DB::table('risk_infos')->truncate();
             DB::table('traceability_lot_infos')->truncate();
             DB::table('border_control_infos')->truncate();
+            DB::table('notification_attachments')->truncate();
+            DB::table('follow_up_notifications')->truncate();
+            DB::table('follow_up_notification_attachments')->truncate();
             Schema::enableForeignKeyConstraints();
             DB::beginTransaction();
             $run = true;
@@ -97,6 +100,11 @@ class MigrationOldSeeder extends Seeder
                     ->table('notifikasi_border')
                     ->where('id', $n->id)
                     ->first();
+
+                $attachments = DB::connection('mysql_old')
+                    ->table('notifikasi_attach')
+                    ->where('id', $n->id)
+                    ->get();
                 if (str_contains($n->nomor_referensi, "IN.UP")) {
 
                     $notification_type = "upstream";
@@ -398,6 +406,27 @@ class MigrationOldSeeder extends Seeder
                             'notification_type' => $notification_type
                         ]);
                         $border_control->save();
+                    }
+
+                    if (sizeof($attachments) > 0) {
+                        foreach ($attachments as $l => $attachment) {
+                            $id_type_old = DB::connection('mysql_old')
+                                ->table('prm_attachment_type')
+                                ->where('id', $attachment->id_type)
+                                ->first();
+                            $new_type_id = AttachmentType::where('name', 'like', $id_type_old->nama)
+                                ->first();
+                            $attach = $notif->attachment()->make([
+                                'link' => $attachment->filename,
+                                'title' => $attachment->filename,
+                                'type_id' => $new_type_id ? $new_type_id->id : 1, //default main info
+                                'info' => $new_type_id ? $new_type_id->info : 'main_info', //default main info
+                                'notification_type' => $notification_type,
+                                'created_at' => $this->mappingDate($attachment->tgl),
+                                'updated_at' => $this->mappingDate($attachment->tgl),
+                            ]);
+                            $attach->save();
+                        }
                     }
                 }
             }

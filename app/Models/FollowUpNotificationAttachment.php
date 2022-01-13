@@ -105,7 +105,7 @@ class FollowUpNotificationAttachment extends Model
      */
     public function save(array $options = [])
     {
-        if ($this->info !== null) {
+        if ($this->info !== null && $this->type_id == null) {
             $this->type_id = AttachmentType::where('info', $this->info)->first()->id;
         }
         parent::save();

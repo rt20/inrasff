@@ -164,6 +164,11 @@
                         data: 'info_label',
                         searchable:false,
                         orderable:false,
+                        render: function(data, type, row, meta) {
+                            if(data!=null)
+                                return data
+                            return '-'
+                        } 
                     },
                     { 
                         data: 'created_at' ,
