@@ -98,9 +98,62 @@ class MigrationOldSeeder extends Seeder
                     ->where('id', $n->id)
                     ->first();
                 if (str_contains($n->nomor_referensi, "IN.UP")) {
-                    $upstream = UpStream::make();
-                    $notif = $upstream;
+
                     $notification_type = "upstream";
+                    $upstream = UpStream::make(
+                        [
+                            'title' => $n->judul,
+                            'author_id' => 3, //static from ncp,
+                            'status_notif_id' => isset($mapping_status_notif_id[$n->id_status]) ? $mapping_status_notif_id[$n->id_status] : 1,
+                            'type_notif_id' => $n->tipe === "Food" ? 1 : 2,
+                            'country_id' => $id_country,
+                            'based_notif_id' => NotificationBase::where('name', $based->nama ?? "")->first()->id ?? null,
+                            'origin_source_notif' => $n->sumber === "LN" ? 'interlocal' : 'local',
+                            'date_notif' => $n->tgl_notifikasi !== " " ? $n->tgl_notifikasi : null,
+                            'product_name' => $produk->nama ?? "No Name",
+                            // 'category_product_id' => null,
+                            'brand_name' => $produk->merek ?? "No Merek",
+                            'registration_number' => $n->batch ?? null,
+                            'package_product' => $produk->packaging ?? null,
+                            'number' => $n->nomor_referensi
+                        ]
+                    );
+                    if ($upstream->origin_source_notif === 'local') {
+                        $upstream->source_notif = isset($mapping_source_id[$n->id_sumber]) ? $mapping_source_id[$n->id_sumber] : 'balai besar';
+                    } else {
+                        $upstream->source_notif = isset($mapping_source_id[$n->id_sumber]) ? $mapping_source_id[$n->id_sumber] : 'arasff';
+                    }
+                    $upstream->setStatus('open', 'Dibuat ');
+
+                    if (DateTime::createFromFormat('Y-m-d H:i:s', $n->tgl_notifikasi) == true) {
+                        $upstream->created_at = $upstream->date_notif;
+                        $upstream->updated_at = $upstream->date_notif;
+                    } else if (DateTime::createFromFormat('Y-m-d H:i', $n->tgl_notifikasi) == true) {
+                        $upstream->date_notif = DateTime::createFromFormat('Y-m-d H:i', $n->tgl_notifikasi);
+                        $upstream->created_at = $upstream->date_notif;
+                        $upstream->updated_at = $upstream->date_notif;
+                    } else if (DateTime::createFromFormat('Y-m-d H.i', $n->tgl_notifikasi) == true) {
+                        $upstream->date_notif = DateTime::createFromFormat('Y-m-d H.i', $n->tgl_notifikasi);
+                        $upstream->created_at = $upstream->date_notif;
+                        $upstream->updated_at = $upstream->date_notif;
+                    } else {
+                        $upstream->date_notif = null;
+                        $upstream->created_at = null;
+                        $upstream->updated_at = null;
+                    }
+
+                    array_push($upstreams, $upstream);
+                    echo "ID: " . $n->id . " " . $n->tgl_notifikasi;
+                    $upstream->save();
+                    $upstream->upstreamInstitution()->create([
+                        'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                        'write' => true,
+                        'status' => 'assigned',
+                    ]);
+                    $notif = $upstream;
+                    echo "NEW Upstream ID: " . $upstream->id . " ";
+                    echo "\n";
+                    // echo "Data Downstream: " . (sizeof($upstreams)) . " of " . $count . " data \n";
                 }
                 // else if (str_contains($n->nomor_referensi, "IN.DS")) {
                 else {
@@ -157,7 +210,7 @@ class MigrationOldSeeder extends Seeder
                         'status' => 'assigned',
                     ]);
                     $notif = $downstream;
-                    echo "NEW ID: " . $downstream->id . " ";
+                    echo "NEW Downstream ID: " . $downstream->id . " ";
                     echo "\n";
                     // echo "Data Downstream: " . (sizeof($downstreams)) . " of " . $count . " data \n";
                 }
