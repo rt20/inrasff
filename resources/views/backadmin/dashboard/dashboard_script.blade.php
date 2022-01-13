@@ -17,7 +17,7 @@
 
         },
         mounted(){
-
+            
         },
         methods :{
             stringFormatNumber(string){
@@ -54,11 +54,22 @@
         // var supportTrackerChart;
 
         var array_stats = []
+        var array_stats_2 = []
+
         for (let j = 0; j < dashboard.downstream_graph.length; j++) {
             if(j+1 ==dashboard.downstream_graph.length){
                 array_stats.push(window.colors.solid.primary)            
             }else{
                 array_stats.push($avgSessionStrokeColor2)            
+            }
+            
+        }
+
+        for (let j = 0; j < dashboard.upstream_graph.length; j++) {
+            if(j+1 ==dashboard.upstream_graph.length){
+                array_stats_2.push(window.colors.solid.primary)            
+            }else{
+                array_stats_2.push($avgSessionStrokeColor2)            
             }
             
         }
@@ -287,7 +298,7 @@
             //     $avgSessionStrokeColor2,
             //     $avgSessionStrokeColor2
             // ],
-            colors: array_stats,
+            colors: array_stats_2,
             series: [
             {
                 name: 'Jumlah Kasus',

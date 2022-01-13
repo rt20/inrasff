@@ -43,7 +43,14 @@
                 { data: 'start_point' },
                 { data: 'entry_point' },
                 { data: 'supervision_point' },
-                { data: 'destination_country.name' },                
+                { 
+                    data: 'destination_country.name' ,
+                    render: function(data, type, row, meta){
+                        if(data!=null)
+                            return data
+                        return "-"
+                    }
+                },               
                 {
                     data: 'id',
                     className: 'text-center',

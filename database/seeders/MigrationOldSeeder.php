@@ -146,7 +146,13 @@ class MigrationOldSeeder extends Seeder
                     echo "ID: " . $n->id . " " . $n->tgl_notifikasi;
                     $upstream->save();
                     $upstream->upstreamInstitution()->create([
-                        'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                        'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 5,
+                        'write' => true,
+                        'status' => 'assigned',
+                    ]);
+                    //additional institution bpom
+                    $upstream->upstreamInstitution()->create([
+                        'institution_id' => Institution::where('name', 'BPOM')->first()->id ?? 1,
                         'write' => true,
                         'status' => 'assigned',
                     ]);
@@ -205,7 +211,7 @@ class MigrationOldSeeder extends Seeder
                     echo "ID: " . $n->id . " " . $n->tgl_notifikasi;
                     $downstream->save();
                     $downstream->downstreamInstitution()->create([
-                        'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 6,
+                        'institution_id' => Institution::where('type', 'ncp')->first()->id ?? 5,
                         'write' => true,
                         'status' => 'assigned',
                     ]);
