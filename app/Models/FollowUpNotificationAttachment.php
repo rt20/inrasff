@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Seeders\AttachmentTypeSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
@@ -13,7 +14,7 @@ class FollowUpNotificationAttachment extends Model
         'fun_id',
         'title',
         'link',
-        'info'
+        'info',
     ];
     protected $appends = [
         'origin',
@@ -60,7 +61,7 @@ class FollowUpNotificationAttachment extends Model
         'original_notification' => [
             'label' => 'Original Notification'
         ],
-        
+
     ];
     /**
      * Get the followUp that owns the FollowUpNotificationAttachment
@@ -72,28 +73,41 @@ class FollowUpNotificationAttachment extends Model
         return $this->belongsTo(FollowUpNotification::class, 'fun_id');
     }
 
-    public function getOriginAttribute(){
+    public function getOriginAttribute()
+    {
 
-        if($this->title == null)
-            return '#' ;
+        if ($this->title == null)
+            return '#';
         return route('backadmin.attachments.view-follow-up-attachment', $this->id);
     }
 
-    public function getInfoLabelAttribute(){
-        if($this->info != null)
+    public function getInfoLabelAttribute()
+    {
+        if ($this->info != null)
             return self::INFOS[$this->info]['label'];
 
         return  null;
     }
-    
+
     /**
      * Override Delete
      */
-    public function delete(){
-        if($this->title != null){
-            
-            File::delete(storage_path('app/follow_up/attachment/'.$this->title));
+    public function delete()
+    {
+        if ($this->title != null) {
+            File::delete(storage_path('app/follow_up/attachment/' . $this->title));
         }
         parent::delete();
+    }
+
+    /**
+     * Override Save
+     */
+    public function save(array $options = [])
+    {
+        if ($this->info !== null) {
+            $this->type_id = AttachmentType::where('info', $this->info)->first()->id;
+        }
+        parent::save();
     }
 }

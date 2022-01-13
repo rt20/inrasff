@@ -61,7 +61,7 @@ class NotificationAttachment extends Model
         'original_notification' => [
             'label' => 'Original Notification'
         ],
-        
+
     ];
 
 
@@ -70,17 +70,17 @@ class NotificationAttachment extends Model
         return $this->morphTo(__FUNCTION__, 'na_type', 'na_id');
     }
 
-    public function getOriginAttribute(){
+    public function getOriginAttribute()
+    {
 
-        if($this->link == null)
-            return '#' ;
+        if ($this->link == null)
+            return '#';
         return route('backadmin.attachments.view-notification-attachment', $this->id);
-        
-        
     }
 
-    public function getInfoLabelAttribute(){
-        if($this->info != null)
+    public function getInfoLabelAttribute()
+    {
+        if ($this->info != null)
             return self::INFOS[$this->info]['label'];
 
         return  null;
@@ -89,10 +89,22 @@ class NotificationAttachment extends Model
     /**
      * Override Delete
      */
-    public function delete(){
-        if($this->link != null){
-            File::delete(storage_path('app/notification/attachment/'.$this->link));
+    public function delete()
+    {
+        if ($this->link != null) {
+            File::delete(storage_path('app/notification/attachment/' . $this->link));
         }
         parent::delete();
+    }
+
+    /**
+     * Override Save
+     */
+    public function save(array $options = [])
+    {
+        if ($this->info !== null) {
+            $this->type_id = AttachmentType::where('info', $this->info)->first()->id;
+        }
+        parent::save();
     }
 }

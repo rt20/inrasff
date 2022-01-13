@@ -745,7 +745,7 @@ href="{{
                         
                 if(resp?.data?.status?.localeCompare('ok')==0){
                     $('#modal-attachment').modal('hide').on('hidden.bs.modal', function(){
-                        na.attachmentModal.loading = 0    
+                        form.attachmentModal.loading = 0    
                     })
                     this.table_attachment.ajax.reload()
                     setTimeout(() => {

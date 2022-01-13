@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AttachmentType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InstitutionSeeder::class);
         // $this->call(UserSeeder::class);
         $this->call(UserSeederV2::class);
-        
+
         $this->call([
             SliderSeeder::class,
             NotificationStatusSeeder::class,
@@ -27,13 +28,13 @@ class DatabaseSeeder extends Seeder
             DangerousCategorySeeder::class,
             UomResultSeeder::class,
             DistributionStatusSeeder::class,
-            
+
             NotificationSeeder::class,
             CountrySeeder::class,
             CountrySeeder2::class,
 
             DangerousCategoryLevelSeeder::class,
-            
+            AttachmentTypeSeeder::class,
 
         ]);
     }
