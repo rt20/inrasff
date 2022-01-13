@@ -9,7 +9,7 @@
     <meta name="description" content="Inrasff">
     <meta name="keywords" content="bpom inrasff notifikasi bpom">
     <meta name="author" content="PENTACODE">
-    <title>{{ config('app.name') }} | {{ $title ?? 'Untitled' }}</title>
+    <title>{{ config('app.name') }} {{ $title ? "|" : "" }} {{ $title ?? '' }}</title>
     <link rel="apple-touch-icon" href="{{ asset('backadmin/theme/images/ico/apple-icon-120.png') }}">
     {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backadmin/theme/images/ico/favicon.ico') }}"> --}}
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backadmin/theme/images/ico/favicon.png') }}">
