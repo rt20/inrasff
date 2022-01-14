@@ -84,7 +84,10 @@
                     data: 'created_at' ,
                     searchable: false,
                     render: function(data, type, row, meta){
-                        return moment(data).format('D MMMM YYYY HH:mm:ss')
+                        if(data!=null)
+                            return moment(data).format('D MMMM YYYY HH:mm:ss')
+
+                        return "-"
                     }
                 },
                 {   

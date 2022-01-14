@@ -39,7 +39,14 @@
             processing: true,
             columns: [
                 { data: 'name' },
-                { data: 'category.name' },
+                { 
+                    data: 'category.name' ,
+                    render: function(data, type, row, meta){
+                        if(data!=null)
+                            return data
+                        return "-"
+                    }
+                },
                 {
                     data: 'id',
                     className: 'text-center',
