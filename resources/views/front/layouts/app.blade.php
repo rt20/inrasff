@@ -12,6 +12,7 @@
     <title>{{ config('app.name') }}</title>
     <meta charset="utf-8" name="title" content="{{ config('app.name') }}">
     <meta charset="utf-8" name="description" content="{{ config('app.name') }}">
+    <meta charset="utf-8" name="keywords" content="inrasff, INRASFF, insraff, INSRAFF, inrasff pom go id, pom inrasff, bpom inrasff, bpom insraff">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
