@@ -27,6 +27,7 @@ Route::middleware('anti-script-middleware')->group(function () {
     Route::get('/logical', [FrontController::class, 'logical'])->name('logical');
     Route::get('/baganalir', [FrontController::class, 'baganalir'])->name('baganalir');
     Route::get('/contactus', [FrontController::class, 'contactus'])->name('contactus');
+    Route::get('/identification', [FrontController::class, 'identification'])->name('identification');
 
     Route::post('/contactus/submit', [FrontController::class, 'contactusSubmit'])->name('contactus.submit');
 
@@ -50,7 +51,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
         Route::get('login', [BackAdmin\LoginController::class, 'index'])->name('auth.index');
         Route::post('login', [BackAdmin\LoginController::class, 'login'])->name('auth.login');
     });
-
+ 
     Route::middleware('auth', 'admin')->group(function () {
         Route::get('dashboard', [BackAdmin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('logout', [BackAdmin\LoginController::class, 'logout'])->name('auth.logout');
@@ -171,6 +172,7 @@ Route::prefix('backadmin')->middleware('anti-script-middleware')->name('backadmi
             'sliders' => BackAdmin\SliderController::class,
             'upstreams' => BackAdmin\UpStreamNotificationController::class,
             'users' => BackAdmin\UserController::class,
+            'identification' => BackAdmin\IdentificationController::class,
         ]);
 
         // Get select2 options

@@ -250,7 +250,7 @@ return [
         'HTML' => Collective\Html\HtmlFacade::class,
 
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
-        
+        'Carbon' => Illuminate\Support\Carbon::class,
     ],
 
 ];

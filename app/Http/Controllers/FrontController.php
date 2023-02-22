@@ -13,12 +13,16 @@ use App\Models\FAQ;
 use App\Models\ContactUs;
 use App\Models\Slider;
 
+use App\Models\DownStreamNotification;
+use App\Models\NotificationAttachment;
+use App\Models\Institution;
+
 use DB;
 use App\Events\NotificationContactUs;
 
 class FrontController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
         $runningText = News::published()->orderBy('published_at', 'DESC')->limit(3)->get(['title', 'slug']);
         $slider = Slider::where('location', 'home_page')->first();
@@ -31,8 +35,17 @@ class FrontController extends Controller
         $category = Category::get();
         $gallery = Gallery::orderBy('created_at', 'DESC')->limit(12)->get();
         $kementrian = Kementrian::limit(6)->get();
+        $downstreamnotification = DB::table('down_stream_notifications')
+            -> join ('notification_attachments','down_stream_notifications.id', '=' ,'notification_attachments.na_id')
+            -> select ('down_stream_notifications.created_at','notification_attachments.na_id', 'down_stream_notifications.number', 'notification_attachments.id', 'notification_attachments.title' )
+            -> where ('status',['done'])
+            -> where ('notification_attachments.info',['original_notification'])
+            -> orderBy('down_stream_notifications.id', 'desc')
+            -> limit(10)
+            -> get();
+          #dd($downstreamnotification);
 
-    	return view('front.home', compact('slider', 'firstNews', 'news', 'category', 'gallery', 'kementrian', 'runningText'));
+    	return view('front.home', compact('slider', 'firstNews', 'news', 'category', 'gallery', 'kementrian', 'runningText','downstreamnotification'));
     }
 
     public function news(Request $request)
@@ -123,4 +136,17 @@ class FrontController extends Controller
 
         return redirect('contactus#sendMessage')->with('faq', $faq)->withSuccess('Pesan berhasil dikirim!');
     }
+    public function identification(Request $request)
+    {
+        $news = News::published()->orderBy('published_at', 'DESC')->paginate(12);
+        if($request->search) {
+            $news = News::published()->where('title', 'LIKE', '%'.$request->search.'%')->orderBy('published_at', 'DESC')->paginate(12);
+        }
+        if($request->category) {
+            $news = News::published()->where('category_id', $request->category)->orderBy('published_at', 'DESC')->paginate(12);
+        }
+
+    	return view('front.identification', compact('news'));
+    }
+
 }

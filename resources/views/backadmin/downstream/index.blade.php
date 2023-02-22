@@ -101,7 +101,7 @@
                         return moment(data).format('D MMMM YYYY HH:mm:ss')
                     }
                 },
-                { 
+                {  
                     data: 'status' ,
                     orderable: false,
                     searchable: false,

@@ -209,7 +209,7 @@ class DownStreamNotificationController extends Controller
             'focus' => $request->focus ?? null,
             'type_infos' => NotificationAttachment::INFOS
         ]);
-    }
+    } 
 
     /**
      * Update the specified resource in storage.

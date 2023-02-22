@@ -13,10 +13,18 @@
                 <div class="text-primary text-xs tracking-wider font-semibold">
                     Selamat datang di website INRASFF
                 </div>
-                <a href="{{ route('backadmin.auth.index') }}" target="_blank" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary">
+                @guest
+                <a href="{{ route('backadmin.auth.index') }}" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill h-4 mr-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
                     <span class="text-xs font-semibold">Login to your account</span>
                 </a>
+                @endguest
+                @auth
+                <a href="{{ route('backadmin.auth.index') }}" target="_blank" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill h-4 mr-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                    <span class="text-xs font-semibold">Dashboard</span>
+                </a>
+                @endauth
             </div>
         </div>
         <hr>
@@ -62,11 +70,20 @@
         <hr>
         <div class="bg-primary text-white">
             <div class="container mx-auto top-menu flex justify-between items-center py-2 px-3">
-                <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false }">
+                <menu class="flex-grow flex justify-item-start px-0 my-2" x-data="{ showBisnis: false, showAbout: false, showInfo: false }">
                     <a href="{{ route('home') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Home</a>
-                    <a href="{{ route('news') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>
-                    {{-- <a href="{{ route('kementrian') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Kementerian</a> --}}
-                    {{-- <a href="{{ route('aboutus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Tentang Kami</a> --}}
+                    <div @click="showInfo = true; showBisnis = false" href="javascript:void(0)" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">
+                        <span class="cursor-pointer relative" @click.away="showInfo = false">
+                           Informasi
+                            <div class="absolute bg-primary w-72 px-6 py-4 rounded top-10 text-white font-semibold text-sm" x-show="showInfo === true">
+                                <a href="{{ route('news') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">Berita</a>     
+                                <a href="/news/panduan-pencegahan-stunting" class="block hover:text-gray-200 mb-2">Panduan Pencegahan</a>
+                                <a href="{{ route('identification') }}" class="block hover:text-gray-200 mb-2 leading-normal">Kerangka Mitigasi</a>
+                                <a href="{{ route('logical') }}" class="block hover:text-gray-200 leading-normal">Referensi Pedoman</a>
+                            </div>
+                        </span>
+                    </div>
+                    
                     <div @click="showAbout = true; showBisnis = false" href="javascript:void(0)" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm mr-10">
                         <span class="cursor-pointer relative" @click.away="showAbout = false">
                             Tentang Kami
@@ -80,8 +97,8 @@
                     </div>
                     <a href="{{ route('contactus') }}" class="inline-block py-2 hover:text-gray-400 transition duration-300 uppercase text-sm">Hubungi Kami</a>
                 </menu>
-
-                <a href="{{ route('backadmin.auth.index') }}" target="_blank" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary rounded"
+                @guest
+                <a href="{{ route('backadmin.auth.index') }}" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary rounded"
                     x-show="showTopHeader === false"
                     {{-- x-transition:enter="transition ease-out duration-500" --}}
                     x-transition:enter-start="opacity-100"
@@ -92,6 +109,20 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill h-4 mr-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
                     <span class="text-xs font-semibold">Login to your account</span>
                 </a>
+                @endguest
+                @auth
+                <a href="{{ route('backadmin.auth.index') }}" target="_blank" class="inline-block mr-1 p-3 flex items-center bg-gray-100 text-primary rounded"
+                    x-show="showTopHeader === false"
+                    {{-- x-transition:enter="transition ease-out duration-500" --}}
+                    x-transition:enter-start="opacity-100"
+                    x-transition:enter-end="opacity-0"
+                    {{-- x-transition:leave="transition ease-in duration-100" --}}
+                    x-transition:leave-start="opacity-0"
+                    x-transition:leave-end="opacity-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill h-4 mr-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                    <span class="text-xs font-semibold">Dashboard</span>
+                </a>
+                @endauth
             </div>
         </div>
     </div>
@@ -115,7 +146,7 @@
             </div>
             <div class="w-full text-primary mt-8 h-full">
                 <a href="{{ route('home') }}" class="block py-3 transition duration-300 uppercase font-bold">Home</a>
-                <a href="{{ route('news') }}" class="block py-3 transition duration-300 uppercase font-bold">Berita</a>
+                <a href="{{ route('news') }}" class="block py-3 transition duration-300 uppercase font-bold">Informasi</a>
                 {{-- <a href="{{ route('kementrian') }}" class="block py-3 transition duration-300 uppercase font-bold">Kementerian</a> --}}
                 <a href="{{ route('aboutus') }}" class="block py-3 transition duration-300 uppercase font-bold">Tentang Kami</a>
                 <a href="{{ route('baganalir') }}" class="block py-3 transition duration-300 uppercase font-bold">Bagan Alir Penerapan INRASFF</a>

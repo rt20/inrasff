@@ -184,7 +184,7 @@
 	<div class="grid grid-cols-1 lg:grid-cols-6 gap-6 w-full">
 		<div class="lg:col-span-4">
 
-			<img src="{{ $firstNews ? $firstNews->getImage() : asset('seeder/image_4.jpg') }}" class="w-full">
+			<img src="{{ $firstNews ? $firstNews->getImage() : asset('../seeder/image_4.jpg') }}" class="w-full">
 			<button class="text-white bg-tertiary rounded px-6 py-2 my-6 font-semibold text-xs">{{ $firstNews ? $firstNews->category->name : 'World' }}</button>
 			<div class="font-semibold text-2xl leading-normal">{{ $firstNews ? $firstNews->title : 'Apa itu Konteks dan mengapa hal itu penting dalam pembuatan produk digital?' }}</div>
 			<div class="text-gray-500 text-sm py-3">{{ $firstNews ? Carbon\Carbon::parse($firstNews->published_at)->format('d M Y') : '2 September 2021' }}</div>
@@ -194,7 +194,6 @@
 					Selengkapnya
 				</a>
 			</div>
-
 			<div class="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 w-full">
 				@if($news->count() > 0)
 					@foreach($news as $data)
@@ -228,7 +227,88 @@
 
 		<div class="lg:col-span-2">
 
-			<div class="text-base font-semibold mb-5">Supported By</div>
+			
+
+			<div class="text-base font-semibold mb-5">Maklumat Pelayanan</div>
+			<img src="{{ asset('images/maklumat_pelayanan.jpg') }}" class="w-full mb-8">
+
+			<?php $array = ['World', 'Technology', 'Entertaintment', 'Sports', 'Media', 'Politics', 'Business', 'Lifestyle', 'Travel', 'Cricket', 'Football', 'Education', 'Photography', 'Nature']; ?>
+
+			<div class="text-base font-semibold mb-5">Kalender Notifikasi</div>
+			<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+			@auth
+			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					<tr>
+						<th scope="col" class="px-4 py-2">
+							Tanggal
+						</th>
+						<th scope="col" class="px-4 py-2">
+							Nomor
+						</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+				@foreach($downstreamnotification as $q)
+					<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+						<th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<a href="/backadmin/attachments/{{ $q -> id }}/notification-attachment" target="_blank"> {{ date('Y-m-d', strtotime($q-> created_at)) }} </a>
+					</th> 
+						<td class="px-2 py-1">
+						<a href="/backadmin/attachments/{{ $q -> id }}/notification-attachment" target="_blank"> {{ $q-> number }} </a>
+						</td>
+						<td>
+						@if (date('Y-m-d', strtotime($q-> created_at)) > now()->subDays(30)->endOfDay() )
+						<div class="p-1 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+						<a href="/backadmin/attachments/{{ $q -> id }}/notification-attachment" target="_blank">
+						<span class="flex rounded-full uppercase px-2 py-0 text-xs font-bold">New</span></a>
+						</div>
+						@endif
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+			</table>
+			@endauth
+			@guest
+			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+				<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					<tr>
+						<th scope="col" class="px-4 py-2">
+							Tanggal
+						</th>
+						<th scope="col" class="px-4 py-2">
+							Nomor
+						</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+				@foreach($downstreamnotification as $q)
+					<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+						<th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						<a href="/backadmin/attachments/{{ $q -> id }}/notification-attachment" target="_blank"> {{ date('Y-m-d', strtotime($q-> created_at)) }} </a>
+						</th>
+						<td class="px-2 py-1">
+						<a href="/backadmin/attachments/{{ $q -> id }}/notification-attachment" target="_blank"> {{ $q-> number }} </a>
+						</td>
+						<td>				
+						@if (date('Y-m-d', strtotime($q-> created_at)) > now()->subDays(30)->endOfDay() )
+						<div class="p-1 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+						<a href="/backadmin/attachments/{{ $q -> id }}/notification-attachment" target="_blank">
+						<span class="flex rounded-full uppercase px-2 py-0 text-xs font-bold">New</span></a>
+						</div>
+						@endif
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+			</table>
+			@endguest
+		</div>
+
+			<div class="text-base font-semibold mb-5 pt-4">Supported By</div>
 			<div class="supported">
 				@if($kementrian->count() > 0)
 					@foreach($kementrian as $data)
@@ -292,11 +372,6 @@
 				</div>
 				@endif
 			</div>
-
-			<div class="text-base font-semibold mb-5">Maklumat Pelayanan</div>
-			<img src="{{ asset('images/maklumat_pelayanan.jpg') }}" class="w-full mb-8">
-
-			<?php $array = ['World', 'Technology', 'Entertaintment', 'Sports', 'Media', 'Politics', 'Business', 'Lifestyle', 'Travel', 'Cricket', 'Football', 'Education', 'Photography', 'Nature']; ?>
 
 			<div class="text-base font-semibold mb-5">Kategori Berita</div>
 			<ul class="list-disc list-inside space-y-3 mb-8" style="column-count: 2;">
@@ -459,3 +534,77 @@
 	});
 </script>
 @endsection
+
+@push('page-js')
+{{-- <script src="{{ asset('backadmin/app/js/helper.js') }}"></script> --}}
+<script>
+    $(document).ready(function() {
+        let table = $('#table').DataTable({
+            ajax: {
+                url: "{{ route('backadmin.downstreams.index') }}",
+                data: function(data){
+                    data.filter_status = $('.filter_status').val() ?? 'all' 
+                }
+            },
+            serverSide: true,
+            processing: true,
+            columns: [
+                { 
+                    data: 'DT_RowIndex',
+                    className: 'text-center',
+                },
+                { 
+                    data: 'number',
+                    defaultContent:'-'
+                },
+                { data: 'title' },
+                {   
+                    data: 'created_at' ,
+                    searchable: false,
+                    render: function(data, type, row, meta){
+                        if(data==null)
+                        return '-'
+                        return moment(data).format('D MMMM YYYY HH:mm:ss')
+                    }
+                },
+                {   
+                    data: 'finished_at' ,
+                    searchable: false,
+                    render: function(data, type, row, meta){
+                        if(data==null)
+                            return '-'
+                        return moment(data).format('D MMMM YYYY HH:mm:ss')
+                    }
+                },
+                { 
+                    data: 'status' ,
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center',
+                    render: function(data,type,row,meta){
+                        return '<span class="badge badge-pill badge-light-' + row.status_class + ' px-1 py-50">' + row.status_label + '</span>'
+                    }
+                },
+                {
+                    data: 'id',
+                    className: 'text-center',
+                    orderable: false,
+                    searchable: false, 
+                    render: function(data, type, row, meta) {
+                        return '<a href="' + url.replace('__id', data) + '" class="btn btn-primary btn-sm btn-icon rounded-circle">' + icon + '</a>'
+                    } 
+                }
+            ],
+            order: [[3, 'desc']],
+            language: dtLangId
+        });
+
+        $('#table_length').append($('#template').html());
+
+        $('.filter_status').change(function(e) {
+            table.draw();
+        });
+        
+    })
+</script>
+@endpush

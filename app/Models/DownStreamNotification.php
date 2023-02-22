@@ -103,7 +103,7 @@ class DownStreamNotification extends Model
     {
         return $this->belongsTo(Notification::class, 'notif_id');
     }
-
+ 
     public function dangerousRisk()
     {
         return $this->morphOne(DangerousRiskInfo::class, 'dri');
